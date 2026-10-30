@@ -4,7 +4,7 @@ requires = [ "hatchling" ]
 
 [project]
 name = "spaclone"
-version = "1.0.0"
+version = "1.0.1"
 description = "Is spatial immune-receptor data spatial? Calibrated location-trust tests and clonal concentration maps for spatial BCR/TCR data."
 readme = "README.md"
 license = { file = "LICENSE" }
