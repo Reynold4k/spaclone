@@ -1,7 +1,7 @@
 # Validation
 
 spaclone was developed from a 2026 analysis of spatial BCR and TCR data that also used unpublished data; those data and
-their numbers are not distributed. The validation below uses public data only, plus simulated data where stated. The
+their numbers are not distributed. The validation below uses public data (AIR-SPACE, Stereo-XCR-seq LUAD) and the StereoIR mouse spleen (Stereo-seq data from BGI, not yet public), plus simulated data where stated. The
 analysis scripts and their result tables (the *archive*) are the reference: for every analysis that became a package
 function, a validation script recomputes the archived numbers with the package and compares them, number by number.
 
@@ -15,7 +15,7 @@ benchmark):
 
 | Data | Receptors | Unit | Source |
 |---|---|---|---|
-| StereoIR, mouse spleen | BCR and TCR (AIRR contigs) | bin20 (10 µm) | Stereo-seq 5′ immune-repertoire demonstration files |
+| StereoIR, mouse spleen | BCR and TCR (AIRR contigs) | bin20 (10 µm) | BGI Stereo-seq immune-repertoire data, not yet public |
 | AIR-SPACE, mouse lymph nodes, 6 time points | BCR molecules | Curio bead (10 µm) | GEO GSE286452 |
 | Stereo-XCR-seq, human lung adenocarcinoma, 11 chips | BCR cell calls | segmented cell | GEO GSE328481 |
 
@@ -261,6 +261,6 @@ the archive's draws; and the StereoIR iNKT and MAIT chains (TR1, TR3) and OLGA g
 The scripts, their SLURM files and the result tables are in the
 [`validation/`](https://github.com/Reynold4k/spaclone/tree/main/validation) folder of the repository, as run, except
 that their fixed paths on the project's HPC storage were replaced by environment variables (`SPACLONE_ARCHIVE`, the
-archived analysis of the public data sets; `SPACLONE_DEMO`, the archived synthetic demo; `SPACLONE_ROOT` in the SLURM
+archived analysis of the data sets above; `SPACLONE_DEMO`, the archived synthetic demo; `SPACLONE_ROOT` in the SLURM
 files). They need the archived results and do not run without them. The StereoIR files are not included. The
 AIR-SPACE and lung-cancer data are on GEO (GSE286452, GSE328481).

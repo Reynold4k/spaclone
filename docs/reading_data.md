@@ -7,7 +7,7 @@ spatial expression source and a receptor table of the same section:
 import spaclone
 
 data = spaclone.read("outs/", "filtered_contig_annotations.csv")   # Space Ranger folder + 10x contigs
-# StereoIR demo files: Stereo-seq bin20 + TRUST4 AIRR (the AIRR file name ends in .tsv.tsv as distributed)
+# StereoIR (BGI Stereo-seq) files: bin20 + TRUST4 AIRR (the AIRR file name ends in .tsv.tsv as distributed)
 data = spaclone.read("mm_spleen_bin20_anno.h5ad", "mm_spleen_bcr_airr.tsv.tsv")
 # AIR-SPACE D14 (GEO GSE286452, spaclone.datasets.airspace("D14")): bead h5ad + clone table
 data = spaclone.read("GSM8727833_adata_D14_with_image_raw_counts.h5ad", "GSM8727839_D14_ovp_clone_table.txt.gz")

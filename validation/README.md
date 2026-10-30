@@ -14,18 +14,18 @@ compare them with the archived values. The method and the totals are described i
   dowser). `m2_banner_units_*.parquet` are per-unit tables for figures, written by `m2_colocalisation.py`.
 
 spaclone was developed from a 2026 analysis that also used unpublished data; those data and their numbers are not
-distributed. The validation here uses public data only, plus simulated data. Four tables keep only their rows on
+distributed. The validation here uses public data, the StereoIR mouse spleen (BGI data, not yet public) and simulated data. Four tables keep only their rows on
 public or simulated data, and the scripts that wrote them are not included because they also read the unpublished
 data: `results/m2_own_type_share.csv`, `results/m4_scan.csv` (the calibration rows, also in
 `results/m4_scan_part_calibration.csv`), `results/m5_readers.csv` and `results/m6_filtering.csv`.
 
 The scripts are kept as they were run, except that their fixed paths on the project storage of the HPC cluster were
-replaced by environment variables: `SPACLONE_ARCHIVE` (folder of the archived analysis of the public data sets),
+replaced by environment variables: `SPACLONE_ARCHIVE` (folder of the archived analysis of these data sets),
 `SPACLONE_DEMO` (`m5_benchmark.py` only: the archived run of the synthetic demo) and, in the SLURM files,
 `SPACLONE_ROOT` (folder with the Python environment `env/` and the scripts in `validation/`; logs go to `logs/` of the
 submission folder). The archived analyses are part of a separate analysis archive that is not public, so the scripts
 do not run without it.
 
-The StereoIR mouse-spleen files (Stereo-seq 5′ immune-repertoire demonstration data, for which no public description
-was found) are not included. The other data sets are public: AIR-SPACE mouse lymph nodes (GEO GSE286452) and
+The StereoIR mouse-spleen files (Stereo-seq immune-repertoire data from BGI, not yet public) are not included. The
+other data sets are public: AIR-SPACE mouse lymph nodes (GEO GSE286452) and
 Stereo-XCR-seq human lung adenocarcinoma (GEO GSE328481, processed cell-level files).

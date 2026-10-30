@@ -19,7 +19,7 @@ Claude (Anthropic) develops, tests and pushes all code in this repository, and k
   <a href="https://github.com/Reynold4k/spaclone/actions/workflows/test.yaml"><img src="https://img.shields.io/github/actions/workflow/status/Reynold4k/spaclone/test.yaml?branch=main&style=flat-square&label=tests" alt="tests"></a>
 </p>
 
-<p align="center"><sub>Every panel above is a spaclone figure on public data: the StereoIR mouse spleen (Stereo-seq) and an AIR-SPACE mouse lymph node (GEO GSE286452), drawn by <a href="https://github.com/Reynold4k/spaclone/blob/main/docs/_static/hero/make_hero.py">make_hero.py</a>.</sub></p>
+<p align="center"><sub>Every panel above is a spaclone figure: an AIR-SPACE mouse lymph node (public, GEO GSE286452) and, as a showcase, the StereoIR mouse spleen (Stereo-seq, BGI; data not yet public), drawn by <a href="https://github.com/Reynold4k/spaclone/blob/main/docs/_static/hero/make_hero.py">make_hero.py</a>.</sub></p>
 
 ## Get started
 
@@ -72,7 +72,7 @@ Lineage trees need each record's contig and its V alignment (the AIRR fields `se
 | **Hotspot atlas**<br>Where CSR and SHM hotspots overlap, and the transcriptome identity of each region | **CSR dynamics**<br>sciCSR's CSR potential, transition models and fluxes, on tissue | **Lineages**<br>Germline-rooted trees with every tip on the section |
 | **Repertoire in space**<br>Expansion, diversity, overlap, networks and public clonotypes by region | **Where clones gather**<br>Calibrated clonal scans, niche profiles and clone states | **Your own test**<br>Any statistic against random placement with `nulls.placebo` |
 
-Every statistic reproduces the numbers of the analyses it came from, on public data: of 4,001 recorded values, 3,302 are equal, 310 agree within Monte-Carlo tolerance, 17 have no archived value, 7 differ for documented reasons and 365 are new or informational ([validation](https://github.com/Reynold4k/spaclone/blob/main/docs/validation.md)).
+Every statistic reproduces the numbers of the analyses it came from (AIR-SPACE and Stereo-XCR-seq LUAD, public; StereoIR, BGI data not yet public): of 4,001 recorded values, 3,302 are equal, 310 agree within Monte-Carlo tolerance, 17 have no archived value, 7 differ for documented reasons and 365 are new or informational ([validation](https://github.com/Reynold4k/spaclone/blob/main/docs/validation.md)).
 
 ## Integrates
 
