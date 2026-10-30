@@ -1,0 +1,43 @@
+quantity,archived,package,match,note
+"StereoIR BCR bins with a contig, before filter",65905.0,65905.0,True,QC_filter_summary.csv Before
+"StereoIR BCR bins after filter (valid junction, productive, >= 2 reads)",63468.0,63468.0,True,QC_filter_summary.csv After
+"StereoIR TCR bins with a contig, before filter",15585.0,15585.0,True,QC_filter_summary.csv Before
+"StereoIR TCR bins after filter (valid junction, productive, >= 2 reads)",14864.0,14864.0,True,QC_filter_summary.csv After
+T1 IGH contigs,37690.0,37690.0,True,
+T1 clones (exact V|J|junction),20743.0,20743.0,True,
+T1 IGH bins,28418.0,28418.0,True,
+"T1 loci (15 um, single linkage)",31516.0,31516.0,True,
+"T1 bins per locus, mean",1.1959004949866734,1.1959004949866734,True,
+T1 loci with >= 2 bins,2558.0,2558.0,True,
+"T1 (bin, clone) pairs not matched to the archive",0.0,0.0,True,
+T1 locus partition identical to T1_igh_contigs.loc_id (1 = yes),1.0,1.0,True,
+TR1 raw TCR contigs,34241.0,34241.0,True,
+TR1 valid TRA + TRB contigs,30056.0,30056.0,True,
+TR1 TRA contigs,14328.0,14328.0,True,
+TR1 TRA bins,7688.0,7688.0,True,
+TR1 TRA clonotypes,7760.0,7760.0,True,
+TR1 TRA loci,14162.0,14162.0,True,
+TR1 TRA member loci (>= 20 reads),6534.0,6534.0,True,
+TR1 TRA clonotypes with >= 2 member loci,799.0,799.0,True,
+TR1 TRA clonotypes with >= 3 member loci,315.0,315.0,True,
+TR1 TRA clonotypes with >= 5 member loci,105.0,105.0,True,
+TR1 TRB contigs,15728.0,15728.0,True,
+TR1 TRB bins,12270.0,12270.0,True,
+TR1 TRB clonotypes,11014.0,11014.0,True,
+TR1 TRB loci,14796.0,14796.0,True,
+TR1 TRB member loci (>= 20 reads),9393.0,9393.0,True,
+TR1 TRB clonotypes with >= 2 member loci,649.0,649.0,True,
+TR1 TRB clonotypes with >= 3 member loci,119.0,119.0,True,
+TR1 TRB clonotypes with >= 5 member loci,33.0,33.0,True,
+"TR1 (bin, clonotype) pairs not matched to the archive",0.0,0.0,True,
+TR1 locus partition identical to TR1_tcr_contigs.loc_id (1 = yes),1.0,1.0,True,
+S4/A4 AIR-SPACE Dandelion-like clones in 1 node(s),4568.0,4568.0,True,logs/air_A14_33830212.log
+S4/A4 AIR-SPACE Dandelion-like clones in 2 node(s),51.0,51.0,True,logs/air_A14_33830212.log
+S4/A4 AIR-SPACE Dandelion-like clones in 3 node(s),5.0,5.0,True,logs/air_A14_33830212.log
+S4/A4 AIR-SPACE Dandelion-like clones in 4 node(s),1.0,1.0,True,logs/air_A14_33830212.log
+S4/A4 AIR-SPACE clones in >= 5 nodes,0.0,0.0,True,
+S4 AIR-SPACE molecules (rows),16631.0,16631.0,True,
+S4 AIR-SPACE partition identical to archived dclone (1 = yes),1.0,1.0,True,row order of the units files
+S4 StereoIR exact clones,20743.0,20743.0,True,dandelion_StereoIR.units.parquet
+S4 StereoIR Dandelion-like clones,19107.0,19107.0,True,dandelion_StereoIR.units.parquet
+S4 StereoIR partition identical to archived dclone (1 = yes),1.0,1.0,True,

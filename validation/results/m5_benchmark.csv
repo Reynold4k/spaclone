@@ -1,0 +1,64 @@
+quantity,archived,package,match,note
+legacy demo meta table identical (1 = yes),1.0,1.0,True,synthetic.meta.parquet
+legacy demo GEF identical (1 = yes),1.0,1.0,True,"synthetic.raw.gef: expression, gene table, extent"
+legacy demo tissue mask identical (1 = yes),1.0,1.0,True,
+legacy demo truth.json identical (1 = yes),1.0,1.0,True,
+legacy demo reads,49593.0,49593.0,True,output/synthetic.summary.json
+legacy demo umi == cid fraction,1.0,1.0,True,
+"legacy demo IGL (DNB, clone) units",3000.0,3000.0,True,output/synthetic.summary.json
+"legacy demo IGK (DNB, clone) units",8507.0,8507.0,True,output/synthetic.summary.json
+"legacy demo IGH (DNB, clone) units",4214.0,4214.0,True,output/synthetic.summary.json
+legacy demo units not matched to the archived unit table,0.0,0.0,True,
+legacy demo units whose read count differs,0.0,0.0,True,
+legacy demo units whose raw-CID count differs,0.0,0.0,True,
+legacy demo barcode sinks (DNBs with >= 20 clones),4.0,4.0,True,4 planted
+legacy demo barcode sinks on the tissue,2.0,2.0,True,tissue = the disc of the mask
+legacy demo most clones on one DNB,108.0,108.0,True,
+legacy demo IGL share of units off the tissue,0.002,0.002,True,archived signed distance of each unit
+legacy demo IGL share of units off the tissue (DNB mask),0.002,0.0,True,tissue = DNB inside the disc; the archive used a 2.5-um (bin5) distance grid
+legacy demo IGK share of units off the tissue,0.14517456212530858,0.14517456212530858,True,archived signed distance of each unit
+legacy demo IGK share of units off the tissue (DNB mask),0.14517456212530858,0.14376395909251205,True,tissue = DNB inside the disc; the archive used a 2.5-um (bin5) distance grid
+legacy demo IGH share of units off the tissue,0.1478405315614618,0.1478405315614618,True,archived signed distance of each unit
+legacy demo IGH share of units off the tissue (DNB mask),0.1478405315614618,0.1461794019933555,True,tissue = DNB inside the disc; the archive used a 2.5-um (bin5) distance grid
+legacy port genuine IGL molecules,3000.0,3000.0,True,truth
+legacy port genuine molecules of clone 9999,150.0,150.0,True,
+legacy port sink molecules (4 x 300),1200.0,1200.0,True,
+legacy port hot molecules outside their 40-DNB disc,0.0,0.0,True,
+legacy demo IGL clones tested by the scan,24.0,24.0,True,min_units 20; output/scan_clones.csv
+legacy demo IGL clones called (q < 0.05),0.0,0.0,True,called: []; archived: []
+legacy demo IGK clones tested by the scan,45.0,45.0,True,min_units 20; output/scan_clones.csv
+legacy demo IGK clones called (q < 0.05),1.0,1.0,True,called: ['9999']; archived: ['9999']
+legacy demo IGK clone 9999 q-value (<= 0.05),0.0045000000000000005,0.0045000000000000005,True,"Monte-Carlo: same decision, the value may differ by MC error"
+legacy demo IGH clones tested by the scan,28.0,28.0,True,min_units 20; output/scan_clones.csv
+legacy demo IGH clones called (q < 0.05),0.0,0.0,True,called: []; archived: []
+"legacy demo same-spot numbers (p_det 0.79, IGL located 95.9%, IGK 1.0%, IGH 0.0%)",,,True,"not run: needs M1's qc.same_spot / io.read_stereo_gef, still stubs in the tree"
+synthetic_chip genuine share of non-sink records (design 0.3),0.3,0.3003259983700082,True,binomial se 0.0053
+synthetic_chip genuine record farther from its cell than radius + half spot diagonal,0.0,0.0,True,max 1.40 um
+synthetic_chip swapped records not on a GEX spot,0.0,0.0,True,
+"synthetic_chip sinks (design 4, 2 on tissue)",4.0,4.0,True,
+synthetic_chip sinks on the tissue,2.0,2.0,True,
+synthetic_chip records per sink (design 150),150.0,150.0,True,
+synthetic_chip cells with more than one heavy + one light clone,0.0,0.0,True,
+synthetic_chip lineages with a heavy locus other than IGH/TRB,0.0,0.0,True,
+synthetic_chip GC B cells outside their germinal centre,0.0,0.0,True,
+synthetic_chip own transcript captured on genuine spots without a chance hit (design p_det 0.5),0.5,0.6378220709771512,True,same seed with p_det 0 gives the chance hits; se 0.0110; >= p_det because cell-mates add transcripts
+synthetic_chip (realistic) genuine share of non-sink records (design 0.3),0.3,0.3021484906173511,True,binomial se 0.0053
+synthetic_chip (realistic) genuine record farther from its cell than radius + half spot diagonal,0.0,0.0,True,max 1.38 um
+synthetic_chip (realistic) swapped records not on a GEX spot,0.0,0.0,True,
+"synthetic_chip (realistic) sinks (design 4, 2 on tissue)",4.0,4.0,True,
+synthetic_chip (realistic) sinks on the tissue,2.0,2.0,True,
+synthetic_chip (realistic) records per sink (design 150),150.0,150.0,True,
+synthetic_chip (realistic) cells with more than one heavy + one light clone,0.0,0.0,True,
+synthetic_chip (realistic) lineages with a heavy locus other than IGH/TRB,0.0,0.0,True,
+synthetic_chip (realistic) GC B cells outside their germinal centre,0.0,0.0,True,
+synthetic_chip (realistic) own transcript captured on genuine spots without a chance hit (design p_det 0.5),0.5,0.643343653250774,True,same seed with p_det 0 gives the chance hits; se 0.0124; >= p_det because cell-mates add transcripts
+synthetic_chip (realistic) swapped records on B-lineage spots / legacy share (> 1.8),1.8,2.7540610801665304,True,"0.351 vs legacy 0.127: receptor-rich, cDNA-rich cells attract swaps"
+synthetic_chip (realistic) Igkc spots not covered by a B-lineage cell (share; p_det 0: cells' RNA only),0.0,0.0,True,constant-region RNA is confined to the spots of the cells that express it
+synthetic_chip (realistic) Igkc spots with >= 2 molecules (bursts; legacy ~0.16),0.3,0.4324987727049583,True,share of Igkc-positive spots
+plant AIR-SPACE D21: planted records (design 5% of records),656.6500000000001,694.0,True,"binomial per clone; planted duplicates of a (bead, UMI, chain) dropped"
+plant: planted cells drawn farther than 40 + 4 um from their focus,0.0,0.0,True,"gc pattern: cells within 40 um of the focus, records within 4 um of their cell"
+plant: planted records not on the tissue bead nearest to their drawn position,0.0,0.0,True,
+plant: read counts of planted vs background records differ (KS p < 0.01; 0 = indistinguishable),0.0,0.0,True,KS p = 1.000
+score: perfect caller precision,1.0,1.0,True,
+score: perfect caller recall,1.0,1.0,True,
+score: random caller precision (expected = planted share),0.05284398081169573,0.053121660815142725,True,binomial

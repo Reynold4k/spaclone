@@ -1,0 +1,25 @@
+quantity,archived,package,match,note
+TR1 raw TCR contigs,34241.0,34241.0,True,
+TR1 valid TRA/TRB contigs,30056.0,30056.0,True,"pp.filter_valid (junction, productive, >= 2 reads)"
+TR1 iNKT alpha contigs,310.0,310.0,True,tl.invariant_tcr canonical
+TR1 MAIT alpha contigs,4.0,4.0,True,tl.invariant_tcr canonical
+TR1 iNKT alpha loci,295.0,295.0,True,pp.merge_loci 15 um
+TR3 iNKT loci (on the typed-bin grid),295.0,295.0,True,no iNKT locus is off the grid
+TR1 MAIT alpha loci,4.0,4.0,True,
+TR3 MAIT loci,4.0,4.0,True,
+"iNKT alpha contigs, 'genes' rule (V + J only)",310.0,326.0,,not used by the archive
+"MAIT alpha contigs, 'genes' rule (V + J only)",4.0,4.0,,not used by the archive
+iNKT/MAIT loci matched to the archived TR1 loci,299.0,299.0,True,
+TR3 iNKT loci in T zone,173.0,173.0,True,archived compartment per locus
+TR3 iNKT loci in follicle,104.0,104.0,True,archived compartment per locus
+TR3 iNKT loci in red pulp,18.0,18.0,True,archived compartment per locus
+TR3 TRB contigs in the bins of iNKT loci,453.0,453.0,True,
+TR3 of which TRBV13-2 / 29 / 1 (inkt_beta_v),128.0,128.0,True,
+TR1 clonotypes (TRA + TRB),18774.0,18774.0,True,
+TR2 clonotypes compared,18774.0,18774.0,True,
+TR2 pgen_vj: max relative error (archive: 7 significant digits),0.0,4.973244932530573e-07,True,tolerance 1e-6
+TR2 pgen_vj: zeros,837.0,837.0,True,
+TR2 pgen_aa: max relative error (archive: 7 significant digits),0.0,4.977957050305299e-07,True,tolerance 1e-6
+TR2 pgen_aa: zeros,98.0,98.0,True,
+TR2 v_known identical,18774.0,18774.0,True,
+TR2 j_known identical,18774.0,18774.0,True,

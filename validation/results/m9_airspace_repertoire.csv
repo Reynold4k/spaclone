@@ -1,0 +1,296 @@
+quantity,archived,package,match,note
+A1 Mock occurrences (spot units),459.0,459.0,True,
+"A1 Mock sites (locus units, 15 um)",448.0,448.0,True,
+A1 Mock beads,428.0,428.0,True,
+A1 Mock molecules,568.0,568.0,True,
+A1 Mock clones,349.0,349.0,True,
+A1 Mock expanded clones (>= 5 beads),5.0,5.0,True,
+"A1 Mock top-10 share, rarefied",0.21786492374727665,0.21786492374727665,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 Mock top-10 share, 2.5%",0.2178649237472767,0.2178649237472767,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 Mock top-10 share, 97.5%",0.2178649237472767,0.2178649237472767,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 Mock Gini, rarefied",0.2317608355026187,0.2317608355026187,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 Mock Gini, 2.5%",0.23176083550261875,0.23176083550261875,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 Mock Gini, 97.5%",0.23176083550261875,0.23176083550261875,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 Mock top-10 share of sites, rarefied",0.19866071428571427,0.19866071428571427,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 Mock top-10 share of sites, 2.5%",0.19866071428571427,0.19866071428571427,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 Mock top-10 share of sites, 97.5%",0.19866071428571427,0.19866071428571427,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 Mock Gini of sites, rarefied",0.2131984240687679,0.2131984240687679,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 Mock top-10 share, unrarefied",0.2178649237472767,0.2178649237472767,True,
+"A1 Mock Gini, unrarefied",0.23176083550261875,0.23176083550261875,True,
+A1 Mock beads per site of expanded clones,1.116042780748663,1.116042780748663,True,"mean over clones; clone order differs, so floating-point summation order differs"
+A1 D3 occurrences (spot units),852.0,852.0,True,
+"A1 D3 sites (locus units, 15 um)",835.0,835.0,True,
+A1 D3 beads,805.0,805.0,True,
+A1 D3 molecules,1001.0,1001.0,True,
+A1 D3 clones,705.0,705.0,True,
+A1 D3 expanded clones (>= 5 beads),10.0,10.0,True,
+"A1 D3 top-10 share, rarefied",0.121119825708061,0.121119825708061,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D3 top-10 share, 2.5%",0.10239651416122005,0.10239651416122005,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D3 top-10 share, 97.5%",0.14161220043572983,0.14161220043572983,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D3 Gini, rarefied",0.12998199067658459,0.12998199067658459,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D3 Gini, 2.5%",0.11038217790246188,0.11038217790246188,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D3 Gini, 97.5%",0.15243128377367915,0.15243128377367915,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D3 top-10 share of sites, rarefied",0.10894642857142858,0.10894642857142858,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D3 top-10 share of sites, 2.5%",0.09151785714285714,0.09151785714285714,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D3 top-10 share of sites, 97.5%",0.12723214285714285,0.12723214285714285,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D3 Gini of sites, rarefied",0.11447668218023978,0.11447668218023978,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D3 top-10 share, unrarefied",0.11737089201877934,0.11737089201877934,True,
+"A1 D3 Gini, unrarefied",0.16578763360303667,0.16578763360303667,True,
+A1 D3 beads per site of expanded clones,1.1403700711053653,1.1403700711053653,True,"mean over clones; clone order differs, so floating-point summation order differs"
+A1 D7 occurrences (spot units),3012.0,3012.0,True,
+"A1 D7 sites (locus units, 15 um)",2919.0,2919.0,True,
+A1 D7 beads,2402.0,2402.0,True,
+A1 D7 molecules,3246.0,3246.0,True,
+A1 D7 clones,913.0,913.0,True,
+A1 D7 expanded clones (>= 5 beads),148.0,148.0,True,
+"A1 D7 top-10 share, rarefied",0.17961002178649238,0.17961002178649238,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D7 top-10 share, 2.5%",0.15250544662309368,0.15250544662309368,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D7 top-10 share, 97.5%",0.20697167755991286,0.20697167755991286,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D7 Gini, rarefied",0.326992062801256,0.326992062801256,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D7 Gini, 2.5%",0.29857835776953423,0.29857835776953423,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D7 Gini, 97.5%",0.3537917971721,0.3537917971721,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D7 top-10 share of sites, rarefied",0.17814732142857145,0.17814732142857145,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D7 top-10 share of sites, 2.5%",0.14955357142857142,0.14955357142857142,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D7 top-10 share of sites, 97.5%",0.20982142857142858,0.20982142857142858,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D7 Gini of sites, rarefied",0.3198671755074689,0.3198671755074689,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D7 top-10 share, unrarefied",0.16268260292164674,0.16268260292164674,True,
+"A1 D7 Gini, unrarefied",0.571055682345463,0.571055682345463,True,
+A1 D7 beads per site of expanded clones,1.0466449237131157,1.0466449237131157,True,"mean over clones; clone order differs, so floating-point summation order differs"
+A1 D10 occurrences (spot units),7186.0,7186.0,True,
+"A1 D10 sites (locus units, 15 um)",7004.0,7004.0,True,
+A1 D10 beads,5020.0,5020.0,True,
+A1 D10 molecules,7483.0,7483.0,True,
+A1 D10 clones,1588.0,1588.0,True,
+A1 D10 expanded clones (>= 5 beads),252.0,252.0,True,
+"A1 D10 top-10 share, rarefied",0.21079956427015248,0.21079956427015248,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D10 top-10 share, 2.5%",0.18082788671023964,0.18082788671023964,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D10 top-10 share, 97.5%",0.2440087145969499,0.2440087145969499,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D10 Gini, rarefied",0.37248314165728913,0.37248314165728913,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D10 Gini, 2.5%",0.34125123604177215,0.34125123604177215,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D10 Gini, 97.5%",0.40160799216449766,0.40160799216449766,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D10 top-10 share of sites, rarefied",0.20564285714285713,0.20564285714285713,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D10 top-10 share of sites, 2.5%",0.17410714285714285,0.17410714285714285,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D10 top-10 share of sites, 97.5%",0.23883928571428573,0.23883928571428573,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D10 Gini of sites, rarefied",0.36450192269541026,0.36450192269541026,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D10 top-10 share, unrarefied",0.1957973838018369,0.1957973838018369,True,
+"A1 D10 Gini, unrarefied",0.6973998209504767,0.6973998209504767,True,
+A1 D10 beads per site of expanded clones,1.023043611975752,1.023043611975752,True,"mean over clones; clone order differs, so floating-point summation order differs"
+A1 D14 occurrences (spot units),1406.0,1406.0,True,
+"A1 D14 sites (locus units, 15 um)",1269.0,1269.0,True,
+A1 D14 beads,1137.0,1137.0,True,
+A1 D14 molecules,1791.0,1791.0,True,
+A1 D14 clones,427.0,427.0,True,
+A1 D14 expanded clones (>= 5 beads),75.0,75.0,True,
+"A1 D14 top-10 share, rarefied",0.23397167755991286,0.23397167755991286,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D14 top-10 share, 2.5%",0.2047930283224401,0.2047930283224401,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D14 top-10 share, 97.5%",0.2636165577342048,0.2636165577342048,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D14 Gini, rarefied",0.4111018803470333,0.4111018803470333,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D14 Gini, 2.5%",0.3883954295883957,0.3883954295883957,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D14 Gini, 97.5%",0.4343170274336015,0.4343170274336015,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D14 top-10 share of sites, rarefied",0.22002901785714285,0.22002901785714285,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D14 top-10 share of sites, 2.5%",0.19196428571428573,0.19196428571428573,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D14 top-10 share of sites, 97.5%",0.24776785714285715,0.24776785714285715,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D14 Gini of sites, rarefied",0.3920728097025901,0.3920728097025901,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D14 top-10 share, unrarefied",0.22261735419630158,0.22261735419630158,True,
+"A1 D14 Gini, unrarefied",0.554378858088953,0.554378858088953,True,
+A1 D14 beads per site of expanded clones,1.1652944173656317,1.1652944173656317,True,"mean over clones; clone order differs, so floating-point summation order differs"
+A1 D21 occurrences (spot units),2336.0,2336.0,True,
+"A1 D21 sites (locus units, 15 um)",2239.0,2239.0,True,
+A1 D21 beads,1770.0,1770.0,True,
+A1 D21 molecules,2542.0,2542.0,True,
+A1 D21 clones,707.0,707.0,True,
+A1 D21 expanded clones (>= 5 beads),111.0,111.0,True,
+"A1 D21 top-10 share, rarefied",0.19497167755991285,0.19497167755991285,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D21 top-10 share, 2.5%",0.16993464052287582,0.16993464052287582,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D21 top-10 share, 97.5%",0.2222222222222222,0.2222222222222222,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D21 Gini, rarefied",0.3715489585941018,0.3715489585941018,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D21 Gini, 2.5%",0.34709189690714143,0.34709189690714143,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D21 Gini, 97.5%",0.39723981263013886,0.39723981263013886,True,"rarefied to 459 beads, 1,000 draws, rng replay"
+"A1 D21 top-10 share of sites, rarefied",0.1856607142857143,0.1856607142857143,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D21 top-10 share of sites, 2.5%",0.16071428571428573,0.16071428571428573,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D21 top-10 share of sites, 97.5%",0.21205357142857142,0.21205357142857142,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D21 Gini of sites, rarefied",0.3588113049952782,0.3588113049952782,True,"sites rarefied to 448, 1,000 draws, rng replay"
+"A1 D21 top-10 share, unrarefied",0.1780821917808219,0.1780821917808219,True,
+"A1 D21 Gini, unrarefied",0.5836667570866676,0.5836667570866676,True,
+A1 D21 beads per site of expanded clones,1.0572904426931187,1.057290442693119,True,"mean over clones; clone order differs, so floating-point summation order differs"
+A4 Dandelion: clones,4625.0,4625.0,True,
+A4 Dandelion: max nodes,4.0,4.0,True,
+A4 Dandelion: clones in 2 nodes,51.0,51.0,True,
+A4 Dandelion: clones in 3 nodes,5.0,5.0,True,
+A4 Dandelion: clones in 4 nodes,1.0,1.0,True,
+A4 Dandelion: clones in 5 nodes,0.0,0.0,True,
+A4 Dandelion: clones in 6 nodes,0.0,0.0,True,
+A4 exact V|J|CDR3: clones,5280.0,5280.0,True,
+A4 exact V|J|CDR3: max nodes,2.0,2.0,True,
+A4 exact V|J|CDR3: clones in 2 nodes,12.0,12.0,True,
+A4 exact V|J|CDR3: clones in 3 nodes,0.0,0.0,True,
+A4 exact V|J|CDR3: clones in 4 nodes,0.0,0.0,True,
+A4 exact V|J|CDR3: clones in 5 nodes,0.0,0.0,True,
+A4 exact V|J|CDR3: clones in 6 nodes,0.0,0.0,True,
+A4 CDR3 aa only: clones,4362.0,4362.0,True,
+A4 CDR3 aa only: max nodes,3.0,3.0,True,
+A4 CDR3 aa only: clones in 2 nodes,30.0,30.0,True,
+A4 CDR3 aa only: clones in 3 nodes,1.0,1.0,True,
+A4 CDR3 aa only: clones in 4 nodes,0.0,0.0,True,
+A4 CDR3 aa only: clones in 5 nodes,0.0,0.0,True,
+A4 CDR3 aa only: clones in 6 nodes,0.0,0.0,True,
+A4 Dandelion via pp.define_clones: clones in 2 nodes,51.0,51.0,True,
+A4 Dandelion via pp.define_clones: clones in 3 nodes,5.0,5.0,True,
+A4 Dandelion via pp.define_clones: clones in 4 nodes,1.0,1.0,True,
+A4 beads of IGHV1-54|IGHJ2|L10|0 in Mock,0.0,0.0,True,
+A4 beads of IGHV1-54|IGHJ2|L10|0 in D3,0.0,0.0,True,
+A4 beads of IGHV1-54|IGHJ2|L10|0 in D7,49.0,49.0,True,
+A4 beads of IGHV1-54|IGHJ2|L10|0 in D10,10.0,10.0,True,
+A4 beads of IGHV1-54|IGHJ2|L10|0 in D14,4.0,4.0,True,
+A4 beads of IGHV1-54|IGHJ2|L10|0 in D21,1.0,1.0,True,
+A4 beads of IGHV1-7|IGHJ2|L14|3 in Mock,0.0,0.0,True,
+A4 beads of IGHV1-7|IGHJ2|L14|3 in D3,0.0,0.0,True,
+A4 beads of IGHV1-7|IGHJ2|L14|3 in D7,4.0,4.0,True,
+A4 beads of IGHV1-7|IGHJ2|L14|3 in D10,155.0,155.0,True,
+A4 beads of IGHV1-7|IGHJ2|L14|3 in D14,1.0,1.0,True,
+A4 beads of IGHV1-7|IGHJ2|L14|3 in D21,0.0,0.0,True,
+A4 beads of IGHV1-55|IGHJ2|L13|1 in Mock,0.0,0.0,True,
+A4 beads of IGHV1-55|IGHJ2|L13|1 in D3,0.0,0.0,True,
+A4 beads of IGHV1-55|IGHJ2|L13|1 in D7,3.0,3.0,True,
+A4 beads of IGHV1-55|IGHJ2|L13|1 in D10,1.0,1.0,True,
+A4 beads of IGHV1-55|IGHJ2|L13|1 in D14,36.0,36.0,True,
+A4 beads of IGHV1-55|IGHJ2|L13|1 in D21,0.0,0.0,True,
+A4 beads of IGHV2-2|IGHJ4|L10|1 in Mock,0.0,0.0,True,
+A4 beads of IGHV2-2|IGHJ4|L10|1 in D3,1.0,1.0,True,
+A4 beads of IGHV2-2|IGHJ4|L10|1 in D7,0.0,0.0,True,
+A4 beads of IGHV2-2|IGHJ4|L10|1 in D10,9.0,9.0,True,
+A4 beads of IGHV2-2|IGHJ4|L10|1 in D14,25.0,25.0,True,
+A4 beads of IGHV2-2|IGHJ4|L10|1 in D21,0.0,0.0,True,
+A4 beads of IGHV14-3|IGHJ1|L14|0 in Mock,0.0,0.0,True,
+A4 beads of IGHV14-3|IGHJ1|L14|0 in D3,1.0,1.0,True,
+A4 beads of IGHV14-3|IGHJ1|L14|0 in D7,0.0,0.0,True,
+A4 beads of IGHV14-3|IGHJ1|L14|0 in D10,22.0,22.0,True,
+A4 beads of IGHV14-3|IGHJ1|L14|0 in D14,0.0,0.0,True,
+A4 beads of IGHV14-3|IGHJ1|L14|0 in D21,2.0,2.0,True,
+A4 beads of IGHV1-18|IGHJ1|L15|0 in Mock,0.0,0.0,True,
+A4 beads of IGHV1-18|IGHJ1|L15|0 in D3,2.0,2.0,True,
+A4 beads of IGHV1-18|IGHJ1|L15|0 in D7,2.0,2.0,True,
+A4 beads of IGHV1-18|IGHJ1|L15|0 in D10,0.0,0.0,True,
+A4 beads of IGHV1-18|IGHJ1|L15|0 in D14,5.0,5.0,True,
+A4 beads of IGHV1-18|IGHJ1|L15|0 in D21,0.0,0.0,True,
+A4 Mock top-10 clones found in another mouse,1.0,1.0,True,
+A4 Mock 10 random clones: mean,0.0585,0.0585,True,"10,000 draws, rng replay"
+A4 Mock 10 random clones: 2.5%,0.0,0.0,True,"10,000 draws, rng replay"
+A4 Mock 10 random clones: 97.5%,1.0,1.0,True,"10,000 draws, rng replay"
+A4 Mock p (more sharing),0.05779422057794221,0.05779422057794221,True,"10,000 draws, rng replay"
+A4 Mock exact hypergeometric p,0.05779422057794221,0.05656555676316569,,improved: exact null
+A4 D3 top-10 clones found in another mouse,1.0,1.0,True,
+A4 D3 10 random clones: mean,0.182,0.182,True,"10,000 draws, rng replay"
+A4 D3 10 random clones: 2.5%,0.0,0.0,True,"10,000 draws, rng replay"
+A4 D3 10 random clones: 97.5%,1.0,1.0,True,"10,000 draws, rng replay"
+A4 D3 p (more sharing),0.16728327167283272,0.16728327167283272,True,"10,000 draws, rng replay"
+A4 D3 exact hypergeometric p,0.16728327167283272,0.17082875054217495,,improved: exact null
+A4 D7 top-10 clones found in another mouse,1.0,1.0,True,
+A4 D7 10 random clones: mean,0.2897,0.2897,True,"10,000 draws, rng replay"
+A4 D7 10 random clones: 2.5%,0.0,0.0,True,"10,000 draws, rng replay"
+A4 D7 10 random clones: 97.5%,2.0,2.0,True,"10,000 draws, rng replay"
+A4 D7 p (more sharing),0.25747425257474255,0.25747425257474255,True,"10,000 draws, rng replay"
+A4 D7 exact hypergeometric p,0.25747425257474255,0.26044155624474247,,improved: exact null
+A4 D10 top-10 clones found in another mouse,2.0,2.0,True,
+A4 D10 10 random clones: mean,0.2238,0.2238,True,"10,000 draws, rng replay"
+A4 D10 10 random clones: 2.5%,0.0,0.0,True,"10,000 draws, rng replay"
+A4 D10 10 random clones: 97.5%,1.0,1.0,True,"10,000 draws, rng replay"
+A4 D10 p (more sharing),0.0201979802019798,0.0201979802019798,True,"10,000 draws, rng replay"
+A4 D10 exact hypergeometric p,0.0201979802019798,0.020062390947276063,,improved: exact null
+A4 D14 top-10 clones found in another mouse,2.0,2.0,True,
+A4 D14 10 random clones: mean,0.4832,0.4832,True,"10,000 draws, rng replay"
+A4 D14 10 random clones: 2.5%,0.0,0.0,True,"10,000 draws, rng replay"
+A4 D14 10 random clones: 97.5%,2.0,2.0,True,"10,000 draws, rng replay"
+A4 D14 p (more sharing),0.07789221077892211,0.07789221077892211,True,"10,000 draws, rng replay"
+A4 D14 exact hypergeometric p,0.07789221077892211,0.08171862926874389,,improved: exact null
+A4 D21 top-10 clones found in another mouse,2.0,2.0,True,
+A4 D21 10 random clones: mean,0.3079,0.3079,True,"10,000 draws, rng replay"
+A4 D21 10 random clones: 2.5%,0.0,0.0,True,"10,000 draws, rng replay"
+A4 D21 10 random clones: 97.5%,2.0,2.0,True,"10,000 draws, rng replay"
+A4 D21 p (more sharing),0.03569643035696431,0.03569643035696431,True,"10,000 draws, rng replay"
+A4 D21 exact hypergeometric p,0.03569643035696431,0.035778217757801586,,improved: exact null
+A4 all top-10 clones found in another mouse,9.0,9.0,True,
+A4 all 10 random clones: mean,1.5451,1.5451,True,"10,000 draws, rng replay"
+A4 all 10 random clones: 2.5%,0.0,0.0,True,"10,000 draws, rng replay"
+A4 all 10 random clones: 97.5%,4.0,4.0,True,"10,000 draws, rng replay"
+A4 all p (more sharing),9.999000099990002e-05,9.999000099990002e-05,True,"10,000 draws, rng replay"
+X3b D7 Gini GC (IGH molecules),0.1258741258741259,0.1258741258741259,True,exact
+X3b D7 Gini PC (IGH molecules),0.4695298646252325,0.4695298646252325,True,exact
+X3b D7 Gini GC - PC,-0.3436557387511066,-0.3436557387511066,True,exact
+X3b D7 IGH molecules in GC,13.0,13.0,True,
+X3b D7 IGH molecules in PC,882.0,882.0,True,
+X3b D7 Gini GC - PC under shuffled clone labels: mean,-0.39270743932851115,-0.3922212217220287,True,"placebo='labels' (clone labels permuted over all IGH molecules on tissue), 500 draws; Monte-Carlo: |diff| 0.0004862 vs 4 SE 0.01092"
+X3b D7 Gini GC - PC: p (two-sided) vs shuffled labels,,0.2554890219560878,,archive reported z only
+X3b D7 improved: Gini GC - PC rarefied to 13 molecules,-0.3436557387511066,0.09220804195804194,,"null mean 0.0011, p 0.136 (both regions rarefied to the smaller one, same placebo)"
+X3b D7 improved: Gini GC rarefied,0.1258741258741259,0.12587412587412586,,rarefied mean
+X3b D7 improved: Gini PC rarefied,0.4695298646252325,0.033666083916083916,,rarefied mean
+"X3b D7 clone-level test: Gini GC - PC rarefied, random placement of intact clones",-0.3436557387511066,0.09233333333333332,,"null mean 0.1314, sd 0.0823, p 0.691 (placebo='clones', 500 relocations)"
+X3 D7 Gini GC (IGH molecules),0.0,0.0,True,exact
+X3 D7 Gini PC (IGH molecules),0.4695298646252325,0.4695298646252325,True,exact
+X3 D7 Gini GC - PC,-0.4695298646252325,-0.4695298646252325,True,exact
+X3 D7 Gini GC - PC under shuffled clone labels: mean,-0.41334060689282204,-0.40802609729492706,True,"placebo='labels' (clone labels permuted over all IGH molecules on tissue), 200 draws; Monte-Carlo: |diff| 0.005315 vs 4 SE 0.01402"
+X3 D7 Gini GC - PC: p (two-sided) vs shuffled labels,,0.009950248756218905,,archive reported z only
+X3 D7 improved: Gini GC - PC rarefied to 5 molecules,-0.4695298646252325,-0.011666666666666665,,"null mean 0.0018, p 0.109 (both regions rarefied to the smaller one, same placebo)"
+X3 D7 improved: Gini GC rarefied,0.0,0.0,,rarefied mean
+X3 D7 improved: Gini PC rarefied,0.4695298646252325,0.011666666666666665,,rarefied mean
+"X3 D7 clone-level test: Gini GC - PC rarefied, random placement of intact clones",-0.4695298646252325,-0.01125,,"null mean 0.1296, sd 0.1048, p 0.219 (placebo='clones', 200 relocations)"
+X3b D10 Gini GC (IGH molecules),0.271168375184175,0.271168375184175,True,exact
+X3b D10 Gini PC (IGH molecules),0.571675032315611,0.571675032315611,True,exact
+X3b D10 Gini GC - PC,-0.300506657131436,-0.300506657131436,True,exact
+X3b D10 IGH molecules in GC,217.0,217.0,True,
+X3b D10 IGH molecules in PC,1877.0,1877.0,True,
+X3b D10 Gini GC - PC under shuffled clone labels: mean,-0.27889293346306887,-0.27986354139962427,True,"placebo='labels' (clone labels permuted over all IGH molecules on tissue), 500 draws; Monte-Carlo: |diff| 0.0009706 vs 4 SE 0.005837"
+X3b D10 Gini GC - PC: p (two-sided) vs shuffled labels,,0.36726546906187624,,archive reported z only
+X3b D10 improved: Gini GC - PC rarefied to 217 molecules,-0.300506657131436,-0.0163562667258928,,"null mean 0.0009, p 0.515 (both regions rarefied to the smaller one, same placebo)"
+X3b D10 improved: Gini GC rarefied,0.271168375184175,0.27116837518417514,,rarefied mean
+X3b D10 improved: Gini PC rarefied,0.571675032315611,0.28752464191006794,,rarefied mean
+"X3b D10 clone-level test: Gini GC - PC rarefied, random placement of intact clones",-0.300506657131436,-0.016904150931549455,,"null mean 0.1220, sd 0.0379, p 0.00399 (placebo='clones', 500 relocations)"
+X3 D10 Gini GC (IGH molecules),0.02773109243697479,0.02773109243697479,True,exact
+X3 D10 Gini PC (IGH molecules),0.5716824097786418,0.5716824097786418,True,exact
+X3 D10 Gini GC - PC,-0.543951317341667,-0.543951317341667,True,exact
+X3 D10 Gini GC - PC under shuffled clone labels: mean,-0.46948541509486463,-0.47111939373592415,True,"placebo='labels' (clone labels permuted over all IGH molecules on tissue), 200 draws; Monte-Carlo: |diff| 0.001634 vs 4 SE 0.01632"
+X3 D10 Gini GC - PC: p (two-sided) vs shuffled labels,,0.05970149253731343,,archive reported z only
+X3 D10 improved: Gini GC - PC rarefied to 35 molecules,-0.543951317341667,-0.06632296734140197,,"null mean 0.0034, p 0.0597 (both regions rarefied to the smaller one, same placebo)"
+X3 D10 improved: Gini GC rarefied,0.02773109243697479,0.0277310924369748,,rarefied mean
+X3 D10 improved: Gini PC rarefied,0.5716824097786418,0.09405405977837678,,rarefied mean
+"X3 D10 clone-level test: Gini GC - PC rarefied, random placement of intact clones",-0.543951317341667,-0.06256842138391466,,"null mean 0.1456, sd 0.0511, p 0.00995 (placebo='clones', 200 relocations)"
+X3b D14 Gini GC (IGH molecules),0.44072746581707156,0.44072746581707156,True,exact
+X3b D14 Gini PC (IGH molecules),0.45724919093851135,0.45724919093851135,True,exact
+X3b D14 Gini GC - PC,-0.01652172512143979,-0.01652172512143979,True,exact
+X3b D14 IGH molecules in GC,186.0,186.0,True,
+X3b D14 IGH molecules in PC,412.0,412.0,True,
+X3b D14 Gini GC - PC under shuffled clone labels: mean,-0.11058287279857336,-0.11070932194605579,True,"placebo='labels' (clone labels permuted over all IGH molecules on tissue), 500 draws; Monte-Carlo: |diff| 0.0001264 vs 4 SE 0.006825"
+X3b D14 Gini GC - PC: p (two-sided) vs shuffled labels,,0.007984031936127744,,archive reported z only
+X3b D14 improved: Gini GC - PC rarefied to 186 molecules,-0.01652172512143979,0.09131419810796959,,"null mean -0.0005, p 0.00399 (both regions rarefied to the smaller one, same placebo)"
+X3b D14 improved: Gini GC rarefied,0.44072746581707156,0.4407274658170717,,rarefied mean
+X3b D14 improved: Gini PC rarefied,0.45724919093851135,0.3494132677091021,,rarefied mean
+"X3b D14 clone-level test: Gini GC - PC rarefied, random placement of intact clones",-0.01652172512143979,0.09294317295095411,,"null mean 0.0367, sd 0.0501, p 0.248 (placebo='clones', 500 relocations)"
+X3 D14 Gini GC (IGH molecules),0.29292929292929293,0.29292929292929293,True,exact
+X3 D14 Gini PC (IGH molecules),0.4615813420917829,0.4615813420917829,True,exact
+X3 D14 Gini GC - PC,-0.16865204916249,-0.16865204916249,True,exact
+X3 D14 Gini GC - PC under shuffled clone labels: mean,-0.34360229414772037,-0.34686345967288995,True,"placebo='labels' (clone labels permuted over all IGH molecules on tissue), 200 draws; Monte-Carlo: |diff| 0.003261 vs 4 SE 0.01928"
+X3 D14 Gini GC - PC: p (two-sided) vs shuffled labels,,0.009950248756218905,,archive reported z only
+X3 D14 improved: Gini GC - PC rarefied to 18 molecules,-0.16865204916249,0.22156714785758896,,"null mean -0.0024, p 0.00995 (both regions rarefied to the smaller one, same placebo)"
+X3 D14 improved: Gini GC rarefied,0.29292929292929293,0.2929292929292929,,rarefied mean
+X3 D14 improved: Gini PC rarefied,0.4615813420917829,0.0713621450717039,,rarefied mean
+"X3 D14 clone-level test: Gini GC - PC rarefied, random placement of intact clones",-0.16865204916249,0.22320249943411702,,"null mean 0.1707, sd 0.0862, p 0.448 (placebo='clones', 200 relocations)"
+X3b D21 Gini GC (IGH molecules),0.28096367801047123,0.28096367801047123,True,exact
+X3b D21 Gini PC (IGH molecules),0.533220713195534,0.533220713195534,True,exact
+X3b D21 Gini GC - PC,-0.25225703518506276,-0.25225703518506276,True,exact
+X3b D21 IGH molecules in GC,191.0,191.0,True,
+X3b D21 IGH molecules in PC,1003.0,1003.0,True,
+X3b D21 Gini GC - PC under shuffled clone labels: mean,-0.22478690847733607,-0.22291409120567923,True,"placebo='labels' (clone labels permuted over all IGH molecules on tissue), 500 draws; Monte-Carlo: |diff| 0.001873 vs 4 SE 0.006399"
+X3b D21 Gini GC - PC: p (two-sided) vs shuffled labels,,0.20359281437125748,,archive reported z only
+X3b D21 improved: Gini GC - PC rarefied to 191 molecules,-0.25225703518506276,-0.030770782463887036,,"null mean -0.0017, p 0.248 (both regions rarefied to the smaller one, same placebo)"
+X3b D21 improved: Gini GC rarefied,0.28096367801047123,0.28096367801047123,,rarefied mean
+X3b D21 improved: Gini PC rarefied,0.533220713195534,0.31173446047435827,,rarefied mean
+"X3b D21 clone-level test: Gini GC - PC rarefied, random placement of intact clones",-0.25225703518506276,-0.029992829457811288,,"null mean 0.0776, sd 0.0424, p 0.02 (placebo='clones', 500 relocations)"
+X3 D21 Gini GC (IGH molecules),0.13333333333333333,0.13333333333333333,True,exact
+X3 D21 Gini PC (IGH molecules),0.53597159511138,0.53597159511138,True,exact
+X3 D21 Gini GC - PC,-0.40263826177804674,-0.40263826177804674,True,exact
+X3 D21 Gini GC - PC under shuffled clone labels: mean,-0.4642015475291199,-0.46412626821034825,True,"placebo='labels' (clone labels permuted over all IGH molecules on tissue), 200 draws; Monte-Carlo: |diff| 7.528e-05 vs 4 SE 0.01617"
+X3 D21 Gini GC - PC: p (two-sided) vs shuffled labels,,0.19900497512437812,,archive reported z only
+X3 D21 improved: Gini GC - PC rarefied to 6 molecules,-0.40263826177804674,0.11358333333333333,,"null mean 0.0037, p 0.229 (both regions rarefied to the smaller one, same placebo)"
+X3 D21 improved: Gini GC rarefied,0.13333333333333333,0.13333333333333333,,rarefied mean
+X3 D21 improved: Gini PC rarefied,0.53597159511138,0.01975,,rarefied mean
+"X3 D21 clone-level test: Gini GC - PC rarefied, random placement of intact clones",-0.40263826177804674,0.1095,,"null mean 0.0920, sd 0.1160, p 0.796 (placebo='clones', 200 relocations)"

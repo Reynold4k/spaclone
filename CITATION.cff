@@ -1,0 +1,1133 @@
+cff-version: "1.2.0"
+message: "If you use spaclone, please cite it as below. Please also cite the packages you use through spaclone: they are listed under references, and docs/citing.md says which function uses which."
+title: spaclone
+type: software
+abstract: Is spatial immune-receptor data spatial? Calibrated location-trust tests and clonal concentration maps for spatial BCR/TCR data, with readers, receptor QC, the transcriptome, B-cell receptor biology and repertoire statistics, and bridges to established single-cell repertoire packages.
+authors:
+- family-names: Satoshi
+  given-names: Chen
+  alias: Reynold4k
+  email: 103236530+Reynold4k@users.noreply.github.com
+repository-code: "https://github.com/Reynold4k/spaclone"
+license: MIT
+version: "1.0.0"
+date-released: "2026-10-31"
+keywords:
+- spatial transcriptomics
+- BCR
+- TCR
+- immune repertoire
+- AIRR
+- Stereo-seq
+- permutation test
+references:
+- type: article
+  title: "SCANPY: large-scale single-cell gene expression data analysis"
+  authors:
+  - family-names: Wolf
+    given-names: F. Alexander
+  - family-names: Angerer
+    given-names: Philipp
+  - family-names: Theis
+    given-names: Fabian J.
+  journal: Genome Biology
+  year: 2018
+  volume: 19
+  issue: "1"
+  start: "15"
+  doi: 10.1186/s13059-017-1382-0
+  notes: "scanpy: the transcriptome workflow of spaclone.gex (core dependency)."
+- type: article
+  title: "anndata: Access and store annotated data matrices"
+  authors:
+  - family-names: Virshup
+    given-names: Isaac
+  - family-names: Rybakov
+    given-names: Sergei
+  - family-names: Theis
+    given-names: Fabian J.
+  - family-names: Angerer
+    given-names: Philipp
+  - family-names: Wolf
+    given-names: F. Alexander
+  journal: Journal of Open Source Software
+  year: 2024
+  volume: 9
+  issue: "101"
+  start: "4371"
+  doi: 10.21105/joss.04371
+  notes: "anndata: the AnnData containers read and written by spaclone.io (core dependency)."
+- type: article
+  title: The scverse project provides a computational ecosystem for single-cell omics data analysis
+  authors:
+  - family-names: Virshup
+    given-names: Isaac
+  - family-names: Bredikhin
+    given-names: Danila
+  - family-names: Heumos
+    given-names: Lukas
+  - family-names: Palla
+    given-names: Giovanni
+  - family-names: Sturm
+    given-names: Gregor
+  - family-names: Gayoso
+    given-names: Adam
+  - family-names: Kats
+    given-names: Ilia
+  - family-names: Koutrouli
+    given-names: Mikaela
+  - name: Scverse Community
+  - family-names: Angerer
+    given-names: Philipp
+  - family-names: Bergen
+    given-names: Volker
+  - family-names: Boyeau
+    given-names: Pierre
+  - family-names: Büttner
+    given-names: Maren
+  - family-names: Eraslan
+    given-names: Gokcen
+  - family-names: Fischer
+    given-names: David
+  - family-names: Frank
+    given-names: Max
+  - family-names: Hong
+    given-names: Justin
+  - family-names: Klein
+    given-names: Michal
+  - family-names: Lange
+    given-names: Marius
+  - family-names: Lopez
+    given-names: Romain
+  - family-names: Lotfollahi
+    given-names: Mohammad
+  - family-names: Luecken
+    given-names: Malte D.
+  - family-names: Ramirez
+    given-names: Fidel
+  - family-names: Regier
+    given-names: Jeffrey
+  - family-names: Rybakov
+    given-names: Sergei
+  - family-names: Schaar
+    given-names: Anna C.
+  - family-names: Valiollah Pour Amiri
+    given-names: Valeh
+  - family-names: Weiler
+    given-names: Philipp
+  - family-names: Xing
+    given-names: Galen
+  - family-names: Berger
+    given-names: Bonnie
+  - family-names: Pe’er
+    given-names: Dana
+  - family-names: Regev
+    given-names: Aviv
+  - family-names: Teichmann
+    given-names: Sarah A.
+  - family-names: Finotello
+    given-names: Francesca
+  - family-names: Wolf
+    given-names: F. Alexander
+  - family-names: Yosef
+    given-names: Nir
+  - family-names: Stegle
+    given-names: Oliver
+  - family-names: Theis
+    given-names: Fabian J.
+  journal: Nature Biotechnology
+  year: 2023
+  volume: 41
+  issue: "5"
+  start: "604"
+  end: "606"
+  doi: 10.1038/s41587-023-01733-8
+  notes: "scverse: the ecosystem of scanpy, anndata, scirpy, squidpy, SpatialData and mudata, as their documentation asks."
+- type: article
+  title: Array programming with NumPy
+  authors:
+  - family-names: Harris
+    given-names: Charles R.
+  - family-names: Millman
+    given-names: K. Jarrod
+  - family-names: van der Walt
+    given-names: Stéfan J.
+  - family-names: Gommers
+    given-names: Ralf
+  - family-names: Virtanen
+    given-names: Pauli
+  - family-names: Cournapeau
+    given-names: David
+  - family-names: Wieser
+    given-names: Eric
+  - family-names: Taylor
+    given-names: Julian
+  - family-names: Berg
+    given-names: Sebastian
+  - family-names: Smith
+    given-names: Nathaniel J.
+  - family-names: Kern
+    given-names: Robert
+  - family-names: Picus
+    given-names: Matti
+  - family-names: Hoyer
+    given-names: Stephan
+  - family-names: van Kerkwijk
+    given-names: Marten H.
+  - family-names: Brett
+    given-names: Matthew
+  - family-names: Haldane
+    given-names: Allan
+  - family-names: del Río
+    given-names: Jaime Fernández
+  - family-names: Wiebe
+    given-names: Mark
+  - family-names: Peterson
+    given-names: Pearu
+  - family-names: Gérard-Marchant
+    given-names: Pierre
+  - family-names: Sheppard
+    given-names: Kevin
+  - family-names: Reddy
+    given-names: Tyler
+  - family-names: Weckesser
+    given-names: Warren
+  - family-names: Abbasi
+    given-names: Hameer
+  - family-names: Gohlke
+    given-names: Christoph
+  - family-names: Oliphant
+    given-names: Travis E.
+  journal: Nature
+  year: 2020
+  volume: 585
+  issue: "7825"
+  start: "357"
+  end: "362"
+  doi: 10.1038/s41586-020-2649-2
+  notes: NumPy (core dependency).
+- type: article
+  title: "SciPy 1.0: fundamental algorithms for scientific computing in Python"
+  authors:
+  - family-names: Virtanen
+    given-names: Pauli
+  - family-names: Gommers
+    given-names: Ralf
+  - family-names: Oliphant
+    given-names: Travis E.
+  - family-names: Haberland
+    given-names: Matt
+  - family-names: Reddy
+    given-names: Tyler
+  - family-names: Cournapeau
+    given-names: David
+  - family-names: Burovski
+    given-names: Evgeni
+  - family-names: Peterson
+    given-names: Pearu
+  - family-names: Weckesser
+    given-names: Warren
+  - family-names: Bright
+    given-names: Jonathan
+  - family-names: van der Walt
+    given-names: Stéfan J.
+  - family-names: Brett
+    given-names: Matthew
+  - family-names: Wilson
+    given-names: Joshua
+  - family-names: Millman
+    given-names: K. Jarrod
+  - family-names: Mayorov
+    given-names: Nikolay
+  - family-names: Nelson
+    given-names: Andrew R. J.
+  - family-names: Jones
+    given-names: Eric
+  - family-names: Kern
+    given-names: Robert
+  - family-names: Larson
+    given-names: Eric
+  - family-names: Carey
+    given-names: C J
+  - family-names: Polat
+    given-names: İlhan
+  - family-names: Feng
+    given-names: Yu
+  - family-names: Moore
+    given-names: Eric W.
+  - family-names: VanderPlas
+    given-names: Jake
+  - family-names: Laxalde
+    given-names: Denis
+  - family-names: Perktold
+    given-names: Josef
+  - family-names: Cimrman
+    given-names: Robert
+  - family-names: Henriksen
+    given-names: Ian
+  - family-names: Quintero
+    given-names: E. A.
+  - family-names: Harris
+    given-names: Charles R.
+  - family-names: Archibald
+    given-names: Anne M.
+  - family-names: Ribeiro
+    given-names: Antônio H.
+  - family-names: Pedregosa
+    given-names: Fabian
+  - family-names: van Mulbregt
+    given-names: Paul
+  - name: SciPy 1.0 Contributors
+  - family-names: Vijaykumar
+    given-names: Aditya
+  - family-names: Bardelli
+    given-names: Alessandro Pietro
+  - family-names: Rothberg
+    given-names: Alex
+  - family-names: Hilboll
+    given-names: Andreas
+  - family-names: Kloeckner
+    given-names: Andreas
+  - family-names: Scopatz
+    given-names: Anthony
+  - family-names: Lee
+    given-names: Antony
+  - family-names: Rokem
+    given-names: Ariel
+  - family-names: Woods
+    given-names: C. Nathan
+  - family-names: Fulton
+    given-names: Chad
+  - family-names: Masson
+    given-names: Charles
+  - family-names: Häggström
+    given-names: Christian
+  - family-names: Fitzgerald
+    given-names: Clark
+  - family-names: Nicholson
+    given-names: David A.
+  - family-names: Hagen
+    given-names: David R.
+  - family-names: Pasechnik
+    given-names: Dmitrii V.
+  - family-names: Olivetti
+    given-names: Emanuele
+  - family-names: Martin
+    given-names: Eric
+  - family-names: Wieser
+    given-names: Eric
+  - family-names: Silva
+    given-names: Fabrice
+  - family-names: Lenders
+    given-names: Felix
+  - family-names: Wilhelm
+    given-names: Florian
+  - family-names: Young
+    given-names: G.
+  - family-names: Price
+    given-names: Gavin A.
+  - family-names: Ingold
+    given-names: Gert-Ludwig
+  - family-names: Allen
+    given-names: Gregory E.
+  - family-names: Lee
+    given-names: Gregory R.
+  - family-names: Audren
+    given-names: Hervé
+  - family-names: Probst
+    given-names: Irvin
+  - family-names: Dietrich
+    given-names: Jörg P.
+  - family-names: Silterra
+    given-names: Jacob
+  - family-names: Webber
+    given-names: James T
+  - family-names: Slavič
+    given-names: Janko
+  - family-names: Nothman
+    given-names: Joel
+  - family-names: Buchner
+    given-names: Johannes
+  - family-names: Kulick
+    given-names: Johannes
+  - family-names: Schönberger
+    given-names: Johannes L.
+  - family-names: de Miranda Cardoso
+    given-names: José Vinícius
+  - family-names: Reimer
+    given-names: Joscha
+  - family-names: Harrington
+    given-names: Joseph
+  - family-names: Rodríguez
+    given-names: Juan Luis Cano
+  - family-names: Nunez-Iglesias
+    given-names: Juan
+  - family-names: Kuczynski
+    given-names: Justin
+  - family-names: Tritz
+    given-names: Kevin
+  - family-names: Thoma
+    given-names: Martin
+  - family-names: Newville
+    given-names: Matthew
+  - family-names: Kümmerer
+    given-names: Matthias
+  - family-names: Bolingbroke
+    given-names: Maximilian
+  - family-names: Tartre
+    given-names: Michael
+  - family-names: Pak
+    given-names: Mikhail
+  - family-names: Smith
+    given-names: Nathaniel J.
+  - family-names: Nowaczyk
+    given-names: Nikolai
+  - family-names: Shebanov
+    given-names: Nikolay
+  - family-names: Pavlyk
+    given-names: Oleksandr
+  - family-names: Brodtkorb
+    given-names: Per A.
+  - family-names: Lee
+    given-names: Perry
+  - family-names: McGibbon
+    given-names: Robert T.
+  - family-names: Feldbauer
+    given-names: Roman
+  - family-names: Lewis
+    given-names: Sam
+  - family-names: Tygier
+    given-names: Sam
+  - family-names: Sievert
+    given-names: Scott
+  - family-names: Vigna
+    given-names: Sebastiano
+  - family-names: Peterson
+    given-names: Stefan
+  - family-names: More
+    given-names: Surhud
+  - family-names: Pudlik
+    given-names: Tadeusz
+  - family-names: Oshima
+    given-names: Takuya
+  - family-names: Pingel
+    given-names: Thomas J.
+  - family-names: Robitaille
+    given-names: Thomas P.
+  - family-names: Spura
+    given-names: Thomas
+  - family-names: Jones
+    given-names: Thouis R.
+  - family-names: Cera
+    given-names: Tim
+  - family-names: Leslie
+    given-names: Tim
+  - family-names: Zito
+    given-names: Tiziano
+  - family-names: Krauss
+    given-names: Tom
+  - family-names: Upadhyay
+    given-names: Utkarsh
+  - family-names: Halchenko
+    given-names: Yaroslav O.
+  - family-names: Vázquez-Baeza
+    given-names: Yoshiki
+  journal: Nature Methods
+  year: 2020
+  volume: 17
+  issue: "3"
+  start: "261"
+  end: "272"
+  doi: 10.1038/s41592-019-0686-2
+  notes: SciPy (core dependency).
+- type: conference-paper
+  title: Data Structures for Statistical Computing in Python
+  authors:
+  - family-names: McKinney
+    given-names: Wes
+  collection-title: Proceedings of the Python in Science Conference
+  year: 2010
+  start: "56"
+  end: "61"
+  doi: 10.25080/Majora-92bf1922-00a
+  notes: pandas (core dependency).
+- type: software
+  title: "pandas-dev/pandas: Pandas"
+  authors:
+  - name: The pandas development team
+  doi: 10.5281/zenodo.3509134
+  repository-code: "https://github.com/pandas-dev/pandas"
+  notes: pandas software release (core dependency), as pandas' CITATION.cff asks.
+- type: article
+  title: "Matplotlib: A 2D Graphics Environment"
+  authors:
+  - family-names: Hunter
+    given-names: John D.
+  journal: Computing in Science & Engineering
+  year: 2007
+  volume: 9
+  issue: "3"
+  start: "90"
+  end: "95"
+  doi: 10.1109/MCSE.2007.55
+  notes: "Matplotlib: every plot of spaclone.pl (core dependency)."
+- type: article
+  title: "Scikit-learn: Machine Learning in Python"
+  authors:
+  - family-names: Pedregosa
+    given-names: Fabian
+  - family-names: Varoquaux
+    given-names: Gaël
+  - family-names: Gramfort
+    given-names: Alexandre
+  - family-names: Michel
+    given-names: Vincent
+  - family-names: Thirion
+    given-names: Bertrand
+  - family-names: Grisel
+    given-names: Olivier
+  - family-names: Blondel
+    given-names: Mathieu
+  - family-names: Prettenhofer
+    given-names: Peter
+  - family-names: Weiss
+    given-names: Ron
+  - family-names: Dubourg
+    given-names: Vincent
+  - family-names: Vanderplas
+    given-names: Jake
+  - family-names: Passos
+    given-names: Alexandre
+  - family-names: Cournapeau
+    given-names: David
+  - family-names: Brucher
+    given-names: Matthieu
+  - family-names: Perrot
+    given-names: Matthieu
+  - family-names: Duchesnay
+    given-names: Édouard
+  journal: Journal of Machine Learning Research
+  year: 2011
+  volume: 12
+  start: "2825"
+  end: "2830"
+  url: "https://jmlr.csail.mit.edu/papers/v12/pedregosa11a.html"
+  notes: scikit-learn (core dependency).
+- type: article
+  title: The igraph software package for complex network research
+  authors:
+  - given-names: Gábor
+    family-names: Csárdi
+    orcid: "https://orcid.org/0000-0001-7098-9676"
+  - given-names: Tamás
+    family-names: Nepusz
+    orcid: "https://orcid.org/0000-0002-1451-338X"
+  journal: InterJournal, Complex Systems
+  year: 2006
+  start: "1695"
+  notes: "python-igraph: graphs and Leiden clustering through scanpy in spaclone.gex (core dependency)."
+- type: software
+  title: h5py
+  authors:
+  - family-names: Collette
+    given-names: Andrew
+  url: "https://www.h5py.org/"
+  repository-code: "https://github.com/h5py/h5py"
+  notes: "h5py: HDF5 input (Stereo-seq GEF, 10x HDF5, Dandelion .h5ddl) in spaclone.io (core dependency)."
+- type: software
+  title: Apache Arrow (pyarrow)
+  authors:
+  - name: Apache Arrow Developers
+  url: "https://arrow.apache.org/"
+  repository-code: "https://github.com/apache/arrow"
+  notes: "pyarrow: Parquet input and output in spaclone.io (core dependency)."
+- type: article
+  title: "Scirpy: a Scanpy extension for analyzing single-cell T-cell receptor-sequencing data"
+  authors:
+  - family-names: Sturm
+    given-names: Gregor
+  - family-names: Szabo
+    given-names: Tamas
+  - family-names: Fotakis
+    given-names: Georgios
+  - family-names: Haider
+    given-names: Marlene
+  - family-names: Rieder
+    given-names: Dietmar
+  - family-names: Trajanoski
+    given-names: Zlatko
+  - family-names: Finotello
+    given-names: Francesca
+  journal: Bioinformatics
+  year: 2020
+  volume: 36
+  issue: "18"
+  start: "4817"
+  end: "4818"
+  doi: 10.1093/bioinformatics/btaa611
+  notes: "scirpy: spaclone.ext.scirpy, io.to_scirpy / io.from_scirpy, the scirpy backend of tl.clonotype_network (extra 'scirpy')."
+- type: article
+  title: "MUON: multimodal omics analysis framework"
+  authors:
+  - family-names: Bredikhin
+    given-names: Danila
+  - family-names: Kats
+    given-names: Ilia
+  - family-names: Stegle
+    given-names: Oliver
+  journal: Genome Biology
+  year: 2022
+  volume: 23
+  issue: "1"
+  start: "42"
+  doi: 10.1186/s13059-021-02577-8
+  notes: "mudata (MUON): MuData input and output of scirpy data (extra 'scirpy')."
+- type: software
+  title: Awkward Array
+  authors:
+  - family-names: Pivarski
+    given-names: Jim
+  - family-names: Osborne
+    given-names: Ianna
+  - family-names: Ifrim
+    given-names: Ioana
+  - family-names: Schreiner
+    given-names: Henry
+  - family-names: Hollands
+    given-names: Angus
+  - family-names: Biswas
+    given-names: Anish
+  doi: 10.5281/zenodo.4341376
+  repository-code: "https://github.com/scikit-hep/awkward"
+  notes: "Awkward Array: scirpy's receptor tables (extra 'scirpy'); authors as listed first in its CITATION.cff."
+- type: article
+  title: "Squidpy: a scalable framework for spatial omics analysis"
+  authors:
+  - family-names: Palla
+    given-names: Giovanni
+  - family-names: Spitzer
+    given-names: Hannah
+  - family-names: Klein
+    given-names: Michal
+  - family-names: Fischer
+    given-names: David
+  - family-names: Schaar
+    given-names: Anna Christina
+  - family-names: Kuemmerle
+    given-names: Louis Benedikt
+  - family-names: Rybakov
+    given-names: Sergei
+  - family-names: Ibarra
+    given-names: Ignacio L.
+  - family-names: Holmberg
+    given-names: Olle
+  - family-names: Virshup
+    given-names: Isaac
+  - family-names: Lotfollahi
+    given-names: Mohammad
+  - family-names: Richter
+    given-names: Sabrina
+  - family-names: Theis
+    given-names: Fabian J.
+  journal: Nature Methods
+  year: 2022
+  volume: 19
+  issue: "2"
+  start: "171"
+  end: "178"
+  doi: 10.1038/s41592-021-01358-2
+  notes: "squidpy: spaclone.ext.squidpy and gex.spatially_variable_genes (extra 'squidpy')."
+- type: article
+  title: "SpatialData: an open and universal data framework for spatial omics"
+  authors:
+  - family-names: Marconato
+    given-names: Luca
+  - family-names: Palla
+    given-names: Giovanni
+  - family-names: Yamauchi
+    given-names: Kevin A.
+  - family-names: Virshup
+    given-names: Isaac
+  - family-names: Heidari
+    given-names: Elyas
+  - family-names: Treis
+    given-names: Tim
+  - family-names: Vierdag
+    given-names: Wouter-Michiel
+  - family-names: Toth
+    given-names: Marcella
+  - family-names: Stockhaus
+    given-names: Sonja
+  - family-names: Shrestha
+    given-names: Rahul B.
+  - family-names: Rombaut
+    given-names: Benjamin
+  - family-names: Pollaris
+    given-names: Lotte
+  - family-names: Lehner
+    given-names: Laurens
+  - family-names: Vöhringer
+    given-names: Harald
+  - family-names: Kats
+    given-names: Ilia
+  - family-names: Saeys
+    given-names: Yvan
+  - family-names: Saka
+    given-names: Sinem K.
+  - family-names: Huber
+    given-names: Wolfgang
+  - family-names: Gerstung
+    given-names: Moritz
+  - family-names: Moore
+    given-names: Josh
+  - family-names: Theis
+    given-names: Fabian J.
+  - family-names: Stegle
+    given-names: Oliver
+  journal: Nature Methods
+  year: 2025
+  volume: 22
+  issue: "1"
+  start: "58"
+  end: "62"
+  doi: 10.1038/s41592-024-02212-x
+  notes: "SpatialData: io.to_spatialdata (extra 'spatialdata')."
+- type: software
+  title: Shapely
+  authors:
+  - family-names: Gillies
+    given-names: Sean
+  - family-names: van der Wel
+    given-names: Casper
+  - family-names: Van den Bossche
+    given-names: Joris
+  - family-names: Taves
+    given-names: Mike W.
+  - family-names: Arnott
+    given-names: Joshua
+  - family-names: Ward
+    given-names: Brendan C.
+  doi: 10.5281/zenodo.5597138
+  repository-code: "https://github.com/shapely/shapely"
+  notes: "Shapely: polygon lookup in pp.assign_to_cells (extra 'spatialdata'); authors as listed first in its CITATION.cff."
+- type: article
+  title: Dandelion uses the single-cell adaptive immune receptor repertoire to explore lymphocyte developmental origins
+  authors:
+  - family-names: Suo
+    given-names: Chenqu
+  - family-names: Polanski
+    given-names: Krzysztof
+  - family-names: Dann
+    given-names: Emma
+  - family-names: Lindeboom
+    given-names: Rik G. H.
+  - family-names: Vilarrasa-Blasi
+    given-names: Roser
+  - family-names: Vento-Tormo
+    given-names: Roser
+  - family-names: Haniffa
+    given-names: Muzlifah
+  - family-names: Meyer
+    given-names: Kerstin B.
+  - family-names: Dratva
+    given-names: Lisa M.
+  - family-names: Tuong
+    given-names: Zewen Kelvin
+  - family-names: Clatworthy
+    given-names: Menna R.
+  - family-names: Teichmann
+    given-names: Sarah A.
+  journal: Nature Biotechnology
+  year: 2024
+  volume: 42
+  issue: "1"
+  start: "40"
+  end: "51"
+  doi: 10.1038/s41587-023-01734-7
+  notes: "Dandelion: spaclone.ext.dandelion (extra 'dandelion')."
+- type: article
+  title: "Change-O: a toolkit for analyzing large-scale B cell immunoglobulin repertoire sequencing data"
+  authors:
+  - family-names: Gupta
+    given-names: Namita T.
+  - family-names: Vander Heiden
+    given-names: Jason A.
+  - family-names: Uduman
+    given-names: Mohamed
+  - family-names: Gadala-Maria
+    given-names: Daniel
+  - family-names: Yaari
+    given-names: Gur
+  - family-names: Kleinstein
+    given-names: Steven H.
+  journal: Bioinformatics
+  year: 2015
+  volume: 31
+  issue: "20"
+  start: "3356"
+  end: "3358"
+  doi: 10.1093/bioinformatics/btv359
+  notes: "Change-O (MakeDb.py, DefineClones.py, CreateGermlines.py), and the general citation requested by alakazam and SHazaM (observedMutations, distToNearest): spaclone.ext.immcantation (extra 'immcantation')."
+- type: article
+  title: Optimized Threshold Inference for Partitioning of Clones From High-Throughput B Cell Repertoire Sequencing Data
+  authors:
+  - family-names: Nouri
+    given-names: Nima
+  - family-names: Kleinstein
+    given-names: Steven H.
+  journal: Frontiers in Immunology
+  year: 2018
+  volume: 9
+  start: "1687"
+  doi: 10.3389/fimmu.2018.01687
+  notes: "SHazaM findThreshold: ext.immcantation.shazam_threshold."
+- type: article
+  title: Automated analysis of high-throughput B-cell sequencing data reveals a high frequency of novel immunoglobulin V gene segment alleles
+  authors:
+  - family-names: Gadala-Maria
+    given-names: Daniel
+  - family-names: Yaari
+    given-names: Gur
+  - family-names: Uduman
+    given-names: Mohamed
+  - family-names: Kleinstein
+    given-names: Steven H.
+  journal: Proceedings of the National Academy of Sciences
+  year: 2015
+  volume: 112
+  issue: "8"
+  start: E862
+  end: E870
+  doi: 10.1073/pnas.1417683112
+  notes: "TIgGER: installed with the Immcantation R packages (scripts/install_spaclone_env.sh)."
+- type: article
+  title: Phylogenetic analysis of migration, differentiation, and class switching in B cells
+  authors:
+  - family-names: Hoehn
+    given-names: Kenneth B.
+  - family-names: Pybus
+    given-names: Oliver G.
+  - family-names: Kleinstein
+    given-names: Steven H.
+  journal: PLOS Computational Biology
+  year: 2022
+  volume: 18
+  issue: "4"
+  start: e1009885
+  doi: 10.1371/journal.pcbi.1009885
+  notes: "dowser: ext.immcantation.dowser_trees."
+- type: article
+  title: A spectral clustering-based method for identifying clones from high-throughput B cell repertoire sequencing data
+  authors:
+  - family-names: Nouri
+    given-names: Nima
+  - family-names: Kleinstein
+    given-names: Steven H
+  journal: Bioinformatics
+  year: 2018
+  volume: 34
+  issue: "13"
+  start: i341
+  end: i349
+  doi: 10.1093/bioinformatics/bty235
+  notes: "SCOPer: installed with the Immcantation R packages (scripts/install_spaclone_env.sh)."
+- type: article
+  title: "IgBLAST: an immunoglobulin variable domain sequence analysis tool"
+  authors:
+  - family-names: Ye
+    given-names: Jian
+  - family-names: Ma
+    given-names: Ning
+  - family-names: Madden
+    given-names: Thomas L.
+  - family-names: Ostell
+    given-names: James M.
+  journal: Nucleic Acids Research
+  year: 2013
+  volume: 41
+  issue: W1
+  start: W34
+  end: W40
+  doi: 10.1093/nar/gkt382
+  notes: "IgBLAST: bcr.run_igblast and ext.immcantation.igblast."
+- type: article
+  title: Repertoire-wide phylogenetic models of B cell molecular evolution reveal evolutionary signatures of aging and vaccination
+  authors:
+  - family-names: Hoehn
+    given-names: Kenneth B.
+  - family-names: Vander Heiden
+    given-names: Jason A.
+  - family-names: Zhou
+    given-names: Julian Q.
+  - family-names: Lunter
+    given-names: Gerton
+  - family-names: Pybus
+    given-names: Oliver G.
+  - family-names: Kleinstein
+    given-names: Steven H.
+  journal: Proceedings of the National Academy of Sciences
+  year: 2019
+  volume: 116
+  issue: "45"
+  start: "22664"
+  end: "22672"
+  doi: 10.1073/pnas.1906020116
+  notes: "IgPhyML: build='igphyml' of ext.immcantation.dowser_trees."
+- type: article
+  title: A Phylogenetic Codon Substitution Model for Antibody Lineages
+  authors:
+  - family-names: Hoehn
+    given-names: Kenneth B
+  - family-names: Lunter
+    given-names: Gerton
+  - family-names: Pybus
+    given-names: Oliver G
+  journal: Genetics
+  year: 2017
+  volume: 206
+  issue: "1"
+  start: "417"
+  end: "427"
+  doi: 10.1534/genetics.116.196303
+  notes: IgPhyML substitution model, the second citation IgPhyML asks for.
+- type: article
+  title: "OLGA: fast computation of generation probabilities of B- and T-cell receptor amino acid sequences and motifs"
+  authors:
+  - family-names: Sethna
+    given-names: Zachary
+  - family-names: Elhanati
+    given-names: Yuval
+  - family-names: Callan
+    given-names: Curtis G
+  - family-names: Walczak
+    given-names: Aleksandra M
+  - family-names: Mora
+    given-names: Thierry
+  journal: Bioinformatics
+  year: 2019
+  volume: 35
+  issue: "17"
+  start: "2974"
+  end: "2981"
+  doi: 10.1093/bioinformatics/btz035
+  notes: "OLGA: tl.pgen and pgen=True of tl.public_clonotypes (extra 'tcr')."
+- type: article
+  title: sciCSR infers B cell state transition and predicts class-switch recombination dynamics using single-cell transcriptomic data
+  authors:
+  - family-names: Ng
+    given-names: Joseph C. F.
+  - family-names: Montamat Garcia
+    given-names: Guillem
+  - family-names: Stewart
+    given-names: Alexander T.
+  - family-names: Blair
+    given-names: Paul
+  - family-names: Mauri
+    given-names: Claudia
+  - family-names: Dunn-Walters
+    given-names: Deborah K.
+  - family-names: Fraternali
+    given-names: Franca
+  journal: Nature Methods
+  year: 2024
+  volume: 21
+  issue: "5"
+  start: "823"
+  end: "834"
+  doi: 10.1038/s41592-023-02060-1
+  notes: "sciCSR: the CSR potential, SHM score and transition models re-implemented in bcr.csr_dynamics and tl.transitions, and spaclone.ext.scicsr (extra 'scicsr')."
+- type: article
+  title: CellRank for directed single-cell fate mapping
+  authors:
+  - family-names: Lange
+    given-names: Marius
+  - family-names: Bergen
+    given-names: Volker
+  - family-names: Klein
+    given-names: Michal
+  - family-names: Setty
+    given-names: Manu
+  - family-names: Reuter
+    given-names: Bernhard
+  - family-names: Bakhti
+    given-names: Mostafa
+  - family-names: Lickert
+    given-names: Heiko
+  - family-names: Ansari
+    given-names: Meshal
+  - family-names: Schniering
+    given-names: Janine
+  - family-names: Schiller
+    given-names: Herbert B.
+  - family-names: Pe’er
+    given-names: Dana
+  - family-names: Theis
+    given-names: Fabian J.
+  journal: Nature Methods
+  year: 2022
+  volume: 19
+  issue: "2"
+  start: "159"
+  end: "170"
+  doi: 10.1038/s41592-021-01346-6
+  notes: "CellRank: backend='cellrank' of tl.transition_model (extra 'scicsr')."
+- type: article
+  title: "CellRank 2: unified fate mapping in multiview single-cell data"
+  authors:
+  - family-names: Weiler
+    given-names: Philipp
+  - family-names: Lange
+    given-names: Marius
+  - family-names: Klein
+    given-names: Michal
+  - family-names: Pe’er
+    given-names: Dana
+  - family-names: Theis
+    given-names: Fabian
+  journal: Nature Methods
+  year: 2024
+  volume: 21
+  issue: "7"
+  start: "1196"
+  end: "1205"
+  doi: 10.1038/s41592-024-02303-9
+  notes: "CellRank 2 (PseudotimeKernel): backend='cellrank' of tl.transition_model (extra 'scicsr')."
+- type: article
+  title: "Deeptime: a Python library for machine learning dynamical models from time series data"
+  authors:
+  - family-names: Hoffmann
+    given-names: Moritz
+  - family-names: Scherer
+    given-names: Martin
+  - family-names: Hempel
+    given-names: Tim
+  - family-names: Mardt
+    given-names: Andreas
+  - family-names: de Silva
+    given-names: Brian
+  - family-names: Husic
+    given-names: Brooke E
+  - family-names: Klus
+    given-names: Stefan
+  - family-names: Wu
+    given-names: Hao
+  - family-names: Kutz
+    given-names: Nathan
+  - family-names: Brunton
+    given-names: Steven L
+  - family-names: Noé
+    given-names: Frank
+  journal: "Machine Learning: Science and Technology"
+  year: 2022
+  volume: 3
+  issue: "1"
+  start: "015009"
+  doi: 10.1088/2632-2153/ac3de0
+  notes: "deeptime: backend='deeptime' of tl.tpt_flux (extra 'scicsr')."
+- type: software
+  title: pysam
+  authors:
+  - family-names: Heger
+    given-names: Andreas
+  repository-code: "https://github.com/pysam-developers/pysam"
+  url: "https://pysam.readthedocs.io/"
+  notes: "pysam: BAM input of bcr.ighc_transcripts (extra 'scicsr')."
+- type: software
+  title: "Threadfin: clone-level analysis of B-cell states from paired single-cell RNA-seq and BCR-seq"
+  authors:
+  - family-names: Satoshi
+    given-names: Chen
+  url: "https://github.com/Reynold4k/Threadfin"
+  version: "4.6.0"
+  repository-code: "https://github.com/Reynold4k/Threadfin"
+  license: MIT
+  date-released: '2026-10-30'
+  notes: "Threadfin: spaclone.ext.threadfin (extra 'threadfin')."
+- type: article
+  title: "From Louvain to Leiden: guaranteeing well-connected communities"
+  authors:
+  - family-names: Traag
+    given-names: V. A.
+  - family-names: Waltman
+    given-names: L.
+  - family-names: van Eck
+    given-names: N. J.
+  journal: Scientific Reports
+  year: 2019
+  volume: 9
+  issue: "1"
+  start: "5233"
+  doi: 10.1038/s41598-019-41695-z
+  notes: "leidenalg: scanpy's Leiden backend (extra 'leiden')."
+- type: article
+  title: "Pooch: A friend to fetch your data files"
+  authors:
+  - family-names: Uieda
+    given-names: Leonardo
+  - family-names: Soler
+    given-names: Santiago
+  - family-names: Rampin
+    given-names: Rémi
+  - family-names: van Kemenade
+    given-names: Hugo
+  - family-names: Turk
+    given-names: Matthew
+  - family-names: Shapero
+    given-names: Daniel
+  - family-names: Banihirwe
+    given-names: Anderson
+  - family-names: Leeman
+    given-names: John
+  journal: Journal of Open Source Software
+  year: 2020
+  volume: 5
+  issue: "45"
+  start: "1943"
+  doi: 10.21105/joss.01943
+  notes: "Pooch: downloads of spaclone.datasets (extra 'datasets')."
+- type: software
+  title: tifffile
+  authors:
+  - family-names: Gohlke
+    given-names: Christoph
+  doi: 10.5281/zenodo.6795860
+  repository-code: "https://github.com/cgohlke/tifffile"
+  notes: "tifffile: io.read_tissue_mask (extra 'images')."
+- type: article
+  title: A temporal and spatial atlas of adaptive immune responses in the lymph node following viral infection
+  authors:
+  - family-names: Jiang
+    given-names: Shaowen
+  - family-names: Freedman
+    given-names: Jahanara
+  - family-names: Mantri
+    given-names: Madhav
+  - family-names: Maymi
+    given-names: Viviana
+  - family-names: Leddon
+    given-names: Scott A.
+  - family-names: Schweitzer
+    given-names: Peter
+  - family-names: Bhandari
+    given-names: Subash
+  - family-names: Holdener
+    given-names: Chase
+  - family-names: Ntekas
+    given-names: Ioannis
+  - family-names: Vollmers
+    given-names: Christopher
+  - family-names: Flyak
+    given-names: Andrew I.
+  - family-names: Fowell
+    given-names: Deborah J.
+  - family-names: Rudd
+    given-names: Brian D.
+  - family-names: De Vlaminck
+    given-names: Iwijn
+  journal: Proceedings of the National Academy of Sciences
+  year: 2026
+  volume: 123
+  issue: "5"
+  start: e2504742123
+  doi: 10.1073/pnas.2504742123
+  notes: "AIR-SPACE: the mouse lymph-node data downloaded by spaclone.datasets (GEO GSE286452)."

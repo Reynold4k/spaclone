@@ -1,0 +1,270 @@
+quantity,archived,package,match,note
+"T3 isotyped loci off the typed-bin grid (left out, as in T3)",,2.0,,the archive printed this count only; the isotyped-loci row below checks the remainder
+T3 isotyped loci,26100.0,26100.0,True,
+T3 switched share p0,0.1610727969348659,0.1610727969348659,True,
+T3 z threshold (95th pct of shuffled map maxima),5.086323798443711,5.086323798443712,True,
+T3 hotspots,13.0,13.0,True,
+T3 hotspot area mm2,0.13399999999999998,0.134,True,
+T3 shuffled maps with any hotspot,0.05,0.05,True,
+T3 n_eff map: max relative difference to T3_csr_maps.npz,0.0,0.0,True,0 = bitwise
+T3 share map: max relative difference (finite pixels; NaN pattern equal),0.0,0.0,True,
+T3 z map on eligible pixels: max relative difference,0.0,1.0547118733938987e-15,True,floating-point reassociation
+T3 hotspot label raster identical to T3_csr_maps.npz (1 = yes),1.0,1.0,True,
+T3 hotspot 1 area mm2,0.0405,0.0405,True,
+T3 hotspot 1 isotyped loci,241.0,241.0,True,
+T3 hotspot 1 switched loci,95.0,95.0,True,
+T3 hotspot 1 max z,8.931242518252786,8.931242518252784,True,
+T3 hotspot 1 share T zone,0.10617283950617284,0.10617283950617284,True,
+T3 hotspot 1 share follicle,0.8938271604938272,0.8938271604938272,True,
+T3 hotspot 1 share red pulp,0.0,0.0,True,
+T3 hotspot 1 median distance to T zone (um),64.03124237432849,64.03124237432849,True,
+T3 hotspot 1 nearest T zone,13.0,13.0,True,
+T3 hotspot 2 area mm2,0.023,0.023,True,
+T3 hotspot 2 isotyped loci,38.0,38.0,True,
+T3 hotspot 2 switched loci,29.0,29.0,True,
+T3 hotspot 2 max z,10.046033778756707,10.046033778756705,True,
+T3 hotspot 2 share T zone,0.0,0.0,True,
+T3 hotspot 2 share follicle,0.9391304347826087,0.9391304347826087,True,
+T3 hotspot 2 share red pulp,0.06086956521739131,0.06086956521739131,True,
+T3 hotspot 2 median distance to T zone (um),228.14466461504708,228.14466461504708,True,
+T3 hotspot 2 nearest T zone,15.0,15.0,True,
+T3 hotspot 3 area mm2,0.0211,0.0211,True,
+T3 hotspot 3 isotyped loci,150.0,150.0,True,
+T3 hotspot 3 switched loci,65.0,65.0,True,
+T3 hotspot 3 max z,9.353310376091883,9.353310376091885,True,
+T3 hotspot 3 share T zone,0.32701421800947866,0.32701421800947866,True,
+T3 hotspot 3 share follicle,0.6729857819905213,0.6729857819905213,True,
+T3 hotspot 3 share red pulp,0.0,0.0,True,
+T3 hotspot 3 median distance to T zone (um),28.284271247461902,28.284271247461902,True,
+T3 hotspot 3 nearest T zone,15.0,15.0,True,
+T3 hotspot 4 area mm2,0.0169,0.0169,True,
+T3 hotspot 4 isotyped loci,140.0,140.0,True,
+T3 hotspot 4 switched loci,55.0,55.0,True,
+T3 hotspot 4 max z,7.2784582315548105,7.27845823155481,True,
+T3 hotspot 4 share T zone,0.0650887573964497,0.0650887573964497,True,
+T3 hotspot 4 share follicle,0.9349112426035503,0.9349112426035503,True,
+T3 hotspot 4 share red pulp,0.0,0.0,True,
+T3 hotspot 4 median distance to T zone (um),64.03124237432849,64.03124237432849,True,
+T3 hotspot 4 nearest T zone,12.0,12.0,True,
+T3 hotspot 5 area mm2,0.0085,0.0085,True,
+T3 hotspot 5 isotyped loci,14.0,14.0,True,
+T3 hotspot 5 switched loci,10.0,10.0,True,
+T3 hotspot 5 max z,6.5368953765917635,6.536895376591764,True,
+T3 hotspot 5 share T zone,0.0,0.0,True,
+T3 hotspot 5 share follicle,0.17647058823529413,0.17647058823529413,True,
+T3 hotspot 5 share red pulp,0.8235294117647058,0.8235294117647058,True,
+T3 hotspot 5 median distance to T zone (um),257.0992026436488,257.0992026436488,True,
+T3 hotspot 5 nearest T zone,1.0,1.0,True,
+T3 hotspot 6 area mm2,0.0068,0.0068,True,
+T3 hotspot 6 isotyped loci,12.0,12.0,True,
+T3 hotspot 6 switched loci,7.0,7.0,True,
+T3 hotspot 6 max z,5.88673893005958,5.88673893005958,True,
+T3 hotspot 6 share T zone,0.0,0.0,True,
+T3 hotspot 6 share follicle,0.0,0.0,True,
+T3 hotspot 6 share red pulp,1.0,1.0,True,
+T3 hotspot 6 median distance to T zone (um),517.9765096548141,517.9765096548141,True,
+T3 hotspot 6 nearest T zone,5.0,5.0,True,
+T3 hotspot 7 area mm2,0.0062,0.0062,True,
+T3 hotspot 7 isotyped loci,9.0,9.0,True,
+T3 hotspot 7 switched loci,7.0,7.0,True,
+T3 hotspot 7 max z,6.27958901507969,6.279589015079692,True,
+T3 hotspot 7 share T zone,0.0,0.0,True,
+T3 hotspot 7 share follicle,0.3548387096774194,0.3548387096774194,True,
+T3 hotspot 7 share red pulp,0.6451612903225806,0.6451612903225806,True,
+T3 hotspot 7 median distance to T zone (um),310.0806241927082,310.0806241927082,True,
+T3 hotspot 7 nearest T zone,18.0,18.0,True,
+T3 hotspot 8 area mm2,0.0034,0.0034,True,
+T3 hotspot 8 isotyped loci,13.0,13.0,True,
+T3 hotspot 8 switched loci,9.0,9.0,True,
+T3 hotspot 8 max z,5.5848159394605315,5.584815939460531,True,
+T3 hotspot 8 share T zone,0.0,0.0,True,
+T3 hotspot 8 share follicle,0.4411764705882353,0.4411764705882353,True,
+T3 hotspot 8 share red pulp,0.5588235294117647,0.5588235294117647,True,
+T3 hotspot 8 median distance to T zone (um),100.0,100.0,True,
+T3 hotspot 8 nearest T zone,9.0,9.0,True,
+T3 hotspot 9 area mm2,0.0029,0.0029,True,
+T3 hotspot 9 isotyped loci,9.0,9.0,True,
+T3 hotspot 9 switched loci,6.0,6.0,True,
+T3 hotspot 9 max z,5.286225689476227,5.286225689476226,True,
+T3 hotspot 9 share T zone,0.0,0.0,True,
+T3 hotspot 9 share follicle,0.0,0.0,True,
+T3 hotspot 9 share red pulp,1.0,1.0,True,
+T3 hotspot 9 median distance to T zone (um),471.6990566028302,471.6990566028302,True,
+T3 hotspot 9 nearest T zone,13.0,13.0,True,
+T3 hotspot 10 area mm2,0.0026,0.0026,True,
+T3 hotspot 10 isotyped loci,8.0,8.0,True,
+T3 hotspot 10 switched loci,5.0,5.0,True,
+T3 hotspot 10 max z,5.4139898855934225,5.413989885593422,True,
+T3 hotspot 10 share T zone,0.0,0.0,True,
+T3 hotspot 10 share follicle,0.9230769230769231,0.9230769230769231,True,
+T3 hotspot 10 share red pulp,0.07692307692307693,0.07692307692307693,True,
+T3 hotspot 10 median distance to T zone (um),513.321762150028,513.321762150028,True,
+T3 hotspot 10 nearest T zone,5.0,5.0,True,
+T3 hotspot 11 area mm2,0.0015,0.0015,True,
+T3 hotspot 11 isotyped loci,9.0,9.0,True,
+T3 hotspot 11 switched loci,4.0,4.0,True,
+T3 hotspot 11 max z,5.312692001305564,5.312692001305564,True,
+T3 hotspot 11 share T zone,0.0,0.0,True,
+T3 hotspot 11 share follicle,1.0,1.0,True,
+T3 hotspot 11 share red pulp,0.0,0.0,True,
+T3 hotspot 11 median distance to T zone (um),178.04493814764857,178.04493814764857,True,
+T3 hotspot 11 nearest T zone,2.0,2.0,True,
+T3 hotspot 12 area mm2,0.0005,0.0005,True,
+T3 hotspot 12 isotyped loci,1.0,1.0,True,
+T3 hotspot 12 switched loci,1.0,1.0,True,
+T3 hotspot 12 max z,5.146968630501938,5.146968630501939,True,
+T3 hotspot 12 share T zone,0.2,0.2,True,
+T3 hotspot 12 share follicle,0.8,0.8,True,
+T3 hotspot 12 share red pulp,0.0,0.0,True,
+T3 hotspot 12 median distance to T zone (um),10.0,10.0,True,
+T3 hotspot 12 nearest T zone,5.0,5.0,True,
+T3 hotspot 13 area mm2,0.0001,0.0001,True,
+T3 hotspot 13 isotyped loci,0.0,0.0,True,
+T3 hotspot 13 switched loci,0.0,0.0,True,
+T3 hotspot 13 max z,5.092667231585792,5.092667231585792,True,
+T3 hotspot 13 share T zone,0.0,0.0,True,
+T3 hotspot 13 share follicle,1.0,1.0,True,
+T3 hotspot 13 share red pulp,0.0,0.0,True,
+T3 hotspot 13 median distance to T zone (um),230.0,230.0,True,
+T3 hotspot 13 nearest T zone,2.0,2.0,True,
+T3 sensitivity sigma 30 threshold_z,5.4032046313288955,5.4032046313288955,True,
+T3 sensitivity sigma 30 hotspots,11.0,11.0,True,
+T3 sensitivity sigma 30 area_mm2,0.0562,0.0562,True,
+T3 sensitivity sigma 30 share of main hotspot area covered,0.41119402985074627,0.41119402985074627,True,
+T3 sensitivity sigma 100 threshold_z,4.3431660243702055,4.343166024370205,True,
+T3 sensitivity sigma 100 hotspots,8.0,8.0,True,
+T3 sensitivity sigma 100 area_mm2,0.395,0.395,True,
+T3 sensitivity sigma 100 share of main hotspot area covered,0.8865671641791045,0.8865671641791045,True,
+"T3 improved [exact n_eff kernel, quantile rule]: hotspots",13.0,13.0,,"threshold 5.0860, eligible pixels 115181 (legacy 115182), hotspot area 0.1340 mm2, 100.0% of the archive's hotspot area kept"
+"T3 improved [legacy n_eff kernel, rank rule]: hotspots",13.0,12.0,,"threshold 5.0969, eligible pixels 115182 (legacy 115182), hotspot area 0.1331 mm2, 99.3% of the archive's hotspot area kept"
+"T3 improved [package defaults (exact kernel, rank rule, padded tissue edge)]: hotspots",13.0,12.0,,"threshold 5.0964, eligible pixels 115207 (legacy 115182), hotspot area 0.1331 mm2, 99.3% of the archive's hotspot area kept"
+T7 evaluable loci,14058.0,14058.0,True,
+T7 mutated share p0,0.07326789016929862,0.07326789016929862,True,
+T7 raw threshold,6.161755785868576,6.161755785868576,True,replayed draws
+T7 isotype-matched threshold,6.390003063451096,6.390003063451096,True,replayed draws
+T7 SHM hotspots (raw),7.0,7.0,True,replayed draws
+T7 SHM hotspots (isotype-matched),1.0,1.0,True,replayed draws
+T7 max z (raw),8.59629159680533,8.59629159680533,True,
+T7 max z (isotype-matched),7.17395381274443,7.17395381274443,True,
+T7 neff map: max relative difference to T7_shm_maps.npz,0.0,0.0,True,
+T7 share map: max relative difference to T7_shm_maps.npz,0.0,0.0,True,
+T7 z_raw map on eligible pixels: max relative difference,0.0,0.0,True,
+T7 z_iso map on eligible pixels: max relative difference,0.0,0.0,True,
+T7 SHM hotspot labels (raw) identical to T7_shm_maps.npz (1 = yes),1.0,1.0,True,
+T7 SHM hotspot labels (isotype-matched) identical (1 = yes),1.0,1.0,True,
+T7 SHM hotspot raw 1 area mm2,0.0176,0.0176,True,
+T7 SHM hotspot raw 1 evaluable loci,81.0,81.0,True,
+T7 SHM hotspot raw 1 mutated loci,27.0,27.0,True,
+T7 SHM hotspot raw 1 share of pixels in CSR hotspots,0.8295454545454546,0.8295454545454546,True,
+T7 SHM hotspot raw 2 area mm2,0.0141,0.0141,True,
+T7 SHM hotspot raw 2 evaluable loci,73.0,73.0,True,
+T7 SHM hotspot raw 2 mutated loci,23.0,23.0,True,
+T7 SHM hotspot raw 2 share of pixels in CSR hotspots,0.0,0.0,True,
+T7 SHM hotspot raw 3 area mm2,0.0132,0.0132,True,
+T7 SHM hotspot raw 3 evaluable loci,54.0,54.0,True,
+T7 SHM hotspot raw 3 mutated loci,21.0,21.0,True,
+T7 SHM hotspot raw 3 share of pixels in CSR hotspots,0.9393939393939394,0.9393939393939394,True,
+T7 SHM hotspot raw 4 area mm2,0.0101,0.0101,True,
+T7 SHM hotspot raw 4 evaluable loci,45.0,45.0,True,
+T7 SHM hotspot raw 4 mutated loci,15.0,15.0,True,
+T7 SHM hotspot raw 4 share of pixels in CSR hotspots,0.0,0.0,True,
+T7 SHM hotspot raw 5 area mm2,0.0049,0.0049,True,
+T7 SHM hotspot raw 5 evaluable loci,38.0,38.0,True,
+T7 SHM hotspot raw 5 mutated loci,12.0,12.0,True,
+T7 SHM hotspot raw 5 share of pixels in CSR hotspots,1.0,1.0,True,
+T7 SHM hotspot raw 6 area mm2,0.0015,0.0015,True,
+T7 SHM hotspot raw 6 evaluable loci,11.0,11.0,True,
+T7 SHM hotspot raw 6 mutated loci,6.0,6.0,True,
+T7 SHM hotspot raw 6 share of pixels in CSR hotspots,0.7333333333333333,0.7333333333333333,True,
+T7 SHM hotspot raw 7 area mm2,0.0005,0.0005,True,
+T7 SHM hotspot raw 7 evaluable loci,1.0,1.0,True,
+T7 SHM hotspot raw 7 mutated loci,1.0,1.0,True,
+T7 SHM hotspot raw 7 share of pixels in CSR hotspots,0.0,0.0,True,
+T7 SHM hotspot isotype-matched 1 area mm2,0.005,0.005,True,
+T7 SHM hotspot isotype-matched 1 evaluable loci,43.0,43.0,True,
+T7 SHM hotspot isotype-matched 1 mutated loci,14.0,14.0,True,
+T7 SHM hotspot isotype-matched 1 share of pixels in CSR hotspots,0.0,0.0,True,
+T7 CSR test rows (hotspots with >= 5 evaluable loci + pooled),7.0,7.0,True,
+T7 CSR test 1 evaluable loci,138.0,138.0,True,
+T7 CSR test 1 mutated loci,30.0,30.0,True,
+T7 CSR test 1 isotype-matched expectation,22.531238706796984,22.531238706796984,True,
+T7 CSR test 1 raw expectation,10.11096884336321,10.11096884336321,True,
+T7 CSR test 1 ratio to the isotype-matched expectation,1.331484717302734,1.331484717302734,True,
+T7 CSR test 1 null 2.5%,15.0,15.0,True,replayed draws
+T7 CSR test 1 null 97.5%,30.0,30.0,True,replayed draws
+"T7 CSR test 1 p (10,000 within-isotype shuffles)",0.037396260373962605,0.037396260373962605,True,replayed draws
+T7 CSR test 1 q (BH over hotspots),0.07479252074792521,0.07479252074792521,True,replayed draws
+T7 CSR test 2 evaluable loci,14.0,14.0,True,
+T7 CSR test 2 mutated loci,3.0,3.0,True,
+T7 CSR test 2 isotype-matched expectation,3.229512232128541,3.229512232128541,True,
+T7 CSR test 2 raw expectation,1.0257504623701807,1.0257504623701807,True,
+T7 CSR test 2 ratio to the isotype-matched expectation,0.9289328494113578,0.9289328494113578,True,
+T7 CSR test 2 null 2.5%,1.0,1.0,True,replayed draws
+T7 CSR test 2 null 97.5%,6.0,6.0,True,replayed draws
+"T7 CSR test 2 p (10,000 within-isotype shuffles)",0.6772322767723228,0.6772322767723228,True,replayed draws
+T7 CSR test 2 q (BH over hotspots),0.8126787321267873,0.8126787321267873,True,replayed draws
+T7 CSR test 3 evaluable loci,73.0,73.0,True,
+T7 CSR test 3 mutated loci,23.0,23.0,True,
+T7 CSR test 3 isotype-matched expectation,14.04562944517941,14.04562944517941,True,
+T7 CSR test 3 raw expectation,5.348555982358799,5.348555982358799,True,
+T7 CSR test 3 ratio to the isotype-matched expectation,1.6375200620071757,1.6375200620071757,True,
+T7 CSR test 3 null 2.5%,8.0,8.0,True,replayed draws
+T7 CSR test 3 null 97.5%,20.0,20.0,True,replayed draws
+"T7 CSR test 3 p (10,000 within-isotype shuffles)",0.0037996200379962005,0.0037996200379962005,True,replayed draws
+T7 CSR test 3 q (BH over hotspots),0.011398860113988602,0.011398860113988602,True,replayed draws
+T7 CSR test 4 evaluable loci,83.0,83.0,True,
+T7 CSR test 4 mutated loci,27.0,27.0,True,
+T7 CSR test 4 isotype-matched expectation,11.013172686762038,11.013172686762038,True,
+T7 CSR test 4 raw expectation,6.081234884051786,6.081234884051786,True,
+T7 CSR test 4 ratio to the isotype-matched expectation,2.4516096104126572,2.4516096104126572,True,
+T7 CSR test 4 null 2.5%,6.0,6.0,True,replayed draws
+T7 CSR test 4 null 97.5%,17.0,17.0,True,replayed draws
+"T7 CSR test 4 p (10,000 within-isotype shuffles)",9.999000099990002e-05,9.999000099990002e-05,True,replayed draws
+T7 CSR test 4 q (BH over hotspots),0.0005999400059994001,0.0005999400059994001,True,replayed draws
+T7 CSR test 5 evaluable loci,6.0,6.0,True,
+T7 CSR test 5 mutated loci,0.0,0.0,True,
+T7 CSR test 5 isotype-matched expectation,1.1689595324188407,1.1689595324188407,True,
+T7 CSR test 5 raw expectation,0.4396073410157917,0.4396073410157917,True,
+T7 CSR test 5 ratio to the isotype-matched expectation,0.0,0.0,True,
+T7 CSR test 5 null 2.5%,0.0,0.0,True,replayed draws
+T7 CSR test 5 null 97.5%,3.0,3.0,True,replayed draws
+"T7 CSR test 5 p (10,000 within-isotype shuffles)",1.0,1.0,True,replayed draws
+T7 CSR test 5 q (BH over hotspots),1.0,1.0,True,replayed draws
+T7 CSR test 10 evaluable loci,5.0,5.0,True,
+T7 CSR test 10 mutated loci,3.0,3.0,True,
+T7 CSR test 10 isotype-matched expectation,1.1874082532616361,1.1874082532616361,True,
+T7 CSR test 10 raw expectation,0.3663394508464931,0.3663394508464931,True,
+T7 CSR test 10 ratio to the isotype-matched expectation,2.5265109887517125,2.5265109887517125,True,
+T7 CSR test 10 null 2.5%,0.0,0.0,True,replayed draws
+T7 CSR test 10 null 97.5%,3.0,3.0,True,replayed draws
+"T7 CSR test 10 p (10,000 within-isotype shuffles)",0.07549245075492451,0.07549245075492451,True,replayed draws
+T7 CSR test 10 q (BH over hotspots),0.11323867613238678,0.11323867613238678,True,replayed draws
+T7 CSR test all evaluable loci,331.0,331.0,True,
+T7 CSR test all mutated loci,90.0,90.0,True,
+T7 CSR test all isotype-matched expectation,56.1683960518621,56.1683960518621,True,
+T7 CSR test all raw expectation,24.251671646037842,24.251671646037842,True,
+T7 CSR test all ratio to the isotype-matched expectation,1.602324551281473,1.602324551281473,True,
+T7 CSR test all null 2.5%,45.0,45.0,True,replayed draws
+T7 CSR test all null 97.5%,68.0,68.0,True,replayed draws
+"T7 CSR test all p (10,000 within-isotype shuffles)",9.999000099990002e-05,9.999000099990002e-05,True,replayed draws
+"T7 raw threshold, own draws, within 3 Monte-Carlo SE of the archive's (1 = yes)",1.0,1.0,True,"own 6.0636, archive 6.1618, difference -1.26 SE; shuffled maxima, own vs archive: two-sample KS p = 0.69"
+"T7 raw SHM hotspots, own draws",7.0,8.0,,hotspots near the threshold can flip with the Monte-Carlo threshold
+"T7 isotype-matched threshold, own draws, within 3 Monte-Carlo SE of the archive's (1 = yes)",1.0,1.0,True,"own 6.4615, archive 6.3900, difference +0.66 SE; shuffled maxima, own vs archive: two-sample KS p = 0.01"
+"T7 isotype-matched SHM hotspots, own draws",1.0,1.0,,hotspots near the threshold can flip with the Monte-Carlo threshold
+"T7 CSR test 1 p, own draws, within 3 Monte-Carlo SE of the archive (1 = yes)",1.0,1.0,True,"own p 0.0376, archive 0.0374, |diff| = 0.07 SE"
+"T7 CSR test 2 p, own draws, within 3 Monte-Carlo SE of the archive (1 = yes)",1.0,1.0,True,"own p 0.6768, archive 0.6772, |diff| = 0.06 SE"
+"T7 CSR test 3 p, own draws, within 3 Monte-Carlo SE of the archive (1 = yes)",1.0,1.0,True,"own p 0.0038, archive 0.0038, |diff| = 0.00 SE"
+"T7 CSR test 4 p, own draws, within 3 Monte-Carlo SE of the archive (1 = yes)",1.0,1.0,True,"own p 9.999e-05, archive 9.999e-05, |diff| = 0.00 SE"
+"T7 CSR test 5 p, own draws, within 3 Monte-Carlo SE of the archive (1 = yes)",1.0,1.0,True,"own p 1, archive 1, |diff| = 0.00 SE"
+"T7 CSR test 10 p, own draws, within 3 Monte-Carlo SE of the archive (1 = yes)",1.0,1.0,True,"own p 0.07529, archive 0.07549, |diff| = 0.05 SE"
+"T7 CSR test all p, own draws, within 3 Monte-Carlo SE of the archive (1 = yes)",1.0,1.0,True,"own p 9.999e-05, archive 9.999e-05, |diff| = 0.00 SE"
+"T3 clone-level null [blocks='clone', matched, studentised; exact kernel, rank rule]: hotspots",13.0,1.0,,"threshold 5.024 on the studentised map (max 5.66); hotspot area 0.0046 mm2, 3.4% of the archive's hotspot area; 18662 of 18683 clones tradeable"
+T3 clone-level null: largest hotspot loci / switched / p,,52.0,,"27 switched, map-level p 0.0090"
+"T7 clone-level null [isotype strata, matched, studentised]: SHM hotspots",1.0,0.0,,"threshold 6.561, max studentised z 5.40, map-level p 0.3407 (archive, loci shuffled within isotype: 1 hotspot)"
+"T7 CSR test pooled, clone-level null: mutated loci",90.0,90.0,,"isotype-matched expectation 56.17 (archive 56.17); null mean 62.30 (isotype and clone size matched), sd 5.38, ratio to null mean 1.44, p 9.999e-05 (archive, loci shuffled: 1e-4)"
+"T7 CSR test 1, clone-level null: p",,0.0053994600539946005,,30 mutated of 138; null mean 21.29; q 0.0162
+"T7 CSR test 2, clone-level null: p",,0.47425257474252575,,3 mutated of 14; null mean 2.47; q 0.569
+"T7 CSR test 3, clone-level null: p",,0.0245975402459754,,23 mutated of 73; null mean 16.89; q 0.0492
+"T7 CSR test 4, clone-level null: p",,0.0006999300069993001,,27 mutated of 83; null mean 15.95; q 0.0042
+"T7 CSR test 5, clone-level null: p",,1.0,,0 mutated of 6; null mean 0.58; q 1
+"T7 CSR test 10, clone-level null: p",,0.048095190480951906,,3 mutated of 5; null mean 1.05; q 0.0721

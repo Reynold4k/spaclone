@@ -1,0 +1,89 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = [ "hatchling" ]
+
+[project]
+name = "spaclone"
+version = "1.0.0"
+description = "Is spatial immune-receptor data spatial? Calibrated location-trust tests and clonal concentration maps for spatial BCR/TCR data."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [ { name = "Chen Satoshi", email = "103236530+Reynold4k@users.noreply.github.com" } ]
+maintainers = [ { name = "Chen Satoshi", email = "103236530+Reynold4k@users.noreply.github.com" } ]
+requires-python = ">=3.11"
+classifiers = [
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+  "Typing :: Typed",
+]
+keywords = [ "spatial transcriptomics", "BCR", "TCR", "immune repertoire", "AIRR", "Stereo-seq", "permutation test" ]
+dependencies = [
+  "anndata>=0.10.8",
+  "scanpy>=1.10",
+  "h5py>=3.11",
+  "igraph>=0.11",
+  "matplotlib>=3.8.4",
+  "numpy>=2",
+  "pandas>=2.2.2",
+  "pyarrow>=16",
+  "scikit-learn>=1.4.2",
+  "scipy>=1.13",
+]
+optional-dependencies.bam = [ "pysam>=0.22" ]
+optional-dependencies.dandelion = [ "sc-dandelion>=0.5.7" ]
+optional-dependencies.datasets = [ "pooch>=1.7" ]
+optional-dependencies.fast = [ "numba>=0.59" ]
+optional-dependencies.full = [ "spaclone[bam,dandelion,datasets,fast,images,immcantation,leiden,scicsr,scverse,tcr,threadfin]" ]
+optional-dependencies.images = [ "tifffile>=2023.1" ]
+optional-dependencies.immcantation = [ "changeo>=1.3.5" ]
+optional-dependencies.leiden = [ "leidenalg>=0.10" ]
+optional-dependencies.scicsr = [
+  "cellrank>=2,<2.3; python_version < '3.12'",
+  "cellrank>=2.3; python_version >= '3.12'",
+  "deeptime>=0.4",
+  "pysam>=0.22",
+]
+optional-dependencies.scirpy = [ "awkward>=2", "mudata>=0.3", "scirpy>=0.20" ]
+optional-dependencies.scverse = [ "spaclone[scirpy,spatialdata,squidpy]" ]
+optional-dependencies.spatialdata = [ "shapely>=2", "spatialdata>=0.2" ]
+optional-dependencies.squidpy = [ "squidpy>=1.6" ]
+optional-dependencies.tcr = [ "olga>=1.3" ]
+optional-dependencies.threadfin = [ "threadfin>=4.5" ]
+urls.Source = "https://github.com/Reynold4k/spaclone"
+
+[dependency-groups]
+test = [ "pytest>=8", "pytest-cov", "tifffile>=2023.1" ]
+dev = [ "ruff", "mypy", "pandas-stubs", "twine" ]
+
+[project.scripts]
+spaclone = "spaclone.cli:main"
+
+[tool.hatch.build.targets.sdist]
+exclude = [ "/docs/_build", "/docs/_static/overview_*.png", "/docs/tutorials/*.ipynb", "/tests/_data/large", "/validation", "/scripts", "*.sbatch" ]
+
+[tool.ruff]
+line-length = 120
+src = [ "src" ]
+lint.select = [ "B", "BLE", "C4", "D", "E", "F", "I", "RUF100", "TID", "UP", "W" ]
+lint.ignore = [ "B008", "D100", "D104", "D105", "D107", "D203", "D213", "D400", "D401", "E501", "E731", "E741" ]
+lint.per-file-ignores."*/__init__.py" = [ "F401" ]
+lint.per-file-ignores."tests/*" = [ "D" ]
+lint.pydocstyle.convention = "numpy"
+
+[tool.pytest.ini_options]
+addopts = [ "--import-mode=importlib", "-m", "not slow" ]
+testpaths = [ "tests" ]
+markers = [ "slow: long-running calibration or power tests (run with -m slow)" ]
+filterwarnings = [ "error::spaclone._utils.SpacloneWarning" ]
+
+[tool.coverage.run]
+source = [ "spaclone" ]
+
+[tool.mypy]
+files = [ "src" ]
+ignore_missing_imports = true

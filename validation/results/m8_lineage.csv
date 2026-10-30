@@ -1,0 +1,35 @@
+quantity,archived,package,match,note
+L5 E: clones with a tree,71.0,71.0,True,dowser minseq 2 after collapsing
+L5 E: collapsed tree tips (germline excluded),1308.0,1308.0,True,identical sequence + identical isotype and location
+L5 E: clones whose L4 tips collapse into the same tree tips as dowser,71.0,71.0,True,
+L4 E: tips in the tip table (= L4 tips in the dowser trees),2511.0,2511.0,True,"2 L4 tips left out by dowser (in-frame stop codon), here too"
+L4 E: tip-table tips identical to the L4 tips held by the dowser trees (1 = yes),1.0,1.0,True,
+L4 E: tips whose mutations from the germline (IMGT 1-312) differ from L4 'mut',0.0,0.0,True,
+L4 E: tip table columns,,21.0,,"clone_id, sequence_id, tip_id, n_collapsed, depth, mutations, v_call, j_call, junction_length, locus, isotype, location, loc_id, x_um, y_um, n_contigs, n_bins, reads, mut, contigs, tip_ids"
+L5 E: same trees with the same seed and another n_jobs (1 = yes),1.0,1.0,True,
+L5 E: our parsimony length = sum of our branch lengths (all trees) (1 = yes),1.0,1.0,True,
+L5 E: trees where our parsimony tree is as short or shorter than dowser's,71.0,68.0,,"strictly shorter 0, longer 3; total length ours 1330 vs dowser 1326 (scored on the same sequences; dowser's own ACCTRAN lengths sum to 1326.0)"
+"L5 E: median normalised RF, ours vs dowser parsimony (archived: IgPhyML vs dowser)",0.11688311688311695,0.058823529411764705,,mean ours 0.218 (IgPhyML 0.267); identical topology after collapsing zero-length branches in 34 of 71 trees (IgPhyML 33 of 70)
+"L5 E: median correlation of germline-to-tip divergence, ours vs dowser (archived: IgPhyML vs dowser)",0.985578082067093,0.9875883711651318,,mean ours 0.921 (IgPhyML 0.885)
+L5 E: trees longer than dowser's after a thorough search (8 starts x 30 ratchet iterations),0.0,0.0,,of the 3 trees longer with the defaults; their total length 180 -> 176 (dowser 176)
+"L7 C E: trees tested, dowser trees through bcr.read_trees + bcr.tip_table",70.0,70.0,True,
+"L7 C E: mean Spearman(patristic, tissue distance), dowser trees through bcr.read_trees + bcr.tip_table",0.00994101183956647,0.009941011839566473,True,tl.tree_tissue_distance
+"L7 C E: mean Spearman(patristic, tissue distance) with our parsimony trees",0.00994101183956647,0.013889474161887917,,p = 0.239 (dowser trees: archived p = 0.286); trees tested 70
+L5 E: NJ trees: median normalised RF vs dowser,0.11688311688311695,0.25,,NJ length >= parsimony length in 71 of 71; median divergence correlation 0.964
+L5 L: clones with a tree,113.0,113.0,True,dowser minseq 2 after collapsing
+L5 L: collapsed tree tips (germline excluded),2172.0,2172.0,True,identical sequence + identical isotype and location
+L5 L: clones whose L4 tips collapse into the same tree tips as dowser,113.0,113.0,True,
+L4 L: tips in the tip table (= L4 tips in the dowser trees),3788.0,3788.0,True,"10 L4 tips left out by dowser (in-frame stop codon), here too"
+L4 L: tip-table tips identical to the L4 tips held by the dowser trees (1 = yes),1.0,1.0,True,
+L4 L: tips whose mutations from the germline (IMGT 1-312) differ from L4 'mut',0.0,0.0,True,
+L4 L: tip table columns,,21.0,,"clone_id, sequence_id, tip_id, n_collapsed, depth, mutations, v_call, j_call, junction_length, locus, isotype, location, loc_id, x_um, y_um, n_contigs, n_bins, reads, mut, contigs, tip_ids"
+L5 L: same trees with the same seed and another n_jobs (1 = yes),1.0,1.0,True,
+L5 L: our parsimony length = sum of our branch lengths (all trees) (1 = yes),1.0,1.0,True,
+L5 L: trees where our parsimony tree is as short or shorter than dowser's,113.0,105.0,,"strictly shorter 0, longer 8; total length ours 2592 vs dowser 2583 (scored on the same sequences; dowser's own ACCTRAN lengths sum to 2583.0)"
+"L5 L: median normalised RF, ours vs dowser parsimony (archived: IgPhyML vs dowser)",0.236111111111111,0.2,,mean ours 0.245 (IgPhyML 0.274); identical topology after collapsing zero-length branches in 39 of 113 trees (IgPhyML 41 of 112)
+"L5 L: median correlation of germline-to-tip divergence, ours vs dowser (archived: IgPhyML vs dowser)",0.928969389626729,0.9450576925908676,,mean ours 0.783 (IgPhyML 0.757)
+L5 L: trees longer than dowser's after a thorough search (8 starts x 30 ratchet iterations),0.0,0.0,,of the 8 trees longer with the defaults; their total length 432 -> 423 (dowser 423)
+"L7 C L: trees tested, dowser trees through bcr.read_trees + bcr.tip_table",111.0,111.0,True,
+"L7 C L: mean Spearman(patristic, tissue distance), dowser trees through bcr.read_trees + bcr.tip_table",0.033723817014741544,0.03372381701474155,True,tl.tree_tissue_distance
+"L7 C L: mean Spearman(patristic, tissue distance) with our parsimony trees",0.033723817014741544,0.032692532231106776,,p = 0.018 (dowser trees: archived p = 0.021); trees tested 111
+L5 L: NJ trees: median normalised RF vs dowser,0.236111111111111,0.25,,NJ length >= parsimony length in 113 of 113; median divergence correlation 0.907

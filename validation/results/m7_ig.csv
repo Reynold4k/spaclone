@@ -1,0 +1,347 @@
+quantity,archived,package,match,note
+mouse Ig constant genes identical to X5 (1 = yes),1,1,True,
+"Ig RNA strata edges identical to X5 [0,1,3,10,30,100,300,inf) (1 = yes)",1,1,True,
+AIR-SPACE Mock all beads Ig 0: units,2653,2653,True,t1_depth_curve.csv
+AIR-SPACE Mock all beads Ig 0: units with a call,5,5,True,t1_depth_curve.csv
+AIR-SPACE Mock all beads Ig 1-2: units,5300,5300,True,t1_depth_curve.csv
+AIR-SPACE Mock all beads Ig 1-2: units with a call,37,37,True,t1_depth_curve.csv
+AIR-SPACE Mock all beads Ig 3-9: units,6558,6558,True,t1_depth_curve.csv
+AIR-SPACE Mock all beads Ig 3-9: units with a call,165,165,True,t1_depth_curve.csv
+AIR-SPACE Mock all beads Ig 10-29: units,1962,1962,True,t1_depth_curve.csv
+AIR-SPACE Mock all beads Ig 10-29: units with a call,174,174,True,t1_depth_curve.csv
+AIR-SPACE Mock all beads Ig 30-99: units,153,153,True,t1_depth_curve.csv
+AIR-SPACE Mock all beads Ig 30-99: units with a call,39,39,True,t1_depth_curve.csv
+AIR-SPACE Mock all beads Ig 100-299: units,15,15,True,t1_depth_curve.csv
+AIR-SPACE Mock all beads Ig 100-299: units with a call,12,12,True,t1_depth_curve.csv
+AIR-SPACE Mock all beads Ig >=300: units,1,1,True,t1_depth_curve.csv
+AIR-SPACE Mock all beads Ig >=300: units with a call,1,1,True,t1_depth_curve.csv
+AIR-SPACE D3 all beads Ig 0: units,5148,5148,True,t1_depth_curve.csv
+AIR-SPACE D3 all beads Ig 0: units with a call,7,7,True,t1_depth_curve.csv
+AIR-SPACE D3 all beads Ig 1-2: units,7517,7517,True,t1_depth_curve.csv
+AIR-SPACE D3 all beads Ig 1-2: units with a call,74,74,True,t1_depth_curve.csv
+AIR-SPACE D3 all beads Ig 3-9: units,9329,9329,True,t1_depth_curve.csv
+AIR-SPACE D3 all beads Ig 3-9: units with a call,338,338,True,t1_depth_curve.csv
+AIR-SPACE D3 all beads Ig 10-29: units,3003,3003,True,t1_depth_curve.csv
+AIR-SPACE D3 all beads Ig 10-29: units with a call,330,330,True,t1_depth_curve.csv
+AIR-SPACE D3 all beads Ig 30-99: units,109,109,True,t1_depth_curve.csv
+AIR-SPACE D3 all beads Ig 30-99: units with a call,54,54,True,t1_depth_curve.csv
+AIR-SPACE D3 all beads Ig 100-299: units,12,12,True,t1_depth_curve.csv
+AIR-SPACE D3 all beads Ig 100-299: units with a call,9,9,True,t1_depth_curve.csv
+AIR-SPACE D7 all beads Ig 0: units,97,97,True,t1_depth_curve.csv
+AIR-SPACE D7 all beads Ig 0: units with a call,0,0,True,t1_depth_curve.csv
+AIR-SPACE D7 all beads Ig 1-2: units,889,889,True,t1_depth_curve.csv
+AIR-SPACE D7 all beads Ig 1-2: units with a call,3,3,True,t1_depth_curve.csv
+AIR-SPACE D7 all beads Ig 3-9: units,6564,6564,True,t1_depth_curve.csv
+AIR-SPACE D7 all beads Ig 3-9: units with a call,69,69,True,t1_depth_curve.csv
+AIR-SPACE D7 all beads Ig 10-29: units,10322,10322,True,t1_depth_curve.csv
+AIR-SPACE D7 all beads Ig 10-29: units with a call,324,324,True,t1_depth_curve.csv
+AIR-SPACE D7 all beads Ig 30-99: units,6913,6913,True,t1_depth_curve.csv
+AIR-SPACE D7 all beads Ig 30-99: units with a call,1025,1025,True,t1_depth_curve.csv
+AIR-SPACE D7 all beads Ig 100-299: units,1937,1937,True,t1_depth_curve.csv
+AIR-SPACE D7 all beads Ig 100-299: units with a call,882,882,True,t1_depth_curve.csv
+AIR-SPACE D7 all beads Ig >=300: units,126,126,True,t1_depth_curve.csv
+AIR-SPACE D7 all beads Ig >=300: units with a call,109,109,True,t1_depth_curve.csv
+AIR-SPACE D10 all beads Ig 0: units,4,4,True,t1_depth_curve.csv
+AIR-SPACE D10 all beads Ig 0: units with a call,0,0,True,t1_depth_curve.csv
+AIR-SPACE D10 all beads Ig 1-2: units,163,163,True,t1_depth_curve.csv
+AIR-SPACE D10 all beads Ig 1-2: units with a call,1,1,True,t1_depth_curve.csv
+AIR-SPACE D10 all beads Ig 3-9: units,3352,3352,True,t1_depth_curve.csv
+AIR-SPACE D10 all beads Ig 3-9: units with a call,28,28,True,t1_depth_curve.csv
+AIR-SPACE D10 all beads Ig 10-29: units,9973,9973,True,t1_depth_curve.csv
+AIR-SPACE D10 all beads Ig 10-29: units with a call,136,136,True,t1_depth_curve.csv
+AIR-SPACE D10 all beads Ig 30-99: units,10383,10383,True,t1_depth_curve.csv
+AIR-SPACE D10 all beads Ig 30-99: units with a call,773,773,True,t1_depth_curve.csv
+AIR-SPACE D10 all beads Ig 100-299: units,7471,7471,True,t1_depth_curve.csv
+AIR-SPACE D10 all beads Ig 100-299: units with a call,2251,2251,True,t1_depth_curve.csv
+AIR-SPACE D10 all beads Ig >=300: units,2813,2813,True,t1_depth_curve.csv
+AIR-SPACE D10 all beads Ig >=300: units with a call,1855,1855,True,t1_depth_curve.csv
+AIR-SPACE D14 all beads Ig 0: units,335,335,True,t1_depth_curve.csv
+AIR-SPACE D14 all beads Ig 0: units with a call,2,2,True,t1_depth_curve.csv
+AIR-SPACE D14 all beads Ig 1-2: units,1842,1842,True,t1_depth_curve.csv
+AIR-SPACE D14 all beads Ig 1-2: units with a call,3,3,True,t1_depth_curve.csv
+AIR-SPACE D14 all beads Ig 3-9: units,7756,7756,True,t1_depth_curve.csv
+AIR-SPACE D14 all beads Ig 3-9: units with a call,117,117,True,t1_depth_curve.csv
+AIR-SPACE D14 all beads Ig 10-29: units,8008,8008,True,t1_depth_curve.csv
+AIR-SPACE D14 all beads Ig 10-29: units with a call,301,301,True,t1_depth_curve.csv
+AIR-SPACE D14 all beads Ig 30-99: units,2931,2931,True,t1_depth_curve.csv
+AIR-SPACE D14 all beads Ig 30-99: units with a call,376,376,True,t1_depth_curve.csv
+AIR-SPACE D14 all beads Ig 100-299: units,521,521,True,t1_depth_curve.csv
+AIR-SPACE D14 all beads Ig 100-299: units with a call,278,278,True,t1_depth_curve.csv
+AIR-SPACE D14 all beads Ig >=300: units,84,84,True,t1_depth_curve.csv
+AIR-SPACE D14 all beads Ig >=300: units with a call,72,72,True,t1_depth_curve.csv
+AIR-SPACE D21 all beads Ig 0: units,1020,1020,True,t1_depth_curve.csv
+AIR-SPACE D21 all beads Ig 0: units with a call,8,8,True,t1_depth_curve.csv
+AIR-SPACE D21 all beads Ig 1-2: units,3917,3917,True,t1_depth_curve.csv
+AIR-SPACE D21 all beads Ig 1-2: units with a call,41,41,True,t1_depth_curve.csv
+AIR-SPACE D21 all beads Ig 3-9: units,10600,10600,True,t1_depth_curve.csv
+AIR-SPACE D21 all beads Ig 3-9: units with a call,328,328,True,t1_depth_curve.csv
+AIR-SPACE D21 all beads Ig 10-29: units,5896,5896,True,t1_depth_curve.csv
+AIR-SPACE D21 all beads Ig 10-29: units with a call,624,624,True,t1_depth_curve.csv
+AIR-SPACE D21 all beads Ig 30-99: units,1332,1332,True,t1_depth_curve.csv
+AIR-SPACE D21 all beads Ig 30-99: units with a call,550,550,True,t1_depth_curve.csv
+AIR-SPACE D21 all beads Ig 100-299: units,260,260,True,t1_depth_curve.csv
+AIR-SPACE D21 all beads Ig 100-299: units with a call,211,211,True,t1_depth_curve.csv
+AIR-SPACE D21 all beads Ig >=300: units,15,15,True,t1_depth_curve.csv
+AIR-SPACE D21 all beads Ig >=300: units with a call,14,14,True,t1_depth_curve.csv
+LUAD D06053D2 B/plasma Ig 0: units,42,42,True,t1_depth_curve.csv
+LUAD D06053D2 B/plasma Ig 0: units with a call,10,10,True,t1_depth_curve.csv
+LUAD D06053D2 B/plasma Ig 1-2: units,86,86,True,t1_depth_curve.csv
+LUAD D06053D2 B/plasma Ig 1-2: units with a call,38,38,True,t1_depth_curve.csv
+LUAD D06053D2 B/plasma Ig 3-9: units,431,431,True,t1_depth_curve.csv
+LUAD D06053D2 B/plasma Ig 3-9: units with a call,230,230,True,t1_depth_curve.csv
+LUAD D06053D2 B/plasma Ig 10-29: units,1589,1589,True,t1_depth_curve.csv
+LUAD D06053D2 B/plasma Ig 10-29: units with a call,1121,1121,True,t1_depth_curve.csv
+LUAD D06053D2 B/plasma Ig 30-99: units,3889,3889,True,t1_depth_curve.csv
+LUAD D06053D2 B/plasma Ig 30-99: units with a call,3106,3106,True,t1_depth_curve.csv
+LUAD D06053D2 B/plasma Ig 100-299: units,2247,2247,True,t1_depth_curve.csv
+LUAD D06053D2 B/plasma Ig 100-299: units with a call,1482,1482,True,t1_depth_curve.csv
+LUAD D06053D2 B/plasma Ig >=300: units,135,135,True,t1_depth_curve.csv
+LUAD D06053D2 B/plasma Ig >=300: units with a call,38,38,True,t1_depth_curve.csv
+LUAD D06053D2 non-B Ig 0: units,28662,28662,True,t1_depth_curve.csv
+LUAD D06053D2 non-B Ig 0: units with a call,101,101,True,t1_depth_curve.csv
+LUAD D06053D2 non-B Ig 1-2: units,58780,58780,True,t1_depth_curve.csv
+LUAD D06053D2 non-B Ig 1-2: units with a call,434,434,True,t1_depth_curve.csv
+LUAD D06053D2 non-B Ig 3-9: units,69956,69956,True,t1_depth_curve.csv
+LUAD D06053D2 non-B Ig 3-9: units with a call,1625,1625,True,t1_depth_curve.csv
+LUAD D06053D2 non-B Ig 10-29: units,17320,17320,True,t1_depth_curve.csv
+LUAD D06053D2 non-B Ig 10-29: units with a call,1645,1645,True,t1_depth_curve.csv
+LUAD D06053D2 non-B Ig 30-99: units,4225,4225,True,t1_depth_curve.csv
+LUAD D06053D2 non-B Ig 30-99: units with a call,914,914,True,t1_depth_curve.csv
+LUAD D06053D2 non-B Ig 100-299: units,257,257,True,t1_depth_curve.csv
+LUAD D06053D2 non-B Ig 100-299: units with a call,41,41,True,t1_depth_curve.csv
+LUAD D06047C3 B/plasma Ig 0: units,512,512,True,t1_depth_curve.csv
+LUAD D06047C3 B/plasma Ig 0: units with a call,120,120,True,t1_depth_curve.csv
+LUAD D06047C3 B/plasma Ig 1-2: units,310,310,True,t1_depth_curve.csv
+LUAD D06047C3 B/plasma Ig 1-2: units with a call,102,102,True,t1_depth_curve.csv
+LUAD D06047C3 B/plasma Ig 3-9: units,421,421,True,t1_depth_curve.csv
+LUAD D06047C3 B/plasma Ig 3-9: units with a call,182,182,True,t1_depth_curve.csv
+LUAD D06047C3 B/plasma Ig 10-29: units,359,359,True,t1_depth_curve.csv
+LUAD D06047C3 B/plasma Ig 10-29: units with a call,203,203,True,t1_depth_curve.csv
+LUAD D06047C3 B/plasma Ig 30-99: units,167,167,True,t1_depth_curve.csv
+LUAD D06047C3 B/plasma Ig 30-99: units with a call,127,127,True,t1_depth_curve.csv
+LUAD D06047C3 B/plasma Ig 100-299: units,9,9,True,t1_depth_curve.csv
+LUAD D06047C3 B/plasma Ig 100-299: units with a call,7,7,True,t1_depth_curve.csv
+LUAD D06047C3 non-B Ig 0: units,75807,75807,True,t1_depth_curve.csv
+LUAD D06047C3 non-B Ig 0: units with a call,23,23,True,t1_depth_curve.csv
+LUAD D06047C3 non-B Ig 1-2: units,16195,16195,True,t1_depth_curve.csv
+LUAD D06047C3 non-B Ig 1-2: units with a call,12,12,True,t1_depth_curve.csv
+LUAD D06047C3 non-B Ig 3-9: units,3649,3649,True,t1_depth_curve.csv
+LUAD D06047C3 non-B Ig 3-9: units with a call,4,4,True,t1_depth_curve.csv
+LUAD D06047C3 non-B Ig 10-29: units,472,472,True,t1_depth_curve.csv
+LUAD D06047C3 non-B Ig 10-29: units with a call,3,3,True,t1_depth_curve.csv
+LUAD D06047C3 non-B Ig 30-99: units,22,22,True,t1_depth_curve.csv
+LUAD D06047C3 non-B Ig 30-99: units with a call,2,2,True,t1_depth_curve.csv
+LUAD D06047F6 B/plasma Ig 0: units,131,131,True,t1_depth_curve.csv
+LUAD D06047F6 B/plasma Ig 0: units with a call,102,102,True,t1_depth_curve.csv
+LUAD D06047F6 B/plasma Ig 1-2: units,46,46,True,t1_depth_curve.csv
+LUAD D06047F6 B/plasma Ig 1-2: units with a call,42,42,True,t1_depth_curve.csv
+LUAD D06047F6 B/plasma Ig 3-9: units,75,75,True,t1_depth_curve.csv
+LUAD D06047F6 B/plasma Ig 3-9: units with a call,65,65,True,t1_depth_curve.csv
+LUAD D06047F6 B/plasma Ig 10-29: units,134,134,True,t1_depth_curve.csv
+LUAD D06047F6 B/plasma Ig 10-29: units with a call,119,119,True,t1_depth_curve.csv
+LUAD D06047F6 B/plasma Ig 30-99: units,159,159,True,t1_depth_curve.csv
+LUAD D06047F6 B/plasma Ig 30-99: units with a call,123,123,True,t1_depth_curve.csv
+LUAD D06047F6 B/plasma Ig 100-299: units,35,35,True,t1_depth_curve.csv
+LUAD D06047F6 B/plasma Ig 100-299: units with a call,17,17,True,t1_depth_curve.csv
+LUAD D06047F6 B/plasma Ig >=300: units,1,1,True,t1_depth_curve.csv
+LUAD D06047F6 B/plasma Ig >=300: units with a call,0,0,True,t1_depth_curve.csv
+LUAD D06047F6 non-B Ig 0: units,33682,33682,True,t1_depth_curve.csv
+LUAD D06047F6 non-B Ig 0: units with a call,74,74,True,t1_depth_curve.csv
+LUAD D06047F6 non-B Ig 1-2: units,10218,10218,True,t1_depth_curve.csv
+LUAD D06047F6 non-B Ig 1-2: units with a call,44,44,True,t1_depth_curve.csv
+LUAD D06047F6 non-B Ig 3-9: units,2574,2574,True,t1_depth_curve.csv
+LUAD D06047F6 non-B Ig 3-9: units with a call,15,15,True,t1_depth_curve.csv
+LUAD D06047F6 non-B Ig 10-29: units,498,498,True,t1_depth_curve.csv
+LUAD D06047F6 non-B Ig 10-29: units with a call,8,8,True,t1_depth_curve.csv
+LUAD D06047F6 non-B Ig 30-99: units,100,100,True,t1_depth_curve.csv
+LUAD D06047F6 non-B Ig 30-99: units with a call,1,1,True,t1_depth_curve.csv
+LUAD D06047F6 non-B Ig 100-299: units,1,1,True,t1_depth_curve.csv
+LUAD D06047F6 non-B Ig 100-299: units with a call,0,0,True,t1_depth_curve.csv
+LUAD D06047E1 B/plasma Ig 0: units,106,106,True,t1_depth_curve.csv
+LUAD D06047E1 B/plasma Ig 0: units with a call,67,67,True,t1_depth_curve.csv
+LUAD D06047E1 B/plasma Ig 1-2: units,104,104,True,t1_depth_curve.csv
+LUAD D06047E1 B/plasma Ig 1-2: units with a call,78,78,True,t1_depth_curve.csv
+LUAD D06047E1 B/plasma Ig 3-9: units,282,282,True,t1_depth_curve.csv
+LUAD D06047E1 B/plasma Ig 3-9: units with a call,221,221,True,t1_depth_curve.csv
+LUAD D06047E1 B/plasma Ig 10-29: units,369,369,True,t1_depth_curve.csv
+LUAD D06047E1 B/plasma Ig 10-29: units with a call,344,344,True,t1_depth_curve.csv
+LUAD D06047E1 B/plasma Ig 30-99: units,164,164,True,t1_depth_curve.csv
+LUAD D06047E1 B/plasma Ig 30-99: units with a call,164,164,True,t1_depth_curve.csv
+LUAD D06047E1 B/plasma Ig 100-299: units,13,13,True,t1_depth_curve.csv
+LUAD D06047E1 B/plasma Ig 100-299: units with a call,13,13,True,t1_depth_curve.csv
+LUAD D06047E1 non-B Ig 0: units,38407,38407,True,t1_depth_curve.csv
+LUAD D06047E1 non-B Ig 0: units with a call,227,227,True,t1_depth_curve.csv
+LUAD D06047E1 non-B Ig 1-2: units,11675,11675,True,t1_depth_curve.csv
+LUAD D06047E1 non-B Ig 1-2: units with a call,148,148,True,t1_depth_curve.csv
+LUAD D06047E1 non-B Ig 3-9: units,3973,3973,True,t1_depth_curve.csv
+LUAD D06047E1 non-B Ig 3-9: units with a call,121,121,True,t1_depth_curve.csv
+LUAD D06047E1 non-B Ig 10-29: units,612,612,True,t1_depth_curve.csv
+LUAD D06047E1 non-B Ig 10-29: units with a call,36,36,True,t1_depth_curve.csv
+LUAD D06047E1 non-B Ig 30-99: units,36,36,True,t1_depth_curve.csv
+LUAD D06047E1 non-B Ig 30-99: units with a call,5,5,True,t1_depth_curve.csv
+LUAD D06050A2 B/plasma Ig 0: units,240,240,True,t1_depth_curve.csv
+LUAD D06050A2 B/plasma Ig 0: units with a call,144,144,True,t1_depth_curve.csv
+LUAD D06050A2 B/plasma Ig 1-2: units,102,102,True,t1_depth_curve.csv
+LUAD D06050A2 B/plasma Ig 1-2: units with a call,59,59,True,t1_depth_curve.csv
+LUAD D06050A2 B/plasma Ig 3-9: units,95,95,True,t1_depth_curve.csv
+LUAD D06050A2 B/plasma Ig 3-9: units with a call,61,61,True,t1_depth_curve.csv
+LUAD D06050A2 B/plasma Ig 10-29: units,35,35,True,t1_depth_curve.csv
+LUAD D06050A2 B/plasma Ig 10-29: units with a call,25,25,True,t1_depth_curve.csv
+LUAD D06050A2 B/plasma Ig 30-99: units,3,3,True,t1_depth_curve.csv
+LUAD D06050A2 B/plasma Ig 30-99: units with a call,2,2,True,t1_depth_curve.csv
+LUAD D06050A2 non-B Ig 0: units,28556,28556,True,t1_depth_curve.csv
+LUAD D06050A2 non-B Ig 0: units with a call,89,89,True,t1_depth_curve.csv
+LUAD D06050A2 non-B Ig 1-2: units,3474,3474,True,t1_depth_curve.csv
+LUAD D06050A2 non-B Ig 1-2: units with a call,17,17,True,t1_depth_curve.csv
+LUAD D06050A2 non-B Ig 3-9: units,499,499,True,t1_depth_curve.csv
+LUAD D06050A2 non-B Ig 3-9: units with a call,9,9,True,t1_depth_curve.csv
+LUAD D06050A2 non-B Ig 10-29: units,49,49,True,t1_depth_curve.csv
+LUAD D06050A2 non-B Ig 10-29: units with a call,2,2,True,t1_depth_curve.csv
+LUAD D06050A2 non-B Ig 30-99: units,4,4,True,t1_depth_curve.csv
+LUAD D06050A2 non-B Ig 30-99: units with a call,0,0,True,t1_depth_curve.csv
+LUAD D06047A2 B/plasma Ig 0: units,32,32,True,t1_depth_curve.csv
+LUAD D06047A2 B/plasma Ig 0: units with a call,23,23,True,t1_depth_curve.csv
+LUAD D06047A2 B/plasma Ig 1-2: units,128,128,True,t1_depth_curve.csv
+LUAD D06047A2 B/plasma Ig 1-2: units with a call,87,87,True,t1_depth_curve.csv
+LUAD D06047A2 B/plasma Ig 3-9: units,332,332,True,t1_depth_curve.csv
+LUAD D06047A2 B/plasma Ig 3-9: units with a call,234,234,True,t1_depth_curve.csv
+LUAD D06047A2 B/plasma Ig 10-29: units,743,743,True,t1_depth_curve.csv
+LUAD D06047A2 B/plasma Ig 10-29: units with a call,567,567,True,t1_depth_curve.csv
+LUAD D06047A2 B/plasma Ig 30-99: units,2097,2097,True,t1_depth_curve.csv
+LUAD D06047A2 B/plasma Ig 30-99: units with a call,1840,1840,True,t1_depth_curve.csv
+LUAD D06047A2 B/plasma Ig 100-299: units,885,885,True,t1_depth_curve.csv
+LUAD D06047A2 B/plasma Ig 100-299: units with a call,777,777,True,t1_depth_curve.csv
+LUAD D06047A2 B/plasma Ig >=300: units,35,35,True,t1_depth_curve.csv
+LUAD D06047A2 B/plasma Ig >=300: units with a call,18,18,True,t1_depth_curve.csv
+LUAD D06047A2 non-B Ig 0: units,17080,17080,True,t1_depth_curve.csv
+LUAD D06047A2 non-B Ig 0: units with a call,101,101,True,t1_depth_curve.csv
+LUAD D06047A2 non-B Ig 1-2: units,38169,38169,True,t1_depth_curve.csv
+LUAD D06047A2 non-B Ig 1-2: units with a call,356,356,True,t1_depth_curve.csv
+LUAD D06047A2 non-B Ig 3-9: units,49833,49833,True,t1_depth_curve.csv
+LUAD D06047A2 non-B Ig 3-9: units with a call,1105,1105,True,t1_depth_curve.csv
+LUAD D06047A2 non-B Ig 10-29: units,16436,16436,True,t1_depth_curve.csv
+LUAD D06047A2 non-B Ig 10-29: units with a call,702,702,True,t1_depth_curve.csv
+LUAD D06047A2 non-B Ig 30-99: units,4523,4523,True,t1_depth_curve.csv
+LUAD D06047A2 non-B Ig 30-99: units with a call,342,342,True,t1_depth_curve.csv
+LUAD D06047A2 non-B Ig 100-299: units,176,176,True,t1_depth_curve.csv
+LUAD D06047A2 non-B Ig 100-299: units with a call,26,26,True,t1_depth_curve.csv
+LUAD D06050C2 B/plasma Ig 0: units,212,212,True,t1_depth_curve.csv
+LUAD D06050C2 B/plasma Ig 0: units with a call,113,113,True,t1_depth_curve.csv
+LUAD D06050C2 B/plasma Ig 1-2: units,352,352,True,t1_depth_curve.csv
+LUAD D06050C2 B/plasma Ig 1-2: units with a call,210,210,True,t1_depth_curve.csv
+LUAD D06050C2 B/plasma Ig 3-9: units,825,825,True,t1_depth_curve.csv
+LUAD D06050C2 B/plasma Ig 3-9: units with a call,603,603,True,t1_depth_curve.csv
+LUAD D06050C2 B/plasma Ig 10-29: units,691,691,True,t1_depth_curve.csv
+LUAD D06050C2 B/plasma Ig 10-29: units with a call,621,621,True,t1_depth_curve.csv
+LUAD D06050C2 B/plasma Ig 30-99: units,164,164,True,t1_depth_curve.csv
+LUAD D06050C2 B/plasma Ig 30-99: units with a call,154,154,True,t1_depth_curve.csv
+LUAD D06050C2 B/plasma Ig 100-299: units,1,1,True,t1_depth_curve.csv
+LUAD D06050C2 B/plasma Ig 100-299: units with a call,1,1,True,t1_depth_curve.csv
+LUAD D06050C2 non-B Ig 0: units,55328,55328,True,t1_depth_curve.csv
+LUAD D06050C2 non-B Ig 0: units with a call,193,193,True,t1_depth_curve.csv
+LUAD D06050C2 non-B Ig 1-2: units,24775,24775,True,t1_depth_curve.csv
+LUAD D06050C2 non-B Ig 1-2: units with a call,145,145,True,t1_depth_curve.csv
+LUAD D06050C2 non-B Ig 3-9: units,8260,8260,True,t1_depth_curve.csv
+LUAD D06050C2 non-B Ig 3-9: units with a call,75,75,True,t1_depth_curve.csv
+LUAD D06050C2 non-B Ig 10-29: units,1006,1006,True,t1_depth_curve.csv
+LUAD D06050C2 non-B Ig 10-29: units with a call,24,24,True,t1_depth_curve.csv
+LUAD D06050C2 non-B Ig 30-99: units,46,46,True,t1_depth_curve.csv
+LUAD D06050C2 non-B Ig 30-99: units with a call,6,6,True,t1_depth_curve.csv
+LUAD D06047D4 B/plasma Ig 0: units,419,419,True,t1_depth_curve.csv
+LUAD D06047D4 B/plasma Ig 0: units with a call,198,198,True,t1_depth_curve.csv
+LUAD D06047D4 B/plasma Ig 1-2: units,426,426,True,t1_depth_curve.csv
+LUAD D06047D4 B/plasma Ig 1-2: units with a call,211,211,True,t1_depth_curve.csv
+LUAD D06047D4 B/plasma Ig 3-9: units,645,645,True,t1_depth_curve.csv
+LUAD D06047D4 B/plasma Ig 3-9: units with a call,394,394,True,t1_depth_curve.csv
+LUAD D06047D4 B/plasma Ig 10-29: units,663,663,True,t1_depth_curve.csv
+LUAD D06047D4 B/plasma Ig 10-29: units with a call,520,520,True,t1_depth_curve.csv
+LUAD D06047D4 B/plasma Ig 30-99: units,173,173,True,t1_depth_curve.csv
+LUAD D06047D4 B/plasma Ig 30-99: units with a call,156,156,True,t1_depth_curve.csv
+LUAD D06047D4 B/plasma Ig 100-299: units,2,2,True,t1_depth_curve.csv
+LUAD D06047D4 B/plasma Ig 100-299: units with a call,1,1,True,t1_depth_curve.csv
+LUAD D06047D4 non-B Ig 0: units,95791,95791,True,t1_depth_curve.csv
+LUAD D06047D4 non-B Ig 0: units with a call,514,514,True,t1_depth_curve.csv
+LUAD D06047D4 non-B Ig 1-2: units,31652,31652,True,t1_depth_curve.csv
+LUAD D06047D4 non-B Ig 1-2: units with a call,255,255,True,t1_depth_curve.csv
+LUAD D06047D4 non-B Ig 3-9: units,8135,8135,True,t1_depth_curve.csv
+LUAD D06047D4 non-B Ig 3-9: units with a call,110,110,True,t1_depth_curve.csv
+LUAD D06047D4 non-B Ig 10-29: units,980,980,True,t1_depth_curve.csv
+LUAD D06047D4 non-B Ig 10-29: units with a call,32,32,True,t1_depth_curve.csv
+LUAD D06047D4 non-B Ig 30-99: units,40,40,True,t1_depth_curve.csv
+LUAD D06047D4 non-B Ig 30-99: units with a call,8,8,True,t1_depth_curve.csv
+LUAD D06047E2 B/plasma Ig 0: units,1,1,True,t1_depth_curve.csv
+LUAD D06047E2 B/plasma Ig 0: units with a call,0,0,True,t1_depth_curve.csv
+LUAD D06047E2 B/plasma Ig 1-2: units,18,18,True,t1_depth_curve.csv
+LUAD D06047E2 B/plasma Ig 1-2: units with a call,4,4,True,t1_depth_curve.csv
+LUAD D06047E2 B/plasma Ig 3-9: units,223,223,True,t1_depth_curve.csv
+LUAD D06047E2 B/plasma Ig 3-9: units with a call,95,95,True,t1_depth_curve.csv
+LUAD D06047E2 B/plasma Ig 10-29: units,1387,1387,True,t1_depth_curve.csv
+LUAD D06047E2 B/plasma Ig 10-29: units with a call,987,987,True,t1_depth_curve.csv
+LUAD D06047E2 B/plasma Ig 30-99: units,2591,2591,True,t1_depth_curve.csv
+LUAD D06047E2 B/plasma Ig 30-99: units with a call,2327,2327,True,t1_depth_curve.csv
+LUAD D06047E2 B/plasma Ig 100-299: units,258,258,True,t1_depth_curve.csv
+LUAD D06047E2 B/plasma Ig 100-299: units with a call,238,238,True,t1_depth_curve.csv
+LUAD D06047E2 B/plasma Ig >=300: units,1,1,True,t1_depth_curve.csv
+LUAD D06047E2 B/plasma Ig >=300: units with a call,1,1,True,t1_depth_curve.csv
+LUAD D06047E2 non-B Ig 0: units,9947,9947,True,t1_depth_curve.csv
+LUAD D06047E2 non-B Ig 0: units with a call,100,100,True,t1_depth_curve.csv
+LUAD D06047E2 non-B Ig 1-2: units,26773,26773,True,t1_depth_curve.csv
+LUAD D06047E2 non-B Ig 1-2: units with a call,452,452,True,t1_depth_curve.csv
+LUAD D06047E2 non-B Ig 3-9: units,57554,57554,True,t1_depth_curve.csv
+LUAD D06047E2 non-B Ig 3-9: units with a call,1959,1959,True,t1_depth_curve.csv
+LUAD D06047E2 non-B Ig 10-29: units,40905,40905,True,t1_depth_curve.csv
+LUAD D06047E2 non-B Ig 10-29: units with a call,2367,2367,True,t1_depth_curve.csv
+LUAD D06047E2 non-B Ig 30-99: units,12552,12552,True,t1_depth_curve.csv
+LUAD D06047E2 non-B Ig 30-99: units with a call,1422,1422,True,t1_depth_curve.csv
+LUAD D06047E2 non-B Ig 100-299: units,171,171,True,t1_depth_curve.csv
+LUAD D06047E2 non-B Ig 100-299: units with a call,68,68,True,t1_depth_curve.csv
+LUAD D06050D4 B/plasma Ig 0: units,1,1,True,t1_depth_curve.csv
+LUAD D06050D4 B/plasma Ig 0: units with a call,0,0,True,t1_depth_curve.csv
+LUAD D06050D4 B/plasma Ig 1-2: units,29,29,True,t1_depth_curve.csv
+LUAD D06050D4 B/plasma Ig 1-2: units with a call,0,0,True,t1_depth_curve.csv
+LUAD D06050D4 B/plasma Ig 3-9: units,226,226,True,t1_depth_curve.csv
+LUAD D06050D4 B/plasma Ig 3-9: units with a call,1,1,True,t1_depth_curve.csv
+LUAD D06050D4 B/plasma Ig 10-29: units,851,851,True,t1_depth_curve.csv
+LUAD D06050D4 B/plasma Ig 10-29: units with a call,19,19,True,t1_depth_curve.csv
+LUAD D06050D4 B/plasma Ig 30-99: units,1612,1612,True,t1_depth_curve.csv
+LUAD D06050D4 B/plasma Ig 30-99: units with a call,104,104,True,t1_depth_curve.csv
+LUAD D06050D4 B/plasma Ig 100-299: units,183,183,True,t1_depth_curve.csv
+LUAD D06050D4 B/plasma Ig 100-299: units with a call,36,36,True,t1_depth_curve.csv
+LUAD D06050D4 B/plasma Ig >=300: units,2,2,True,t1_depth_curve.csv
+LUAD D06050D4 B/plasma Ig >=300: units with a call,0,0,True,t1_depth_curve.csv
+LUAD D06050D4 non-B Ig 0: units,5767,5767,True,t1_depth_curve.csv
+LUAD D06050D4 non-B Ig 0: units with a call,24,24,True,t1_depth_curve.csv
+LUAD D06050D4 non-B Ig 1-2: units,15479,15479,True,t1_depth_curve.csv
+LUAD D06050D4 non-B Ig 1-2: units with a call,74,74,True,t1_depth_curve.csv
+LUAD D06050D4 non-B Ig 3-9: units,34298,34298,True,t1_depth_curve.csv
+LUAD D06050D4 non-B Ig 3-9: units with a call,499,499,True,t1_depth_curve.csv
+LUAD D06050D4 non-B Ig 10-29: units,26087,26087,True,t1_depth_curve.csv
+LUAD D06050D4 non-B Ig 10-29: units with a call,905,905,True,t1_depth_curve.csv
+LUAD D06050D4 non-B Ig 30-99: units,8441,8441,True,t1_depth_curve.csv
+LUAD D06050D4 non-B Ig 30-99: units with a call,754,754,True,t1_depth_curve.csv
+LUAD D06050D4 non-B Ig 100-299: units,261,261,True,t1_depth_curve.csv
+LUAD D06050D4 non-B Ig 100-299: units with a call,64,64,True,t1_depth_curve.csv
+LUAD D06050D4 non-B Ig >=300: units,2,2,True,t1_depth_curve.csv
+LUAD D06050D4 non-B Ig >=300: units with a call,0,0,True,t1_depth_curve.csv
+LUAD D06050E4 B/plasma Ig 0: units,55,55,True,t1_depth_curve.csv
+LUAD D06050E4 B/plasma Ig 0: units with a call,27,27,True,t1_depth_curve.csv
+LUAD D06050E4 B/plasma Ig 1-2: units,54,54,True,t1_depth_curve.csv
+LUAD D06050E4 B/plasma Ig 1-2: units with a call,23,23,True,t1_depth_curve.csv
+LUAD D06050E4 B/plasma Ig 3-9: units,212,212,True,t1_depth_curve.csv
+LUAD D06050E4 B/plasma Ig 3-9: units with a call,164,164,True,t1_depth_curve.csv
+LUAD D06050E4 B/plasma Ig 10-29: units,645,645,True,t1_depth_curve.csv
+LUAD D06050E4 B/plasma Ig 10-29: units with a call,583,583,True,t1_depth_curve.csv
+LUAD D06050E4 B/plasma Ig 30-99: units,614,614,True,t1_depth_curve.csv
+LUAD D06050E4 B/plasma Ig 30-99: units with a call,580,580,True,t1_depth_curve.csv
+LUAD D06050E4 B/plasma Ig 100-299: units,37,37,True,t1_depth_curve.csv
+LUAD D06050E4 B/plasma Ig 100-299: units with a call,32,32,True,t1_depth_curve.csv
+LUAD D06050E4 non-B Ig 0: units,39780,39780,True,t1_depth_curve.csv
+LUAD D06050E4 non-B Ig 0: units with a call,295,295,True,t1_depth_curve.csv
+LUAD D06050E4 non-B Ig 1-2: units,19961,19961,True,t1_depth_curve.csv
+LUAD D06050E4 non-B Ig 1-2: units with a call,251,251,True,t1_depth_curve.csv
+LUAD D06050E4 non-B Ig 3-9: units,7036,7036,True,t1_depth_curve.csv
+LUAD D06050E4 non-B Ig 3-9: units with a call,166,166,True,t1_depth_curve.csv
+LUAD D06050E4 non-B Ig 10-29: units,1523,1523,True,t1_depth_curve.csv
+LUAD D06050E4 non-B Ig 10-29: units with a call,70,70,True,t1_depth_curve.csv
+LUAD D06050E4 non-B Ig 30-99: units,154,154,True,t1_depth_curve.csv
+LUAD D06050E4 non-B Ig 30-99: units with a call,18,18,True,t1_depth_curve.csv

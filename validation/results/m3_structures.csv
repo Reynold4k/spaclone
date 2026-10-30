@@ -1,0 +1,33 @@
+quantity,archived,package,match,note
+typed bins (TSV lists),75309.0,75309.0,True,StereoIR__mm_spleen.parquet cls != untyped
+typed bins with the same position and class as the archive map table (1 = all),1.0,1.0,True,
+B lineage-rich mask: grid identical to b_mask (1 = yes),1.0,1.0,True,
+B lineage-rich mask: pixels differing from qc_common.b_mask,0.0,0.0,True,"64,402 mask pixels"
+T-rich mask: grid identical to b_mask (1 = yes),1.0,1.0,True,
+T-rich mask: pixels differing from qc_common.b_mask,0.0,0.0,True,"17,296 mask pixels"
+erythrocyte-rich mask: grid identical to b_mask (1 = yes),1.0,1.0,True,
+erythrocyte-rich mask: pixels differing from qc_common.b_mask,0.0,0.0,True,"43,853 mask pixels"
+grid origin x (um) = T3_csr_maps.npz lo,1240.0,1240.0,True,
+grid origin y (um) = T3_csr_maps.npz lo,1740.0,1740.0,True,
+grid pixels along x = T3_csr_maps.npz,614.0,614.0,True,
+grid pixels along y = T3_csr_maps.npz,779.0,779.0,True,
+T zones (connected components of the T-rich mask),19.0,19.0,True,T1_summary.csv
+tissue area mm2 T zone,1.423,1.423,True,T1_summary.csv; typed-bin pixels
+tissue area mm2 follicle,4.0546,4.0546,True,T1_summary.csv; typed-bin pixels
+tissue area mm2 red pulp,2.0533,2.0533,True,T1_summary.csv; typed-bin pixels
+T1 IGH: loci whose comp differs from the archive,0.0,0.0,True,"31,516 loci"
+T1 IGH: loci whose zone differs from the archive,0.0,0.0,True,"31,516 loci"
+T1 IGH: loci whose dT differs from the archive,0.0,0.0,True,"31,516 loci"
+T1 IGH: loci whose depthB differs from the archive,0.0,0.0,True,"31,516 loci"
+TR1 TCR: loci whose comp differs from the archive,0.0,0.0,True,"28,958 loci"
+TR1 TCR: loci whose zone_in differs from the archive,0.0,0.0,True,"28,958 loci"
+TR1 TCR: loci whose zone differs from the archive,0.0,0.0,True,"28,958 loci"
+TR1 TCR: loci whose dT differs from the archive,0.0,0.0,True,"28,958 loci"
+TR1 TCR: loci whose depthB differs from the archive,0.0,0.0,True,"28,958 loci"
+TR1 TCR: loci whose wp_depth differs from the archive,0.0,0.0,True,"28,958 loci"
+TR1 TCR: loci whose on_grid differs from the archive,0.0,0.0,True,"28,958 loci"
+"B lineage-rich mask, package default pad_edges=True: pixels gained / lost vs the archive",0.0,0.0,,"0 gained, 0 lost of 64,402"
+"T-rich mask, package default pad_edges=True: pixels gained / lost vs the archive",0.0,0.0,,"0 gained, 0 lost of 17,296"
+"erythrocyte-rich mask, package default pad_edges=True: pixels gained / lost vs the archive",0.0,353.0,,"353 gained, 0 lost of 43,853"
+T zones with the package default pad_edges=True,19.0,19.0,,edge pixels only; the archive numbers use pad_edges=False
+"typed-bin tissue mask (closed, filled), pad_edges=True vs False: pixels differing",0.0,91.0,,"119,329 tissue pixels (legacy)"

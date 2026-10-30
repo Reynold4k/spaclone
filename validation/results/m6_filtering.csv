@@ -1,0 +1,66 @@
+quantity,archived,package,match,note
+"StereoIR BCR bins with a contig, before filter",65905.0,65905.0,True,QC_filter_summary.csv
+"StereoIR BCR bins after filter (valid junction, productive, >= 2 reads)",63468.0,63468.0,True,QC_filter_summary.csv
+"StereoIR BCR contigs passing (valid + >= 2 reads), %",94.0,94.0,True,"sequence-validity standard of the archive, §4 (rounded to 0 decimals)"
+StereoIR BCR bins whose contig count differs from Q0 map 'bcr',0.0,0.0,True,
+StereoIR BCR bins whose passing-contig count differs from Q0 map 'bcr_ok',0.0,0.0,True,
+StereoIR BCR bins whose valid-contig count differs from Q0 map 'bcr_v',0.0,0.0,True,
+"StereoIR TCR bins with a contig, before filter",15585.0,15585.0,True,QC_filter_summary.csv
+"StereoIR TCR bins after filter (valid junction, productive, >= 2 reads)",14864.0,14864.0,True,QC_filter_summary.csv
+"StereoIR TCR contigs passing (valid + >= 2 reads), %",87.8,87.8,True,"sequence-validity standard of the archive, §4 (rounded to 1 decimals)"
+StereoIR TCR bins whose contig count differs from Q0 map 'tcr',0.0,0.0,True,
+StereoIR TCR bins whose passing-contig count differs from Q0 map 'tcr_ok',0.0,0.0,True,
+AIR-SPACE Mock beads with BCR before filter,4249.0,4249.0,True,QC_filter_summary_per_sample.csv
+AIR-SPACE Mock beads after filter (valid junction),4219.0,4219.0,True,QC_filter_summary_per_sample.csv
+AIR-SPACE Mock beads whose molecule count differs from bead table 'bcr_mol',0.0,0.0,True,
+AIR-SPACE Mock beads whose valid-molecule count differs from Q0 map 'bcr_v',0.0,0.0,True,
+AIR-SPACE D3 beads with BCR before filter,7818.0,7818.0,True,QC_filter_summary_per_sample.csv
+AIR-SPACE D3 beads after filter (valid junction),7780.0,7780.0,True,QC_filter_summary_per_sample.csv
+AIR-SPACE D3 beads whose molecule count differs from bead table 'bcr_mol',0.0,0.0,True,
+AIR-SPACE D3 beads whose valid-molecule count differs from Q0 map 'bcr_v',0.0,0.0,True,
+AIR-SPACE D7 beads with BCR before filter,7313.0,7313.0,True,QC_filter_summary_per_sample.csv
+AIR-SPACE D7 beads after filter (valid junction),7277.0,7277.0,True,QC_filter_summary_per_sample.csv
+AIR-SPACE D7 beads whose molecule count differs from bead table 'bcr_mol',0.0,0.0,True,
+AIR-SPACE D7 beads whose valid-molecule count differs from Q0 map 'bcr_v',0.0,0.0,True,
+AIR-SPACE D10 beads with BCR before filter,10955.0,10955.0,True,QC_filter_summary_per_sample.csv
+AIR-SPACE D10 beads after filter (valid junction),10902.0,10902.0,True,QC_filter_summary_per_sample.csv
+AIR-SPACE D10 beads whose molecule count differs from bead table 'bcr_mol',0.0,0.0,True,
+AIR-SPACE D10 beads whose valid-molecule count differs from Q0 map 'bcr_v',0.0,0.0,True,
+AIR-SPACE D14 beads with BCR before filter,7097.0,7097.0,True,QC_filter_summary_per_sample.csv
+AIR-SPACE D14 beads after filter (valid junction),7057.0,7057.0,True,QC_filter_summary_per_sample.csv
+AIR-SPACE D14 beads whose molecule count differs from bead table 'bcr_mol',0.0,0.0,True,
+AIR-SPACE D14 beads whose valid-molecule count differs from Q0 map 'bcr_v',0.0,0.0,True,
+AIR-SPACE D21 beads with BCR before filter,6675.0,6675.0,True,QC_filter_summary_per_sample.csv
+AIR-SPACE D21 beads after filter (valid junction),6602.0,6602.0,True,QC_filter_summary_per_sample.csv
+AIR-SPACE D21 beads whose molecule count differs from bead table 'bcr_mol',0.0,0.0,True,
+AIR-SPACE D21 beads whose valid-molecule count differs from Q0 map 'bcr_v',0.0,0.0,True,
+LUAD D06053D2 cells with a BCR call before filter,11870.0,11870.0,True,QC_filter_summary_per_sample.csv
+"LUAD D06053D2 cells after filter (valid junction, heavy or light)",11860.0,11860.0,True,QC_filter_summary_per_sample.csv
+LUAD D06047C3 cells with a BCR call before filter,818.0,818.0,True,QC_filter_summary_per_sample.csv
+"LUAD D06047C3 cells after filter (valid junction, heavy or light)",813.0,813.0,True,QC_filter_summary_per_sample.csv
+LUAD D06047F6 cells with a BCR call before filter,638.0,638.0,True,QC_filter_summary_per_sample.csv
+"LUAD D06047F6 cells after filter (valid junction, heavy or light)",636.0,636.0,True,QC_filter_summary_per_sample.csv
+LUAD D06047E1 cells with a BCR call before filter,1434.0,1434.0,True,QC_filter_summary_per_sample.csv
+"LUAD D06047E1 cells after filter (valid junction, heavy or light)",1430.0,1430.0,True,QC_filter_summary_per_sample.csv
+LUAD D06050A2 cells with a BCR call before filter,424.0,424.0,True,QC_filter_summary_per_sample.csv
+"LUAD D06050A2 cells after filter (valid junction, heavy or light)",418.0,418.0,True,QC_filter_summary_per_sample.csv
+LUAD D06047A2 cells with a BCR call before filter,6378.0,6378.0,True,QC_filter_summary_per_sample.csv
+"LUAD D06047A2 cells after filter (valid junction, heavy or light)",6351.0,6351.0,True,QC_filter_summary_per_sample.csv
+LUAD D06050C2 cells with a BCR call before filter,2169.0,2169.0,True,QC_filter_summary_per_sample.csv
+"LUAD D06050C2 cells after filter (valid junction, heavy or light)",2155.0,2155.0,True,QC_filter_summary_per_sample.csv
+LUAD D06047D4 cells with a BCR call before filter,2483.0,2483.0,True,QC_filter_summary_per_sample.csv
+"LUAD D06047D4 cells after filter (valid junction, heavy or light)",2458.0,2458.0,True,QC_filter_summary_per_sample.csv
+LUAD D06047E2 cells with a BCR call before filter,10219.0,10219.0,True,QC_filter_summary_per_sample.csv
+"LUAD D06047E2 cells after filter (valid junction, heavy or light)",10199.0,10199.0,True,QC_filter_summary_per_sample.csv
+LUAD D06050D4 cells with a BCR call before filter,2480.0,2480.0,True,QC_filter_summary_per_sample.csv
+"LUAD D06050D4 cells after filter (valid junction, heavy or light)",2480.0,2480.0,True,QC_filter_summary_per_sample.csv
+LUAD D06050E4 cells with a BCR call before filter,2253.0,2253.0,True,QC_filter_summary_per_sample.csv
+"LUAD D06050E4 cells after filter (valid junction, heavy or light)",2245.0,2245.0,True,QC_filter_summary_per_sample.csv
+QC_filter_summary StereoIR (5' demo) BCR: Before,65905.0,65905.0,True,QC_filter_summary.csv
+QC_filter_summary StereoIR (5' demo) BCR: After,63468.0,63468.0,True,QC_filter_summary.csv
+QC_filter_summary StereoIR (5' demo) TCR: Before,15585.0,15585.0,True,QC_filter_summary.csv
+QC_filter_summary StereoIR (5' demo) TCR: After,14864.0,14864.0,True,QC_filter_summary.csv
+QC_filter_summary AIR-SPACE: Before,44107.0,44107.0,True,QC_filter_summary.csv
+QC_filter_summary AIR-SPACE: After,43837.0,43837.0,True,QC_filter_summary.csv
+QC_filter_summary Stereo-XCR-seq LUAD (authors): Before,41166.0,41166.0,True,QC_filter_summary.csv
+QC_filter_summary Stereo-XCR-seq LUAD (authors): After,41045.0,41045.0,True,QC_filter_summary.csv

@@ -1,0 +1,203 @@
+quantity,archived,package,match,note
+TR1 loci on the grid whose package compartment differs from TR1 comp,0.0,0.0,True,
+TR1 loci on the grid whose package wp_depth differs from TR1 wp_depth,0.0,0.0,True,
+TR3 iNKT loci,295.0,295.0,True,
+TR3 MAIT loci,4.0,4.0,True,
+TR3 reference TRA loci,13862.0,13862.0,True,
+TR3 T zone: iNKT loci,173.0,173.0,True,
+TR3 T zone: iNKT share,0.5864406779661017,0.5864406779661017,True,
+TR3 T zone: reference share,0.6843889770595873,0.6843889770595873,True,
+"TR3 T zone: chance mean (10,000 draws)",0.6820616949152544,0.68206169491526,True,
+TR3 T zone: chance 2.5%,0.6271186440677966,0.6271186440677966,True,
+TR3 T zone: chance 97.5%,0.735593220338983,0.735593220338983,True,
+TR3 T zone: ratio to chance,0.8598059124826919,0.8598059124826847,True,
+"TR3 T zone: two-sided p (legacy rule, from the package's null draws)",0.000999900009999,0.000999900009999,True,
+TR3 T zone: two-sided p (package rule: twice the smaller one-sided p),0.000999900009999,0.0011998800119988001,,family-wise over the 3 compartments p_maxT = 0.0017
+TR3 follicle: iNKT loci,104.0,104.0,True,
+TR3 follicle: iNKT share,0.3525423728813559,0.3525423728813559,True,
+TR3 follicle: reference share,0.275429230991199,0.275429230991199,True,
+"TR3 follicle: chance mean (10,000 draws)",0.2771623728813559,0.2771623728813569,True,
+TR3 follicle: chance 2.5%,0.2271186440677966,0.2271186440677966,True,
+TR3 follicle: chance 97.5%,0.3288135593220339,0.3288135593220339,True,
+TR3 follicle: ratio to chance,1.2719705392054343,1.2719705392054297,True,
+"TR3 follicle: two-sided p (legacy rule, from the package's null draws)",0.004999500049995001,0.004999500049995001,True,
+TR3 follicle: two-sided p (package rule: twice the smaller one-sided p),0.004999500049995001,0.0059994000599940004,,family-wise over the 3 compartments p_maxT = 0.0126
+TR3 red pulp: iNKT loci,18.0,18.0,True,
+TR3 red pulp: iNKT share,0.061016949152542375,0.061016949152542375,True,
+TR3 red pulp: reference share,0.040181791949213674,0.040181791949213674,True,
+"TR3 red pulp: chance mean (10,000 draws)",0.04077593220338983,0.04077593220338852,True,
+TR3 red pulp: chance 2.5%,0.020338983050847456,0.020338983050847456,True,
+TR3 red pulp: chance 97.5%,0.06440677966101695,0.06440677966101695,True,
+TR3 red pulp: ratio to chance,1.496396179201756,1.496396179201804,True,
+"TR3 red pulp: two-sided p (legacy rule, from the package's null draws)",0.1004899510048995,0.1004899510048995,True,
+TR3 red pulp: two-sided p (package rule: twice the smaller one-sided p),0.1004899510048995,0.11178882111788821,,family-wise over the 3 compartments p_maxT = 0.1843
+TR3 global test (max-T over compartments),,0.0016998300169983002,,not in the archive
+TR3 white-pulp profile bins,18.0,18.0,True,
+TR3 white-pulp bin -162.5 um: iNKT loci,1.0,1.0,True,
+TR3 white-pulp bin -162.5 um: reference loci,78.0,78.0,True,
+TR3 white-pulp bin -162.5 um: enrichment,0.6024337244676228,0.6024337244676228,True,
+TR3 white-pulp bin -162.5 um: band 2.5%,0.0,0.0,True,
+TR3 white-pulp bin -162.5 um: band 97.5%,2.409734897870491,2.409734897870491,True,
+TR3 white-pulp bin -137.5 um: iNKT loci,2.0,2.0,True,
+TR3 white-pulp bin -137.5 um: reference loci,32.0,32.0,True,
+TR3 white-pulp bin -137.5 um: enrichment,2.936864406779661,2.936864406779661,True,
+TR3 white-pulp bin -137.5 um: band 2.5%,0.0,0.0,True,
+TR3 white-pulp bin -137.5 um: band 97.5%,4.405296610169491,4.405296610169491,True,
+TR3 white-pulp bin -112.5 um: iNKT loci,2.0,2.0,True,
+TR3 white-pulp bin -112.5 um: reference loci,35.0,35.0,True,
+TR3 white-pulp bin -112.5 um: enrichment,2.685133171912833,2.685133171912833,True,
+TR3 white-pulp bin -112.5 um: band 2.5%,0.0,0.0,True,
+TR3 white-pulp bin -112.5 um: band 97.5%,4.027699757869249,4.027699757869249,True,
+TR3 white-pulp bin -87.5 um: iNKT loci,5.0,5.0,True,
+TR3 white-pulp bin -87.5 um: reference loci,76.0,76.0,True,
+TR3 white-pulp bin -87.5 um: enrichment,3.091436217662801,3.091436217662801,True,
+TR3 white-pulp bin -87.5 um: band 2.5%,0.0,0.0,True,
+TR3 white-pulp bin -87.5 um: band 97.5%,3.091436217662801,3.091436217662801,True,
+TR3 white-pulp bin -62.5 um: iNKT loci,3.0,3.0,True,
+TR3 white-pulp bin -62.5 um: reference loci,68.0,68.0,True,
+TR3 white-pulp bin -62.5 um: enrichment,2.073080757726819,2.073080757726819,True,
+TR3 white-pulp bin -62.5 um: band 2.5%,0.0,0.0,True,
+TR3 white-pulp bin -62.5 um: band 97.5%,2.7641076769690924,2.7641076769690924,True,
+TR3 white-pulp bin -37.5 um: iNKT loci,4.0,4.0,True,
+TR3 white-pulp bin -37.5 um: reference loci,122.0,122.0,True,
+TR3 white-pulp bin -37.5 um: enrichment,1.5406501806057238,1.5406501806057238,True,
+TR3 white-pulp bin -37.5 um: band 2.5%,0.0,0.0,True,
+TR3 white-pulp bin -37.5 um: band 97.5%,2.310975270908586,2.310975270908586,True,
+TR3 white-pulp bin -12.5 um: iNKT loci,1.0,1.0,True,
+TR3 white-pulp bin -12.5 um: reference loci,104.0,104.0,True,
+TR3 white-pulp bin -12.5 um: enrichment,0.4518252933507171,0.4518252933507171,True,
+TR3 white-pulp bin -12.5 um: band 2.5%,0.0,0.0,True,
+TR3 white-pulp bin -12.5 um: band 97.5%,2.2591264667535853,2.2591264667535853,True,
+TR3 white-pulp bin 12.5 um: iNKT loci,3.0,3.0,True,
+TR3 white-pulp bin 12.5 um: reference loci,160.0,160.0,True,
+TR3 white-pulp bin 12.5 um: enrichment,0.8810593220338981,0.8810593220338981,True,
+TR3 white-pulp bin 12.5 um: band 2.5%,0.0,0.0,True,
+TR3 white-pulp bin 12.5 um: band 97.5%,2.0558050847457627,2.0558050847457627,True,
+TR3 white-pulp bin 37.5 um: iNKT loci,8.0,8.0,True,
+TR3 white-pulp bin 37.5 um: reference loci,235.0,235.0,True,
+TR3 white-pulp bin 37.5 um: enrichment,1.5996538045438153,1.5996538045438153,True,
+TR3 white-pulp bin 37.5 um: band 2.5%,0.19995672556797692,0.19995672556797692,True,
+TR3 white-pulp bin 37.5 um: band 97.5%,1.9995672556797692,1.9995672556797692,True,
+TR3 white-pulp bin 62.5 um: iNKT loci,19.0,19.0,True,
+TR3 white-pulp bin 62.5 um: reference loci,516.0,516.0,True,
+TR3 white-pulp bin 62.5 um: enrichment,1.7302456970174749,1.7302456970174749,True,
+TR3 white-pulp bin 62.5 um: band 2.5%,0.4553278150045986,0.4553278150045986,True,
+TR3 white-pulp bin 62.5 um: band 97.5%,1.6391801340165553,1.6391801340165553,True,
+TR3 white-pulp bin 87.5 um: iNKT loci,9.0,9.0,True,
+TR3 white-pulp bin 87.5 um: reference loci,544.0,544.0,True,
+TR3 white-pulp bin 87.5 um: enrichment,0.7774052841475573,0.7774052841475573,True,
+TR3 white-pulp bin 87.5 um: band 2.5%,0.5182701894317048,0.5182701894317048,True,
+TR3 white-pulp bin 87.5 um: band 97.5%,1.5548105682951145,1.5548105682951145,True,
+TR3 white-pulp bin 112.5 um: iNKT loci,22.0,22.0,True,
+TR3 white-pulp bin 112.5 um: reference loci,868.0,868.0,True,
+TR3 white-pulp bin 112.5 um: enrichment,1.1909864875419824,1.1909864875419824,True,
+TR3 white-pulp bin 112.5 um: band 2.5%,0.5954932437709912,0.5954932437709912,True,
+TR3 white-pulp bin 112.5 um: band 97.5%,1.4616652347106147,1.4616652347106147,True,
+TR3 white-pulp bin 137.5 um: iNKT loci,18.0,18.0,True,
+TR3 white-pulp bin 137.5 um: reference loci,946.0,946.0,True,
+TR3 white-pulp bin 137.5 um: enrichment,0.8940982549181209,0.8940982549181209,True,
+TR3 white-pulp bin 137.5 um: band 2.5%,0.5960655032787472,0.5960655032787472,True,
+TR3 white-pulp bin 137.5 um: band 97.5%,1.4404916329236392,1.4404916329236392,True,
+TR3 white-pulp bin 162.5 um: iNKT loci,23.0,23.0,True,
+TR3 white-pulp bin 162.5 um: reference loci,1162.0,1162.0,True,
+TR3 white-pulp bin 162.5 um: enrichment,0.9300913095481199,0.9300913095481199,True,
+TR3 white-pulp bin 162.5 um: band 2.5%,0.647020041424779,0.647020041424779,True,
+TR3 white-pulp bin 162.5 um: band 97.5%,1.4153563406167042,1.4153563406167042,True,
+TR3 white-pulp bin 187.5 um: iNKT loci,22.0,22.0,True,
+TR3 white-pulp bin 187.5 um: reference loci,1092.0,1092.0,True,
+TR3 white-pulp bin 187.5 um: enrichment,0.9466815670205501,0.9466815670205501,True,
+TR3 white-pulp bin 187.5 um: band 2.5%,0.6454647047867387,0.6454647047867387,True,
+TR3 white-pulp bin 187.5 um: band 97.5%,1.420022350530825,1.420022350530825,True,
+TR3 white-pulp bin 212.5 um: iNKT loci,23.0,23.0,True,
+TR3 white-pulp bin 212.5 um: reference loci,1194.0,1194.0,True,
+TR3 white-pulp bin 212.5 um: enrichment,0.9051642392754734,0.9051642392754734,True,
+TR3 white-pulp bin 212.5 um: band 2.5%,0.6296794708003293,0.6296794708003293,True,
+TR3 white-pulp bin 212.5 um: band 97.5%,1.3774238423757204,1.3774238423757204,True,
+TR3 white-pulp bin 237.5 um: iNKT loci,17.0,17.0,True,
+TR3 white-pulp bin 237.5 um: reference loci,929.0,929.0,True,
+TR3 white-pulp bin 237.5 um: enrichment,0.8598784915436684,0.8598784915436684,True,
+TR3 white-pulp bin 237.5 um: band 2.5%,0.6069730528543541,0.6069730528543541,True,
+TR3 white-pulp bin 237.5 um: band 97.5%,1.4162704566601596,1.4162704566601596,True,
+TR3 white-pulp bin 262.5 um: iNKT loci,113.0,113.0,True,
+TR3 white-pulp bin 262.5 um: reference loci,5701.0,5701.0,True,
+TR3 white-pulp bin 262.5 um: enrichment,0.9313893786103539,0.9313893786103539,True,
+TR3 white-pulp bin 262.5 um: band 2.5%,0.8654503075582934,0.8654503075582934,True,
+TR3 white-pulp bin 262.5 um: band 97.5%,1.1292065917665353,1.1292065917665353,True,
+"TR3 white-pulp profile, global test (max-T over 17 bins)",,0.2293770622937706,,not in the archive
+TR3 >= 20 reads T zone: iNKT loci (all compartments),122.0,122.0,True,
+TR3 >= 20 reads T zone: iNKT share,0.45081967213114754,0.45081967213114754,True,
+TR3 >= 20 reads T zone: reference share,0.7074426587611172,0.7074426587611172,True,
+TR3 >= 20 reads T zone: chance mean,0.7024311475409836,0.7024311475409961,True,
+TR3 >= 20 reads T zone: chance 2.5%,0.6229508196721312,0.6229508196721312,True,
+TR3 >= 20 reads T zone: chance 97.5%,0.7786885245901639,0.7786885245901639,True,
+TR3 >= 20 reads T zone: two-sided p (legacy rule),9.999000099990002e-05,9.999000099990002e-05,True,
+TR3 >= 20 reads T zone: two-sided p (package rule),9.999000099990002e-05,0.00019998000199980003,,p_maxT = 9.999e-05
+TR3 >= 20 reads follicle: iNKT loci (all compartments),122.0,122.0,True,
+TR3 >= 20 reads follicle: iNKT share,0.45901639344262296,0.45901639344262296,True,
+TR3 >= 20 reads follicle: reference share,0.2579185520361991,0.2579185520361991,True,
+TR3 >= 20 reads follicle: chance mean,0.2617819672131148,0.2617819672131125,True,
+TR3 >= 20 reads follicle: chance 2.5%,0.1885245901639344,0.1885245901639344,True,
+TR3 >= 20 reads follicle: chance 97.5%,0.3360655737704918,0.3360655737704918,True,
+TR3 >= 20 reads follicle: two-sided p (legacy rule),9.999000099990002e-05,9.999000099990002e-05,True,
+TR3 >= 20 reads follicle: two-sided p (package rule),9.999000099990002e-05,0.00019998000199980003,,p_maxT = 9.999e-05
+TR3 >= 20 reads red pulp: iNKT loci (all compartments),122.0,122.0,True,
+TR3 >= 20 reads red pulp: iNKT share,0.09016393442622951,0.09016393442622951,True,
+TR3 >= 20 reads red pulp: reference share,0.03463878920268373,0.03463878920268373,True,
+TR3 >= 20 reads red pulp: chance mean,0.03578688524590164,0.03578688524590217,True,
+TR3 >= 20 reads red pulp: chance 2.5%,0.00819672131147541,0.00819672131147541,True,
+TR3 >= 20 reads red pulp: chance 97.5%,0.07377049180327869,0.07377049180327869,True,
+TR3 >= 20 reads red pulp: two-sided p (legacy rule),0.0040995900409959,0.0040995900409959,True,
+TR3 >= 20 reads red pulp: two-sided p (package rule),0.0040995900409959,0.0081991800819918,,p_maxT = 0.005599
+"TR7 tz / iNKT, all loci: bins whose group loci differs",0.0,0.0,True,20 bins
+"TR7 tz / iNKT, all loci: bins whose reference loci differs",0.0,0.0,True,20 bins
+"TR7 tz / iNKT, all loci: bins whose enrichment differs",0.0,0.0,True,20 bins
+"TR7 tz / iNKT, all loci: bins whose band 2.5% differs",0.0,0.0,True,20 bins
+"TR7 tz / iNKT, all loci: bins whose band 97.5% differs",0.0,0.0,True,20 bins
+"TR7 tz / iNKT, all loci: global test (max-T over bins)",,0.17156568686262746,,295 group loci; most extreme bin >=300
+"TR7 tz / iNKT, ≥ 20 reads: bins whose group loci differs",0.0,0.0,True,20 bins
+"TR7 tz / iNKT, ≥ 20 reads: bins whose reference loci differs",0.0,0.0,True,20 bins
+"TR7 tz / iNKT, ≥ 20 reads: bins whose enrichment differs",0.0,0.0,True,20 bins
+"TR7 tz / iNKT, ≥ 20 reads: bins whose band 2.5% differs",0.0,0.0,True,20 bins
+"TR7 tz / iNKT, ≥ 20 reads: bins whose band 97.5% differs",0.0,0.0,True,20 bins
+"TR7 tz / iNKT, ≥ 20 reads: global test (max-T over bins)",,0.0001999600079984003,,122 group loci; most extreme bin >=300
+"TR7 tz / expanded, one rearrangement: bins whose group loci differs",0.0,0.0,True,20 bins
+"TR7 tz / expanded, one rearrangement: bins whose reference loci differs",0.0,0.0,True,20 bins
+"TR7 tz / expanded, one rearrangement: bins whose enrichment differs",0.0,0.0,True,20 bins
+"TR7 tz / expanded, one rearrangement: bins whose band 2.5% differs",0.0,0.0,True,20 bins
+"TR7 tz / expanded, one rearrangement: bins whose band 97.5% differs",0.0,0.0,True,20 bins
+"TR7 tz / expanded, one rearrangement: global test (max-T over bins)",,0.0001999600079984003,,"511 group loci; most extreme bin [50, 75)"
+"TR7 tz / expanded, one rearrangement [improved: clone blocks, the F4a default for clone-level labels]: global test",,0.16256748650269945,,104 clones (511 loci); blocks clone (auto); loci shuffled one by one: 0.0002
+"TR7 tz / expanded, several rearrangements: bins whose group loci differs",0.0,0.0,True,20 bins
+"TR7 tz / expanded, several rearrangements: bins whose reference loci differs",0.0,0.0,True,20 bins
+"TR7 tz / expanded, several rearrangements: bins whose enrichment differs",0.0,0.0,True,20 bins
+"TR7 tz / expanded, several rearrangements: bins whose band 2.5% differs",0.0,0.0,True,20 bins
+"TR7 tz / expanded, several rearrangements: bins whose band 97.5% differs",0.0,0.0,True,20 bins
+"TR7 tz / expanded, several rearrangements: global test (max-T over bins)",,0.39392121575684863,,"59 group loci; most extreme bin [50, 75)"
+"TR7 tz / expanded, several rearrangements [improved: clone blocks, the F4a default for clone-level labels]: global test",,0.9794041191761648,,15 clones (59 loci); blocks clone (auto); loci shuffled one by one: 0.3939
+"TR7 wp_depth / iNKT, all loci: bins whose group loci differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / iNKT, all loci: bins whose reference loci differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / iNKT, all loci: bins whose enrichment differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / iNKT, all loci: bins whose band 2.5% differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / iNKT, all loci: bins whose band 97.5% differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / iNKT, all loci: global test (max-T over bins)",,0.1793641271745651,,"295 group loci; most extreme bin [-100, -75)"
+"TR7 wp_depth / iNKT, ≥ 20 reads: bins whose group loci differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / iNKT, ≥ 20 reads: bins whose reference loci differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / iNKT, ≥ 20 reads: bins whose enrichment differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / iNKT, ≥ 20 reads: bins whose band 2.5% differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / iNKT, ≥ 20 reads: bins whose band 97.5% differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / iNKT, ≥ 20 reads: global test (max-T over bins)",,0.03199360127974405,,"122 group loci; most extreme bin [50, 75)"
+"TR7 wp_depth / expanded, one rearrangement: bins whose group loci differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / expanded, one rearrangement: bins whose reference loci differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / expanded, one rearrangement: bins whose enrichment differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / expanded, one rearrangement: bins whose band 2.5% differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / expanded, one rearrangement: bins whose band 97.5% differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / expanded, one rearrangement: global test (max-T over bins)",,0.00599880023995201,,"511 group loci; most extreme bin [100, 125)"
+"TR7 wp_depth / expanded, one rearrangement [improved: clone blocks, the F4a default for clone-level labels]: global test",,0.6872625474905019,,104 clones (511 loci); blocks clone (auto); loci shuffled one by one: 0.005999
+"TR7 wp_depth / expanded, several rearrangements: bins whose group loci differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / expanded, several rearrangements: bins whose reference loci differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / expanded, several rearrangements: bins whose enrichment differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / expanded, several rearrangements: bins whose band 2.5% differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / expanded, several rearrangements: bins whose band 97.5% differs",0.0,0.0,True,20 bins
+"TR7 wp_depth / expanded, several rearrangements: global test (max-T over bins)",,0.22375524895020996,,"59 group loci; most extreme bin [225, 250)"
+"TR7 wp_depth / expanded, several rearrangements [improved: clone blocks, the F4a default for clone-level labels]: global test",,0.935612877424515,,15 clones (59 loci); blocks clone (auto); loci shuffled one by one: 0.2238
+TR7 profile rows compared,160.0,160.0,True,0 bins without reference loci compared on counts only

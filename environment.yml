@@ -1,0 +1,61 @@
+# The complete spaclone environment: Python 3.12 with spaclone[full], the Immcantation programs (IgBLAST, Change-O,
+# pRESTO, IgPhyML) and R for SHazaM, TIgGER, dowser and SCOPer.
+#
+#   bash scripts/install_spaclone_env.sh            # recommended: this file + the CRAN packages + a check
+#   conda env create -f environment.yml             # this file only (then install the R packages, see docs/install.md)
+#
+# The Immcantation R packages (alakazam, shazam, tigger, dowser, scoper) are installed from CRAN by the script: their
+# conda builds are several releases behind (dowser 1.2 on bioconda, 2.5 on CRAN). Everything they compile against
+# comes from conda-forge below. The original sciCSR (R + Python 3.8 + CellRank 1.x) cannot share this Python; the
+# script builds it as two separate environments with --with-scicsr (envs/scicsr-r.yml, envs/scicsr-py.yml).
+name: spaclone
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - python=3.12
+  - pip
+  # Immcantation programs (bioconda)
+  - igblast>=1.22
+  - changeo>=1.3.5
+  - presto>=0.7.9
+  - igphyml>=2.0
+  # R and the compiled dependencies of the Immcantation R packages (conda-forge / Bioconductor)
+  - r-base=4.4
+  - r-rcpp
+  - r-rcpparmadillo
+  - r-ape
+  - r-phangorn
+  - r-igraph
+  - r-dplyr
+  - r-tidyr
+  - r-tibble
+  - r-stringi
+  - r-data.table
+  - r-ggplot2
+  - r-scales
+  - r-progress
+  - r-airr
+  - r-seqinr
+  - r-ade4
+  - r-kernsmooth
+  - r-diptest
+  - r-gtools
+  - r-lazyeval
+  - r-fastcluster
+  - r-iterators
+  - r-foreach
+  - r-doparallel
+  - r-remotes
+  - bioconductor-biostrings
+  - bioconductor-pwalign
+  - bioconductor-genomicalignments
+  - bioconductor-iranges
+  - bioconductor-ggtree
+  - bioconductor-treeio
+  - compilers
+  - make
+  - pkg-config
+  - pip:
+      - "spaclone[full]"

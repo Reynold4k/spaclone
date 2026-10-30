@@ -1,0 +1,21 @@
+quantity,archived,package,match,note
+exact null: null clones (>= 20 units) in the archived replicates used,3587,3587.0,True,40 replicates x 2 geometries
+exact null: max |S_max(package) - S_max(archive)|,0.0,5.941913627793838e-13,True,same point patterns and labels
+exact null: false-positive rate at alpha = 0.05 (legacy-equivalent),0.04349038193476443,0.04376916643434625,True,calibrated if <= 0.0609
+exact null: false-positive rate at alpha = 0.01 (legacy-equivalent),0.008084750487872874,0.006690827989963758,True,calibrated if <= 0.0150
+exact null: false-positive rate at alpha = 0.005 (legacy-equivalent),0.004739336492890996,0.0036241984945637024,True,calibrated if <= 0.0085
+exact null: false-positive rate at alpha = 0.001 (legacy-equivalent),0.0005575689991636465,0.0008363534987454698,True,calibrated if <= 0.0026
+"exact null: false-positive rate at 0.05, 199-draw Monte-Carlo p",0.04349038193476443,0.04376916643434625,True,p_plain
+exact null [legacy-equivalent]: scans with any clone called at FDR 5% (all clones null),<= 4.0 expected,3.0,True,80 scans; under the global null BH's FDR = P(any call) <= 5%; 99% bound 9; clones called 3
+"exact null [BH-driven caps, legacy windows]: false-positive rate at alpha = 0.05",,0.044042913608131,True,1771 null clones; calibrated if <= 0.0655
+"exact null [BH-driven caps, legacy windows]: false-positive rate at alpha = 0.01",,0.007340485601355167,True,1771 null clones; calibrated if <= 0.0171
+"exact null [BH-driven caps, legacy windows]: false-positive rate at alpha = 0.001",,0.0,True,1771 null clones; calibrated if <= 0.0033
+"exact null [BH-driven caps, legacy windows]: scans with any clone called at FDR 5% (all clones null)",<= 2.0 expected,0.0,True,40 scans; under the global null BH's FDR = P(any call) <= 5%; 99% bound 6; clones called 0
+exact null [1.0.dev0 default (loci + unit null)]: false-positive rate at alpha = 0.05,,0.03987538940809969,True,1605 null clones; calibrated if <= 0.0663
+exact null [1.0.dev0 default (loci + unit null)]: false-positive rate at alpha = 0.01,,0.009345794392523364,True,1605 null clones; calibrated if <= 0.0175
+exact null [1.0.dev0 default (loci + unit null)]: false-positive rate at alpha = 0.001,,0.0006230529595015577,True,1605 null clones; calibrated if <= 0.0034
+exact null [1.0.dev0 default (loci + unit null)]: scans with any clone called at FDR 5% (all clones null),<= 2.0 expected,2.0,True,40 scans; under the global null BH's FDR = P(any call) <= 5%; 99% bound 6; clones called 3
+exact null [package defaults (F4a: grid-cell units + block null)]: false-positive rate at alpha = 0.05,,0.0,True,1488 null clones; calibrated if <= 0.0669
+exact null [package defaults (F4a: grid-cell units + block null)]: false-positive rate at alpha = 0.01,,0.0,True,1488 null clones; calibrated if <= 0.0177
+exact null [package defaults (F4a: grid-cell units + block null)]: false-positive rate at alpha = 0.001,,0.0,True,1488 null clones; calibrated if <= 0.0035
+exact null [package defaults (F4a: grid-cell units + block null)]: scans with any clone called at FDR 5% (all clones null),<= 2.0 expected,0.0,True,40 scans; under the global null BH's FDR = P(any call) <= 5%; 99% bound 6; clones called 0

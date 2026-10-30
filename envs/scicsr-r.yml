@@ -1,0 +1,37 @@
+# The original sciCSR's R side (sciCSR 0.3.5; Ng et al. 2023, doi:10.1038/s41592-023-02060-1), for the R bridge of
+# spaclone.ext.scicsr and parity checks. Built by: bash scripts/install_spaclone_env.sh --with-scicsr
+# (same specification as the environment used to validate spaclone's sciCSR bridge).
+name: spaclone-scicsr-r
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - r-base=4.3
+  - r-seurat=4.4.0
+  - r-seuratobject=4.1.4
+  - r-matrix
+  - r-reticulate
+  - r-markovchain
+  - r-scales
+  - r-stringr
+  - r-cowplot
+  - r-fs
+  - r-igraph
+  - r-harmony
+  - r-nnls
+  - r-philentropy
+  - r-plyr
+  - r-png
+  - r-reshape2
+  - r-ggplot2
+  - r-hdf5r
+  - r-sceasy
+  - r-jsonlite
+  - r-testthat
+  - bioconductor-s4vectors
+  - bioconductor-iranges
+  - bioconductor-genomeinfodb
+  - bioconductor-genomicranges
+  - bioconductor-genomicalignments
+  - bioconductor-rsamtools

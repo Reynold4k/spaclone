@@ -1,0 +1,57 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "0 5 1 * *"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python: "3.11"
+            deps: lowest
+          - python: "3.12"
+            deps: stable
+          - python: "3.13"
+            deps: stable
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          if [ "${{ matrix.deps }}" = "lowest" ]; then
+            python -m pip install "numpy==2.0.*" "pandas==2.2.*" "scipy==1.13.*" "anndata==0.10.*" "matplotlib==3.8.*" "pyarrow==16.*"
+          fi
+          python -m pip install -e . pytest pytest-cov tifffile
+      - name: Test
+        run: python -m pytest -q --cov=spaclone --cov-report=term-missing
+      - name: Slow calibration tests
+        if: matrix.deps == 'stable' && matrix.python == '3.12'
+        run: python -m pytest -q -m slow || test $? -eq 5   # exit 5 = no slow tests collected yet
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install ruff
+      - run: ruff check src tests
+      - run: ruff format --check src tests

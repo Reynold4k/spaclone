@@ -1,0 +1,28 @@
+# The original sciCSR's Python side, reached from R through reticulate: Python 3.8 with CellRank 1.5 (sciCSR imports
+# cellrank.tl.kernels, removed in CellRank 2). spaclone itself uses CellRank >= 2 (spaclone[scicsr]) in its own
+# environment. Built by: bash scripts/install_spaclone_env.sh --with-scicsr
+name: spaclone-scicsr-py
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.8
+  - scanpy=1.8.2
+  - anndata=0.8.0
+  - deeptime=0.4.4
+  - scipy=1.10.0
+  - numpy=1.23.5
+  - pandas=1.5.3
+  - matplotlib=3.6.3
+  - networkx=2.8.2
+  - h5py
+  - python-igraph
+  - louvain
+  - multiprocess
+  - tqdm
+  - pip
+  - pip:
+      # pygam 0.9 would pull numpy >= 1.24 / scipy >= 1.10.1 over the pins above; 0.8.0 keeps them
+      - pygam==0.8.0
+      - scvelo==0.2.5
+      - cellrank==1.5.1

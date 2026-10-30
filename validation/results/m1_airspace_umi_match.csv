@@ -1,0 +1,133 @@
+quantity,archived,package,match,note
+D10 air IGH keys,9178.0,9178,True,X4 umi_match_summary
+D10 air IGH matched,6330.0,6330,True,X4 umi_match_summary
+D10 air IGH share matched,0.6896927435171061,0.6896927435171061,True,X4 umi_match_summary
+D10 air IGH own gene among all keys,0.3507300065373719,0.35073000653737196,True,X4 definition: a key without isotype never matches its own gene
+D10 air IGH own constant gene among matched,0.5085308056872038,0.5085308056872038,True,X4 definition: a key without isotype never matches its own gene
+D10 air IGH other Ig constant among matched,0.1420221169036335,0.1420221169036335,True,X4 definition: a key without isotype never matches its own gene
+D10 air IGH non-Ig gene among matched,0.0308056872037914,0.030805687203791468,True,X4 definition: a key without isotype never matches its own gene
+D10 air IGH undetermined among matched,0.3067930489731437,0.30679304897314374,True,X4 definition: a key without isotype never matches its own gene
+D10 air IGK keys,16430.0,16430,True,X4 umi_match_summary
+D10 air IGK matched,11222.0,11222,True,X4 umi_match_summary
+D10 air IGK share matched,0.6830188679245283,0.6830188679245283,True,X4 umi_match_summary
+D10 air IGK own gene among all keys,0.5671332927571515,0.5671332927571515,True,X4 definition: a key without isotype never matches its own gene
+D10 air IGK own constant gene among matched,0.8303332739262164,0.8303332739262164,True,X4 definition: a key without isotype never matches its own gene
+D10 air IGK other Ig constant among matched,0.0501693102833719,0.050169310283371946,True,X4 definition: a key without isotype never matches its own gene
+D10 air IGK non-Ig gene among matched,0.0249509891284975,0.024950989128497594,True,X4 definition: a key without isotype never matches its own gene
+D10 air IGK undetermined among matched,0.0868829085724469,0.08688290857244697,True,X4 definition: a key without isotype never matches its own gene
+D10 air IGL keys,4895.0,4895,True,X4 umi_match_summary
+D10 air IGL matched,3288.0,3288,True,X4 umi_match_summary
+D10 air IGL share matched,0.67170582226762,0.67170582226762,True,X4 umi_match_summary
+D10 air IGL own gene among all keys,0.4020429009193054,0.4020429009193054,True,X4 definition: a key without isotype never matches its own gene
+D10 air IGL own constant gene among matched,0.5985401459854015,0.5985401459854015,True,X4 definition: a key without isotype never matches its own gene
+D10 air IGL other Ig constant among matched,0.1271289537712895,0.12712895377128955,True,X4 definition: a key without isotype never matches its own gene
+D10 air IGL non-Ig gene among matched,0.0322384428223844,0.03223844282238443,True,X4 definition: a key without isotype never matches its own gene
+D10 air IGL undetermined among matched,0.1995133819951338,0.19951338199513383,True,X4 definition: a key without isotype never matches its own gene
+D10 decoy IGH keys,18354.0,18354,True,X4 umi_match_summary
+D10 decoy IGH matched,907.0,907,True,X4 umi_match_summary
+D10 decoy IGH share matched,0.0494170208129018,0.04941702081290182,True,X4 umi_match_summary
+D10 decoy IGH own gene among all keys,0.0019614253023864,0.001961425302386401,True,X4 definition: a key without isotype never matches its own gene
+D10 decoy IGH own constant gene among matched,0.0396912899669239,0.03969128996692393,True,X4 definition: a key without isotype never matches its own gene
+D10 decoy IGH other Ig constant among matched,0.2447629547960308,0.24476295479603086,True,X4 definition: a key without isotype never matches its own gene
+D10 decoy IGH non-Ig gene among matched,0.175303197353914,0.175303197353914,True,X4 definition: a key without isotype never matches its own gene
+D10 decoy IGH undetermined among matched,0.5391400220507166,0.5391400220507166,True,X4 definition: a key without isotype never matches its own gene
+D10 decoy IGK keys,32853.0,32853,True,X4 umi_match_summary
+D10 decoy IGK matched,1631.0,1631,True,X4 umi_match_summary
+D10 decoy IGK share matched,0.0496453900709219,0.04964539007092199,True,X4 umi_match_summary
+D10 decoy IGK own gene among all keys,0.0091011475359936,0.009101147535993668,True,X4 definition: a key without isotype never matches its own gene
+D10 decoy IGK own constant gene among matched,0.1833231146535867,0.18332311465358675,True,X4 definition: a key without isotype never matches its own gene
+D10 decoy IGK other Ig constant among matched,0.0760269773145309,0.07602697731453097,True,X4 definition: a key without isotype never matches its own gene
+D10 decoy IGK non-Ig gene among matched,0.1925199264255058,0.19251992642550583,True,X4 definition: a key without isotype never matches its own gene
+D10 decoy IGK undetermined among matched,0.5469037400367872,0.5469037400367872,True,X4 definition: a key without isotype never matches its own gene
+D10 decoy IGL keys,9798.0,9798,True,X4 umi_match_summary
+D10 decoy IGL matched,428.0,428,True,X4 umi_match_summary
+D10 decoy IGL share matched,0.0436823841600326,0.04368238416003266,True,X4 umi_match_summary
+D10 decoy IGL own gene among all keys,0.0006123698714023,0.000612369871402327,True,X4 definition: a key without isotype never matches its own gene
+D10 decoy IGL own constant gene among matched,0.014018691588785,0.014018691588785047,True,X4 definition: a key without isotype never matches its own gene
+D10 decoy IGL other Ig constant among matched,0.2289719626168224,0.22897196261682243,True,X4 definition: a key without isotype never matches its own gene
+D10 decoy IGL non-Ig gene among matched,0.175233644859813,0.17523364485981308,True,X4 definition: a key without isotype never matches its own gene
+D10 decoy IGL undetermined among matched,0.5771028037383178,0.5771028037383178,True,X4 definition: a key without isotype never matches its own gene
+D10 IGH matched: BCR vs decoy rate (own_genes=isotype),,0.6897 vs 0.0494,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 108.6"
+D10 IGH own_constant: BCR vs decoy rate (own_genes=isotype),,0.3507 vs 0.0020,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 81.8"
+D10 IGK matched: BCR vs decoy rate (own_genes=isotype),,0.6830 vs 0.0496,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 145.9"
+D10 IGK own_constant: BCR vs decoy rate (own_genes=isotype),,0.5671 vs 0.0091,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 141.5"
+D10 IGL matched: BCR vs decoy rate (own_genes=isotype),,0.6717 vs 0.0437,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 78.5"
+D10 IGL own_constant: BCR vs decoy rate (own_genes=isotype),,0.4020 vs 0.0006,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 65.3"
+D10 air IGH own constant gene among matched (default own_genes),0.5085308056872038,0.5154818325434439,improved,package default: a key without isotype falls back to its locus
+D10 air IGK own constant gene among matched (default own_genes),0.8303332739262164,0.8324719301372304,improved,package default: a key without isotype falls back to its locus
+D10 air IGL own constant gene among matched (default own_genes),0.5985401459854015,0.5994525547445255,improved,package default: a key without isotype falls back to its locus
+D10 decoy IGH own constant gene among matched (default own_genes),0.0396912899669239,0.040793825799338476,improved,package default: a key without isotype falls back to its locus
+D10 decoy IGK own constant gene among matched (default own_genes),0.1833231146535867,0.18332311465358675,improved,package default: a key without isotype falls back to its locus
+D10 decoy IGL own constant gene among matched (default own_genes),0.014018691588785,0.014018691588785047,improved,package default: a key without isotype falls back to its locus
+D10 IGH matched: BCR vs decoy rate (own_genes=isotype_or_locus),,0.6897 vs 0.0494,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 108.6"
+D10 IGH own_constant: BCR vs decoy rate (own_genes=isotype_or_locus),,0.3555 vs 0.0020,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 82.4"
+D10 IGK matched: BCR vs decoy rate (own_genes=isotype_or_locus),,0.6830 vs 0.0496,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 145.9"
+D10 IGK own_constant: BCR vs decoy rate (own_genes=isotype_or_locus),,0.5686 vs 0.0091,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 141.7"
+D10 IGL matched: BCR vs decoy rate (own_genes=isotype_or_locus),,0.6717 vs 0.0437,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 78.5"
+D10 IGL own_constant: BCR vs decoy rate (own_genes=isotype_or_locus),,0.4027 vs 0.0006,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 65.4"
+D14 air IGH keys,2178.0,2178,True,X4 umi_match_summary
+D14 air IGH matched,1549.0,1549,True,X4 umi_match_summary
+D14 air IGH share matched,0.7112029384756657,0.7112029384756657,True,X4 umi_match_summary
+D14 air IGH own gene among all keys,0.4885215794306703,0.4885215794306703,True,X4 definition: a key without isotype never matches its own gene
+D14 air IGH own constant gene among matched,0.6868947708198838,0.6868947708198838,True,X4 definition: a key without isotype never matches its own gene
+D14 air IGH other Ig constant among matched,0.08521626856036152,0.08521626856036152,True,X4 definition: a key without isotype never matches its own gene
+D14 air IGH non-Ig gene among matched,0.051000645577792124,0.051000645577792124,True,X4 definition: a key without isotype never matches its own gene
+D14 air IGH undetermined among matched,0.15816655907036797,0.15816655907036797,True,X4 definition: a key without isotype never matches its own gene
+D14 air IGK keys,19776.0,19776,True,X4 umi_match_summary
+D14 air IGK matched,14069.0,14069,True,X4 umi_match_summary
+D14 air IGK share matched,0.7114178802588996,0.7114178802588996,True,X4 umi_match_summary
+D14 air IGK own gene among all keys,0.6351638349514563,0.6351638349514563,True,X4 definition: a key without isotype never matches its own gene
+D14 air IGK own constant gene among matched,0.8928139882010093,0.8928139882010093,True,X4 definition: a key without isotype never matches its own gene
+D14 air IGK other Ig constant among matched,0.0175563295188002,0.0175563295188002,True,X4 definition: a key without isotype never matches its own gene
+D14 air IGK non-Ig gene among matched,0.03276707655128296,0.03276707655128296,True,X4 definition: a key without isotype never matches its own gene
+D14 air IGK undetermined among matched,0.05337977112801194,0.05337977112801194,True,X4 definition: a key without isotype never matches its own gene
+D14 air IGL keys,2513.0,2513,True,X4 umi_match_summary
+D14 air IGL matched,1686.0,1686,True,X4 umi_match_summary
+D14 air IGL share matched,0.6709112614405094,0.6709112614405094,True,X4 umi_match_summary
+D14 air IGL own gene among all keys,0.5073617190608835,0.5073617190608835,True,X4 definition: a key without isotype never matches its own gene
+D14 air IGL own constant gene among matched,0.7562277580071174,0.7562277580071174,True,X4 definition: a key without isotype never matches its own gene
+D14 air IGL other Ig constant among matched,0.0830367734282325,0.0830367734282325,True,X4 definition: a key without isotype never matches its own gene
+D14 air IGL non-Ig gene among matched,0.04092526690391459,0.04092526690391459,True,X4 definition: a key without isotype never matches its own gene
+D14 air IGL undetermined among matched,0.09549228944246738,0.09549228944246738,True,X4 definition: a key without isotype never matches its own gene
+D14 decoy IGH keys,4364.0,4364,True,X4 umi_match_summary
+D14 decoy IGH matched,265.0,265,True,X4 umi_match_summary
+D14 decoy IGH share matched,0.06072410632447296,0.06072410632447296,True,X4 umi_match_summary
+D14 decoy IGH own gene among all keys,0.001374885426214482,0.001374885426214482,True,X4 definition: a key without isotype never matches its own gene
+D14 decoy IGH own constant gene among matched,0.022641509433962263,0.022641509433962263,True,X4 definition: a key without isotype never matches its own gene
+D14 decoy IGH other Ig constant among matched,0.09433962264150944,0.09433962264150944,True,X4 definition: a key without isotype never matches its own gene
+D14 decoy IGH non-Ig gene among matched,0.27547169811320754,0.27547169811320754,True,X4 definition: a key without isotype never matches its own gene
+D14 decoy IGH undetermined among matched,0.6075471698113207,0.6075471698113207,True,X4 definition: a key without isotype never matches its own gene
+D14 decoy IGK keys,39551.0,39551,True,X4 umi_match_summary
+D14 decoy IGK matched,2120.0,2120,True,X4 umi_match_summary
+D14 decoy IGK share matched,0.05360167884503552,0.05360167884503552,True,X4 umi_match_summary
+D14 decoy IGK own gene among all keys,0.0025789486991479355,0.0025789486991479355,True,X4 definition: a key without isotype never matches its own gene
+D14 decoy IGK own constant gene among matched,0.048113207547169815,0.048113207547169815,True,X4 definition: a key without isotype never matches its own gene
+D14 decoy IGK other Ig constant among matched,0.045283018867924525,0.045283018867924525,True,X4 definition: a key without isotype never matches its own gene
+D14 decoy IGK non-Ig gene among matched,0.275,0.275,True,X4 definition: a key without isotype never matches its own gene
+D14 decoy IGK undetermined among matched,0.6306603773584906,0.6306603773584906,True,X4 definition: a key without isotype never matches its own gene
+D14 decoy IGL keys,5031.0,5031,True,X4 umi_match_summary
+D14 decoy IGL matched,280.0,280,True,X4 umi_match_summary
+D14 decoy IGL share matched,0.05565493937586961,0.05565493937586961,True,X4 umi_match_summary
+D14 decoy IGL own gene among all keys,0.0009938382031405286,0.0009938382031405286,True,X4 definition: a key without isotype never matches its own gene
+D14 decoy IGL own constant gene among matched,0.017857142857142856,0.017857142857142856,True,X4 definition: a key without isotype never matches its own gene
+D14 decoy IGL other Ig constant among matched,0.06785714285714285,0.06785714285714285,True,X4 definition: a key without isotype never matches its own gene
+D14 decoy IGL non-Ig gene among matched,0.3142857142857143,0.3142857142857143,True,X4 definition: a key without isotype never matches its own gene
+D14 decoy IGL undetermined among matched,0.5928571428571429,0.5928571428571429,True,X4 definition: a key without isotype never matches its own gene
+D14 IGH matched: BCR vs decoy rate (own_genes=isotype),,0.7112 vs 0.0607,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 52.8"
+D14 IGH own_constant: BCR vs decoy rate (own_genes=isotype),,0.4885 vs 0.0014,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 47.8"
+D14 IGK matched: BCR vs decoy rate (own_genes=isotype),,0.7114 vs 0.0536,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 166.9"
+D14 IGK own_constant: BCR vs decoy rate (own_genes=isotype),,0.6352 vs 0.0026,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 172.1"
+D14 IGL matched: BCR vs decoy rate (own_genes=isotype),,0.6709 vs 0.0557,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 55.7"
+D14 IGL own_constant: BCR vs decoy rate (own_genes=isotype),,0.5074 vs 0.0010,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 53.6"
+D14 air IGH own constant gene among matched (default own_genes),0.6868947708198838,0.7114267269205939,improved,package default: a key without isotype falls back to its locus
+D14 air IGK own constant gene among matched (default own_genes),0.8928139882010093,0.8945198663728765,improved,package default: a key without isotype falls back to its locus
+D14 air IGL own constant gene among matched (default own_genes),0.7562277580071174,0.7562277580071174,improved,package default: a key without isotype falls back to its locus
+D14 decoy IGH own constant gene among matched (default own_genes),0.022641509433962263,0.022641509433962263,improved,package default: a key without isotype falls back to its locus
+D14 decoy IGK own constant gene among matched (default own_genes),0.048113207547169815,0.04858490566037736,improved,package default: a key without isotype falls back to its locus
+D14 decoy IGL own constant gene among matched (default own_genes),0.017857142857142856,0.017857142857142856,improved,package default: a key without isotype falls back to its locus
+D14 IGH matched: BCR vs decoy rate (own_genes=isotype_or_locus),,0.7112 vs 0.0607,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 52.8"
+D14 IGH own_constant: BCR vs decoy rate (own_genes=isotype_or_locus),,0.5060 vs 0.0014,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 48.7"
+D14 IGK matched: BCR vs decoy rate (own_genes=isotype_or_locus),,0.7114 vs 0.0536,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 166.9"
+D14 IGK own_constant: BCR vs decoy rate (own_genes=isotype_or_locus),,0.6364 vs 0.0026,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 172.3"
+D14 IGL matched: BCR vs decoy rate (own_genes=isotype_or_locus),,0.6709 vs 0.0557,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 55.7"
+D14 IGL own_constant: BCR vs decoy rate (own_genes=isotype_or_locus),,0.5074 vs 0.0010,new,"new: exact stratified test (barcode strata), p = 2.23e-308, z = 53.6"

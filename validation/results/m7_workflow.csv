@@ -1,0 +1,15 @@
+quantity,archived,package,match,note
+tissue beads after filter,,21477,,call_tissue + filter(off_tissue='drop')
+Leiden clusters (resolution 1),,9,,
+% tissue beads typed GC_B: default (min_module_counts=2) vs X6 rule (=1),,7.11 vs 14.62,,rare-gene modules win single-molecule beads under the X6 rule
+% tissue beads typed Tfh: default (min_module_counts=2) vs X6 rule (=1),,0.43 vs 4.40,,rare-gene modules win single-molecule beads under the X6 rule
+top cluster of the B module,,"cluster 1: B 1.14, others T 0.70, ASC 0.61",False,own enrichment >= 2 and highest
+top cluster of the T module,,"cluster 5: T 1.91, others B 0.71, ASC 0.36",False,own enrichment >= 2 and highest
+top cluster of the ASC module,,"cluster 7: ASC 3.96, others B 0.86, T 0.79",True,own enrichment >= 2 and highest
+"separation rule: B, T and ASC peak in three different clusters (1 = yes)",1.0,1,True,
+separation rule passed (1 = yes),1.0,0,False,
+"adjusted Rand index, Leiden vs marker classes (assigned beads)",,0.106,,
+germinal centres (package default rule),,9,,
+"spatial domains (BANKSY-style, lambda 0.8, resolution 0.5)",,22,,mean neighbour agreement 0.927
+"DE GC vs other (limma, instances as replicates): genes q < 0.05",,268,,"top 15: H1fx, Aicda, S1pr2, Kif23, Gcsam, Lpp, Neil1, Mef2b, Kif11, Rassf6, Cenpf, Bach2, Nuggc, Ckap2l, Cenpe; GC markers define the regions, so their own enrichment is circular"
+"nhood enrichment B-T z (15 um, 200 relabellings)",,-2.37,,

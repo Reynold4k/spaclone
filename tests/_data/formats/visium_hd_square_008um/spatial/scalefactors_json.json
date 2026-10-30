@@ -1,0 +1,9 @@
+{
+    "spot_diameter_fullres": 29.20479694715253,
+    "bin_size_um": 8.0,
+    "microns_per_pixel": 0.27392760218385975,
+    "tissue_lowres_scalef": 0.027210884,
+    "fiducial_diameter_fullres": 1204.697874070042,
+    "tissue_hires_scalef": 0.27210885,
+    "regist_target_img_scalef": 0.27210885
+}

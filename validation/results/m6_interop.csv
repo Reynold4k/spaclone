@@ -1,0 +1,17 @@
+quantity,archived,package,match,note
+to_scirpy spot level: observations (bins with a contig),65905,65905.0,True,QC_filter_summary.csv Before
+spot level: SpatialAIR -> scirpy -> back lossless (1 = yes),1,1.0,True,
+spot level: lossless after writing the AnnData to h5ad (1 = yes),1,1.0,True,
+locus level: SpatialAIR -> scirpy -> back lossless (1 = yes),1,1.0,True,
+locus level: lossless after h5ad (1 = yes),1,1.0,True,
+scirpy tl.clonal_expansion ran on the locus-level AnnData: loci labelled,103894,103894.0,True,every locus gets a size class
+loci in clones of size 1 (scirpy '<= 1' class),21273,21273.0,True,pandas count of loci per clone_id
+"scirpy tl.define_clonotypes ran: clonotypes = distinct primary (VJ, VDJ) CDR3 nt per receptor type",23489,23489.0,True,scirpy clonotypes = identical nucleotide junctions of the primary chains
+"scirpy tl.define_clonotype_clusters (aa identity) ran: clusters = distinct primary (VJ, VDJ) CDR3 aa",21514,21514.0,True,identity metric on CDR3 aa; V gene not used
+io.write / io.read: receptor table lossless (1 = yes),1,1.0,True,
+io.write / io.read: meta kept (1 = yes),1,1.0,True,
+pp.aggregate: bins with a valid BCR contig (observations),63468,63468.0,True,QC_filter_summary.csv After
+pp.aggregate: clones (variables) = exact clones,26275,26275.0,True,
+pp.aggregate: matrix total = valid contigs,136793,136793.0,True,
+io.to_spatialdata: points = valid contigs,136793,136793.0,True,
+io.to_spatialdata: spot shapes = bins,63468,63468.0,True,

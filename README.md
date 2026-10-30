@@ -1,0 +1,118 @@
+Claude (Anthropic) develops, tests and pushes all code in this repository, and keeps it up to date as its dependencies change.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/overview_dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/overview_light.png">
+    <img src="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/overview_light.png" width="100%" alt="spaclone overview: reading spatial transcriptome and receptor files, QC, the trust report, CSR and SHM hotspot maps, the hotspot atlas with each region's transcriptome identity, CSR potential and flow, lineage trees on tissue, clone states, clone maps, isotypes by region, a placebo test, and the integrated packages.">
+  </picture>
+</p>
+
+<h1 align="center">spaclone</h1>
+
+<p align="center"><b>Spatial BCR and TCR analysis, from raw tables to biology, with every position checked against random placement</b></p>
+
+<p align="center">
+  <a href="https://pypi.org/project/spaclone/"><img src="https://img.shields.io/pypi/v/spaclone?style=flat-square&color=2a78d6&label=PyPI" alt="PyPI version"></a>
+  <a href="https://pypi.org/project/spaclone/"><img src="https://img.shields.io/pypi/pyversions/spaclone?style=flat-square&color=2a78d6" alt="Python versions"></a>
+  <a href="https://github.com/Reynold4k/spaclone/blob/main/LICENSE"><img src="https://img.shields.io/badge/licence-MIT-2a78d6?style=flat-square" alt="MIT licence"></a>
+  <a href="https://github.com/Reynold4k/spaclone/actions/workflows/test.yaml"><img src="https://img.shields.io/github/actions/workflow/status/Reynold4k/spaclone/test.yaml?branch=main&style=flat-square&label=tests" alt="tests"></a>
+</p>
+
+<p align="center"><sub>Every panel above is a spaclone figure on public data: the StereoIR mouse spleen (Stereo-seq) and an AIR-SPACE mouse lymph node (GEO GSE286452), drawn by <a href="https://github.com/Reynold4k/spaclone/blob/main/docs/_static/hero/make_hero.py">make_hero.py</a>.</sub></p>
+
+## Get started
+
+```bash
+pip install spaclone            # core: reading, QC, trust tests, BCR and TCR analysis, plots
+pip install "spaclone[full]"    # + every package in "Integrates" below
+```
+
+```python
+import spaclone as spc
+
+report = spc.run(spc.read("section.h5ad", "airr_rearrangement.tsv"))
+```
+
+Cell-type columns and own types are detected when unambiguous (`cell_type_key="auto"`, `own_types="auto"`) and
+otherwise named in the report.
+
+`spc.read` recognises both files from their contents: the transcriptome (h5ad from scanpy, squidpy or Stereopy, Space
+Ranger Visium SD / HD, Stereo-seq GEF / GEM, Xenium, Slide-seq, SpatialData) and the receptor table (AIRR from Cell
+Ranger, TRUST4, IgBLAST / Change-O, MiXCR, scirpy or Dandelion; 10x contigs; MiXCR 3 / 4; TRUST4 reports; Change-O;
+Dandelion; scirpy). Other tables (immunoSEQ, BD, Parse, VDJtools, immunarch …) read with a column mapping;
+`spc.io.sniff(path)` shows what was detected. `spc.run` filters the records and runs every location-trust test the
+data allow:
+
+| You get back | |
+|---|---|
+| `report.verdict` | Can clone positions be trusted? With `report.verdict_molecule` and `report.verdict_clone`, one per level |
+| `report.tests()` | One row per test and locus: observed, chance, ratio, p, BH q, verdict |
+| `report.plot()` | The one-page trust report |
+| `report.methods()` | A methods paragraph with every parameter and reference |
+
+Then the biology, on the same data:
+
+```python
+data = spc.read("section.h5ad", "airr_rearrangement.tsv")
+hot = spc.bcr.hotspot_workflow(data)                # CSR and SHM hotspots, their overlap regions, GEX identity
+spc.pl.hotspot_atlas(hot)                           # the flagship figure
+spc.pl.csr_map(hot)                                 # isotypes and class switches along the IgH locus
+trees = spc.bcr.lineage_workflow(hot)               # lineage trees with every tip on the tissue
+spc.pl.lineage_gallery(trees, "lineages")           # one figure per tree and an index table
+```
+
+Lineage trees need each record's contig and its V alignment (the AIRR fields `sequence`, `v_sequence_alignment`, `v_germline_alignment` and `v_germline_start`, as IgBLAST (`-outfmt 19`) and TRUST4 write them); clone tables without sequences cannot give trees, and `bcr.lineage_workflow` says so.
+
+## What it does
+
+| | | |
+|---|---|---|
+| **Read anything**<br>Spatial transcriptome and receptor files, detected automatically | **Trust first**<br>Molecule- and clone-level tests against random placement that keeps local Ig RNA depth | **Class switching and hypermutation**<br>Switched- and mutated-share maps with family-wise hotspots |
+| **Hotspot atlas**<br>Where CSR and SHM hotspots overlap, and the transcriptome identity of each region | **CSR dynamics**<br>sciCSR's CSR potential, transition models and fluxes, on tissue | **Lineages**<br>Germline-rooted trees with every tip on the section |
+| **Repertoire in space**<br>Expansion, diversity, overlap, networks and public clonotypes by region | **Where clones gather**<br>Calibrated clonal scans, niche profiles and clone states | **Your own test**<br>Any statistic against random placement with `nulls.placebo` |
+
+Every statistic reproduces the numbers of the analyses it came from, on public data: of 4,001 recorded values, 3,302 are equal, 310 agree within Monte-Carlo tolerance, 17 have no archived value, 7 differ for documented reasons and 365 are new or informational ([validation](https://github.com/Reynold4k/spaclone/blob/main/docs/validation.md)).
+
+## Integrates
+
+| Package | What spaclone does with it, spatially | Install |
+|---|---|---|
+| [scanpy](https://scanpy.readthedocs.io) · [anndata](https://anndata.readthedocs.io) | Transcriptome workflow on spots: QC, clusters, regions (germinal centres, ASC foci, T zones), DE with regions as replicates; one container for spots and receptor records | core |
+| [squidpy](https://squidpy.readthedocs.io) | Neighbourhood enrichment, co-occurrence and spatial autocorrelation of receptor-derived labels (`ext.squidpy`) | `[squidpy]` |
+| [scirpy](https://scirpy.scverse.org) | Clonotypes, expansion, diversity, overlap and V(D)J usage per spatial unit, mapped back to tissue (`ext.scirpy`) | `[scirpy]` |
+| [SpatialData](https://spatialdata.scverse.org) | SpatialData in and out: records as points, spots as shapes (`io.to_spatialdata`) | `[spatialdata]` |
+| [Dandelion](https://sc-dandelion.readthedocs.io) | Clone calls written back to records and loci, and compared with spaclone's (`ext.dandelion`) | `[dandelion]` |
+| [Immcantation](https://immcantation.readthedocs.io): IgBLAST · Change-O · SHazaM · dowser · IgPhyML | Germlines, mutation counts and lineage trees that keep their tissue positions (`ext.immcantation`) | `[immcantation]` + IgBLAST, R |
+| [sciCSR](https://github.com/Fraternalilab/sciCSR) | CSR potential, SHM score, transition models and transition-path fluxes on tissue (`bcr.csr_potential`, `tl.tpt_flux`, `pl.csr_flow`), and a bridge to the R package (`ext.scicsr`; 103 of 103 parity checks match sciCSR 0.3.5) | `[scicsr]` |
+| [CellRank](https://cellrank.readthedocs.io) · [deeptime](https://deeptime-ml.github.io) | Transition kernels on spatial neighbour graphs (`tl.transition_model`) | `[scicsr]` |
+| [Threadfin](https://github.com/Reynold4k/Threadfin) | Clone-state landscapes on spots and loci, with calibrated spatial readouts (`ext.threadfin`) | `[threadfin]` |
+| [OLGA](https://github.com/statbiophys/OLGA) | Generation probabilities of public TCR clonotypes (`tl.public`) | `[tcr]` |
+
+`spc.check_install()` shows which of these work on your machine and the command that enables each missing one.
+
+## Tutorials
+
+| | |
+|---|---|
+| [Quick start](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/01_quickstart.ipynb) | One call on data with and without real positions |
+| [Is my data spatial?](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/02_is_my_data_spatial.ipynb) | AIR-SPACE against Stereo-XCR-seq LUAD; a published QC metric under placebo |
+| [Class switching and mutation](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/03_bcr_class_switching_and_mutation.ipynb) | CSR maps and hotspots, SHM, lineages in germinal centres |
+| [Transcriptome and repertoire](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/04_transcriptome_and_repertoire.ipynb) | GEX workflow, regions, DE, diversity, networks, niches |
+| [Your own placebo](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/05_custom_placebo.ipynb) | Test any statistic against random placement |
+| [Hotspots and lineages](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/06_hotspots_and_lineages.ipynb) | The flagship on a Stereo-seq spleen: trust report, CSR/SHM hotspot atlas, lineage trees, sciCSR flow, Threadfin states |
+
+Reading data, concepts and the full API: [docs](https://github.com/Reynold4k/spaclone/tree/main/docs).
+
+## How to cite
+
+Please cite spaclone as in [CITATION.cff](https://github.com/Reynold4k/spaclone/blob/main/CITATION.cff) (GitHub: "Cite this repository") and also cite the packages you use through it; [docs/citing.md](https://github.com/Reynold4k/spaclone/blob/main/docs/citing.md) lists which function uses which package.
+spaclone is MIT-licensed; optional packages and programs keep their own licences ([install](https://github.com/Reynold4k/spaclone/blob/main/docs/install.md#licences)).
+
+## Credits
+
+Chen Satoshi (@Reynold4k) and Claude Opus 5.5 (Anthropic)
+
+## Licence
+
+MIT, see [LICENSE](https://github.com/Reynold4k/spaclone/blob/main/LICENSE).

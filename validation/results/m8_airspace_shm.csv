@@ -1,0 +1,28 @@
+quantity,archived,package,match,note
+IGH molecules on tissue (valid),2542.0,2542.0,True,same reader and filter as the tutorial
+IGH molecules with a MiXCR V alignment,,2542.0,,alignment of the molecule's representative read
+substitutions per molecule: package parse = hand parse (molecules differing),0.0,0.0,True,same alignment strings
+aligned nt = germline span - deletions (molecules differing),0.0,0.0,True,AIRR definition
+molecules whose evaluability (>= 100 nt) differs between span and span - deletions,0.0,1.0,,of 2542 molecules with an alignment; deletions are nanopore homopolymer errors mostly
+[tutorial-equivalent (baseline=None)] loci with a mutation call,1852.0,1847.0,True,"within 1-5%: the package uses each molecule's modal-CDR3 read, the tutorial its first read"
+[tutorial-equivalent (baseline=None)] mutated loci,635.0,633.0,True,"within 1-5%: the package uses each molecule's modal-CDR3 read, the tutorial its first read"
+[tutorial-equivalent (baseline=None)] GC loci evaluable (pooled),129.0,127.0,True,"within 1-5%: the package uses each molecule's modal-CDR3 read, the tutorial its first read"
+[tutorial-equivalent (baseline=None)] GC loci mutated (pooled),58.0,58.0,True,"within 1-5%: the package uses each molecule's modal-CDR3 read, the tutorial its first read"
+[tutorial-equivalent (baseline=None)] GC isotype-matched expectation,44.105538,43.852334965826884,True,"within 1-5%: the package uses each molecule's modal-CDR3 read, the tutorial its first read"
+[tutorial-equivalent (baseline=None)] GC ratio to the isotype-matched expectation,1.315028,1.3226205638809898,True,"within 1-5%: the package uses each molecule's modal-CDR3 read, the tutorial its first read"
+"[tutorial-equivalent (baseline=None)] GC excess p (blocks=None: loci shuffled within isotype, 10,000)",0.005699,0.0047995200479952005,,same design and seed as the tutorial; the inputs differ slightly (representative read of a molecule)
+[tutorial-equivalent (baseline=None)] GC excess significant at 0.05 with loci shuffled (1 = yes),1.0,1.0,True,
+"[tutorial-equivalent (baseline=None)] GC pooled p, clone-level shuffles (new default)",0.005699,0.0403959604039596,,"null mean 49.22 (isotype- and clone-size-matched), sd 4.67; observed 58, isotype-matched expectation 43.85"
+"[allele baseline, fallback 'zero'] molecules by baseline source",,2542.0,,"allele 585, zero 1957"
+"[allele baseline, fallback 'zero'] loci with a mutation call / mutated",1852.0,1847.0,,mutated 629
+"[allele baseline, fallback 'zero'] GC pooled mutated / expected / ratio / p (loci shuffled)",1.315028,1.3311091714252035,,"58 of 127 vs 43.57, p 0.0037"
+"[allele baseline, fallback 'zero'] GC pooled p, clone-level shuffles (new default)",0.005699,0.0341965803419658,,"null mean 48.93 (isotype- and clone-size-matched), sd 4.66; observed 58, isotype-matched expectation 43.57"
+"[allele baseline, fallback 'pooled'] molecules by baseline source",,2542.0,,"allele 585, pooled 1957"
+"[allele baseline, fallback 'pooled'] loci with a mutation call / mutated",1852.0,1847.0,,mutated 629
+"[allele baseline, fallback 'pooled'] GC pooled mutated / expected / ratio / p (loci shuffled)",1.315028,1.3311091714252035,,"58 of 127 vs 43.57, p 0.0037"
+"[allele baseline, fallback 'pooled'] GC pooled p, clone-level shuffles (new default)",0.005699,0.0341965803419658,,"null mean 48.93 (isotype- and clone-size-matched), sd 4.66; observed 58, isotype-matched expectation 43.57"
+V genes with >= 10 evaluable IgM / IgD molecules (allele baseline),5.0,5.0,True,of 79 V genes present; tutorial: 5 of 58
+"[allele baseline, no fallback (T1 rule)] molecules by baseline source",,2542.0,,"allele 585, none 1957"
+"[allele baseline, no fallback (T1 rule)] loci with a mutation call / mutated",1852.0,428.0,,mutated 104
+"[allele baseline, no fallback (T1 rule)] GC pooled mutated / expected / ratio / p (loci shuffled)",1.315028,1.6046682171038504,,"9 of 23 vs 5.61, p 0.0754"
+"[allele baseline, no fallback (T1 rule)] GC pooled p, clone-level shuffles (new default)",0.005699,0.041195880411958805,,"null mean 5.34 (isotype- and clone-size-matched), sd 1.75; observed 9, isotype-matched expectation 5.61"

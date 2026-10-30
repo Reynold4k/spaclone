@@ -1,0 +1,987 @@
+quantity,archived,package,match,note
+LUAD D06053D2 units,10785.0,10785.0,True,"(spot, clone) units"
+LUAD D06053D2 clones of 2-50 units,261.0,261.0,True,
+LUAD D06053D2 depth_matched 0-100 um observed,0.03351990840859941,0.03351990840859941,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 0-100 um null_mean,0.006019908408599415,0.00601990840859941,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 0-100 um null_lo,0.004705190179366493,0.004705190179366493,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 0-100 um null_hi,0.0073177712759190956,0.0073177712759190956,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 0-100 um ratio,5.568175814887209,5.568175814887214,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 0-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 0-100 um observed (default strata labels),0.03351990840859941,0.03351990840859941,True,package default run
+LUAD D06053D2 depth_matched 0-100 um null_mean (default strata labels),0.006019908408599415,0.005995738455667219,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00029"
+LUAD D06053D2 depth_matched 0-100 um expected (analytic) vs archived null mean,0.006019908408599415,0.005991609667276202,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06053D2 depth_matched 0-20 um observed,0.013166263834117797,0.013166263834117797,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 0-20 um null_mean,0.0004433278208879278,0.00044332782088792744,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 0-20 um null_lo,0.00019081541788576516,0.00019081541788576516,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 0-20 um null_hi,0.0007632616715430606,0.0007632616715430606,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 0-20 um ratio,29.698708751793394,29.698708751793422,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 0-20 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 0-20 um observed (default strata labels),0.013166263834117797,0.013166263834117797,True,package default run
+LUAD D06053D2 depth_matched 0-20 um null_mean (default strata labels),0.0004433278208879278,0.0004261544332782087,True,"package default run, other draws; tolerance 4.5 MC s.e. = 6.9e-05"
+LUAD D06053D2 depth_matched 0-20 um expected (analytic) vs archived null mean,0.0004433278208879278,0.0004453399303199326,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06053D2 depth_matched 20-100 um observed,0.02035364457448162,0.02035364457448162,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 20-100 um null_mean,0.005578488741890344,0.005578488741890342,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 20-100 um null_lo,0.004323559343594963,0.004323559343594963,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 20-100 um null_hi,0.0069329601831828016,0.0069329601831828016,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 20-100 um ratio,3.648594720939514,3.648594720939515,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 20-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+LUAD D06053D2 depth_matched 20-100 um observed (default strata labels),0.02035364457448162,0.02035364457448162,True,package default run
+LUAD D06053D2 depth_matched 20-100 um null_mean (default strata labels),0.005578488741890344,0.005570856125174914,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00029"
+LUAD D06053D2 depth_matched 20-100 um expected (analytic) vs archived null mean,0.005578488741890344,0.0055472947829597035,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06053D2 whole_sample 0-100 um observed,0.03351990840859941,0.03351990840859941,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 0-100 um null_mean,0.0062113598778781335,0.0062113598778781335,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 0-100 um null_lo,0.004958020608065132,0.004958020608065132,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 0-100 um null_hi,0.007570601704617734,0.007570601704617734,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 0-100 um ratio,5.396549075828169,5.396549075828169,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 0-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 0-100 um observed (default strata labels),0.03351990840859941,0.03351990840859941,True,package default run
+LUAD D06053D2 whole_sample 0-100 um null_mean (default strata labels),0.0062113598778781335,0.0061677903574608815,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00031"
+LUAD D06053D2 whole_sample 0-100 um expected (analytic) vs archived null mean,0.0062113598778781335,0.006224386408752677,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06053D2 whole_sample 0-20 um observed,0.013166263834117797,0.013166263834117797,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 0-20 um null_mean,0.0004856252385192723,0.00048562523851927177,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 0-20 um null_lo,0.0001892252894033838,0.0001892252894033838,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 0-20 um null_hi,0.0008284569393206975,0.0008284569393206975,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 0-20 um ratio,27.111984282907663,27.111984282907695,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 0-20 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 0-20 um observed (default strata labels),0.013166263834117797,0.013166263834117797,True,package default run
+LUAD D06053D2 whole_sample 0-20 um null_mean (default strata labels),0.0004856252385192723,0.00048212695585803274,True,"package default run, other draws; tolerance 4.5 MC s.e. = 7.4e-05"
+LUAD D06053D2 whole_sample 0-20 um expected (analytic) vs archived null mean,0.0004856252385192723,0.0004743028357057074,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06053D2 whole_sample 20-100 um observed,0.02035364457448162,0.02035364457448162,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 20-100 um null_mean,0.005727642793537717,0.005727642793537714,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 20-100 um null_lo,0.004452359750667854,0.004452359750667854,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 20-100 um null_hi,0.007125365729550948,0.007125365729550948,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 20-100 um ratio,3.5535813436979464,3.553581343697948,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 20-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+LUAD D06053D2 whole_sample 20-100 um observed (default strata labels),0.02035364457448162,0.02035364457448162,True,package default run
+LUAD D06053D2 whole_sample 20-100 um null_mean (default strata labels),0.005727642793537717,0.005686299452995801,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00031"
+LUAD D06053D2 whole_sample 20-100 um expected (analytic) vs archived null mean,0.005727642793537717,0.005751149731259346,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"LUAD D06053D2 depth_matched 20-100 um ratio (units=records, sinks removed)",3.648594720939514,3.710360020870775,improved,"improved design (review M4); 10785 units, 261 clones in the window, p 0.00498; 0 sink spots removed"
+"LUAD D06053D2 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",3.648594720939514,3.6446322778213065,improved,"improved design (review M4); 8585 units, 261 clones in the window, p 0.00498; 0 sink spots removed"
+LUAD D06047C3 units,785.0,785.0,True,"(spot, clone) units"
+LUAD D06047C3 clones of 2-50 units,84.0,84.0,True,
+LUAD D06047C3 depth_matched 0-100 um observed,0.0192090395480226,0.0192090395480226,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 0-100 um null_mean,0.016442090395480228,0.0164420903954802,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 0-100 um null_lo,0.012139830508474577,0.012139830508474577,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 0-100 um null_hi,0.0209180790960452,0.0209180790960452,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 0-100 um ratio,1.1682845116398934,1.1682845116398954,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 0-100 um p_greater,0.12935323383084577,0.12935323383084577,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 0-100 um observed (default strata labels),0.0192090395480226,0.0192090395480226,True,package default run
+LUAD D06047C3 depth_matched 0-100 um null_mean (default strata labels),0.016442090395480228,0.016238700564971734,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.001"
+LUAD D06047C3 depth_matched 0-100 um expected (analytic) vs archived null mean,0.016442090395480228,0.01612283630196279,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047C3 depth_matched 0-20 um observed,0.002542372881355932,0.002542372881355932,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 0-20 um null_mean,0.0021779661016949154,0.002177966101694911,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 0-20 um null_lo,0.000847457627118644,0.000847457627118644,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 0-20 um null_hi,0.00423728813559322,0.00423728813559322,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 0-20 um ratio,1.1673151750972761,1.1673151750972783,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 0-20 um p_greater,0.3383084577114428,0.3383084577114428,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 0-20 um observed (default strata labels),0.002542372881355932,0.002542372881355932,True,package default run
+LUAD D06047C3 depth_matched 0-20 um null_mean (default strata labels),0.0021779661016949154,0.002110169491525419,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00035"
+LUAD D06047C3 depth_matched 0-20 um expected (analytic) vs archived null mean,0.0021779661016949154,0.002097668975921542,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047C3 depth_matched 20-100 um observed,0.016666666666666666,0.016666666666666666,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 20-100 um null_mean,0.01426412429378531,0.014264124293785308,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 20-100 um null_lo,0.010734463276836158,0.010734463276836158,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 20-100 um null_hi,0.01864406779661017,0.01864406779661017,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 20-100 um ratio,1.1684325180710962,1.1684325180710964,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 20-100 um p_greater,0.14427860696517414,0.14427860696517414,True,legacy-equivalent run (same draws)
+LUAD D06047C3 depth_matched 20-100 um observed (default strata labels),0.016666666666666666,0.016666666666666666,True,package default run
+LUAD D06047C3 depth_matched 20-100 um null_mean (default strata labels),0.01426412429378531,0.014129943502824855,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00097"
+LUAD D06047C3 depth_matched 20-100 um expected (analytic) vs archived null mean,0.01426412429378531,0.014027699297310901,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047C3 whole_sample 0-100 um observed,0.0192090395480226,0.0192090395480226,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 0-100 um null_mean,0.016507062146892654,0.016507062146892647,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 0-100 um null_lo,0.011299435028248588,0.011299435028248588,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 0-100 um null_hi,0.02288135593220339,0.02288135593220339,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 0-100 um ratio,1.1636861470009414,1.1636861470009419,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 0-100 um p_greater,0.1691542288557214,0.1691542288557214,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 0-100 um observed (default strata labels),0.0192090395480226,0.0192090395480226,True,package default run
+LUAD D06047C3 whole_sample 0-100 um null_mean (default strata labels),0.016507062146892654,0.0162189265536723,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0013"
+LUAD D06047C3 whole_sample 0-100 um expected (analytic) vs archived null mean,0.016507062146892654,0.016229039386455216,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047C3 whole_sample 0-20 um observed,0.002542372881355932,0.002542372881355932,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 0-20 um null_mean,0.0021242937853107346,0.00212429378531073,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 0-20 um null_lo,0.0008403954802259888,0.0008403954802259888,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 0-20 um null_hi,0.0039548022598870055,0.0039548022598870055,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 0-20 um ratio,1.1968085106382977,1.1968085106383004,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 0-20 um p_greater,0.3681592039800995,0.3681592039800995,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 0-20 um observed (default strata labels),0.002542372881355932,0.002542372881355932,True,package default run
+LUAD D06047C3 whole_sample 0-20 um null_mean (default strata labels),0.0021242937853107346,0.0020706214689265503,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00034"
+LUAD D06047C3 whole_sample 0-20 um expected (analytic) vs archived null mean,0.0021242937853107346,0.0021383075523202905,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047C3 whole_sample 20-100 um observed,0.016666666666666666,0.016666666666666666,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 20-100 um null_mean,0.014385593220338984,0.01438559322033899,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 20-100 um null_lo,0.00903954802259887,0.00903954802259887,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 20-100 um null_hi,0.02005649717514124,0.02005649717514124,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 20-100 um ratio,1.1585665193912615,1.158566519391261,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 20-100 um p_greater,0.18407960199004975,0.18407960199004975,True,legacy-equivalent run (same draws)
+LUAD D06047C3 whole_sample 20-100 um observed (default strata labels),0.016666666666666666,0.016666666666666666,True,package default run
+LUAD D06047C3 whole_sample 20-100 um null_mean (default strata labels),0.014385593220338984,0.01415254237288136,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0012"
+LUAD D06047C3 whole_sample 20-100 um expected (analytic) vs archived null mean,0.014385593220338984,0.014093981541661249,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"LUAD D06047C3 depth_matched 20-100 um ratio (units=records, sinks removed)",1.1684325180710962,1.1843822141925122,improved,"improved design (review M4); 785 units, 84 clones in the window, p 0.184; 0 sink spots removed"
+"LUAD D06047C3 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",1.1684325180710962,1.2299534785726622,improved,"improved design (review M4); 773 units, 84 clones in the window, p 0.0945; 0 sink spots removed"
+LUAD D06047F6 units,610.0,610.0,True,"(spot, clone) units"
+LUAD D06047F6 clones of 2-50 units,76.0,76.0,True,
+LUAD D06047F6 depth_matched 0-100 um observed,0.006223073240785065,0.006223073240785065,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 0-100 um null_mean,0.007754906653901388,0.007754906653901386,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 0-100 um null_lo,0.0042963140258496894,0.0042963140258496894,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 0-100 um null_hi,0.01292484442316898,0.01292484442316898,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 0-100 um ratio,0.8024691358024691,0.8024691358024694,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 0-100 um p_greater,0.7711442786069652,0.7711442786069652,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 0-100 um observed (default strata labels),0.006223073240785065,0.006223073240785065,True,package default run
+LUAD D06047F6 depth_matched 0-100 um null_mean (default strata labels),0.007754906653901388,0.007805169937769265,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00093"
+LUAD D06047F6 depth_matched 0-100 um expected (analytic) vs archived null mean,0.007754906653901388,0.007806301879438281,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047F6 depth_matched 0-20 um observed,0.0004786979415988511,0.0004786979415988511,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 0-20 um null_mean,0.0011129727142173288,0.0011129727142173307,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 0-20 um null_lo,0.0,0.0,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 0-20 um null_hi,0.0028721876495931067,0.0028721876495931067,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 0-20 um ratio,0.43010752688172044,0.4301075268817197,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 0-20 um p_greater,0.8955223880597015,0.8955223880597015,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 0-20 um observed (default strata labels),0.0004786979415988511,0.0004786979415988511,True,package default run
+LUAD D06047F6 depth_matched 0-20 um null_mean (default strata labels),0.0011129727142173288,0.0012326471996170444,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00032"
+LUAD D06047F6 depth_matched 0-20 um expected (analytic) vs archived null mean,0.0011129727142173288,0.0011773095290664786,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047F6 depth_matched 20-100 um observed,0.0057443752991862135,0.0057443752991862135,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 20-100 um null_mean,0.006641933939684059,0.006641933939684059,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 20-100 um null_lo,0.003350885591191958,0.003350885591191958,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 20-100 um null_hi,0.011010052656773576,0.011010052656773576,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 20-100 um ratio,0.8648648648648649,0.8648648648648649,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 20-100 um p_greater,0.6865671641791045,0.6865671641791045,True,legacy-equivalent run (same draws)
+LUAD D06047F6 depth_matched 20-100 um observed (default strata labels),0.0057443752991862135,0.0057443752991862135,True,package default run
+LUAD D06047F6 depth_matched 20-100 um null_mean (default strata labels),0.006641933939684059,0.006572522738152227,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00086"
+LUAD D06047F6 depth_matched 20-100 um expected (analytic) vs archived null mean,0.006641933939684059,0.006628992350371802,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047F6 whole_sample 0-100 um observed,0.006223073240785065,0.006223073240785065,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 0-100 um null_mean,0.007910483484921016,0.007910483484921016,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 0-100 um null_lo,0.00430828147438966,0.00430828147438966,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 0-100 um null_hi,0.01244614648157013,0.01244614648157013,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 0-100 um ratio,0.7866868381240544,0.7866868381240544,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 0-100 um p_greater,0.8258706467661692,0.8258706467661692,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 0-100 um observed (default strata labels),0.006223073240785065,0.006223073240785065,True,package default run
+LUAD D06047F6 whole_sample 0-100 um null_mean (default strata labels),0.007910483484921016,0.007680708472953573,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00094"
+LUAD D06047F6 whole_sample 0-100 um expected (analytic) vs archived null mean,0.007910483484921016,0.007881773399014778,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047F6 whole_sample 0-20 um observed,0.0004786979415988511,0.0004786979415988511,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 0-20 um null_mean,0.0011656294877932024,0.0011656294877932043,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 0-20 um null_lo,0.0,0.0,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 0-20 um null_hi,0.0028721876495931067,0.0028721876495931067,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 0-20 um ratio,0.41067761806981523,0.41067761806981457,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 0-20 um p_greater,0.900497512437811,0.900497512437811,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 0-20 um observed (default strata labels),0.0004786979415988511,0.0004786979415988511,True,package default run
+LUAD D06047F6 whole_sample 0-20 um null_mean (default strata labels),0.0011656294877932024,0.0012254667304930607,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00034"
+LUAD D06047F6 whole_sample 0-20 um expected (analytic) vs archived null mean,0.0011656294877932024,0.0012005706748499283,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047F6 whole_sample 20-100 um observed,0.0057443752991862135,0.0057443752991862135,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 20-100 um null_mean,0.006744853997127811,0.006744853997127813,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 20-100 um null_lo,0.0033389181426519868,0.0033389181426519868,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 20-100 um null_hi,0.011488750598372427,0.011488750598372427,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 20-100 um ratio,0.85166784953868,0.8516678495386798,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 20-100 um p_greater,0.7313432835820896,0.7313432835820896,True,legacy-equivalent run (same draws)
+LUAD D06047F6 whole_sample 20-100 um observed (default strata labels),0.0057443752991862135,0.0057443752991862135,True,package default run
+LUAD D06047F6 whole_sample 20-100 um null_mean (default strata labels),0.006744853997127811,0.006455241742460509,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00089"
+LUAD D06047F6 whole_sample 20-100 um expected (analytic) vs archived null mean,0.006744853997127811,0.006681202724164849,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"LUAD D06047F6 depth_matched 20-100 um ratio (units=records, sinks removed)",0.8648648648648649,0.8673653776653416,improved,"improved design (review M4); 610 units, 76 clones in the window, p 0.716; 0 sink spots removed"
+"LUAD D06047F6 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",0.8648648648648649,0.9015818925873095,improved,"improved design (review M4); 606 units, 76 clones in the window, p 0.657; 0 sink spots removed"
+LUAD D06047E1 units,1424.0,1424.0,True,"(spot, clone) units"
+LUAD D06047E1 clones of 2-50 units,96.0,96.0,True,
+LUAD D06047E1 depth_matched 0-100 um observed,0.015768243491015767,0.015768243491015767,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 0-100 um null_mean,0.016266960029336267,0.016266960029336263,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 0-100 um null_lo,0.010634396773010634,0.010634396773010634,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 0-100 um null_hi,0.022744774477447747,0.022744774477447747,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 0-100 um ratio,0.9693417493237151,0.9693417493237152,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 0-100 um p_greater,0.5621890547263682,0.5621890547263682,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 0-100 um observed (default strata labels),0.015768243491015767,0.015768243491015767,True,package default run
+LUAD D06047E1 depth_matched 0-100 um null_mean (default strata labels),0.016266960029336267,0.016010267693436008,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0012"
+LUAD D06047E1 depth_matched 0-100 um expected (analytic) vs archived null mean,0.016266960029336267,0.016173495456700025,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047E1 depth_matched 0-20 um observed,0.0003667033370003667,0.0003667033370003667,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 0-20 um null_mean,0.001729006233956729,0.0017290062339567292,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 0-20 um null_lo,0.0003667033370003667,0.0003667033370003667,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 0-20 um null_hi,0.0033003300330033004,0.0033003300330033004,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 0-20 um ratio,0.21208907741251326,0.21208907741251323,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 0-20 um p_greater,0.9900497512437811,0.9900497512437811,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 0-20 um observed (default strata labels),0.0003667033370003667,0.0003667033370003667,True,package default run
+LUAD D06047E1 depth_matched 0-20 um null_mean (default strata labels),0.001729006233956729,0.001694169416941695,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00034"
+LUAD D06047E1 depth_matched 0-20 um expected (analytic) vs archived null mean,0.001729006233956729,0.0017400665304916822,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047E1 depth_matched 20-100 um observed,0.015401540154015401,0.015401540154015401,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 20-100 um null_mean,0.014539787312064541,0.014539787312064541,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 20-100 um null_lo,0.009891822515584892,0.009891822515584892,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 20-100 um null_hi,0.020535386872020535,0.020535386872020535,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 20-100 um ratio,1.0592686002522067,1.0592686002522067,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 20-100 um p_greater,0.3681592039800995,0.3681592039800995,True,legacy-equivalent run (same draws)
+LUAD D06047E1 depth_matched 20-100 um observed (default strata labels),0.015401540154015401,0.015401540154015401,True,package default run
+LUAD D06047E1 depth_matched 20-100 um null_mean (default strata labels),0.014539787312064541,0.01431976530986432,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0011"
+LUAD D06047E1 depth_matched 20-100 um expected (analytic) vs archived null mean,0.014539787312064541,0.014438705721442376,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047E1 whole_sample 0-100 um observed,0.015768243491015767,0.015768243491015767,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 0-100 um null_mean,0.017216721672167215,0.017216721672167215,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 0-100 um null_lo,0.012092042537587092,0.012092042537587092,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 0-100 um null_hi,0.022744774477447747,0.022744774477447747,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 0-100 um ratio,0.9158679446219383,0.9158679446219383,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 0-100 um p_greater,0.6666666666666666,0.6666666666666666,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 0-100 um observed (default strata labels),0.015768243491015767,0.015768243491015767,True,package default run
+LUAD D06047E1 whole_sample 0-100 um null_mean (default strata labels),0.017216721672167215,0.016848184818481837,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0012"
+LUAD D06047E1 whole_sample 0-100 um expected (analytic) vs archived null mean,0.017216721672167215,0.017033565737838246,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047E1 whole_sample 0-20 um observed,0.0003667033370003667,0.0003667033370003667,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 0-20 um null_mean,0.0019985331866519984,0.0019985331866519992,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 0-20 um null_lo,0.0007242390905757244,0.0007242390905757244,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 0-20 um null_hi,0.004033736707004034,0.004033736707004034,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 0-20 um ratio,0.1834862385321101,0.18348623853211002,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 0-20 um p_greater,0.9950248756218906,0.9950248756218906,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 0-20 um observed (default strata labels),0.0003667033370003667,0.0003667033370003667,True,package default run
+LUAD D06047E1 whole_sample 0-20 um null_mean (default strata labels),0.0019985331866519984,0.0019270260359369276,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00039"
+LUAD D06047E1 whole_sample 0-20 um expected (analytic) vs archived null mean,0.0019985331866519984,0.0019542507915702697,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047E1 whole_sample 20-100 um observed,0.015401540154015401,0.015401540154015401,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 20-100 um null_mean,0.015225522552255226,0.015225522552255219,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 20-100 um null_lo,0.009900990099009901,0.009900990099009901,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 20-100 um null_hi,0.02018701870187019,0.02018701870187019,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 20-100 um ratio,1.0115606936416184,1.0115606936416188,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 20-100 um p_greater,0.5074626865671642,0.5074626865671642,True,legacy-equivalent run (same draws)
+LUAD D06047E1 whole_sample 20-100 um observed (default strata labels),0.015401540154015401,0.015401540154015401,True,package default run
+LUAD D06047E1 whole_sample 20-100 um null_mean (default strata labels),0.015225522552255226,0.014926659332599922,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0011"
+LUAD D06047E1 whole_sample 20-100 um expected (analytic) vs archived null mean,0.015225522552255226,0.015086223913712917,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"LUAD D06047E1 depth_matched 20-100 um ratio (units=records, sinks removed)",1.0592686002522067,1.0754064780437844,improved,"improved design (review M4); 1424 units, 96 clones in the window, p 0.378; 0 sink spots removed"
+"LUAD D06047E1 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",1.0592686002522067,1.1746328993899786,improved,"improved design (review M4); 1273 units, 96 clones in the window, p 0.189; 0 sink spots removed"
+LUAD D06050A2 units,408.0,408.0,True,"(spot, clone) units"
+LUAD D06050A2 clones of 2-50 units,42.0,42.0,True,
+LUAD D06050A2 depth_matched 0-100 um observed,0.020489094514210177,0.020489094514210177,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 0-100 um null_mean,0.015204890945142102,0.0152048909451421,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 0-100 um null_lo,0.009236615994712493,0.009236615994712493,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 0-100 um null_hi,0.02182749504296101,0.02182749504296101,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 0-100 um ratio,1.347533144968485,1.347533144968485,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 0-100 um p_greater,0.07462686567164178,0.07462686567164178,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 0-100 um observed (default strata labels),0.020489094514210177,0.020489094514210177,True,package default run
+LUAD D06050A2 depth_matched 0-100 um null_mean (default strata labels),0.015204890945142102,0.015614672835426302,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0015"
+LUAD D06050A2 depth_matched 0-100 um expected (analytic) vs archived null mean,0.015204890945142102,0.015538802408723422,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050A2 depth_matched 0-20 um observed,0.0013218770654329147,0.0013218770654329147,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 0-20 um null_mean,0.0020753469927296763,0.0020753469927296763,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 0-20 um null_lo,0.0006609385327164573,0.0006609385327164573,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 0-20 um null_hi,0.004626569729015202,0.004626569729015202,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 0-20 um ratio,0.6369426751592356,0.6369426751592356,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 0-20 um p_greater,0.835820895522388,0.835820895522388,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 0-20 um observed (default strata labels),0.0013218770654329147,0.0013218770654329147,True,package default run
+LUAD D06050A2 depth_matched 0-20 um null_mean (default strata labels),0.0020753469927296763,0.0021910112359550564,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00051"
+LUAD D06050A2 depth_matched 0-20 um expected (analytic) vs archived null mean,0.0020753469927296763,0.002182282872128903,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050A2 depth_matched 20-100 um observed,0.019167217448777262,0.019167217448777262,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 20-100 um null_mean,0.013129543952412425,0.013129543952412415,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 20-100 um null_lo,0.00725380039656312,0.00725380039656312,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 20-100 um null_hi,0.019844679444811636,0.019844679444811636,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 20-100 um ratio,1.4598540145985401,1.4598540145985412,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 20-100 um p_greater,0.04975124378109453,0.04975124378109453,True,legacy-equivalent run (same draws)
+LUAD D06050A2 depth_matched 20-100 um observed (default strata labels),0.019167217448777262,0.019167217448777262,True,package default run
+LUAD D06050A2 depth_matched 20-100 um null_mean (default strata labels),0.013129543952412425,0.01342366159947124,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0014"
+LUAD D06050A2 depth_matched 20-100 um expected (analytic) vs archived null mean,0.013129543952412425,0.013356519536594521,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050A2 whole_sample 0-100 um observed,0.020489094514210177,0.020489094514210177,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 0-100 um null_mean,0.015988103106411106,0.015988103106411106,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 0-100 um null_lo,0.009897554527428949,0.009897554527428949,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 0-100 um null_hi,0.02511566424322538,0.02511566424322538,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 0-100 um ratio,1.2815212897891688,1.2815212897891688,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 0-100 um p_greater,0.13432835820895522,0.13432835820895522,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 0-100 um observed (default strata labels),0.020489094514210177,0.020489094514210177,True,package default run
+LUAD D06050A2 whole_sample 0-100 um null_mean (default strata labels),0.015988103106411106,0.016146728354263052,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0017"
+LUAD D06050A2 whole_sample 0-100 um expected (analytic) vs archived null mean,0.015988103106411106,0.016139133786192607,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050A2 whole_sample 0-20 um observed,0.0013218770654329147,0.0013218770654329147,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 0-20 um null_mean,0.0023793787177792468,0.0023793787177792463,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 0-20 um null_lo,0.0006609385327164573,0.0006609385327164573,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 0-20 um null_hi,0.004626569729015202,0.004626569729015202,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 0-20 um ratio,0.5555555555555555,0.5555555555555556,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 0-20 um p_greater,0.8905472636815921,0.8905472636815921,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 0-20 um observed (default strata labels),0.0013218770654329147,0.0013218770654329147,True,package default run
+LUAD D06050A2 whole_sample 0-20 um null_mean (default strata labels),0.0023793787177792468,0.002306675479180435,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00051"
+LUAD D06050A2 whole_sample 0-20 um expected (analytic) vs archived null mean,0.0023793787177792468,0.002312472900708195,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050A2 whole_sample 20-100 um observed,0.019167217448777262,0.019167217448777262,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 20-100 um null_mean,0.013608724388631858,0.01360872438863185,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 20-100 um null_lo,0.007931262392597489,0.007931262392597489,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 20-100 um null_hi,0.021150033046926635,0.021150033046926635,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 20-100 um ratio,1.4084507042253518,1.4084507042253527,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 20-100 um p_greater,0.06467661691542288,0.06467661691542288,True,legacy-equivalent run (same draws)
+LUAD D06050A2 whole_sample 20-100 um observed (default strata labels),0.019167217448777262,0.019167217448777262,True,package default run
+LUAD D06050A2 whole_sample 20-100 um null_mean (default strata labels),0.013608724388631858,0.01384005287508261,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0015"
+LUAD D06050A2 whole_sample 20-100 um expected (analytic) vs archived null mean,0.013608724388631858,0.013826660885484414,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"LUAD D06050A2 depth_matched 20-100 um ratio (units=records, sinks removed)",1.4598540145985401,1.42156862745098,improved,"improved design (review M4); 408 units, 42 clones in the window, p 0.0498; 0 sink spots removed"
+"LUAD D06050A2 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",1.4598540145985401,1.4213843326193911,improved,"improved design (review M4); 398 units, 42 clones in the window, p 0.0547; 0 sink spots removed"
+LUAD D06047A2 units,6178.0,6178.0,True,"(spot, clone) units"
+LUAD D06047A2 clones of 2-50 units,520.0,520.0,True,
+LUAD D06047A2 depth_matched 0-100 um observed,0.005391732676562604,0.005391732676562604,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 0-100 um null_mean,0.005538341210144445,0.005538341210144447,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 0-100 um null_lo,0.00462540770818079,0.00462540770818079,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 0-100 um null_hi,0.006424316048725289,0.006424316048725289,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 0-100 um ratio,0.973528439650251,0.9735284396502506,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 0-100 um p_greater,0.6716417910447762,0.6716417910447762,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 0-100 um observed (default strata labels),0.005391732676562604,0.005391732676562604,True,package default run
+LUAD D06047A2 depth_matched 0-100 um null_mean (default strata labels),0.005538341210144445,0.005519536710377423,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00021"
+LUAD D06047A2 depth_matched 0-100 um expected (analytic) vs archived null mean,0.005538341210144445,0.005508144117483868,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047A2 depth_matched 0-20 um observed,0.0007322106103973907,0.0007322106103973907,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 0-20 um null_mean,0.0005032283831458431,0.000503228383145843,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 0-20 um null_lo,0.000299540704253478,0.000299540704253478,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 0-20 um null_hi,0.0007663249683818147,0.0007663249683818147,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 0-20 um ratio,1.4550264550264551,1.4550264550264553,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 0-20 um p_greater,0.05472636815920398,0.05472636815920398,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 0-20 um observed (default strata labels),0.0007322106103973907,0.0007322106103973907,True,package default run
+LUAD D06047A2 depth_matched 0-20 um null_mean (default strata labels),0.0005032283831458431,0.0004950742195300537,True,"package default run, other draws; tolerance 4.5 MC s.e. = 5.5e-05"
+LUAD D06047A2 depth_matched 0-20 um expected (analytic) vs archived null mean,0.0005032283831458431,0.0005013443506546816,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047A2 depth_matched 20-100 um observed,0.004659522066165213,0.004659522066165213,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 20-100 um null_mean,0.005036776942022232,0.005036776942022235,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 20-100 um null_lo,0.004226852160021301,0.004226852160021301,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 20-100 um null_hi,0.0058926312986753646,0.0058926312986753646,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 20-100 um ratio,0.9250999438332178,0.9250999438332173,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 20-100 um p_greater,0.7860696517412935,0.7860696517412935,True,legacy-equivalent run (same draws)
+LUAD D06047A2 depth_matched 20-100 um observed (default strata labels),0.004659522066165213,0.004659522066165213,True,package default run
+LUAD D06047A2 depth_matched 20-100 um null_mean (default strata labels),0.005036776942022232,0.005025460959861548,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00019"
+LUAD D06047A2 depth_matched 20-100 um expected (analytic) vs archived null mean,0.005036776942022232,0.005008444314528211,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047A2 whole_sample 0-100 um observed,0.005391732676562604,0.005391732676562604,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 0-100 um null_mean,0.005264095054250149,0.005264095054250151,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 0-100 um null_lo,0.004425713905345138,0.004425713905345138,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 0-100 um null_hi,0.006191339945417027,0.006191339945417027,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 0-100 um ratio,1.0242468308412103,1.0242468308412098,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 0-100 um p_greater,0.3781094527363184,0.3781094527363184,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 0-100 um observed (default strata labels),0.005391732676562604,0.005391732676562604,True,package default run
+LUAD D06047A2 whole_sample 0-100 um null_mean (default strata labels),0.005264095054250149,0.005255608067629635,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00019"
+LUAD D06047A2 whole_sample 0-100 um expected (analytic) vs archived null mean,0.005264095054250149,0.005247591643788901,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047A2 whole_sample 0-20 um observed,0.0007322106103973907,0.0007322106103973907,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 0-20 um null_mean,0.00045779804300073224,0.000457798043000732,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 0-20 um null_lo,0.0002662584037808693,0.0002662584037808693,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 0-20 um null_hi,0.0007330426679092061,0.0007330426679092061,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 0-20 um ratio,1.599418393311523,1.599418393311524,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 0-20 um p_greater,0.03482587064676617,0.03482587064676617,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 0-20 um observed (default strata labels),0.0007322106103973907,0.0007322106103973907,True,package default run
+LUAD D06047A2 whole_sample 0-20 um null_mean (default strata labels),0.00045779804300073224,0.00045763163149836896,True,"package default run, other draws; tolerance 4.5 MC s.e. = 5.3e-05"
+LUAD D06047A2 whole_sample 0-20 um expected (analytic) vs archived null mean,0.00045779804300073224,0.0004672247473671505,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047A2 whole_sample 20-100 um observed,0.004659522066165213,0.004659522066165213,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 20-100 um null_mean,0.004807794714770684,0.004807794714770686,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 20-100 um null_lo,0.004059608600146442,0.004059608600146442,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 20-100 um null_hi,0.005692105438327898,0.005692105438327898,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 20-100 um ratio,0.969159946003946,0.9691599460039456,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 20-100 um p_greater,0.6417910447761194,0.6417910447761194,True,legacy-equivalent run (same draws)
+LUAD D06047A2 whole_sample 20-100 um observed (default strata labels),0.004659522066165213,0.004659522066165213,True,package default run
+LUAD D06047A2 whole_sample 20-100 um null_mean (default strata labels),0.004807794714770684,0.004799307728150169,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00018"
+LUAD D06047A2 whole_sample 20-100 um expected (analytic) vs archived null mean,0.004807794714770684,0.004781886752582562,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"LUAD D06047A2 depth_matched 20-100 um ratio (units=records, sinks removed)",0.9250999438332178,0.9340805978115826,improved,"improved design (review M4); 6178 units, 520 clones in the window, p 0.796; 0 sink spots removed"
+"LUAD D06047A2 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",0.9250999438332178,0.9597244863215443,improved,"improved design (review M4); 6110 units, 520 clones in the window, p 0.632; 0 sink spots removed"
+LUAD D06050C2 units,2145.0,2145.0,True,"(spot, clone) units"
+LUAD D06050C2 clones of 2-50 units,205.0,205.0,True,
+LUAD D06050C2 depth_matched 0-100 um observed,0.010327357755261106,0.010327357755261106,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 0-100 um null_mean,0.009028643803585347,0.009028643803585347,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 0-100 um null_lo,0.007207229150428683,0.007207229150428683,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 0-100 um null_hi,0.011401500389711614,0.011401500389711614,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 0-100 um ratio,1.143843746627819,1.143843746627819,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 0-100 um p_greater,0.10945273631840796,0.10945273631840796,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 0-100 um observed (default strata labels),0.010327357755261106,0.010327357755261106,True,package default run
+LUAD D06050C2 depth_matched 0-100 um null_mean (default strata labels),0.009028643803585347,0.009140198752922837,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00051"
+LUAD D06050C2 depth_matched 0-100 um expected (analytic) vs archived null mean,0.009028643803585347,0.009093580188311,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050C2 depth_matched 0-20 um observed,0.0013639906469212783,0.0013639906469212783,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 0-20 um null_mean,0.0013415822291504287,0.0013415822291504293,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 0-20 um null_lo,0.0006819953234606392,0.0006819953234606392,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 0-20 um null_hi,0.0020459859703819173,0.0020459859703819173,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 0-20 um ratio,1.0167029774872913,1.0167029774872907,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 0-20 um p_greater,0.5373134328358209,0.5373134328358209,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 0-20 um observed (default strata labels),0.0013639906469212783,0.0013639906469212783,True,package default run
+LUAD D06050C2 depth_matched 0-20 um null_mean (default strata labels),0.0013415822291504287,0.0013386593920498835,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00016"
+LUAD D06050C2 depth_matched 0-20 um expected (analytic) vs archived null mean,0.0013415822291504287,0.0013376911233427247,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050C2 depth_matched 20-100 um observed,0.008963367108339828,0.008963367108339828,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 20-100 um null_mean,0.007690471551052221,0.00769047155105222,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 20-100 um null_lo,0.005845674201091193,0.005845674201091193,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 20-100 um null_hi,0.009937646141855027,0.009937646141855027,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 20-100 um ratio,1.1655159308291632,1.1655159308291634,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 20-100 um p_greater,0.1044776119402985,0.1044776119402985,True,legacy-equivalent run (same draws)
+LUAD D06050C2 depth_matched 20-100 um observed (default strata labels),0.008963367108339828,0.008963367108339828,True,package default run
+LUAD D06050C2 depth_matched 20-100 um null_mean (default strata labels),0.007690471551052221,0.007807385035074042,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00048"
+LUAD D06050C2 depth_matched 20-100 um expected (analytic) vs archived null mean,0.007690471551052221,0.007758041738988117,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050C2 whole_sample 0-100 um observed,0.010327357755261106,0.010327357755261106,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 0-100 um null_mean,0.009104150428682775,0.009104150428682779,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 0-100 um null_lo,0.007209664848012471,0.007209664848012471,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 0-100 um null_hi,0.011204208885424786,0.011204208885424786,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 0-100 um ratio,1.1343571084595214,1.134357108459521,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 0-100 um p_greater,0.11940298507462686,0.11940298507462686,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 0-100 um observed (default strata labels),0.010327357755261106,0.010327357755261106,True,package default run
+LUAD D06050C2 whole_sample 0-100 um null_mean (default strata labels),0.009104150428682775,0.009190861262665632,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00049"
+LUAD D06050C2 whole_sample 0-100 um expected (analytic) vs archived null mean,0.009104150428682775,0.00916657968896775,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050C2 whole_sample 0-20 um observed,0.0013639906469212783,0.0013639906469212783,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 0-20 um null_mean,0.0013717848791894,0.0013717848791893984,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 0-20 um null_lo,0.0006819953234606392,0.0006819953234606392,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 0-20 um null_hi,0.0020459859703819173,0.0020459859703819173,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 0-20 um ratio,0.9943181818181818,0.9943181818181829,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 0-20 um p_greater,0.5572139303482587,0.5572139303482587,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 0-20 um observed (default strata labels),0.0013639906469212783,0.0013639906469212783,True,package default run
+LUAD D06050C2 whole_sample 0-20 um null_mean (default strata labels),0.0013717848791894,0.0013201480904130932,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00016"
+LUAD D06050C2 whole_sample 0-20 um expected (analytic) vs archived null mean,0.0013717848791894,0.0013429356712938807,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050C2 whole_sample 20-100 um observed,0.008963367108339828,0.008963367108339828,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 20-100 um null_mean,0.007733826968043648,0.007733826968043647,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 20-100 um null_lo,0.005943102104442713,0.005943102104442713,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 20-100 um null_hi,0.009842653936087296,0.009842653936087296,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 20-100 um ratio,1.1589821113630636,1.1589821113630638,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 20-100 um p_greater,0.10945273631840796,0.10945273631840796,True,legacy-equivalent run (same draws)
+LUAD D06050C2 whole_sample 20-100 um observed (default strata labels),0.008963367108339828,0.008963367108339828,True,package default run
+LUAD D06050C2 whole_sample 20-100 um null_mean (default strata labels),0.007733826968043648,0.00787314886983632,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00046"
+LUAD D06050C2 whole_sample 20-100 um expected (analytic) vs archived null mean,0.007733826968043648,0.00782581846014682,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"LUAD D06050C2 depth_matched 20-100 um ratio (units=records, sinks removed)",1.1655159308291632,1.1591281340556885,improved,"improved design (review M4); 2145 units, 205 clones in the window, p 0.0995; 0 sink spots removed"
+"LUAD D06050C2 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",1.1655159308291632,1.144504613877873,improved,"improved design (review M4); 2119 units, 205 clones in the window, p 0.174; 0 sink spots removed"
+LUAD D06047D4 units,2399.0,2399.0,True,"(spot, clone) units"
+LUAD D06047D4 clones of 2-50 units,217.0,217.0,True,
+LUAD D06047D4 depth_matched 0-100 um observed,0.012461638612480237,0.012461638612480237,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 0-100 um null_mean,0.01113363712452339,0.011133637124523386,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 0-100 um null_lo,0.009018413466009486,0.009018413466009486,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 0-100 um null_hi,0.013486933878917513,0.013486933878917513,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 0-100 um ratio,1.1192783160708317,1.1192783160708322,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 0-100 um p_greater,0.12935323383084577,0.12935323383084577,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 0-100 um observed (default strata labels),0.012461638612480237,0.012461638612480237,True,package default run
+LUAD D06047D4 depth_matched 0-100 um null_mean (default strata labels),0.01113363712452339,0.011106667906630703,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0005"
+LUAD D06047D4 depth_matched 0-100 um expected (analytic) vs archived null mean,0.01113363712452339,0.011051099928710863,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047D4 depth_matched 0-20 um observed,0.001022970333860318,0.001022970333860318,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 0-20 um null_mean,0.000945317585790012,0.000945317585790011,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 0-20 um null_lo,0.0003719892123128429,0.0003719892123128429,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 0-20 um null_hi,0.0015809541523295824,0.0015809541523295824,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 0-20 um ratio,1.0821446138711266,1.0821446138711277,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 0-20 um p_greater,0.39800995024875624,0.39800995024875624,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 0-20 um observed (default strata labels),0.001022970333860318,0.001022970333860318,True,package default run
+LUAD D06047D4 depth_matched 0-20 um null_mean (default strata labels),0.000945317585790012,0.0009267181251743687,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00014"
+LUAD D06047D4 depth_matched 0-20 um expected (analytic) vs archived null mean,0.000945317585790012,0.0009377505002264557,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047D4 depth_matched 20-100 um observed,0.01143866827861992,0.01143866827861992,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 20-100 um null_mean,0.010190179484794941,0.010190179484794941,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 20-100 um null_lo,0.008274435041383801,0.008274435041383801,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 20-100 um null_hi,0.012373291174555939,0.012373291174555939,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 20-100 um ratio,1.1225188227241616,1.1225188227241616,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 20-100 um p_greater,0.13432835820895522,0.13432835820895522,True,legacy-equivalent run (same draws)
+LUAD D06047D4 depth_matched 20-100 um observed (default strata labels),0.01143866827861992,0.01143866827861992,True,package default run
+LUAD D06047D4 depth_matched 20-100 um null_mean (default strata labels),0.010190179484794941,0.010182739700548685,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00047"
+LUAD D06047D4 depth_matched 20-100 um expected (analytic) vs archived null mean,0.010190179484794941,0.010114496520038636,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047D4 whole_sample 0-100 um observed,0.012461638612480237,0.012461638612480237,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 0-100 um null_mean,0.010690969961871107,0.010690969961871107,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 0-100 um null_lo,0.008555751883195387,0.008555751883195387,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 0-100 um null_hi,0.013489258811494468,0.013489258811494468,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 0-100 um ratio,1.1656228253305496,1.1656228253305496,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 0-100 um p_greater,0.09950248756218906,0.09950248756218906,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 0-100 um observed (default strata labels),0.012461638612480237,0.012461638612480237,True,package default run
+LUAD D06047D4 whole_sample 0-100 um null_mean (default strata labels),0.010690969961871107,0.010815121361480518,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00057"
+LUAD D06047D4 whole_sample 0-100 um expected (analytic) vs archived null mean,0.010690969961871107,0.010781876379545136,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047D4 whole_sample 0-20 um observed,0.001022970333860318,0.001022970333860318,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 0-20 um null_mean,0.0008778945410583094,0.0008778945410583079,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 0-20 um null_lo,0.0003719892123128429,0.0003719892123128429,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 0-20 um null_hi,0.0014879568492513716,0.0014879568492513716,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 0-20 um ratio,1.1652542372881354,1.1652542372881376,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 0-20 um p_greater,0.3383084577114428,0.3383084577114428,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 0-20 um observed (default strata labels),0.001022970333860318,0.001022970333860318,True,package default run
+LUAD D06047D4 whole_sample 0-20 um null_mean (default strata labels),0.0008778945410583094,0.0009099786106202907,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00013"
+LUAD D06047D4 whole_sample 0-20 um expected (analytic) vs archived null mean,0.0008778945410583094,0.0008997354680380101,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047D4 whole_sample 20-100 um observed,0.01143866827861992,0.01143866827861992,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 20-100 um null_mean,0.009813075420812797,0.009813075420812799,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 20-100 um null_lo,0.0078117734585697015,0.0078117734585697015,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 20-100 um null_hi,0.012468613410211105,0.012468613410211105,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 20-100 um ratio,1.1656557998483699,1.1656557998483696,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 20-100 um p_greater,0.10945273631840796,0.10945273631840796,True,legacy-equivalent run (same draws)
+LUAD D06047D4 whole_sample 20-100 um observed (default strata labels),0.01143866827861992,0.01143866827861992,True,package default run
+LUAD D06047D4 whole_sample 20-100 um null_mean (default strata labels),0.009813075420812797,0.00990514275086022,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00054"
+LUAD D06047D4 whole_sample 20-100 um expected (analytic) vs archived null mean,0.009813075420812797,0.00988318388152417,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"LUAD D06047D4 depth_matched 20-100 um ratio (units=records, sinks removed)",1.1225188227241616,1.129891603894911,improved,"improved design (review M4); 2399 units, 217 clones in the window, p 0.109; 0 sink spots removed"
+"LUAD D06047D4 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",1.1225188227241616,1.1713096287800633,improved,"improved design (review M4); 2366 units, 218 clones in the window, p 0.0547; 0 sink spots removed"
+LUAD D06047E2 units,10020.0,10020.0,True,"(spot, clone) units"
+LUAD D06047E2 clones of 2-50 units,496.0,496.0,True,
+LUAD D06047E2 depth_matched 0-100 um observed,0.0037190828669434917,0.0037190828669434917,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 0-100 um null_mean,0.0037876873081783714,0.003787687308178372,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 0-100 um null_lo,0.002996028163928507,0.002996028163928507,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 0-100 um null_hi,0.004550460371908287,0.004550460371908287,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 0-100 um ratio,0.9818875119161107,0.9818875119161106,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 0-100 um p_greater,0.6019900497512438,0.6019900497512438,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 0-100 um observed (default strata labels),0.0037190828669434917,0.0037190828669434917,True,package default run
+LUAD D06047E2 depth_matched 0-100 um null_mean (default strata labels),0.0037876873081783714,0.003821989528795812,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00017"
+LUAD D06047E2 depth_matched 0-100 um expected (analytic) vs archived null mean,0.0037876873081783714,0.003797704209704862,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047E2 depth_matched 0-20 um observed,0.0002888608051994945,0.0002888608051994945,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 0-20 um null_mean,0.0002489619064813143,0.00024896190648131413,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 0-20 um null_lo,0.00010832280194981043,0.00010832280194981043,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 0-20 um null_hi,0.0004332912077992417,0.0004332912077992417,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 0-20 um ratio,1.160261058738216,1.160261058738217,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 0-20 um p_greater,0.3781094527363184,0.3781094527363184,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 0-20 um observed (default strata labels),0.0002888608051994945,0.0002888608051994945,True,package default run
+LUAD D06047E2 depth_matched 0-20 um null_mean (default strata labels),0.0002489619064813143,0.00024914244448456406,True,"package default run, other draws; tolerance 4.5 MC s.e. = 4.1e-05"
+LUAD D06047E2 depth_matched 0-20 um expected (analytic) vs archived null mean,0.0002489619064813143,0.000251966942197645,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047E2 depth_matched 20-100 um observed,0.003430222061743997,0.003430222061743997,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 20-100 um null_mean,0.0035390864777035563,0.0035390864777035567,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 20-100 um null_lo,0.002708070048745261,0.002708070048745261,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 20-100 um null_hi,0.004332912077992418,0.004332912077992418,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 20-100 um ratio,0.9692394021323268,0.9692394021323267,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 20-100 um p_greater,0.6517412935323383,0.6517412935323383,True,legacy-equivalent run (same draws)
+LUAD D06047E2 depth_matched 20-100 um observed (default strata labels),0.003430222061743997,0.003430222061743997,True,package default run
+LUAD D06047E2 depth_matched 20-100 um null_mean (default strata labels),0.0035390864777035563,0.003572847084311249,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00017"
+LUAD D06047E2 depth_matched 20-100 um expected (analytic) vs archived null mean,0.0035390864777035563,0.0035461482019861724,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047E2 whole_sample 0-100 um observed,0.0037190828669434917,0.0037190828669434917,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 0-100 um null_mean,0.0038508756093157616,0.0038508756093157625,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 0-100 um null_lo,0.0031413612565445027,0.0031413612565445027,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 0-100 um null_hi,0.004657880483841849,0.004657880483841849,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 0-100 um ratio,0.9657759024847631,0.9657759024847629,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 0-100 um p_greater,0.6218905472636815,0.6218905472636815,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 0-100 um observed (default strata labels),0.0037190828669434917,0.0037190828669434917,True,package default run
+LUAD D06047E2 whole_sample 0-100 um null_mean (default strata labels),0.0038508756093157616,0.0038510561473190097,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00018"
+LUAD D06047E2 whole_sample 0-100 um expected (analytic) vs archived null mean,0.0038508756093157616,0.0038404078159680246,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047E2 whole_sample 0-20 um observed,0.0002888608051994945,0.0002888608051994945,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 0-20 um null_mean,0.0002625022567250406,0.0002625022567250406,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 0-20 um null_lo,0.00010742011193356203,0.00010742011193356203,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 0-20 um null_hi,0.00046939880844917853,0.00046939880844917853,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 0-20 um ratio,1.1004126547455295,1.1004126547455295,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 0-20 um p_greater,0.4527363184079602,0.4527363184079602,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 0-20 um observed (default strata labels),0.0002888608051994945,0.0002888608051994945,True,package default run
+LUAD D06047E2 whole_sample 0-20 um null_mean (default strata labels),0.0002625022567250406,0.0002551001985918034,True,"package default run, other draws; tolerance 4.5 MC s.e. = 4.1e-05"
+LUAD D06047E2 whole_sample 0-20 um expected (analytic) vs archived null mean,0.0002625022567250406,0.0002580526142046679,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06047E2 whole_sample 20-100 um observed,0.003430222061743997,0.003430222061743997,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 20-100 um null_mean,0.0035890955046037187,0.00358909550460372,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 20-100 um null_lo,0.0029238129626286335,0.0029238129626286335,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 20-100 um null_hi,0.004334717458024915,0.004334717458024915,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 20-100 um ratio,0.955734406438632,0.9557344064386316,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 20-100 um p_greater,0.6417910447761194,0.6417910447761194,True,legacy-equivalent run (same draws)
+LUAD D06047E2 whole_sample 20-100 um observed (default strata labels),0.003430222061743997,0.003430222061743997,True,package default run
+LUAD D06047E2 whole_sample 20-100 um null_mean (default strata labels),0.0035890955046037187,0.003595955948727208,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00017"
+LUAD D06047E2 whole_sample 20-100 um expected (analytic) vs archived null mean,0.0035890955046037187,0.0035827536463155143,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"LUAD D06047E2 depth_matched 20-100 um ratio (units=records, sinks removed)",0.9692394021323268,0.9706257982120051,improved,"improved design (review M4); 10020 units, 496 clones in the window, p 0.632; 0 sink spots removed"
+"LUAD D06047E2 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",0.9692394021323268,0.984840758709076,improved,"improved design (review M4); 9835 units, 496 clones in the window, p 0.587; 0 sink spots removed"
+LUAD D06050D4 units,2480.0,2480.0,True,"(spot, clone) units"
+LUAD D06050D4 clones of 2-50 units,361.0,361.0,True,
+LUAD D06050D4 depth_matched 0-100 um observed,0.005527096252359126,0.005527096252359126,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 0-100 um null_mean,0.005337692100296576,0.005337692100296581,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 0-100 um null_lo,0.0036397950930169855,0.0036397950930169855,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 0-100 um null_hi,0.00700997573469938,0.00700997573469938,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 0-100 um ratio,1.0354842783179694,1.0354842783179685,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 0-100 um p_greater,0.4079601990049751,0.4079601990049751,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 0-100 um observed (default strata labels),0.005527096252359126,0.005527096252359126,True,package default run
+LUAD D06050D4 depth_matched 0-100 um null_mean (default strata labels),0.005337692100296576,0.005501482879482347,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0004"
+LUAD D06050D4 depth_matched 0-100 um expected (analytic) vs archived null mean,0.005337692100296576,0.005480294293056793,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050D4 depth_matched 0-20 um observed,0.0,0.0,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 0-20 um null_mean,0.00022108385009436508,0.00022108385009436492,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 0-20 um null_lo,0.0,0.0,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 0-20 um null_hi,0.0006740361283364788,0.0006740361283364788,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 0-20 um ratio,0.0,0.0,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 0-20 um p_greater,1.0,1.0,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 0-20 um observed (default strata labels),0.0,0.0,True,package default run
+LUAD D06050D4 depth_matched 0-20 um null_mean (default strata labels),0.00022108385009436508,0.00023793475330277707,True,"package default run, other draws; tolerance 4.5 MC s.e. = 8.3e-05"
+LUAD D06050D4 depth_matched 0-20 um expected (analytic) vs archived null mean,0.00022108385009436508,0.00024177865687154476,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050D4 depth_matched 20-100 um observed,0.005527096252359126,0.005527096252359126,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 20-100 um null_mean,0.00511660825020221,0.005116608250202216,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 20-100 um null_lo,0.00350498786734969,0.00350498786734969,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 20-100 um null_hi,0.006605554057697492,0.006605554057697492,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 20-100 um ratio,1.0802265841127652,1.080226584112764,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 20-100 um p_greater,0.3383084577114428,0.3383084577114428,True,legacy-equivalent run (same draws)
+LUAD D06050D4 depth_matched 20-100 um observed (default strata labels),0.005527096252359126,0.005527096252359126,True,package default run
+LUAD D06050D4 depth_matched 20-100 um null_mean (default strata labels),0.00511660825020221,0.005263548126179565,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00037"
+LUAD D06050D4 depth_matched 20-100 um expected (analytic) vs archived null mean,0.00511660825020221,0.005238515636185249,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050D4 whole_sample 0-100 um observed,0.005527096252359126,0.005527096252359126,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 0-100 um null_mean,0.005543273119439203,0.005543273119439209,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 0-100 um null_lo,0.0037746023186842814,0.0037746023186842814,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 0-100 um null_hi,0.007414397411701267,0.007414397411701267,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 0-100 um ratio,0.9970817120622566,0.9970817120622555,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 0-100 um p_greater,0.5373134328358209,0.5373134328358209,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 0-100 um observed (default strata labels),0.005527096252359126,0.005527096252359126,True,package default run
+LUAD D06050D4 whole_sample 0-100 um null_mean (default strata labels),0.005543273119439203,0.0054320571582636866,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00041"
+LUAD D06050D4 whole_sample 0-100 um expected (analytic) vs archived null mean,0.005543273119439203,0.005493239990110474,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050D4 whole_sample 0-20 um observed,0.0,0.0,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 0-20 um null_mean,0.0002466972229711513,0.000246697222971151,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 0-20 um null_lo,0.0,0.0,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 0-20 um null_hi,0.0005425990833108663,0.0005425990833108663,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 0-20 um ratio,0.0,0.0,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 0-20 um p_greater,1.0,1.0,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 0-20 um observed (default strata labels),0.0,0.0,True,package default run
+LUAD D06050D4 whole_sample 0-20 um null_mean (default strata labels),0.0002466972229711513,0.00024534915071447834,True,"package default run, other draws; tolerance 4.5 MC s.e. = 6.9e-05"
+LUAD D06050D4 whole_sample 0-20 um expected (analytic) vs archived null mean,0.0002466972229711513,0.00024040651147054607,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050D4 whole_sample 20-100 um observed,0.005527096252359126,0.005527096252359126,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 20-100 um null_mean,0.005296575896468051,0.005296575896468053,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 20-100 um null_lo,0.0036397950930169855,0.0036397950930169855,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 20-100 um null_hi,0.007148153141008359,0.007148153141008359,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 20-100 um ratio,1.0435225248154745,1.0435225248154743,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 20-100 um p_greater,0.4527363184079602,0.4527363184079602,True,legacy-equivalent run (same draws)
+LUAD D06050D4 whole_sample 20-100 um observed (default strata labels),0.005527096252359126,0.005527096252359126,True,package default run
+LUAD D06050D4 whole_sample 20-100 um null_mean (default strata labels),0.005296575896468051,0.005186708007549208,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0004"
+LUAD D06050D4 whole_sample 20-100 um expected (analytic) vs archived null mean,0.005296575896468051,0.005252833478639929,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"LUAD D06050D4 depth_matched 20-100 um ratio (units=records, sinks removed)",1.0802265841127652,1.0586108959462945,improved,"improved design (review M4); 2480 units, 361 clones in the window, p 0.373; 0 sink spots removed"
+"LUAD D06050D4 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",1.0802265841127652,1.0537289291811398,improved,"improved design (review M4); 2478 units, 361 clones in the window, p 0.378; 0 sink spots removed"
+LUAD D06050E4 units,2209.0,2209.0,True,"(spot, clone) units"
+LUAD D06050E4 clones of 2-50 units,87.0,87.0,True,
+LUAD D06050E4 depth_matched 0-100 um observed,0.024101307189542485,0.024101307189542485,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 0-100 um null_mean,0.0247739651416122,0.02477396514161221,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 0-100 um null_lo,0.02096269063180828,0.02096269063180828,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 0-100 um null_hi,0.02914624183006536,0.02914624183006536,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 0-100 um ratio,0.9728481917115533,0.9728481917115529,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 0-100 um p_greater,0.582089552238806,0.582089552238806,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 0-100 um observed (default strata labels),0.024101307189542485,0.024101307189542485,True,package default run
+LUAD D06050E4 depth_matched 0-100 um null_mean (default strata labels),0.0247739651416122,0.02480800653594772,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.001"
+LUAD D06050E4 depth_matched 0-100 um expected (analytic) vs archived null mean,0.0247739651416122,0.02513872829348428,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050E4 depth_matched 0-20 um observed,0.0014978213507625272,0.0014978213507625272,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 0-20 um null_mean,0.0018811274509803922,0.0018811274509803902,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 0-20 um null_lo,0.0009463507625272333,0.0009463507625272333,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 0-20 um null_hi,0.0032679738562091504,0.0032679738562091504,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 0-20 um ratio,0.7962359753890699,0.7962359753890706,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 0-20 um p_greater,0.8009950248756219,0.8009950248756219,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 0-20 um observed (default strata labels),0.0014978213507625272,0.0014978213507625272,True,package default run
+LUAD D06050E4 depth_matched 0-20 um null_mean (default strata labels),0.0018811274509803922,0.0019110838779956415,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00024"
+LUAD D06050E4 depth_matched 0-20 um expected (analytic) vs archived null mean,0.0018811274509803922,0.001920624204439163,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050E4 depth_matched 20-100 um observed,0.022603485838779955,0.022603485838779955,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 20-100 um null_mean,0.022896922657952068,0.022896922657952054,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 20-100 um null_lo,0.018790849673202614,0.018790849673202614,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 20-100 um null_hi,0.026964188453159045,0.026964188453159045,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 20-100 um ratio,0.9871844429246825,0.9871844429246832,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 20-100 um p_greater,0.5472636815920398,0.5472636815920398,True,legacy-equivalent run (same draws)
+LUAD D06050E4 depth_matched 20-100 um observed (default strata labels),0.022603485838779955,0.022603485838779955,True,package default run
+LUAD D06050E4 depth_matched 20-100 um null_mean (default strata labels),0.022896922657952068,0.022899645969498915,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00099"
+LUAD D06050E4 depth_matched 20-100 um expected (analytic) vs archived null mean,0.022896922657952068,0.023222040593428216,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050E4 whole_sample 0-100 um observed,0.024101307189542485,0.024101307189542485,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 0-100 um null_mean,0.02420751633986928,0.024207516339869294,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 0-100 um null_lo,0.0197406045751634,0.0197406045751634,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 0-100 um null_hi,0.029139433551198256,0.029139433551198256,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 0-100 um ratio,0.9956125548430645,0.995612554843064,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 0-100 um p_greater,0.5223880597014925,0.5223880597014925,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 0-100 um observed (default strata labels),0.024101307189542485,0.024101307189542485,True,package default run
+LUAD D06050E4 whole_sample 0-100 um null_mean (default strata labels),0.02420751633986928,0.023982162309368216,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0012"
+LUAD D06050E4 whole_sample 0-100 um expected (analytic) vs archived null mean,0.02420751633986928,0.024248217109190985,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050E4 whole_sample 0-20 um observed,0.0014978213507625272,0.0014978213507625272,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 0-20 um null_mean,0.001834831154684096,0.0018348311546840938,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 0-20 um null_lo,0.0009531590413943355,0.0009531590413943355,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 0-20 um null_hi,0.002999046840958606,0.002999046840958606,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 0-20 um ratio,0.8163265306122448,0.8163265306122458,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 0-20 um p_greater,0.746268656716418,0.746268656716418,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 0-20 um observed (default strata labels),0.0014978213507625272,0.0014978213507625272,True,package default run
+LUAD D06050E4 whole_sample 0-20 um null_mean (default strata labels),0.001834831154684096,0.0018191721132897601,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00023"
+LUAD D06050E4 whole_sample 0-20 um expected (analytic) vs archived null mean,0.001834831154684096,0.0018398875483037116,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+LUAD D06050E4 whole_sample 20-100 um observed,0.022603485838779955,0.022603485838779955,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 20-100 um null_mean,0.022374046840958606,0.02237404684095862,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 20-100 um null_lo,0.017967047930283222,0.017967047930283222,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 20-100 um null_hi,0.02697099673202615,0.02697099673202615,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 20-100 um ratio,1.010254693728509,1.0102546937285086,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 20-100 um p_greater,0.4577114427860697,0.4577114427860697,True,legacy-equivalent run (same draws)
+LUAD D06050E4 whole_sample 20-100 um observed (default strata labels),0.022603485838779955,0.022603485838779955,True,package default run
+LUAD D06050E4 whole_sample 20-100 um null_mean (default strata labels),0.022374046840958606,0.022165713507625265,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0012"
+LUAD D06050E4 whole_sample 20-100 um expected (analytic) vs archived null mean,0.022374046840958606,0.022412019997244473,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"LUAD D06050E4 depth_matched 20-100 um ratio (units=records, sinks removed)",0.9871844429246825,0.9774768143677316,improved,"improved design (review M4); 2209 units, 87 clones in the window, p 0.572; 0 sink spots removed"
+"LUAD D06050E4 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",0.9871844429246825,1.0224152885341788,improved,"improved design (review M4); 2074 units, 87 clones in the window, p 0.388; 0 sink spots removed"
+AIR-SPACE Mock units,466.0,466.0,True,"(spot, clone) units"
+AIR-SPACE Mock clones of 2-50 units,30.0,30.0,True,
+AIR-SPACE Mock depth_matched 0-100 um observed,0.2,0.2,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 0-100 um null_mean,0.021323277978763596,0.02132327797876358,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 0-100 um null_lo,0.011920529801324504,0.011920529801324504,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 0-100 um null_hi,0.03584217506631301,0.03584217506631301,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 0-100 um ratio,9.379420940775859,9.379420940775868,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 0-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 0-100 um observed (default strata labels),0.2,0.2,True,package default run
+AIR-SPACE Mock depth_matched 0-100 um null_mean (default strata labels),0.021323277978763596,0.020624507036787934,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0026"
+AIR-SPACE Mock depth_matched 0-100 um expected (analytic) vs archived null mean,0.021323277978763596,0.021013655625202087,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE Mock depth_matched 0-20 um observed,0.031788079470198675,0.031788079470198675,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 0-20 um null_mean,0.004162746338419568,0.004162746338419571,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 0-20 um null_lo,0.0,0.0,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 0-20 um null_hi,0.010610079575596816,0.010610079575596816,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 0-20 um ratio,7.636323927983411,7.636323927983405,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 0-20 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 0-20 um observed (default strata labels),0.031788079470198675,0.031788079470198675,True,package default run
+AIR-SPACE Mock depth_matched 0-20 um null_mean (default strata labels),0.004162746338419568,0.003791068575948497,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0011"
+AIR-SPACE Mock depth_matched 0-20 um expected (analytic) vs archived null mean,0.004162746338419568,0.00382220185430438,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE Mock depth_matched 20-100 um observed,0.16821192052980133,0.16821192052980133,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 20-100 um null_mean,0.017160531640344024,0.017160531640344024,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 20-100 um null_lo,0.007967599799477585,0.007967599799477585,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 20-100 um null_hi,0.027884615384615393,0.027884615384615393,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 20-100 um ratio,9.802255784100469,9.802255784100469,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 20-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock depth_matched 20-100 um observed (default strata labels),0.16821192052980133,0.16821192052980133,True,package default run
+AIR-SPACE Mock depth_matched 20-100 um null_mean (default strata labels),0.017160531640344024,0.01683343846083946,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0023"
+AIR-SPACE Mock depth_matched 20-100 um expected (analytic) vs archived null mean,0.017160531640344024,0.01719145377089771,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE Mock whole_sample 0-100 um observed,0.2,0.2,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 0-100 um null_mean,0.015150932238163129,0.015150932238163124,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 0-100 um null_lo,0.006622516556291391,0.006622516556291391,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 0-100 um null_hi,0.025166397315860664,0.025166397315860664,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 0-100 um ratio,13.20050785365057,13.200507853650576,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 0-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 0-100 um observed (default strata labels),0.2,0.2,True,package default run
+AIR-SPACE Mock whole_sample 0-100 um null_mean (default strata labels),0.015150932238163129,0.015177958428201577,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0022"
+AIR-SPACE Mock whole_sample 0-100 um expected (analytic) vs archived null mean,0.015150932238163129,0.015234331720648525,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE Mock whole_sample 0-20 um observed,0.031788079470198675,0.031788079470198675,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 0-20 um null_mean,0.0011991675179817791,0.0011991675179817774,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 0-20 um null_lo,0.0,0.0,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 0-20 um null_hi,0.003973641681451684,0.003973641681451684,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 0-20 um ratio,26.50845606933933,26.50845606933937,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 0-20 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 0-20 um observed (default strata labels),0.031788079470198675,0.031788079470198675,True,package default run
+AIR-SPACE Mock whole_sample 0-20 um null_mean (default strata labels),0.0011991675179817791,0.0010734013489609045,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00052"
+AIR-SPACE Mock whole_sample 0-20 um expected (analytic) vs archived null mean,0.0011991675179817791,0.0011448831111275258,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE Mock whole_sample 20-100 um observed,0.16821192052980133,0.16821192052980133,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 20-100 um null_mean,0.01395176472018135,0.013951764720181338,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 20-100 um null_lo,0.006622516556291391,0.006622516556291391,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 20-100 um null_hi,0.023842642674335772,0.023842642674335772,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 20-100 um ratio,12.056676979829032,12.056676979829042,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 20-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE Mock whole_sample 20-100 um observed (default strata labels),0.16821192052980133,0.16821192052980133,True,package default run
+AIR-SPACE Mock whole_sample 20-100 um null_mean (default strata labels),0.01395176472018135,0.014104557079240672,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0021"
+AIR-SPACE Mock whole_sample 20-100 um expected (analytic) vs archived null mean,0.01395176472018135,0.014089448609521,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"AIR-SPACE Mock depth_matched 20-100 um ratio (units=records, sinks removed)",9.802255784100469,9.410000094892665,improved,"improved design (review M4); 466 units, 30 clones in the window, p 0.00498; 0 sink spots removed"
+"AIR-SPACE Mock depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",9.802255784100469,8.429829400026804,improved,"improved design (review M4); 454 units, 30 clones in the window, p 0.00498; 0 sink spots removed"
+AIR-SPACE D3 units,868.0,868.0,True,"(spot, clone) units"
+AIR-SPACE D3 clones of 2-50 units,54.0,54.0,True,
+AIR-SPACE D3 depth_matched 0-100 um observed,0.18294573643410852,0.18294573643410852,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 0-100 um null_mean,0.028825192286645332,0.028825192286645356,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 0-100 um null_lo,0.017080083297221823,0.017080083297221823,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 0-100 um null_hi,0.04192546583850932,0.04192546583850932,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 0-100 um ratio,6.346730825412984,6.346730825412979,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 0-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 0-100 um observed (default strata labels),0.18294573643410852,0.18294573643410852,True,package default run
+AIR-SPACE D3 depth_matched 0-100 um null_mean (default strata labels),0.028825192286645332,0.029394525660330417,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.003"
+AIR-SPACE D3 depth_matched 0-100 um expected (analytic) vs archived null mean,0.028825192286645332,0.028753888267992248,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D3 depth_matched 0-20 um observed,0.037209302325581395,0.037209302325581395,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 0-20 um null_mean,0.005598705997855475,0.005598705997855472,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 0-20 um null_lo,0.0015527950310559005,0.0015527950310559005,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 0-20 um null_hi,0.01086998782879167,0.01086998782879167,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 0-20 um ratio,6.6460539881597684,6.646053988159772,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 0-20 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 0-20 um observed (default strata labels),0.037209302325581395,0.037209302325581395,True,package default run
+AIR-SPACE D3 depth_matched 0-20 um null_mean (default strata labels),0.005598705997855475,0.005837856077056823,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0011"
+AIR-SPACE D3 depth_matched 0-20 um expected (analytic) vs archived null mean,0.005598705997855475,0.005651483900520516,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D3 depth_matched 20-100 um observed,0.14573643410852713,0.14573643410852713,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 20-100 um null_mean,0.02322648628878986,0.02322648628878986,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 20-100 um null_lo,0.012364762386248737,0.012364762386248737,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 20-100 um null_hi,0.03576982892690513,0.03576982892690513,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 20-100 um ratio,6.274579473472319,6.274579473472319,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 20-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 depth_matched 20-100 um observed (default strata labels),0.14573643410852713,0.14573643410852713,True,package default run
+AIR-SPACE D3 depth_matched 20-100 um null_mean (default strata labels),0.02322648628878986,0.0235566695832736,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0029"
+AIR-SPACE D3 depth_matched 20-100 um expected (analytic) vs archived null mean,0.02322648628878986,0.023102404367471734,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D3 whole_sample 0-100 um observed,0.18294573643410852,0.18294573643410852,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 0-100 um null_mean,0.00977653007416919,0.009776530074169194,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 0-100 um null_lo,0.0031007751937984496,0.0031007751937984496,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 0-100 um null_hi,0.018604651162790697,0.018604651162790697,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 0-100 um ratio,18.712747267813754,18.71274726781375,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 0-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 0-100 um observed (default strata labels),0.18294573643410852,0.18294573643410852,True,package default run
+AIR-SPACE D3 whole_sample 0-100 um null_mean (default strata labels),0.00977653007416919,0.00997842938995619,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0019"
+AIR-SPACE D3 whole_sample 0-100 um expected (analytic) vs archived null mean,0.00977653007416919,0.009826827744773604,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D3 whole_sample 0-20 um observed,0.037209302325581395,0.037209302325581395,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 0-20 um null_mean,0.0006124993981414608,0.0006124993981414608,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 0-20 um null_lo,0.0,0.0,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 0-20 um null_hi,0.0031007751937984496,0.0031007751937984496,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 0-20 um ratio,60.74994104237088,60.74994104237088,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 0-20 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 0-20 um observed (default strata labels),0.037209302325581395,0.037209302325581395,True,package default run
+AIR-SPACE D3 whole_sample 0-20 um null_mean (default strata labels),0.0006124993981414608,0.0005892796957003226,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00041"
+AIR-SPACE D3 whole_sample 0-20 um expected (analytic) vs archived null mean,0.0006124993981414608,0.0005661656233802482,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D3 whole_sample 20-100 um observed,0.14573643410852713,0.14573643410852713,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 20-100 um null_mean,0.00916403067602773,0.00916403067602773,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 20-100 um null_lo,0.0031007751937984496,0.0031007751937984496,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 20-100 um null_hi,0.017118842987144313,0.017118842987144313,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 20-100 um ratio,15.903093219641917,15.903093219641917,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 20-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D3 whole_sample 20-100 um observed (default strata labels),0.14573643410852713,0.14573643410852713,True,package default run
+AIR-SPACE D3 whole_sample 20-100 um null_mean (default strata labels),0.00916403067602773,0.009389149694255862,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0017"
+AIR-SPACE D3 whole_sample 20-100 um expected (analytic) vs archived null mean,0.00916403067602773,0.009260662121393358,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"AIR-SPACE D3 depth_matched 20-100 um ratio (units=records, sinks removed)",6.274579473472319,6.328977083065621,improved,"improved design (review M4); 868 units, 54 clones in the window, p 0.00498; 0 sink spots removed"
+"AIR-SPACE D3 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",6.274579473472319,7.998251036705207,improved,"improved design (review M4); 851 units, 53 clones in the window, p 0.00498; 0 sink spots removed"
+AIR-SPACE D7 units,3036.0,3036.0,True,"(spot, clone) units"
+AIR-SPACE D7 clones of 2-50 units,388.0,388.0,True,
+AIR-SPACE D7 depth_matched 0-100 um observed,0.04380098478724186,0.04380098478724186,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 0-100 um null_mean,0.016256093596363277,0.016256093596363277,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 0-100 um null_lo,0.014184201298628664,0.014184201298628664,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 0-100 um null_hi,0.01852889802855288,0.01852889802855288,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 0-100 um ratio,2.694434830089855,2.694434830089855,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 0-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 0-100 um observed (default strata labels),0.04380098478724186,0.04380098478724186,True,package default run
+AIR-SPACE D7 depth_matched 0-100 um null_mean (default strata labels),0.016256093596363277,0.016281128369186233,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00053"
+AIR-SPACE D7 depth_matched 0-100 um expected (analytic) vs archived null mean,0.016256093596363277,0.01634482810883031,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D7 depth_matched 0-20 um observed,0.008378040714338208,0.008378040714338208,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 0-20 um null_mean,0.0008365293583618427,0.0008365293583618427,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 0-20 um null_lo,0.00036759232545585554,0.00036759232545585554,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 0-20 um null_hi,0.001396547954149292,0.001396547954149292,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 0-20 um ratio,10.015238115186708,10.015238115186708,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 0-20 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 0-20 um observed (default strata labels),0.008378040714338208,0.008378040714338208,True,package default run
+AIR-SPACE D7 depth_matched 0-20 um null_mean (default strata labels),0.0008365293583618427,0.0007946132993806103,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00011"
+AIR-SPACE D7 depth_matched 0-20 um expected (analytic) vs archived null mean,0.0008365293583618427,0.0008277929705083396,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D7 depth_matched 20-100 um observed,0.03542294407290365,0.03542294407290365,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 20-100 um null_mean,0.015419564238001433,0.015419564238001428,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 20-100 um null_lo,0.013378368948649055,0.013378368948649055,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 20-100 um null_hi,0.017714709265360905,0.017714709265360905,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 20-100 um ratio,2.2972727066828513,2.297272706682852,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 20-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 depth_matched 20-100 um observed (default strata labels),0.03542294407290365,0.03542294407290365,True,package default run
+AIR-SPACE D7 depth_matched 20-100 um null_mean (default strata labels),0.015419564238001433,0.015486515069805631,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00052"
+AIR-SPACE D7 depth_matched 20-100 um expected (analytic) vs archived null mean,0.015419564238001433,0.015517035138321972,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D7 whole_sample 0-100 um observed,0.04380098478724186,0.04380098478724186,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 0-100 um null_mean,0.015458364884263396,0.015458364884263389,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 0-100 um null_lo,0.013299279729531089,0.013299279729531089,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 0-100 um null_hi,0.017788108187564308,0.017788108187564308,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 0-100 um ratio,2.8334811032848135,2.833481103284815,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 0-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 0-100 um observed (default strata labels),0.04380098478724186,0.04380098478724186,True,package default run
+AIR-SPACE D7 whole_sample 0-100 um null_mean (default strata labels),0.015458364884263396,0.015371465691974171,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00052"
+AIR-SPACE D7 whole_sample 0-100 um expected (analytic) vs archived null mean,0.015458364884263396,0.015502055043736437,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D7 whole_sample 0-20 um observed,0.008378040714338208,0.008378040714338208,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 0-20 um null_mean,0.0007993799315441518,0.0007993799315441518,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 0-20 um null_lo,0.00043917947534015395,0.00043917947534015395,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 0-20 um null_hi,0.0013229627836747772,0.0013229627836747772,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 0-20 um ratio,10.480674312344139,10.480674312344139,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 0-20 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 0-20 um observed (default strata labels),0.008378040714338208,0.008378040714338208,True,package default run
+AIR-SPACE D7 whole_sample 0-20 um null_mean (default strata labels),0.0007993799315441518,0.0007648229992713554,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00011"
+AIR-SPACE D7 whole_sample 0-20 um expected (analytic) vs archived null mean,0.0007993799315441518,0.0007680905070265735,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D7 whole_sample 20-100 um observed,0.03542294407290365,0.03542294407290365,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 20-100 um null_mean,0.014658984952719245,0.014658984952719252,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 20-100 um null_lo,0.012566147287961195,0.012566147287961195,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 20-100 um null_hi,0.01691099119391332,0.01691099119391332,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 20-100 um ratio,2.416466364291662,2.4164663642916606,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 20-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D7 whole_sample 20-100 um observed (default strata labels),0.03542294407290365,0.03542294407290365,True,package default run
+AIR-SPACE D7 whole_sample 20-100 um null_mean (default strata labels),0.014658984952719245,0.01460664269270282,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00051"
+AIR-SPACE D7 whole_sample 20-100 um expected (analytic) vs archived null mean,0.014658984952719245,0.014733964536709863,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"AIR-SPACE D7 depth_matched 20-100 um ratio (units=records, sinks removed)",2.2972727066828513,2.2959145698458423,improved,"improved design (review M4); 3036 units, 388 clones in the window, p 0.00498; 0 sink spots removed"
+"AIR-SPACE D7 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",2.2972727066828513,2.2030282103867114,improved,"improved design (review M4); 2944 units, 385 clones in the window, p 0.00498; 0 sink spots removed"
+AIR-SPACE D10 units,7240.0,7240.0,True,"(spot, clone) units"
+AIR-SPACE D10 clones of 2-50 units,537.0,537.0,True,
+AIR-SPACE D10 depth_matched 0-100 um observed,0.020500549699282156,0.020500549699282156,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 0-100 um null_mean,0.010550841264827159,0.010550841264827169,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 0-100 um null_lo,0.009441688163026637,0.009441688163026637,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 0-100 um null_hi,0.011837060780900707,0.011837060780900707,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 0-100 um ratio,1.9430251280174096,1.9430251280174076,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 0-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 0-100 um observed (default strata labels),0.020500549699282156,0.020500549699282156,True,package default run
+AIR-SPACE D10 depth_matched 0-100 um null_mean (default strata labels),0.010550841264827159,0.010570940298901656,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00027"
+AIR-SPACE D10 depth_matched 0-100 um expected (analytic) vs archived null mean,0.010550841264827159,0.010592923146625292,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D10 depth_matched 0-20 um observed,0.0033952014486192846,0.0033952014486192846,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 0-20 um null_mean,0.0005107995011031959,0.0005107995011031959,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 0-20 um null_lo,0.00029021910662520496,0.00029021910662520496,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 0-20 um null_hi,0.0007761972640861422,0.0007761972640861422,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 0-20 um ratio,6.646837832234605,6.646837832234605,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 0-20 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 0-20 um observed (default strata labels),0.0033952014486192846,0.0033952014486192846,True,package default run
+AIR-SPACE D10 depth_matched 0-20 um null_mean (default strata labels),0.0005107995011031959,0.0004883248177080853,True,"package default run, other draws; tolerance 4.5 MC s.e. = 5.6e-05"
+AIR-SPACE D10 depth_matched 0-20 um expected (analytic) vs archived null mean,0.0005107995011031959,0.0005109737042144791,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D10 depth_matched 20-100 um observed,0.017105348250662872,0.017105348250662872,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 20-100 um null_mean,0.010040041763723962,0.010040041763723964,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 20-100 um null_lo,0.008859924374981726,0.008859924374981726,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 20-100 um null_hi,0.011512475756587941,0.011512475756587941,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 20-100 um ratio,1.7037128582937597,1.7037128582937593,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 20-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 depth_matched 20-100 um observed (default strata labels),0.017105348250662872,0.017105348250662872,True,package default run
+AIR-SPACE D10 depth_matched 20-100 um null_mean (default strata labels),0.010040041763723962,0.010082615481193564,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00029"
+AIR-SPACE D10 depth_matched 20-100 um expected (analytic) vs archived null mean,0.010040041763723962,0.010081949442410813,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D10 whole_sample 0-100 um observed,0.020500549699282156,0.020500549699282156,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 0-100 um null_mean,0.010683319704657373,0.010683319704657374,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 0-100 um null_lo,0.009626842014419748,0.009626842014419748,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 0-100 um null_hi,0.01209498458066214,0.01209498458066214,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 0-100 um ratio,1.9189306569516011,1.9189306569516007,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 0-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 0-100 um observed (default strata labels),0.020500549699282156,0.020500549699282156,True,package default run
+AIR-SPACE D10 whole_sample 0-100 um null_mean (default strata labels),0.010683319704657373,0.010615863114280154,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00027"
+AIR-SPACE D10 whole_sample 0-100 um expected (analytic) vs archived null mean,0.010683319704657373,0.010696027823755354,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D10 whole_sample 0-20 um observed,0.0033952014486192846,0.0033952014486192846,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 0-20 um null_mean,0.0005083762609103523,0.0005083762609103523,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 0-20 um null_lo,0.0002587317937977399,0.0002587317937977399,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 0-20 um null_hi,0.0007124313138052536,0.0007124313138052536,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 0-20 um ratio,6.678520831282479,6.678520831282479,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 0-20 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 0-20 um observed (default strata labels),0.0033952014486192846,0.0033952014486192846,True,package default run
+AIR-SPACE D10 whole_sample 0-20 um null_mean (default strata labels),0.0005083762609103523,0.0005048175374757728,True,"package default run, other draws; tolerance 4.5 MC s.e. = 5.3e-05"
+AIR-SPACE D10 whole_sample 0-20 um expected (analytic) vs archived null mean,0.0005083762609103523,0.000517445702073023,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D10 whole_sample 20-100 um observed,0.017105348250662872,0.017105348250662872,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 20-100 um null_mean,0.01017494344374702,0.010174943443747024,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 20-100 um null_lo,0.009049641305559084,0.009049641305559084,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 20-100 um null_hi,0.011417885969051156,0.011417885969051156,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 20-100 um ratio,1.6811246514765554,1.6811246514765548,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 20-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D10 whole_sample 20-100 um observed (default strata labels),0.017105348250662872,0.017105348250662872,True,package default run
+AIR-SPACE D10 whole_sample 20-100 um null_mean (default strata labels),0.01017494344374702,0.010111045576804383,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00026"
+AIR-SPACE D10 whole_sample 20-100 um expected (analytic) vs archived null mean,0.01017494344374702,0.010178582121682331,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"AIR-SPACE D10 depth_matched 20-100 um ratio (units=records, sinks removed)",1.7037128582937597,1.7002630244625934,improved,"improved design (review M4); 7240 units, 537 clones in the window, p 0.00498; 0 sink spots removed"
+"AIR-SPACE D10 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",1.7037128582937597,1.6900577390676195,improved,"improved design (review M4); 7057 units, 535 clones in the window, p 0.00498; 0 sink spots removed"
+AIR-SPACE D14 units,1423.0,1423.0,True,"(spot, clone) units"
+AIR-SPACE D14 clones of 2-50 units,215.0,215.0,True,
+AIR-SPACE D14 depth_matched 0-100 um observed,0.1277294368740765,0.1277294368740765,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 0-100 um null_mean,0.038378080598678796,0.03837808059867881,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 0-100 um null_lo,0.03286668379280797,0.03286668379280797,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 0-100 um null_hi,0.044850785951994064,0.044850785951994064,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 0-100 um ratio,3.3281872069046026,3.3281872069046017,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 0-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 0-100 um observed (default strata labels),0.1277294368740765,0.1277294368740765,True,package default run
+AIR-SPACE D14 depth_matched 0-100 um null_mean (default strata labels),0.038378080598678796,0.038482460055214274,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0014"
+AIR-SPACE D14 depth_matched 0-100 um expected (analytic) vs archived null mean,0.038378080598678796,0.03845301457870049,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D14 depth_matched 0-20 um observed,0.030208504350681332,0.030208504350681332,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 0-20 um null_mean,0.002643015873291743,0.0026430158732917426,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 0-20 um null_lo,0.0014787916667926173,0.0014787916667926173,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 0-20 um null_hi,0.0037879695389193063,0.0037879695389193063,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 0-20 um ratio,11.429558428288273,11.429558428288274,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 0-20 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 0-20 um observed (default strata labels),0.030208504350681332,0.030208504350681332,True,package default run
+AIR-SPACE D14 depth_matched 0-20 um null_mean (default strata labels),0.002643015873291743,0.002702093146709598,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0003"
+AIR-SPACE D14 depth_matched 0-20 um expected (analytic) vs archived null mean,0.002643015873291743,0.0026349792046379923,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D14 depth_matched 20-100 um observed,0.09752093252339518,0.09752093252339518,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 20-100 um null_mean,0.03573506472538705,0.03573506472538705,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 20-100 um null_lo,0.030252212645028077,0.030252212645028077,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 20-100 um null_hi,0.04238986827403633,0.04238986827403633,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 20-100 um ratio,2.728998345821211,2.728998345821211,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 20-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 depth_matched 20-100 um observed (default strata labels),0.09752093252339518,0.09752093252339518,True,package default run
+AIR-SPACE D14 depth_matched 20-100 um null_mean (default strata labels),0.03573506472538705,0.03578036690850468,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0013"
+AIR-SPACE D14 depth_matched 20-100 um expected (analytic) vs archived null mean,0.03573506472538705,0.035818035374062494,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D14 whole_sample 0-100 um observed,0.1277294368740765,0.1277294368740765,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 0-100 um null_mean,0.0318125177881444,0.031812517788144375,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 0-100 um null_lo,0.02559524281295804,0.02559524281295804,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 0-100 um null_hi,0.03778729426127424,0.03778729426127424,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 0-100 um ratio,4.015068462191243,4.0150684621912465,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 0-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 0-100 um observed (default strata labels),0.1277294368740765,0.1277294368740765,True,package default run
+AIR-SPACE D14 whole_sample 0-100 um null_mean (default strata labels),0.0318125177881444,0.031947146487317966,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0014"
+AIR-SPACE D14 whole_sample 0-100 um expected (analytic) vs archived null mean,0.0318125177881444,0.03185154862619,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D14 whole_sample 0-20 um observed,0.030208504350681332,0.030208504350681332,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 0-20 um null_mean,0.002072721007184082,0.0020727210071840815,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 0-20 um null_lo,0.0011451402510546578,0.0011451402510546578,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 0-20 um null_hi,0.0031249865119431894,0.0031249865119431894,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 0-20 um ratio,14.574322470789944,14.574322470789948,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 0-20 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 0-20 um observed (default strata labels),0.030208504350681332,0.030208504350681332,True,package default run
+AIR-SPACE D14 whole_sample 0-20 um null_mean (default strata labels),0.002072721007184082,0.0021113257048295956,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00026"
+AIR-SPACE D14 whole_sample 0-20 um expected (analytic) vs archived null mean,0.002072721007184082,0.0021051111981236926,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D14 whole_sample 20-100 um observed,0.09752093252339518,0.09752093252339518,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 20-100 um null_mean,0.029739796780960316,0.029739796780960316,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 20-100 um null_lo,0.02347319167635784,0.02347319167635784,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 20-100 um null_hi,0.03563087926630079,0.03563087926630079,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 20-100 um ratio,3.2791391697010166,3.2791391697010166,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 20-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D14 whole_sample 20-100 um observed (default strata labels),0.09752093252339518,0.09752093252339518,True,package default run
+AIR-SPACE D14 whole_sample 20-100 um null_mean (default strata labels),0.029739796780960316,0.029835820782488375,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.0014"
+AIR-SPACE D14 whole_sample 20-100 um expected (analytic) vs archived null mean,0.029739796780960316,0.029746437428066305,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"AIR-SPACE D14 depth_matched 20-100 um ratio (units=records, sinks removed)",2.728998345821211,2.732089587994956,improved,"improved design (review M4); 1423 units, 215 clones in the window, p 0.00498; 0 sink spots removed"
+"AIR-SPACE D14 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",2.728998345821211,2.9208280757216385,improved,"improved design (review M4); 1285 units, 196 clones in the window, p 0.00498; 0 sink spots removed"
+AIR-SPACE D21 units,2338.0,2338.0,True,"(spot, clone) units"
+AIR-SPACE D21 clones of 2-50 units,294.0,294.0,True,
+AIR-SPACE D21 depth_matched 0-100 um observed,0.05098875533152385,0.05098875533152385,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 0-100 um null_mean,0.01766059231807201,0.017660592318072005,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 0-100 um null_lo,0.01512503605873958,0.01512503605873958,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 0-100 um null_hi,0.020653594142215976,0.020653594142215976,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 0-100 um ratio,2.887148653522072,2.8871486535220723,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 0-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 0-100 um observed (default strata labels),0.05098875533152385,0.05098875533152385,True,package default run
+AIR-SPACE D21 depth_matched 0-100 um null_mean (default strata labels),0.01766059231807201,0.017741773127960072,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00064"
+AIR-SPACE D21 depth_matched 0-100 um expected (analytic) vs archived null mean,0.01766059231807201,0.01766398740861296,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D21 depth_matched 0-20 um observed,0.011632415664986429,0.011632415664986429,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 0-20 um null_mean,0.0013697760360251387,0.0013697760360251395,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 0-20 um null_lo,0.0005819000010184569,0.0005819000010184569,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 0-20 um null_hi,0.002036477189597075,0.002036477189597075,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 0-20 um ratio,8.492202636820656,8.49220263682065,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 0-20 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 0-20 um observed (default strata labels),0.011632415664986429,0.011632415664986429,True,package default run
+AIR-SPACE D21 depth_matched 0-20 um null_mean (default strata labels),0.0013697760360251387,0.0013537482226408885,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00016"
+AIR-SPACE D21 depth_matched 0-20 um expected (analytic) vs archived null mean,0.0013697760360251387,0.001396326015392579,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D21 depth_matched 20-100 um observed,0.03935633966653742,0.03935633966653742,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 20-100 um null_mean,0.01629081628204687,0.016290816282046868,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 20-100 um null_lo,0.013669837821223359,0.013669837821223359,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 20-100 um null_hi,0.018912386042622322,0.018912386042622322,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 20-100 um ratio,2.415860506014648,2.4158605060146483,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 20-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 depth_matched 20-100 um observed (default strata labels),0.03935633966653742,0.03935633966653742,True,package default run
+AIR-SPACE D21 depth_matched 20-100 um null_mean (default strata labels),0.01629081628204687,0.016388024905319175,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00061"
+AIR-SPACE D21 depth_matched 20-100 um expected (analytic) vs archived null mean,0.01629081628204687,0.016267661393220383,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D21 whole_sample 0-100 um observed,0.05098875533152385,0.05098875533152385,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 0-100 um null_mean,0.01564364505768242,0.01564364505768242,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 0-100 um null_lo,0.013469587907793793,0.013469587907793793,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 0-100 um null_hi,0.018431681615366298,0.018431681615366298,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 0-100 um ratio,3.2593909631364233,3.2593909631364233,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 0-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 0-100 um observed (default strata labels),0.05098875533152385,0.05098875533152385,True,package default run
+AIR-SPACE D21 whole_sample 0-100 um null_mean (default strata labels),0.01564364505768242,0.015592130944237993,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00059"
+AIR-SPACE D21 whole_sample 0-100 um expected (analytic) vs archived null mean,0.01564364505768242,0.01569155012918231,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D21 whole_sample 0-20 um observed,0.011632415664986429,0.011632415664986429,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 0-20 um null_mean,0.0011956345135161778,0.0011956345135161776,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 0-20 um null_lo,0.0006762695019111565,0.0006762695019111565,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 0-20 um null_hi,0.0018454560161032818,0.0018454560161032818,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 0-20 um ratio,9.729073168670313,9.729073168670315,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 0-20 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 0-20 um observed (default strata labels),0.011632415664986429,0.011632415664986429,True,package default run
+AIR-SPACE D21 whole_sample 0-20 um null_mean (default strata labels),0.0011956345135161778,0.0011413323359050066,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00014"
+AIR-SPACE D21 whole_sample 0-20 um expected (analytic) vs archived null mean,0.0011956345135161778,0.001171355506213054,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+AIR-SPACE D21 whole_sample 20-100 um observed,0.03935633966653742,0.03935633966653742,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 20-100 um null_mean,0.01444801054416624,0.014448010544166237,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 20-100 um null_lo,0.01221981674895835,0.01221981674895835,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 20-100 um null_hi,0.017065120369687405,0.017065120369687405,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 20-100 um ratio,2.7239971583789138,2.723997158378914,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 20-100 um p_greater,0.004975124378109453,0.004975124378109453,True,legacy-equivalent run (same draws)
+AIR-SPACE D21 whole_sample 20-100 um observed (default strata labels),0.03935633966653742,0.03935633966653742,True,package default run
+AIR-SPACE D21 whole_sample 20-100 um null_mean (default strata labels),0.01444801054416624,0.01445079860833299,True,"package default run, other draws; tolerance 4.5 MC s.e. = 0.00056"
+AIR-SPACE D21 whole_sample 20-100 um expected (analytic) vs archived null mean,0.01444801054416624,0.01452019462296926,True,package analytic expectation (ratio of expectations); tolerance 4.5 MC s.e. of the archive
+"AIR-SPACE D21 depth_matched 20-100 um ratio (units=records, sinks removed)",2.415860506014648,2.4056765618284643,improved,"improved design (review M4); 2338 units, 294 clones in the window, p 0.00498; 0 sink spots removed"
+"AIR-SPACE D21 depth_matched 20-100 um ratio (units=loci (15 um), sinks removed)",2.415860506014648,2.0134864034894635,improved,"improved design (review M4); 2240 units, 293 clones in the window, p 0.00498; 0 sink spots removed"

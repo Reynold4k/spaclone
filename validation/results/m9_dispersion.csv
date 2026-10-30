@@ -1,0 +1,118 @@
+quantity,archived,package,match,note
+S1 StereoIR mm_spleen candidate clones (>= 5 units),828.0,828.0,True,
+S1 StereoIR mm_spleen clustered (q < 0.01),270.0,270.0,True,
+S1 StereoIR mm_spleen selected (clustered and switched or mutated),87.0,87.0,True,
+S1 StereoIR mm_spleen shuffle 1: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 StereoIR mm_spleen shuffle 2: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 StereoIR mm_spleen shuffle 3: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 StereoIR mm_spleen shuffle 4: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 StereoIR mm_spleen shuffle 5: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 StereoIR mm_spleen clones in both tables,828.0,828.0,True,
+S1 StereoIR mm_spleen max |difference| of units over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 StereoIR mm_spleen max |difference| of mean NN distance over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 StereoIR mm_spleen max |difference| of null mean NN distance over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 StereoIR mm_spleen max |difference| of z over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 StereoIR mm_spleen max |difference| of p over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 StereoIR mm_spleen max |difference| of q over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE Mock candidate clones (>= 5 units),5.0,5.0,True,
+S1 AIRSPACE Mock clustered (q < 0.01),2.0,2.0,True,
+S1 AIRSPACE Mock selected (clustered and switched or mutated),1.0,1.0,True,
+S1 AIRSPACE Mock shuffle 1: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE Mock shuffle 2: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE Mock shuffle 3: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE Mock shuffle 4: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE Mock shuffle 5: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE Mock clones in both tables,5.0,5.0,True,
+S1 AIRSPACE Mock max |difference| of units over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE Mock max |difference| of mean NN distance over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE Mock max |difference| of null mean NN distance over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE Mock max |difference| of z over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE Mock max |difference| of p over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE Mock max |difference| of q over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D3 candidate clones (>= 5 units),8.0,8.0,True,
+S1 AIRSPACE D3 clustered (q < 0.01),2.0,2.0,True,
+S1 AIRSPACE D3 selected (clustered and switched or mutated),1.0,1.0,True,
+S1 AIRSPACE D3 shuffle 1: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D3 shuffle 2: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D3 shuffle 3: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D3 shuffle 4: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D3 shuffle 5: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D3 clones in both tables,8.0,8.0,True,
+S1 AIRSPACE D3 max |difference| of units over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D3 max |difference| of mean NN distance over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D3 max |difference| of null mean NN distance over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D3 max |difference| of z over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D3 max |difference| of p over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D3 max |difference| of q over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D7 candidate clones (>= 5 units),144.0,144.0,True,
+S1 AIRSPACE D7 clustered (q < 0.01),0.0,0.0,True,
+S1 AIRSPACE D7 selected (clustered and switched or mutated),0.0,0.0,True,
+S1 AIRSPACE D7 shuffle 1: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D7 shuffle 2: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D7 shuffle 3: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D7 shuffle 4: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D7 shuffle 5: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D7 clones in both tables,144.0,144.0,True,
+S1 AIRSPACE D7 max |difference| of units over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D7 max |difference| of mean NN distance over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D7 max |difference| of null mean NN distance over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D7 max |difference| of z over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D7 max |difference| of p over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D7 max |difference| of q over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D10 candidate clones (>= 5 units),255.0,255.0,True,
+S1 AIRSPACE D10 clustered (q < 0.01),3.0,3.0,True,
+S1 AIRSPACE D10 selected (clustered and switched or mutated),3.0,3.0,True,
+S1 AIRSPACE D10 shuffle 1: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D10 shuffle 2: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D10 shuffle 3: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D10 shuffle 4: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D10 shuffle 5: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D10 clones in both tables,255.0,255.0,True,
+S1 AIRSPACE D10 max |difference| of units over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D10 max |difference| of mean NN distance over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D10 max |difference| of null mean NN distance over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D10 max |difference| of z over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D10 max |difference| of p over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D10 max |difference| of q over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D14 candidate clones (>= 5 units),73.0,73.0,True,
+S1 AIRSPACE D14 clustered (q < 0.01),6.0,6.0,True,
+S1 AIRSPACE D14 selected (clustered and switched or mutated),6.0,6.0,True,
+S1 AIRSPACE D14 shuffle 1: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D14 shuffle 2: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D14 shuffle 3: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D14 shuffle 4: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D14 shuffle 5: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D14 clones in both tables,73.0,73.0,True,
+S1 AIRSPACE D14 max |difference| of units over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D14 max |difference| of mean NN distance over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D14 max |difference| of null mean NN distance over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D14 max |difference| of z over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D14 max |difference| of p over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D14 max |difference| of q over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D21 candidate clones (>= 5 units),107.0,107.0,True,
+S1 AIRSPACE D21 clustered (q < 0.01),0.0,0.0,True,
+S1 AIRSPACE D21 selected (clustered and switched or mutated),0.0,0.0,True,
+S1 AIRSPACE D21 shuffle 1: selected,1.0,1.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D21 shuffle 2: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D21 shuffle 3: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D21 shuffle 4: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D21 shuffle 5: selected,0.0,0.0,True,S1 log; whole rule on shuffled IGH clone labels
+S1 AIRSPACE D21 clones in both tables,107.0,107.0,True,
+S1 AIRSPACE D21 max |difference| of units over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D21 max |difference| of mean NN distance over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D21 max |difference| of null mean NN distance over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D21 max |difference| of z over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D21 max |difference| of p over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 AIRSPACE D21 max |difference| of q over clones,0.0,0.0,True,"relative to max(1, |archived|); floating point only"
+S1 StereoIR mm_spleen improved (spot units): clones tested,828.0,828.0,,S1 unit
+S1 StereoIR mm_spleen improved (spot units): clustered at q < 0.01,270.0,321.0,,"Monte-Carlo p, Besag-Clifford h=10, max_perm=82800; 805 s"
+S1 StereoIR mm_spleen improved: clustered in both the legacy and the improved call,,270.0,,overlap of the two calls
+S1 StereoIR mm_spleen improved: largest p among the clustered,,0.0038595137012736396,,Monte-Carlo p reaches below the BH threshold
+S1 StereoIR mm_spleen improved (locus units): clones tested,828.0,561.0,,loci = same-clone units within 15 um merged
+S1 StereoIR mm_spleen improved (locus units): clustered at q < 0.01,270.0,17.0,,"Monte-Carlo p, Besag-Clifford h=10, max_perm=56100; 404 s"
+S1 AIRSPACE D14 improved (spot units): clones tested,73.0,73.0,,S1 unit
+S1 AIRSPACE D14 improved (spot units): clustered at q < 0.01,6.0,18.0,,"Monte-Carlo p, Besag-Clifford h=10, max_perm=7300; 1 s"
+S1 AIRSPACE D14 improved: clustered in both the legacy and the improved call,,6.0,,overlap of the two calls
+S1 AIRSPACE D14 improved: largest p among the clustered,,0.00241196333815726,,Monte-Carlo p reaches below the BH threshold
+S1 AIRSPACE D14 improved (locus units): clones tested,73.0,59.0,,loci = same-clone units within 15 um merged
+S1 AIRSPACE D14 improved (locus units): clustered at q < 0.01,6.0,1.0,,"Monte-Carlo p, Besag-Clifford h=10, max_perm=5900; 2 s"

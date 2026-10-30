@@ -1,0 +1,177 @@
+quantity,archived,package,match,note
+StereoIR BCR bins with a contig (QC Before),65905.0,65905.0,True,QC_filter_summary.csv
+"StereoIR BCR bins with a valid contig, >= 2 reads (QC After)",63468.0,63468.0,True,"pp.filter_valid(require_productive=True, min_reads=2)"
+StereoIR BCR contigs (Q0 map bcr sum),145511.0,145511.0,True,StereoIR__mm_spleen.parquet
+StereoIR BCR: bins whose bcr differs from the Q0 map,0.0,0.0,True,contigs per bin20
+StereoIR BCR ok: bins whose bcr_ok differs from the Q0 map,0.0,0.0,True,"valid, >= 2 reads"
+StereoIR TCR bins with a contig (QC Before),15585.0,15585.0,True,QC_filter_summary.csv
+"StereoIR TCR bins with a valid contig, >= 2 reads (QC After)",14864.0,14864.0,True,"pp.filter_valid(require_productive=True, min_reads=2)"
+StereoIR TCR contigs (Q0 map tcr sum),34241.0,34241.0,True,StereoIR__mm_spleen.parquet
+StereoIR TCR: bins whose tcr differs from the Q0 map,0.0,0.0,True,contigs per bin20
+StereoIR TCR ok: bins whose tcr_ok differs from the Q0 map,0.0,0.0,True,"valid, >= 2 reads"
+StereoIR BCR valid contigs (Q0 map bcr_v sum),144815.0,144815.0,True,
+StereoIR BCR v: bins whose bcr_v differs from the Q0 map,0.0,0.0,True,"valid, any reads"
+StereoIR spot table rows (Q0 map rows: typed + receptor bins),95942.0,95942.0,True,read_airr(cell_types=...).gex
+StereoIR bins of class B lineage,39453.0,39453.0,True,
+StereoIR bins of class untyped,20633.0,20633.0,True,
+StereoIR bins of class erythrocyte,18225.0,18225.0,True,
+StereoIR bins of class T,17631.0,17631.0,True,
+StereoIR spot table positions not in the Q0 map,0.0,0.0,True,
+AIR-SPACE Mock beads,78205.0,78205.0,True,X1 summary.json
+AIR-SPACE Mock tissue beads,16642.0,16642.0,True,X1 summary.json
+AIR-SPACE Mock BCR molecules on beads,10740.0,10740.0,True,X1 summary.json
+AIR-SPACE Mock BCR molecules on the tissue,7671.0,7671.0,True,X1 summary.json
+AIR-SPACE Mock IGK molecules on the tissue,5216.0,5216.0,True,X1 summary.json
+AIR-SPACE Mock IGL molecules on the tissue,1880.0,1880.0,True,X1 summary.json
+AIR-SPACE Mock IGH molecules on the tissue,575.0,575.0,True,X1 summary.json
+AIR-SPACE Mock tissue beads not in the X3 region map (either way),0.0,0.0,True,
+AIR-SPACE Mock tissue beads with BCR (QC Before),4249.0,4249.0,True,
+AIR-SPACE Mock tissue beads with a valid BCR molecule (QC After),4219.0,4219.0,True,"modal CDR3 per molecule, as Q0"
+AIR-SPACE Mock Q0 map rows (tissue beads),16642.0,16642.0,True,
+AIR-SPACE Mock BCR molecules (Q0 map bcr sum),7671.0,7671.0,True,
+AIR-SPACE Mock valid BCR molecules (Q0 map bcr_v sum),7604.0,7604.0,True,
+AIR-SPACE Mock valid molecules with >= 2 reads (Q0 map bcr_ok sum),516.0,516.0,True,
+AIR-SPACE Mock: bins whose bcr differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE Mock: bins whose bcr_v differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE Mock: bins whose bcr_ok differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE Mock molecules whose clone differs between first and modal read,,43.0,True,"information: archive X1/X3/X5 used the first read, Q0 the modal CDR3"
+AIR-SPACE D3 beads,78462.0,78462.0,True,X1 summary.json
+AIR-SPACE D3 tissue beads,25118.0,25118.0,True,X1 summary.json
+AIR-SPACE D3 BCR molecules on beads,18168.0,18168.0,True,X1 summary.json
+AIR-SPACE D3 BCR molecules on the tissue,14173.0,14173.0,True,X1 summary.json
+AIR-SPACE D3 IGK molecules on the tissue,9938.0,9938.0,True,X1 summary.json
+AIR-SPACE D3 IGL molecules on the tissue,3224.0,3224.0,True,X1 summary.json
+AIR-SPACE D3 IGH molecules on the tissue,1011.0,1011.0,True,X1 summary.json
+AIR-SPACE D3 tissue beads not in the X3 region map (either way),0.0,0.0,True,
+AIR-SPACE D3 tissue beads with BCR (QC Before),7818.0,7818.0,True,
+AIR-SPACE D3 tissue beads with a valid BCR molecule (QC After),7780.0,7780.0,True,"modal CDR3 per molecule, as Q0"
+AIR-SPACE D3 Q0 map rows (tissue beads),25118.0,25118.0,True,
+AIR-SPACE D3 BCR molecules (Q0 map bcr sum),14173.0,14173.0,True,
+AIR-SPACE D3 valid BCR molecules (Q0 map bcr_v sum),14063.0,14063.0,True,
+AIR-SPACE D3 valid molecules with >= 2 reads (Q0 map bcr_ok sum),887.0,887.0,True,
+AIR-SPACE D3: bins whose bcr differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE D3: bins whose bcr_v differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE D3: bins whose bcr_ok differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE D3 molecules whose clone differs between first and modal read,,100.0,True,"information: archive X1/X3/X5 used the first read, Q0 the modal CDR3"
+AIR-SPACE D7 beads,77245.0,77245.0,True,X1 summary.json
+AIR-SPACE D7 tissue beads,26848.0,26848.0,True,X1 summary.json
+AIR-SPACE D7 BCR molecules on beads,17676.0,17676.0,True,X1 summary.json
+AIR-SPACE D7 BCR molecules on the tissue,14441.0,14441.0,True,X1 summary.json
+AIR-SPACE D7 IGK molecules on the tissue,10276.0,10276.0,True,X1 summary.json
+AIR-SPACE D7 IGH molecules on the tissue,3269.0,3269.0,True,X1 summary.json
+AIR-SPACE D7 IGL molecules on the tissue,896.0,896.0,True,X1 summary.json
+AIR-SPACE D7 tissue beads not in the X3 region map (either way),0.0,0.0,True,
+AIR-SPACE D7 tissue beads with BCR (QC Before),7313.0,7313.0,True,
+AIR-SPACE D7 tissue beads with a valid BCR molecule (QC After),7277.0,7277.0,True,"modal CDR3 per molecule, as Q0"
+AIR-SPACE D7 Q0 map rows (tissue beads),26848.0,26848.0,True,
+AIR-SPACE D7 BCR molecules (Q0 map bcr sum),14441.0,14441.0,True,
+AIR-SPACE D7 valid BCR molecules (Q0 map bcr_v sum),14298.0,14298.0,True,
+AIR-SPACE D7 valid molecules with >= 2 reads (Q0 map bcr_ok sum),204.0,204.0,True,
+AIR-SPACE D7: bins whose bcr differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE D7: bins whose bcr_v differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE D7: bins whose bcr_ok differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE D7 molecules whose clone differs between first and modal read,,48.0,True,"information: archive X1/X3/X5 used the first read, Q0 the modal CDR3"
+AIR-SPACE D10 beads,78558.0,78558.0,True,X1 summary.json
+AIR-SPACE D10 tissue beads,34159.0,34159.0,True,X1 summary.json
+AIR-SPACE D10 BCR molecules on beads,30513.0,30513.0,True,X1 summary.json
+AIR-SPACE D10 BCR molecules on the tissue,25132.0,25132.0,True,X1 summary.json
+AIR-SPACE D10 IGK molecules on the tissue,13529.0,13529.0,True,X1 summary.json
+AIR-SPACE D10 IGH molecules on the tissue,7534.0,7534.0,True,X1 summary.json
+AIR-SPACE D10 IGL molecules on the tissue,4069.0,4069.0,True,X1 summary.json
+AIR-SPACE D10 tissue beads not in the X3 region map (either way),0.0,0.0,True,
+AIR-SPACE D10 tissue beads with BCR (QC Before),10955.0,10955.0,True,
+AIR-SPACE D10 tissue beads with a valid BCR molecule (QC After),10902.0,10902.0,True,"modal CDR3 per molecule, as Q0"
+AIR-SPACE D10 Q0 map rows (tissue beads),34159.0,34159.0,True,
+AIR-SPACE D10 BCR molecules (Q0 map bcr sum),25132.0,25132.0,True,
+AIR-SPACE D10 valid BCR molecules (Q0 map bcr_v sum),24885.0,24885.0,True,
+AIR-SPACE D10 valid molecules with >= 2 reads (Q0 map bcr_ok sum),1048.0,1048.0,True,
+AIR-SPACE D10: bins whose bcr differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE D10: bins whose bcr_v differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE D10: bins whose bcr_ok differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE D10 molecules whose clone differs between first and modal read,,66.0,True,"information: archive X1/X3/X5 used the first read, Q0 the modal CDR3"
+AIR-SPACE D14 beads,78224.0,78224.0,True,X1 summary.json
+AIR-SPACE D14 tissue beads,21477.0,21477.0,True,X1 summary.json
+AIR-SPACE D14 BCR molecules on beads,24504.0,24504.0,True,X1 summary.json
+AIR-SPACE D14 BCR molecules on the tissue,20189.0,20189.0,True,X1 summary.json
+AIR-SPACE D14 IGK molecules on the tissue,16333.0,16333.0,True,X1 summary.json
+AIR-SPACE D14 IGL molecules on the tissue,2039.0,2039.0,True,X1 summary.json
+AIR-SPACE D14 IGH molecules on the tissue,1817.0,1817.0,True,X1 summary.json
+AIR-SPACE D14 tissue beads not in the X3 region map (either way),0.0,0.0,True,
+AIR-SPACE D14 tissue beads with BCR (QC Before),7097.0,7097.0,True,
+AIR-SPACE D14 tissue beads with a valid BCR molecule (QC After),7057.0,7057.0,True,"modal CDR3 per molecule, as Q0"
+AIR-SPACE D14 Q0 map rows (tissue beads),21477.0,21477.0,True,
+AIR-SPACE D14 BCR molecules (Q0 map bcr sum),20189.0,20189.0,True,
+AIR-SPACE D14 valid BCR molecules (Q0 map bcr_v sum),19863.0,19863.0,True,
+AIR-SPACE D14 valid molecules with >= 2 reads (Q0 map bcr_ok sum),679.0,679.0,True,
+AIR-SPACE D14: bins whose bcr differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE D14: bins whose bcr_v differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE D14: bins whose bcr_ok differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE D14 molecules whose clone differs between first and modal read,,69.0,True,"information: archive X1/X3/X5 used the first read, Q0 the modal CDR3"
+AIR-SPACE D21 beads,79423.0,79423.0,True,X1 summary.json
+AIR-SPACE D21 tissue beads,23040.0,23040.0,True,X1 summary.json
+AIR-SPACE D21 BCR molecules on beads,16032.0,16032.0,True,X1 summary.json
+AIR-SPACE D21 BCR molecules on the tissue,13133.0,13133.0,True,X1 summary.json
+AIR-SPACE D21 IGK molecules on the tissue,9309.0,9309.0,True,X1 summary.json
+AIR-SPACE D21 IGH molecules on the tissue,2553.0,2553.0,True,X1 summary.json
+AIR-SPACE D21 IGL molecules on the tissue,1271.0,1271.0,True,X1 summary.json
+AIR-SPACE D21 tissue beads not in the X3 region map (either way),0.0,0.0,True,
+AIR-SPACE D21 tissue beads with BCR (QC Before),6675.0,6675.0,True,
+AIR-SPACE D21 tissue beads with a valid BCR molecule (QC After),6602.0,6602.0,True,"modal CDR3 per molecule, as Q0"
+AIR-SPACE D21 Q0 map rows (tissue beads),23040.0,23040.0,True,
+AIR-SPACE D21 BCR molecules (Q0 map bcr sum),13133.0,13133.0,True,
+AIR-SPACE D21 valid BCR molecules (Q0 map bcr_v sum),12915.0,12915.0,True,
+AIR-SPACE D21 valid molecules with >= 2 reads (Q0 map bcr_ok sum),292.0,292.0,True,
+AIR-SPACE D21: bins whose bcr differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE D21: bins whose bcr_v differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE D21: bins whose bcr_ok differs from the Q0 map,0.0,0.0,True,molecules per tissue bead
+AIR-SPACE D21 molecules whose clone differs between first and modal read,,106.0,True,"information: archive X1/X3/X5 used the first read, Q0 the modal CDR3"
+"AIR-SPACE tissue beads with BCR, six samples (QC Before)",44107.0,44107.0,True,
+AIR-SPACE tissue beads with a valid BCR molecule (QC After),43837.0,43837.0,True,
+LUAD D06053D2 cells with a heavy or light call (QC Before),11870.0,11870.0,True,
+LUAD D06053D2 cells with a valid heavy or light call (QC After),11860.0,11860.0,True,
+LUAD D06053D2 cells (Q0 map rows),187619.0,187619.0,True,
+LUAD D06053D2 molecule_level flag (0 = aggregate data),0.0,0.0,True,
+LUAD D06047C3 cells with a heavy or light call (QC Before),818.0,818.0,True,
+LUAD D06047C3 cells with a valid heavy or light call (QC After),813.0,813.0,True,
+LUAD D06047C3 cells (Q0 map rows),97923.0,97923.0,True,
+LUAD D06047C3 molecule_level flag (0 = aggregate data),0.0,0.0,True,
+LUAD D06047F6 cells with a heavy or light call (QC Before),638.0,638.0,True,
+LUAD D06047F6 cells with a valid heavy or light call (QC After),636.0,636.0,True,
+LUAD D06047F6 cells (Q0 map rows),47654.0,47654.0,True,
+LUAD D06047F6 molecule_level flag (0 = aggregate data),0.0,0.0,True,
+LUAD D06047E1 cells with a heavy or light call (QC Before),1434.0,1434.0,True,
+LUAD D06047E1 cells with a valid heavy or light call (QC After),1430.0,1430.0,True,
+LUAD D06047E1 cells (Q0 map rows),55741.0,55741.0,True,
+LUAD D06047E1 molecule_level flag (0 = aggregate data),0.0,0.0,True,
+LUAD D06050A2 cells with a heavy or light call (QC Before),424.0,424.0,True,
+LUAD D06050A2 cells with a valid heavy or light call (QC After),418.0,418.0,True,
+LUAD D06050A2 cells (Q0 map rows),33057.0,33057.0,True,
+LUAD D06050A2 molecule_level flag (0 = aggregate data),0.0,0.0,True,
+LUAD D06047A2 cells with a heavy or light call (QC Before),6378.0,6378.0,True,
+LUAD D06047A2 cells with a valid heavy or light call (QC After),6351.0,6351.0,True,
+LUAD D06047A2 cells (Q0 map rows),130469.0,130469.0,True,
+LUAD D06047A2 molecule_level flag (0 = aggregate data),0.0,0.0,True,
+LUAD D06050C2 cells with a heavy or light call (QC Before),2169.0,2169.0,True,
+LUAD D06050C2 cells with a valid heavy or light call (QC After),2155.0,2155.0,True,
+LUAD D06050C2 cells (Q0 map rows),91660.0,91660.0,True,
+LUAD D06050C2 molecule_level flag (0 = aggregate data),0.0,0.0,True,
+LUAD D06047D4 cells with a heavy or light call (QC Before),2483.0,2483.0,True,
+LUAD D06047D4 cells with a valid heavy or light call (QC After),2458.0,2458.0,True,
+LUAD D06047D4 cells (Q0 map rows),138926.0,138926.0,True,
+LUAD D06047D4 molecule_level flag (0 = aggregate data),0.0,0.0,True,
+LUAD D06047E2 cells with a heavy or light call (QC Before),10219.0,10219.0,True,
+LUAD D06047E2 cells with a valid heavy or light call (QC After),10199.0,10199.0,True,
+LUAD D06047E2 cells (Q0 map rows),152381.0,152381.0,True,
+LUAD D06047E2 molecule_level flag (0 = aggregate data),0.0,0.0,True,
+LUAD D06050D4 cells with a heavy or light call (QC Before),2480.0,2480.0,True,
+LUAD D06050D4 cells with a valid heavy or light call (QC After),2480.0,2480.0,True,
+LUAD D06050D4 cells (Q0 map rows),93239.0,93239.0,True,
+LUAD D06050D4 molecule_level flag (0 = aggregate data),0.0,0.0,True,
+LUAD D06050E4 cells with a heavy or light call (QC Before),2253.0,2253.0,True,
+LUAD D06050E4 cells with a valid heavy or light call (QC After),2245.0,2245.0,True,
+LUAD D06050E4 cells (Q0 map rows),70071.0,70071.0,True,
+LUAD D06050E4 molecule_level flag (0 = aggregate data),0.0,0.0,True,
+"LUAD cells with a heavy or light call, 11 chips (QC Before)",41166.0,41166.0,True,
+"LUAD cells with a valid call, 11 chips (QC After)",41045.0,41045.0,True,
+datasets.airspace('Mock') files verified by sha256 (1 = yes),1.0,1.0,True,
+datasets.airspace('D21') files verified by sha256 (1 = yes),1.0,1.0,True,

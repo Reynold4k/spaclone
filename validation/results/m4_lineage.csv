@@ -1,0 +1,136 @@
+quantity,archived,package,match,note
+L11 E: trees,71,71,True,
+"L11 E: tips, hotspot tips and expected identical (trees)",71,71,True,
+"L11 E: max |p(package) - p(archive)| (100,000 draws, replayed generator)",0.0,0.0,True,identical draws
+L11 E: max |q(package) - q(archive)|,0.0,0.0,True,
+"L11 E: trees called (>= 3 hotspot tips, q < 0.05)",7,7,True,
+L11 E [improved: exact Poisson-binomial p]: max |p(exact) - p(archive)|,0.0,0.0035347389030305765,True,"Monte-Carlo error of the archive's 100,000 draws"
+L11 E [improved: exact p]: trees called,7,7,True,
+"L11 E [improved: one unit per locus, exact p]: trees called",7,7,True,several sequences of one locus count once; tips 2513 -> units 2388
+L11 E [new default (F4a): one unit per locus]: smallest q,0.0003549964500354997,0.0006708354167635124,True,package default since F4a: tips collapsed to cells (locus_id / 15-um loci); legacy = unit_key=None
+L11 L: trees,113,113,True,
+"L11 L: tips, hotspot tips and expected identical (trees)",113,113,True,
+"L11 L: max |p(package) - p(archive)| (100,000 draws, replayed generator)",0.0,0.0,True,identical draws
+L11 L: max |q(package) - q(archive)|,0.0,0.0,True,
+"L11 L: trees called (>= 3 hotspot tips, q < 0.05)",7,7,True,
+L11 L [improved: exact Poisson-binomial p]: max |p(exact) - p(archive)|,0.0,0.0039377562419003476,True,"Monte-Carlo error of the archive's 100,000 draws"
+L11 L [improved: exact p]: trees called,7,7,True,
+"L11 L [improved: one unit per locus, exact p]: trees called",7,7,True,several sequences of one locus count once; tips 3798 -> units 3642
+L11 L [new default (F4a): one unit per locus]: smallest q,0.0002259977400225998,0.0008424058438249632,True,package default since F4a: tips collapsed to cells (locus_id / 15-um loci); legacy = unit_key=None
+L7 B1 [E] mutations: hotspot tips - other tips: trees,49,49,True,
+L7 B1 [E]: observed,0.3610981916777134,0.3610981916777134,True,
+L7 B1 [E]: chance 95% range,"[-0.507, 0.514]","[-0.498, 0.524]",True,Monte Carlo
+L7 B1 [E]: p (greater),0.08459154084591541,0.08599140085991401,True,"Monte Carlo, 10,000 shuffles"
+L7 B1 [E] [new default (F4a): one unit per locus]: p (greater),0.08459154084591541,0.07279272072792721,True,trees 49; observed 0.378; sequences of one locus count once
+L7 B2 [E] mutations: switched tips - unswitched tips: trees,57,57,True,
+L7 B2 [E]: observed,-0.028271700410942204,-0.028271700410942204,True,
+L7 B2 [E]: chance 95% range,"[-0.531, 0.507]","[-0.525, 0.507]",True,Monte Carlo
+L7 B2 [E]: p (greater),0.5404459554044595,0.5483451654834517,True,"Monte Carlo, 10,000 shuffles"
+L7 B2 [E] [new default (F4a): one unit per locus]: p (greater),0.5404459554044595,0.5526447355264473,True,trees 57; observed -0.0369; sequences of one locus count once
+L7 B3a [E] share in hotspot: switched - unswitched tips: trees,57,57,True,
+L7 B3a [E]: observed,-0.026434036560791952,-0.026434036560791952,True,
+L7 B3a [E]: chance 95% range,"[-0.060, 0.059]","[-0.058, 0.058]",True,Monte Carlo
+L7 B3a [E]: p (greater),0.8093190680931907,0.8105189481051894,True,"Monte Carlo, 10,000 shuffles"
+L7 B3a [E] [new default (F4a): one unit per locus]: p (greater),0.8093190680931907,0.817918208179182,True,trees 57; observed -0.02716; sequences of one locus count once
+L7 B3b [E] share in follicle: unswitched - switched tips: trees,57,57,True,
+L7 B3b [E]: observed,0.035091362872535586,0.035091362872535586,True,
+L7 B3b [E]: chance 95% range,"[-0.104, 0.105]","[-0.104, 0.104]",True,Monte Carlo
+L7 B3b [E]: p (greater),0.25817418258174185,0.24957504249575044,True,"Monte Carlo, 10,000 shuffles"
+L7 B3b [E] [new default (F4a): one unit per locus]: p (greater),0.25817418258174185,0.27947205279472054,True,trees 57; observed 0.03146; sequences of one locus count once
+L7 B4a [E] share in follicle: unmutated - mutated tips: trees,36,36,True,
+L7 B4a [E]: observed,0.003919172463700928,0.003919172463700928,True,
+L7 B4a [E]: chance 95% range,"[-0.102, 0.098]","[-0.101, 0.096]",True,Monte Carlo
+L7 B4a [E]: p (greater),0.4794520547945205,0.46725327467253275,True,"Monte Carlo, 10,000 shuffles"
+L7 B4a [E] [new default (F4a): one unit per locus]: p (greater),0.4794520547945205,0.46585341465853414,True,trees 36; observed 0.005746; sequences of one locus count once
+L7 B4b [E] share in hotspot: mutated - unmutated tips: trees,36,36,True,
+L7 B4b [E]: observed,-0.004172526481173118,-0.004172526481173118,True,
+L7 B4b [E]: chance 95% range,"[-0.057, 0.044]","[-0.058, 0.043]",True,Monte Carlo
+L7 B4b [E]: p (greater),0.5801419858014198,0.5737426257374263,True,"Monte Carlo, 10,000 shuffles"
+L7 B4b [E] [new default (F4a): one unit per locus]: p (greater),0.5801419858014198,0.5817418258174183,True,trees 36; observed -0.004375; sequences of one locus count once
+L7 C [E]: trees tested (>= 5 tips in >= 2 loci),70,70,True,
+L7 C [E]: max |rho(package) - rho(archive)| per tree,0.0,0.0,True,70 trees joined
+L7 C [E]: pairs and median tissue distances identical (trees),70,70,True,
+L7 C [E]: mean rho over trees,0.00994101183956647,0.009941011839566473,True,
+L7 C [E]: chance 95% range,"[-0.0347, 0.0340]","[-0.0317, 0.0354]",True,Monte Carlo
+L7 C [E]: p (greater),0.2857142857142857,0.3176823176823177,True,"Monte Carlo, 1,000 shuffles"
+L7 C [E]: per-tree p within Monte-Carlo error (share of trees),1.0,1.0,True,
+"L7 C [E] [improved: locus positions shuffled, tips of a locus move together]: p (greater)",0.2857142857142857,0.2757242757242757,True,"mean rho 0.0099; chance [-0.0336, 0.0348]"
+L7 B1 [L] mutations: hotspot tips - other tips: trees,68,68,True,
+L7 B1 [L]: observed,0.490135624097377,0.490135624097377,True,
+L7 B1 [L]: chance 95% range,"[-0.423, 0.429]","[-0.420, 0.433]",True,Monte Carlo
+L7 B1 [L]: p (greater),0.012098790120987902,0.0131986801319868,True,"Monte Carlo, 10,000 shuffles"
+L7 B1 [L] [new default (F4a): one unit per locus]: p (greater),0.012098790120987902,0.0124987501249875,True,trees 68; observed 0.4964; sequences of one locus count once
+L7 B2 [L] mutations: switched tips - unswitched tips: trees,83,83,True,
+L7 B2 [L]: observed,0.7655189418364573,0.7655189418364573,True,
+L7 B2 [L]: chance 95% range,"[-0.409, 0.417]","[-0.417, 0.421]",True,Monte Carlo
+L7 B2 [L]: p (greater),9.999000099990002e-05,0.00029997000299970003,True,"Monte Carlo, 10,000 shuffles"
+L7 B2 [L] [new default (F4a): one unit per locus]: p (greater),9.999000099990002e-05,9.999000099990002e-05,True,trees 83; observed 0.7962; sequences of one locus count once
+L7 B3a [L] share in hotspot: switched - unswitched tips: trees,83,83,True,
+L7 B3a [L]: observed,-0.01000645677778754,-0.01000645677778754,True,
+L7 B3a [L]: chance 95% range,"[-0.044, 0.042]","[-0.043, 0.042]",True,Monte Carlo
+L7 B3a [L]: p (greater),0.6744325567443256,0.6758324167583242,True,"Monte Carlo, 10,000 shuffles"
+L7 B3a [L] [new default (F4a): one unit per locus]: p (greater),0.6744325567443256,0.6643335666433356,True,trees 83; observed -0.009482; sequences of one locus count once
+L7 B3b [L] share in follicle: unswitched - switched tips: trees,83,83,True,
+L7 B3b [L]: observed,0.0972762915476143,0.0972762915476143,True,
+L7 B3b [L]: chance 95% range,"[-0.077, 0.077]","[-0.076, 0.076]",True,Monte Carlo
+L7 B3b [L]: p (greater),0.0059994000599940004,0.006799320067993201,True,"Monte Carlo, 10,000 shuffles"
+L7 B3b [L] [new default (F4a): one unit per locus]: p (greater),0.0059994000599940004,0.005099490050994901,True,trees 83; observed 0.09959; sequences of one locus count once
+L7 B4a [L] share in follicle: unmutated - mutated tips: trees,80,80,True,
+L7 B4a [L]: observed,-0.0038865674388253724,-0.0038865674388253724,True,
+L7 B4a [L]: chance 95% range,"[-0.065, 0.062]","[-0.065, 0.062]",True,Monte Carlo
+L7 B4a [L]: p (greater),0.5523447655234477,0.5492450754924507,True,"Monte Carlo, 10,000 shuffles"
+L7 B4a [L] [new default (F4a): one unit per locus]: p (greater),0.5523447655234477,0.5495450454954505,True,trees 80; observed -0.004477; sequences of one locus count once
+L7 B4b [L] share in hotspot: mutated - unmutated tips: trees,80,80,True,
+L7 B4b [L]: observed,0.004235249557131689,0.004235249557131689,True,
+L7 B4b [L]: chance 95% range,"[-0.035, 0.031]","[-0.036, 0.030]",True,Monte Carlo
+L7 B4b [L]: p (greater),0.4273572642735726,0.41875812418758124,True,"Monte Carlo, 10,000 shuffles"
+L7 B4b [L] [new default (F4a): one unit per locus]: p (greater),0.4273572642735726,0.5271472852714728,True,trees 80; observed -0.0004338; sequences of one locus count once
+L7 C [L]: trees tested (>= 5 tips in >= 2 loci),111,111,True,
+L7 C [L]: max |rho(package) - rho(archive)| per tree,0.0,0.0,True,111 trees joined
+L7 C [L]: pairs and median tissue distances identical (trees),111,111,True,
+L7 C [L]: mean rho over trees,0.033723817014741544,0.03372381701474155,True,
+L7 C [L]: chance 95% range,"[-0.0281, 0.0306]","[-0.0277, 0.0289]",True,Monte Carlo
+L7 C [L]: p (greater),0.02097902097902098,0.014985014985014986,True,"Monte Carlo, 1,000 shuffles"
+L7 C [L]: per-tree p within Monte-Carlo error (share of trees),1.0,1.0,True,
+"L7 C [L] [improved: locus positions shuffled, tips of a locus move together]: p (greater)",0.02097902097902098,0.01098901098901099,True,"mean rho 0.0337; chance [-0.0287, 0.0280]"
+L7 A1 IGHM: hotspot loci,164,164,True,
+L7 A1 IGHM: observed SHM difference,0.40409869119498765,0.40409869119498765,True,
+"L7 A1 IGHM: p (two-sided, the archive's centred convention)",0.18388161183881613,0.1688831116888311,True,"from the package's 10,000 within-isotype shuffles"
+L7 A1 IGHM [package convention: doubled one-sided p],0.18388161183881613,0.2263773622637736,True,differs from the centred p when the null is skewed (few hotspot loci)
+L7 A1 IGHD: hotspot loci,32,32,True,
+L7 A1 IGHD: observed SHM difference,1.6944822216966258,1.6944822216966258,True,
+"L7 A1 IGHD: p (two-sided, the archive's centred convention)",0.026197380261973803,0.023697630236976304,True,"from the package's 10,000 within-isotype shuffles"
+L7 A1 IGHD [package convention: doubled one-sided p],0.026197380261973803,0.04739526047395261,True,differs from the centred p when the null is skewed (few hotspot loci)
+L7 A1 IGHG: hotspot loci,73,73,True,
+L7 A1 IGHG: observed SHM difference,0.4903725188705619,0.4903725188705619,True,
+"L7 A1 IGHG: p (two-sided, the archive's centred convention)",0.3300669933006699,0.32186781321867813,True,"from the package's 10,000 within-isotype shuffles"
+L7 A1 IGHG [package convention: doubled one-sided p],0.3300669933006699,0.3251674832516748,True,differs from the centred p when the null is skewed (few hotspot loci)
+L7 A1 IGHA: hotspot loci,35,35,True,
+L7 A1 IGHA: observed SHM difference,0.7262326169405813,0.7262326169405813,True,
+"L7 A1 IGHA: p (two-sided, the archive's centred convention)",0.3104689531046895,0.29717028297170284,True,"from the package's 10,000 within-isotype shuffles"
+L7 A1 IGHA [package convention: doubled one-sided p],0.3104689531046895,0.30116988301169884,True,differs from the centred p when the null is skewed (few hotspot loci)
+L7 A1 IGHM: q (BH over the four isotypes),0.3300669933006699,0.32186781321867813,True,Monte Carlo
+L7 A1 IGHD: q (BH over the four isotypes),0.10478952104789521,0.09479052094790522,True,Monte Carlo
+L7 A1 IGHG: q (BH over the four isotypes),0.3300669933006699,0.32186781321867813,True,Monte Carlo
+L7 A1 IGHA: q (BH over the four isotypes),0.3300669933006699,0.32186781321867813,True,Monte Carlo
+L7 A1r IGHM: hotspot loci,164,164,True,
+L7 A1r IGHM: observed SHM difference,0.6414402724169568,0.6414402724169568,True,
+"L7 A1r IGHM: p (two-sided, the archive's centred convention)",0.0007999200079992001,0.0004999500049995,True,"from the package's 10,000 within-isotype shuffles"
+L7 A1r IGHM [package convention: doubled one-sided p],0.0007999200079992001,0.000999900009999,True,differs from the centred p when the null is skewed (few hotspot loci)
+L7 A1r IGHD: hotspot loci,32,32,True,
+L7 A1r IGHD: observed SHM difference,1.8171815739570165,1.8171815739570165,True,
+"L7 A1r IGHD: p (two-sided, the archive's centred convention)",0.0012998700129987,0.0014998500149985001,True,"from the package's 10,000 within-isotype shuffles"
+L7 A1r IGHD [package convention: doubled one-sided p],0.0012998700129987,0.0029997000299970002,True,differs from the centred p when the null is skewed (few hotspot loci)
+L7 A1r IGHG: hotspot loci,73,73,True,
+L7 A1r IGHG: observed SHM difference,0.4903725188705619,0.4903725188705619,True,
+"L7 A1r IGHG: p (two-sided, the archive's centred convention)",0.32156784321567844,0.33736626337366266,True,"from the package's 10,000 within-isotype shuffles"
+L7 A1r IGHG [package convention: doubled one-sided p],0.32156784321567844,0.34396560343965604,True,differs from the centred p when the null is skewed (few hotspot loci)
+L7 A1r IGHA: hotspot loci,35,35,True,
+L7 A1r IGHA: observed SHM difference,0.7262326169405813,0.7262326169405813,True,
+"L7 A1r IGHA: p (two-sided, the archive's centred convention)",0.3023697630236976,0.30246975302469753,True,"from the package's 10,000 within-isotype shuffles"
+L7 A1r IGHA [package convention: doubled one-sided p],0.3023697630236976,0.3093690630936906,True,differs from the centred p when the null is skewed (few hotspot loci)
+L7 A2 within clone: clones,84,84,True,
+L7 A2 within clone: observed,-0.1405033424672821,-0.1405033424672821,True,
+L7 A2 within clone [package convention: doubled one-sided p],0.6286371362863714,0.6297370262973703,True,
+"L7 A2: package null vs the archive's perm_within with the same seed, max |difference|",0.0,0.0,True,identical shuffles: same procedure
+"L7 A2 within clone: p (two-sided, the archive's centred convention), range over 5 seeds",0.6286371362863714,0.6047-0.6192,True,the centred p also varies with the estimated null mean (more than binomial error)
