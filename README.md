@@ -9,6 +9,7 @@ Claude (Anthropic) develops, tests and pushes all code in this repository, and k
   <a href="https://pypi.org/project/spaclone/"><img src="https://img.shields.io/pypi/pyversions/spaclone?style=flat-square&color=2a78d6" alt="Python versions"></a>
   <a href="https://github.com/Reynold4k/spaclone/blob/main/LICENSE"><img src="https://img.shields.io/badge/licence-MIT-2a78d6?style=flat-square" alt="MIT licence"></a>
   <a href="https://github.com/Reynold4k/spaclone/actions/workflows/test.yaml"><img src="https://img.shields.io/github/actions/workflow/status/Reynold4k/spaclone/test.yaml?branch=main&style=flat-square&label=tests" alt="tests"></a>
+  <a href="https://doi.org/10.5281/zenodo.23826886"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.23826886-2a78d6?style=flat-square" alt="DOI 10.5281/zenodo.23826886"></a>
 </p>
 
 <p align="center"><sub>Each figure below is the spaclone function named in its header, on an AIR-SPACE mouse lymph node (public, GEO GSE286452) and, as a showcase, the StereoIR mouse spleen (Stereo-seq, BGI; data not yet public), drawn by <a href="https://github.com/Reynold4k/spaclone/blob/main/docs/_static/homepage/make_homepage.py">make_homepage.py</a>.<br>Every other figure, with the code that draws it, is in the <a href="https://github.com/Reynold4k/spaclone/tree/main/docs/tutorials">tutorials</a>.</sub></p>
