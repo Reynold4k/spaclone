@@ -1,13 +1,5 @@
 Claude (Anthropic) develops, tests and pushes all code in this repository, and keeps it up to date as its dependencies change.
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/overview_dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/overview_light.png">
-    <img src="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/overview_light.png" width="100%" alt="spaclone overview: reading spatial transcriptome and receptor files, QC, the trust report, CSR and SHM hotspot maps, the hotspot atlas with each region's transcriptome identity, CSR potential and flow, lineage trees on tissue, clone states, clone maps, isotypes by region, a placebo test, and the integrated packages.">
-  </picture>
-</p>
-
 <h1 align="center">spaclone</h1>
 
 <p align="center"><b>Spatial BCR and TCR analysis, from raw tables to biology, with every position checked against random placement</b></p>
@@ -19,7 +11,43 @@ Claude (Anthropic) develops, tests and pushes all code in this repository, and k
   <a href="https://github.com/Reynold4k/spaclone/actions/workflows/test.yaml"><img src="https://img.shields.io/github/actions/workflow/status/Reynold4k/spaclone/test.yaml?branch=main&style=flat-square&label=tests" alt="tests"></a>
 </p>
 
-<p align="center"><sub>Every panel above is a spaclone figure: an AIR-SPACE mouse lymph node (public, GEO GSE286452) and, as a showcase, the StereoIR mouse spleen (Stereo-seq, BGI; data not yet public), drawn by <a href="https://github.com/Reynold4k/spaclone/blob/main/docs/_static/hero/make_hero.py">make_hero.py</a>.</sub></p>
+<p align="center"><sub>Each figure below is the spaclone function named in its header, on an AIR-SPACE mouse lymph node (public, GEO GSE286452) and, as a showcase, the StereoIR mouse spleen (Stereo-seq, BGI; data not yet public), drawn by <a href="https://github.com/Reynold4k/spaclone/blob/main/docs/_static/homepage/make_homepage.py">make_homepage.py</a>.<br>Every other figure, with the code that draws it, is in the <a href="https://github.com/Reynold4k/spaclone/tree/main/docs/tutorials">tutorials</a>.</sub></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/homepage/01_airspace_hotspot_overview.png" width="100%" alt="spaclone.pl.hotspot_overview on an AIR-SPACE mouse lymph node, day 21: the switched share (CSR) and the mutated share (SHM) over the node, with the CSR hotspots outlined and numbered"></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/homepage/02_stereoir_hotspot_overview.png" width="100%" alt="spaclone.pl.hotspot_overview on the StereoIR mouse spleen: switched-share and mutated-share maps with the CSR and SHM hotspots and the numbered regions where they overlap"></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/homepage/03_airspace_csr_map.png" width="100%" alt="spaclone.pl.csr_map on the AIR-SPACE lymph node: switched share, dominant switched class and one map per isotype in IgH locus order, arcs for the class switches within clones and the isotype mix of each region"></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/homepage/04_stereoir_csr_map.png" width="100%" alt="spaclone.pl.csr_map on the StereoIR spleen: switched share, dominant switched class and one map per isotype in IgH locus order, arcs for the class switches within clones and the isotype mix of each region"></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/homepage/05_airspace_csr_flow.png" width="100%" alt="spaclone.pl.csr_flow on the AIR-SPACE lymph node: sciCSR class-switch potential of every bead, with the transition flow of the chain as streamlines"></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/homepage/06_stereoir_csr_flow.png" width="100%" alt="spaclone.pl.csr_flow on the StereoIR spleen: sciCSR class-switch potential of every bin, with the transition flow of the chain as streamlines"></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/homepage/07_stereoir_region_zoom.png" width="100%" alt="spaclone.pl.region_zoom on the StereoIR spleen: one region where CSR and SHM hotspots overlap, with its isotypes, mutated loci and transcriptome identity"></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/homepage/08_stereoir_lineage_tree.png" width="100%" alt="spaclone.pl.lineage_tree on the StereoIR spleen: a germline-rooted lineage tree with every tip joined to its position on the section"></p>
+
+## Related tools
+
+Spatial immune-repertoire analysis is young. The closest public work (October 2026):
+
+- [Stereo-XCR-seq analysis code](https://github.com/fengyu9481/Stereo-XCR-seq-LUAD) (Zhan et al., *Nat Commun* 2026, [doi](https://doi.org/10.1038/s41467-026-75405-x)): Stereo-seq BCR maps, a Gi* SHM hotspot map and per-cell class switching.
+- [AIR-SPACE](https://github.com/ShaowenJCornell/AIR-SPACE) (Jiang et al., *PNAS* 2026, [doi](https://doi.org/10.1073/pnas.2504742123)): bead-level BCR maps, regional SHM and IgPhyML trees with tips on beads.
+- [Spatial VDJ](https://doi.org/10.5281/zenodo.7326539) (Engblom et al., *Science* 2023): Visium BCR/TCR, isotype regions, putative class-switch events and trees split by follicle.
+- [BAITS](https://github.com/zenglab-pku/BAITS) (2026): a Python package for per-location QC, clone families and B-cell aggregates.
+- [McEnany, Good & Cvijović](https://github.com/icvijovic/tonsil-spatial) (bioRxiv 2025, [doi](https://doi.org/10.1101/2025.10.31.685876)): lineage trees with follicle-labelled tips and a migration model.
+- [Platypus](https://cran.r-project.org/package=Platypus) had a Visium spatial module in 2022 (isotype and SHM on the image, lineage arrows); it was removed in version 3.6.0.
+- Single-cell building blocks: [sciCSR](https://github.com/Fraternalilab/sciCSR) and [Dowser](https://doi.org/10.1371/journal.pcbi.1009885) (class-switch models and tests on trees), [scirpy](https://github.com/scverse/scirpy), [Dandelion](https://github.com/tuonglab/dandelion) and [Immcantation](https://immcantation.readthedocs.io).
+
+spaclone adds the following, and the public record shows none of it elsewhere:
+
+- location-trust tests against depth-matched random placement;
+- CSR and SHM hotspots with family-wise thresholds and clone-level nulls, and tested overlap regions with their transcriptome identity;
+- class-switch potential, transitions and fluxes on spatial graphs;
+- Threadfin clone states on tissue;
+- one package across sequencing technologies.
 
 ## Get started
 

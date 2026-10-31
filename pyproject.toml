@@ -64,7 +64,7 @@ dev = [ "ruff", "mypy", "pandas-stubs", "twine" ]
 spaclone = "spaclone.cli:main"
 
 [tool.hatch.build.targets.sdist]
-exclude = [ "/docs/_build", "/docs/_static/overview_*.png", "/docs/tutorials/*.ipynb", "/tests/_data/large", "/validation", "/scripts", "*.sbatch" ]
+exclude = [ "/docs/_build", "/docs/_static/overview_*.png", "/docs/_static/homepage/*.png", "/docs/tutorials/*.ipynb", "/tests/_data/large", "/validation", "/scripts", "*.sbatch" ]
 
 [tool.ruff]
 line-length = 120
