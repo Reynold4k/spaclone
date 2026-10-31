@@ -129,6 +129,7 @@ Every statistic reproduces the numbers of the analyses it came from (AIR-SPACE a
 | [Transcriptome and repertoire](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/04_transcriptome_and_repertoire.ipynb) | GEX workflow, regions, DE, diversity, networks, niches |
 | [Your own placebo](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/05_custom_placebo.ipynb) | Test any statistic against random placement |
 | [Hotspots and lineages](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/06_hotspots_and_lineages.ipynb) | The flagship on a Stereo-seq spleen: trust report, CSR/SHM hotspot atlas, lineage trees, sciCSR flow, Threadfin states |
+| [AIR-SPACE time course](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/07_airspace_time_course.ipynb) | Every analysis on all six public AIR-SPACE lymph nodes, Mock to day 21, with the package defaults and one table of the key numbers |
 
 Reading data, concepts and the full API: [docs](https://github.com/Reynold4k/spaclone/tree/main/docs).
 
