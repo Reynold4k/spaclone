@@ -516,7 +516,8 @@ def tree_tissue(
         Tip table of that tree (:func:`spaclone.bcr.tip_table`): the tree tip label (``label_key``), coordinates
         in µm and the colour column; several rows may share a tree tip (collapsed sequences at several places).
     color_key
-        Column colouring tips in both panels (isotype, region, location).
+        Column colouring tips in both panels (isotype, region, location); its legend sits above the map, outside it,
+        so it never covers a tip.
     label_key, x_key, y_key
         Column names.
     background
@@ -611,8 +612,22 @@ def tree_tissue(
                 zorder=0,
             )
             fig.add_artist(con)
+    # above the map, right-aligned (the joining lines arrive from the left): it never covers a tip or the tissue
     handles = [plt.Line2D([], [], ls="", marker="o", color=cols[k_], label=k_) for k_ in keys]
-    leg = ax_m.legend(handles=handles, frameon=False, fontsize=9, loc="best", title=color_key)
+    leg = ax_m.legend(
+        handles=handles,
+        frameon=False,
+        fontsize=9,
+        title=color_key,
+        title_fontsize=9,
+        loc="lower right",
+        bbox_to_anchor=(1.0, 1.01),
+        ncol=min(len(handles), 6),
+        alignment="right",
+        borderaxespad=0.2,
+        handletextpad=0.3,
+        columnspacing=1.2,
+    )
     for t in [*leg.get_texts(), leg.get_title()]:
         t.set_color(pal["fg"])
     ax_t.set_title(f"clone {tree.clone_id}", color=pal["fg"], fontsize=10)

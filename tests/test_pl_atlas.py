@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import dataclasses
 import types
 
 import matplotlib
@@ -11,7 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import pytest
-from matplotlib.colors import to_hex
+from matplotlib.colors import to_hex, to_rgb
 
 import spaclone.pl as pl
 from spaclone.tl import Grid, HotspotResult, Raster, ShareMap
@@ -224,6 +225,8 @@ def test_atlas_without_an_shm_map_shows_the_csr_map_alone():
         and "have no V alignments" in texts
         and "no SHM map in the result" not in texts
     )
+    flat = " ".join(texts.split())  # the reason is wrapped over lines, never cut
+    assert "which spaclone.read keeps for AIR-SPACE)." in flat and "…" not in flat
     plt.close(fig)
 
 
@@ -346,3 +349,77 @@ def test_clone_level_p_line():
     fig = pl.hotspot_atlas(fake_result(2), **FAST)  # no clone-level columns: no line
     assert not [t for t in _texts(fig) if t.startswith("clone-level p")]
     plt.close(fig)
+
+
+def test_regions_from_csr_hotspots_are_titled_as_csr_hotspots():
+    """Regions that are CSR hotspots (``source == "csr"``): titles name the hotspot, the p line its two tests."""
+    res = fake_result(2)
+    res.regions["source"] = "csr"
+    res.regions["csr_hotspots"] = ["1", "2"]
+    res.regions["csr_clone_p"] = [1 / 1001, 0.42]
+    res.regions["shm_clone_q"] = [0.671, np.nan]
+    res.params = {"min_excess": 3, "n_perm": 1000}
+    fig = pl.hotspot_atlas(res, **FAST)
+    texts = _texts(fig)
+    assert any(t.startswith("CSR hotspot 1 · ") and t.endswith("switched") for t in texts)
+    assert "CSR hotspot 1 · ASC" in texts and "CSR hotspot 2 · GC B" in texts
+    assert not any(t.startswith(("CSR · region", "Hotspot ·")) for t in texts)
+    assert [t for t in texts if t.startswith("clone-level")] == [
+        "clone-level: CSR p < 0.001 · SHM q = 0.671",
+        "clone-level: CSR p = 0.42",
+    ]
+    plt.close(fig)
+    fig = pl.region_zoom(res, 2, **FAST)
+    assert "CSR hotspot" in _texts(fig) and "region (CSR hotspot)" not in _texts(fig)
+    plt.close(fig)
+
+
+def test_units_without_a_score_are_named_by_why():
+    """Grey units: off the tissue mask, or tissue units left out of the scores (non-B as in the archive)."""
+    res = fake_result(1)
+    units = res.gex_units.copy()
+    unscored = res.module_maps["ASC"].isna().reindex(units.index).to_numpy()
+    res.units = units.assign(tissue=~unscored)  # every unit without a score is off the tissue mask
+    fig = pl.hotspot_atlas(res, **FAST)
+    assert "outside the tissue mask" in _texts(fig) and not any(t.startswith("non-B") for t in _texts(fig))
+    plt.close(fig)
+    res.units = units.assign(tissue=True)  # tissue units left out of the scores
+    fig = pl.hotspot_atlas(res, **FAST)
+    assert "non-B bin" in _texts(fig)
+    plt.close(fig)
+    res.params = {"min_excess": 3, "score_units": ("cell_type", ["T cell"])}  # a selection that is not B cells
+    fig = pl.hotspot_atlas(res, **FAST)
+    assert "unscored bin" in _texts(fig)
+    plt.close(fig)
+    res.params = {"min_excess": 3}
+    res.units = units.assign(tissue=~(unscored & (np.arange(len(units)) % 2 == 0)))  # both kinds
+    fig = pl.hotspot_atlas(res, **FAST)
+    assert "non-B bin / outside the tissue mask" in _texts(fig)
+    plt.close(fig)
+
+
+def test_maps_cover_the_whole_tissue_without_holes():
+    """Tissue pixels without inference take the colour of the inferred pixels around them and fade into the tissue
+    colour a few pixels in: no hole, no hard edge, and the inferred pixels keep their colours."""
+    from scipy import ndimage as ndi
+
+    res = fake_result(2, gex=False)
+    sm = res.csr.map
+    hole = np.zeros(sm.grid.shape, dtype=bool)
+    hole[40:60, 40:60] = True
+    hole &= sm.eligible
+    res.csr = dataclasses.replace(
+        res.csr, map=dataclasses.replace(sm, eligible=sm.eligible & ~hole, n_eff=np.where(hole, 0.0, sm.n_eff))
+    )
+    data = pl.atlas._AtlasData(res, style="dark", rotate=False, invert_y=True)
+    rgba = data.map_image("csr")
+    assert hole.any() and (rgba[..., 3][data.tissue] == 1).all()  # opaque over the whole tissue
+    grey = np.asarray(to_rgb(data.pal["tissue"]))
+    core = ndi.binary_erosion(hole, iterations=6)
+    assert core.any() and np.abs(rgba[core][:, :3] - grey).max() < 0.02  # deep inside: the tissue colour
+    rim = hole & ~ndi.binary_erosion(hole, iterations=1)
+    assert np.abs(rgba[rim][:, :3] - grey).max(axis=1).mean() > 0.05  # along the edge: still the map's colours
+    ok = res.csr.map.eligible & data.tissue
+    cmap = pl.atlas._cmap(data.pal["csr_ramp"], "test")
+    np.testing.assert_allclose(rgba[ok][:, :3], cmap(data._cache["norm_csr"](sm.share[ok]))[:, :3])
+    assert data.map_clip("csr") is data.tissue_fill()  # drawn to the smooth tissue outline

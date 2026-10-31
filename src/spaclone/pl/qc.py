@@ -5,7 +5,8 @@ Read support and its knee, valid / productive shares by chain, clones per spot, 
 Every function takes ``ax=None`` and returns the Axes (``qc_panel`` returns a Figure); none calls ``show`` or
 ``savefig``. Chains keep one colour everywhere (IGH blue, IGK orange, IGL aqua, TRA yellow, TRB magenta, TRG green,
 TRD violet), so a filter that drops a chain never repaints the others; other groups take the validated slots by their
-sorted position. The spot map follows the image convention (y increases downwards) unless ``invert_y=False``.
+sorted position. The spot map follows the image convention (y increases downwards) unless ``invert_y=False`` and,
+like the other spaclone maps, draws in the black house style with ``style="dark"`` (white by default).
 """
 
 from __future__ import annotations
@@ -17,7 +18,8 @@ import numpy as np
 import pandas as pd
 
 from spaclone import _schema as S
-from spaclone.pl._colors import CHROME, RAMPS, SLOTS, fixed_colors, locus_colors
+from spaclone.pl._colors import CHROME, SLOTS, fixed_colors, locus_colors, mode_of
+from spaclone.pl._colors import cmap as house_cmap
 from spaclone.pl._frame import SectionFrame, attach
 
 __all__ = ["LOCUS_COLORS", "clones_per_spot", "qc_panel", "read_support", "spot_qc_map", "valid_shares"]
@@ -25,7 +27,11 @@ __all__ = ["LOCUS_COLORS", "clones_per_spot", "qc_panel", "read_support", "spot_
 #: Fixed colour of every chain (categorical slots of the validated house palette, light mode).
 LOCUS_COLORS: dict[str, str] = locus_colors("light")
 _INK, _INK2, _MUTED, _GRID, _AXIS = (CHROME["light"][k] for k in ("ink", "ink2", "muted", "grid", "axis"))
-_BLUE_RAMP = list(RAMPS["blue"]["light"])
+#: Sequential ramp of the spot map (low to high): its low end stays clear of the surface in both styles, because every
+#: drawn spot holds data and the commonest value (often a single record) must not fade into the background.
+_SPOT_RAMP = "blue_ordinal"
+#: Bounds (points^2) of the default spot marker.
+_SPOT_SIZE = (0.3, 36.0)
 
 
 def _group_colors(names: Sequence[Any]) -> dict[str, str]:
@@ -42,18 +48,38 @@ def _ax(ax):
     return ax
 
 
-def _style(ax, *, grid_axis: str = "y") -> None:
+def _style(ax, *, grid_axis: str = "y", mode: str = "light") -> None:
+    ch = CHROME[mode]
     for side in ("top", "right"):
         ax.spines[side].set_visible(False)
     for side in ("left", "bottom"):
-        ax.spines[side].set_color(_AXIS)
-    ax.tick_params(colors=_INK2, labelsize=9)
-    ax.xaxis.label.set_color(_INK2)
-    ax.yaxis.label.set_color(_INK2)
-    ax.title.set_color(_INK)
+        ax.spines[side].set_color(ch["axis"])
+    ax.tick_params(colors=ch["ink2"], labelsize=9)
+    ax.xaxis.label.set_color(ch["ink2"])
+    ax.yaxis.label.set_color(ch["ink2"])
+    ax.title.set_color(ch["ink"])
     if grid_axis:
-        ax.grid(axis=grid_axis, color=_GRID, linewidth=0.6)
+        ax.grid(axis=grid_axis, color=ch["grid"], linewidth=0.6)
         ax.set_axisbelow(True)
+
+
+def _spot_size(ax, xy: np.ndarray) -> float:
+    """Marker area (points^2) of a disc as wide as the median spacing of the spots, on the axes as drawn.
+
+    The spacing is the median distance from a spot to its nearest neighbour (the bin or bead pitch where neighbouring
+    spots both hold records), so the spots tile the section at any figure size; bounded by ``_SPOT_SIZE``.
+    """
+    from scipy.spatial import cKDTree
+
+    pts = np.unique(xy[np.isfinite(xy).all(axis=1)], axis=0)
+    if len(pts) < 2:
+        return 6.0
+    d, _ = cKDTree(pts).query(pts[:: max(1, len(pts) // 20000)], k=2)
+    gap_um = float(np.median(d[:, 1]))
+    ax.apply_aspect()
+    x0, x1 = ax.get_xlim()
+    pt_per_um = ax.get_position().width * ax.figure.get_figwidth() * 72.0 / max(abs(x1 - x0), 1e-9)
+    return float(np.clip((gap_um * pt_per_um) ** 2, *_SPOT_SIZE))
 
 
 def read_support(
@@ -283,6 +309,7 @@ def spot_qc_map(
     *,
     color: str = "n_records",
     ax=None,
+    style: str | None = None,
     s: float | None = None,
     log: bool = True,
     cmap: Any = None,
@@ -302,12 +329,19 @@ def spot_qc_map(
         Spot column to colour by (``n_records``, ``n_reads``, ``n_clones``, ``n_loci``, ``valid_share``, ``is_sink``).
     ax
         Axes to draw into.
+    style
+        None / ``"light"`` (white surface, the default) or ``"dark"`` (the black house style of the other spaclone
+        maps: black axes and figure, light ink).
     s
-        Marker size (points^2); default scales with the number of spots.
+        Marker size (points^2); default a disc as wide as the median spacing of the spots on the axes as drawn (the
+        bin or bead pitch), so the spots tile the section at any figure size (0.3 to 36 points^2).
     log
-        Log-scale the colour of count columns.
+        Log-scale the colour of count columns (colour-bar ticks at 1, 2, 5, 10, ...).
     cmap
-        Matplotlib colormap; default a single-hue blue ramp (light = low).
+        Matplotlib colormap; default the house's ordinal blue ramp (:data:`spaclone.pl._colors.RAMPS`
+        ``"blue_ordinal"``), mid to deep blue on white and deep to pale blue on black. Its low end stays clear of the
+        surface: every drawn spot holds data, and the commonest value (one record on 40-60% of the spots of real
+        sections) must not fade into the background.
     invert_y
         Draw y increasing downwards (image convention, the default of every spaclone map); ``False`` puts y = 0 at
         the bottom.
@@ -326,9 +360,14 @@ def spot_qc_map(
     matplotlib.axes.Axes
     """
     import matplotlib.colors as mcolors
+    from matplotlib.ticker import FuncFormatter, LogLocator, NullFormatter
 
     from spaclone.pp.metrics import QCMetrics, qc_metrics
 
+    if style not in (None, "light", "dark"):
+        raise ValueError("style must be None, 'light' or 'dark'")
+    mode = mode_of(style)
+    ink2 = CHROME[mode]["ink2"]
     if isinstance(data, QCMetrics):
         sp = data.spots
     elif isinstance(data, pd.DataFrame) and "n_records" in data.columns and color in data.columns:
@@ -338,13 +377,15 @@ def spot_qc_map(
     if color not in sp.columns:
         raise KeyError(f"spot_qc_map: column {color!r} not in the spot table")
     ax = _ax(ax)
+    if mode == "dark":
+        ax.set_facecolor(CHROME[mode]["bg"])
+        ax.figure.set_facecolor(CHROME[mode]["bg"])
     v = sp[color].to_numpy(dtype=float)
     order = np.argsort(v, kind="stable")  # high values drawn last
-    cm = cmap or mcolors.LinearSegmentedColormap.from_list("spaclone_blue", _BLUE_RAMP)
+    cm = cmap or house_cmap(_SPOT_RAMP, mode)
     norm = None
     if log and color.startswith("n_") and np.nanmax(v) > 0:
         norm = mcolors.LogNorm(vmin=max(np.nanmin(v[v > 0]), 1e-9), vmax=np.nanmax(v))
-    size = s if s is not None else float(np.clip(20000.0 / max(len(sp), 1), 0.3, 12))
     fr = SectionFrame(sp[[x_key, y_key]].to_numpy(dtype=float), rotate, crop=crop)
     attach(ax, fr)
     pxy = fr(sp[[x_key, y_key]].to_numpy(dtype=float))
@@ -352,20 +393,26 @@ def spot_qc_map(
         pxy[order, 0],
         pxy[order, 1],
         c=v[order],
-        s=size,
+        s=s if s is not None else 1.0,
         cmap=cm,
         norm=norm,
         linewidths=0,
         rasterized=len(sp) > 5000,
     )
     cb = ax.figure.colorbar(sc, ax=ax, shrink=0.8)
-    cb.set_label(color, color=_INK2, fontsize=9)
-    cb.ax.tick_params(labelsize=8, colors=_INK2)
+    cb.set_label(color, color=ink2, fontsize=9)
+    cb.ax.tick_params(labelsize=8, colors=ink2, which="both")
     cb.outline.set_visible(False)
+    if norm is not None:  # counts read as counts: 1, 2, 5, 10, 20, 50 ...
+        cb.ax.yaxis.set_major_locator(LogLocator(base=10.0, subs=(1.0, 2.0, 5.0)))
+        cb.ax.yaxis.set_major_formatter(FuncFormatter(lambda t, _pos: f"{t:g}"))
+        cb.ax.yaxis.set_minor_formatter(NullFormatter())
     ax.set_xlabel(fr.labels[0])
     ax.set_ylabel(fr.labels[1])
     fr.set_view(ax, invert_y=invert_y)
-    _style(ax, grid_axis="")
+    if s is None:  # sized once the colour bar has taken its room and the view is set
+        sc.set_sizes([_spot_size(ax, pxy)])
+    _style(ax, grid_axis="", mode=mode)
     return ax
 
 

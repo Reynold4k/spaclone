@@ -120,7 +120,10 @@ def csr_flow(
     kind
         ``"stream"`` (streamlines on the flow grid), ``"grid"`` (one arrow per grid point), ``"units"`` (one arrow
         per unit; for small data) or ``"none"`` (the coloured units only, e.g. a committor map). Streamlines and grid
-        arrows are drawn only on grid cells that hold a unit, so they stop at the edge of the tissue.
+        arrows are drawn only on grid cells that hold a unit, so they stop at the edge of the tissue. Grid arrows are
+        scaled to the grid spacing: each is centred on its grid point, its length is proportional to the speed up to
+        the 90th percentile of the speeds, which is drawn 0.9 spacings long, and faster arrows are drawn at that
+        length, so no arrow reaches into a neighbouring cell (streamline widths saturate at the same percentile).
     coords
         ``(n, 2)`` coordinates replacing the tissue positions (e.g. a UMAP); the displacement is recomputed on them.
     grid_um, n_grid, smooth, min_mass
@@ -269,21 +272,22 @@ def csr_flow(
             occ = _occupied(xy, meta)  # grid cells that hold a unit: no arrow off the tissue
             g = g[occ[g.iy.to_numpy(), g.ix.to_numpy()]]
             if kind == "grid":
-                sp = np.hypot(g.dx_um, g.dy_um).to_numpy()
-                med = np.nanmedian(sp)
-                scale = med / (0.8 * h) if med > 0 else 1.0
+                u, v = _grid_arrows(g.dx_um.to_numpy(dtype=float), g.dy_um.to_numpy(dtype=float), h)
                 ax.quiver(
-                    g[x_key],
-                    g[y_key],
-                    g.dx_um,
-                    g.dy_um,
+                    g[x_key].to_numpy(dtype=float),
+                    g[y_key].to_numpy(dtype=float),
+                    u,
+                    v,
                     color=ink,
                     angles="xy",
                     scale_units="xy",
-                    scale=scale,
-                    width=0.003,
-                    headwidth=4,
-                    headlength=4.5,
+                    scale=1.0,  # u, v are the arrows in µm
+                    pivot="mid",  # centred on its grid point: an arrow stays inside its own grid cell
+                    units="xy",  # shaft and head in µm, in proportion to the grid spacing
+                    width=_GRID_SHAFT * h,
+                    headwidth=_GRID_HEAD[0],
+                    headlength=_GRID_HEAD[1],
+                    headaxislength=_GRID_HEAD[2],
                 )
             else:
                 nx, ny = meta["nx"], meta["ny"]
@@ -325,6 +329,34 @@ def csr_flow(
     if title:
         ax.set_title(title, color=_c(mode, "ink"), loc="left", fontsize=11)
     return ax
+
+
+#: Grid arrows (``kind="grid"``): the speed at this percentile is drawn :data:`_GRID_FILL` grid spacings long and
+#: faster arrows are drawn at that length (the streamlines saturate their width at the same percentile).
+_GRID_REF_PERCENTILE = 90.0
+#: Longest grid arrow in grid spacings: centred on its grid point, an arrow never reaches the next one.
+_GRID_FILL = 0.9
+#: Shaft width of the grid arrows in grid spacings, and head width, head length and head axis length in shaft widths.
+_GRID_SHAFT = 0.065
+_GRID_HEAD = (3.5, 4.0, 4.0)
+
+
+def _grid_arrows(dx: np.ndarray, dy: np.ndarray, spacing: float) -> tuple[np.ndarray, np.ndarray]:
+    """Grid-arrow vectors in µm, scaled to the grid spacing.
+
+    Lengths are proportional to the speed up to the :data:`_GRID_REF_PERCENTILE`-th percentile of the speeds, which is
+    drawn :data:`_GRID_FILL` spacings long; faster arrows keep their direction at that length. Missing vectors stay
+    missing (not drawn).
+    """
+    dx, dy = np.asarray(dx, dtype=float), np.asarray(dy, dtype=float)
+    speed = np.hypot(dx, dy)
+    ok = np.isfinite(speed) & (speed > 0)
+    if not ok.any():
+        return dx, dy
+    ref = float(np.percentile(speed[ok], _GRID_REF_PERCENTILE))
+    factor = np.zeros_like(speed)
+    factor[ok] = _GRID_FILL * spacing * np.minimum(speed[ok], ref) / (ref * speed[ok])
+    return dx * factor, dy * factor
 
 
 #: Colour-bar labels of known time keys.

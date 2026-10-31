@@ -255,6 +255,50 @@ def test_clonotype_modularity_calibration_power_determinism():
     assert {"clonotype_modularity", "clonotype_modularity_fdr"} <= set(pw.units.columns)
 
 
+def test_modularity_plot_draws_rare_significant_clonotypes_in_colour():
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.colors as mcolors
+    import matplotlib.pyplot as plt
+
+    from spaclone.pl._colors import NEUTRAL
+
+    rng = np.random.default_rng(3)
+    spread = rng.uniform(0, 1000, (10 * 30, 2))  # ten frequent clones spread over the section
+    centres = np.array([[200.0, 200.0], [500.0, 800.0], [800.0, 300.0]])
+    compact = np.concatenate([c + rng.normal(0, 10, (6, 2)) for c in centres])  # three rare, compact clones
+    xy = np.concatenate([spread, compact])
+    clone = [f"big{k}" for k in range(10) for _ in range(30)] + [f"rare{k}" for k in range(3) for _ in range(6)]
+    air = pd.DataFrame(
+        {
+            "spot_id": [f"u{i}" for i in range(len(xy))],
+            "x_um": xy[:, 0],
+            "y_um": xy[:, 1],
+            "locus": "IGH",
+            "clone_id": clone,
+            "junction_aa": [f"CAR{c}W" for c in clone],
+            "v_call": "IGHV1-1*01",
+            "j_call": "IGHJ1*01",
+            "productive": True,
+            "consensus_count": 3.0,
+        }
+    )
+    with pytest.warns(DepthNullWarning):
+        res = sx.clonotype_modularity(air, rng=0, level="spot", carry="clone_id", graph_radius_um=60.0)
+    sig = res.table[res.table.q_value < 0.05].sort_values("statistic", ascending=False)
+    assert {"rare0", "rare1", "rare2"} <= set(sig.clonotype)  # rarer than the seven most frequent clones
+    ax = res.plot()
+    leg = ax.get_legend()
+    colours = {
+        t.get_text().rsplit(" (", 1)[0]: mcolors.to_hex(h.get_markerfacecolor())
+        for h, t in zip(leg.legend_handles, leg.get_texts(), strict=True)
+    }
+    assert set(colours) == set(sig.clonotype.head(8))  # every highlighted clonotype, in its own colour
+    assert NEUTRAL["dark"] not in colours.values() and len(set(colours.values())) == len(colours)
+    plt.close("all")
+
+
 def test_spot_level_needs_a_unit_clone_column():
     air = _toy()
     with pytest.raises(KeyError, match="clonotypes first"):

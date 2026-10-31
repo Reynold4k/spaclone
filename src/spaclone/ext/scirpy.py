@@ -562,7 +562,9 @@ class ModularityResult(TestResult):
         color
             ``obs`` column (default: the clonotype column).
         highlight
-            Values to highlight (default: clonotypes with q < 0.05, at most 8).
+            Values to highlight (default: the clonotypes with q < 0.05, highest modularity first, at most
+            ``max_categories``, 8 unless given); each is drawn in its own colour over the other units in grey,
+            however rare it is (see :func:`spaclone.pl.spatial_records`).
         ax
             Axes to draw on.
         rotate, invert_y
@@ -577,7 +579,8 @@ class ModularityResult(TestResult):
         col = color or self.params["target_col"]
         if highlight is None and color is None:
             sig = self.table[self.table["q_value"] < 0.05].sort_values("statistic", ascending=False)
-            highlight = sig["clonotype"].astype(str).head(8).tolist() or None
+            n_max = max(1, min(int(kwargs.get("max_categories", 8)), 8))  # one colour each
+            highlight = sig["clonotype"].astype(str).head(n_max).tolist() or None
         return _plot_units(self.units, col, highlight=highlight, ax=ax, rotate=rotate, invert_y=invert_y, **kwargs)
 
 

@@ -180,15 +180,56 @@ def test_same_seed_same_result_other_seed_other_null(planted):
 def test_no_overlap_returns_the_hotspots_and_says_why():
     a, air = _section(seed=1, both=None)
     sa = io.read(a, air)
-    res = bcr.hotspot_workflow(sa, rng=0, **FAST)
+    res = bcr.hotspot_workflow(sa, rng=0, region_source="overlap", **{**FAST, "clone_null": False})
     assert res.csr.summary["n_hotspots"] >= 1
     assert len(res.regions) == 0 and list(res.regions.columns)[:3] == ["region_id", "csr_hotspots", "shm_hotspots"]
-    assert res.messages[0].startswith("no CSR ∩ SHM region")
+    assert res.messages[0].startswith("no CSR ∩ SHM region") and res.messages[0].endswith("returned")
     assert res.profiles.empty and res.windows.empty and len(res.module_maps) > 0
-    assert (res.units.region_id == 0).all()
+    assert (res.units.region_id == 0).all() and res.params["region_source_used"] is None
     assert "0 CSR∩SHM regions" in repr(res)
     s = res.summary()
     assert s[s.step == "messages"].value.str.startswith("no CSR ∩ SHM").any()
+
+
+def test_without_an_overlap_region_the_csr_hotspots_are_the_regions():
+    """region_source="auto": no CSR ∩ SHM region, so each CSR hotspot is a region with the numbers of a region.
+
+    Null model: a CSR hotspot's SHM numbers are its own tests: mutated calls shuffled within isotype class
+    (``p``, ``csr_shm_test``) and whole clones relabelled within clone size and isotype mix with the hotspot fixed
+    (``shm_clone_region_p`` / ``shm_clone_q``, ``csr_shm_clone``, BH over the hotspots); ``csr_clone_p`` is the
+    hotspot's peak on the clone-relabelled CSR map against the shuffled maps' maxima. References: Hoehn et al. 2022,
+    doi:10.1371/journal.pcbi.1009885; Benjamini & Hochberg 1995, doi:10.1111/j.2517-6161.1995.tb02031.x.
+    """
+    a, air = _section(seed=1, both=None)
+    res = bcr.hotspot_workflow(io.read(a, air), rng=0, **{**FAST, "gc_call": False})
+    ids = [int(h) for h in res.csr.table.hotspot]
+    R = res.regions
+    assert ids and R.region_id.tolist() == ids and (R.source == "csr").all()
+    assert R.csr_hotspots.tolist() == [str(h) for h in ids]
+    assert res.params["region_source"] == "auto" and res.params["region_source_used"] == "csr"
+    assert res.messages[0].startswith("no CSR ∩ SHM region") and "(region_source='auto')" in res.messages[0]
+    disc = R[(R.x_um - 880).abs() < 40].iloc[0]  # the switched disc with GC-B markers and background mutation
+    hid = str(int(disc.region_id))
+    assert disc.switched_share > 0.5 and disc.gex_label.startswith("GC B")
+    assert np.isfinite(disc.csr_clone_p) and np.isfinite(disc.shm_clone_q)
+    conf = res.csr_shm_clone.table.set_index(res.csr_shm_clone.table.csr_hotspot.astype(str))
+    unit = res.csr_shm_test.table.set_index(res.csr_shm_test.table.region.astype(str))
+    assert disc.shm_clone_q == conf.loc[hid, "q_value"] and disc.shm_clone_region_p == conf.loc[hid, "p_value"]
+    assert disc.p == unit.loc[hid, "p_value"] and disc.q == unit.loc[hid, "q_value"]
+    assert res.windows.region_id.tolist() == ids and set(res.profiles.region_id) == set(ids)
+    assert (res.units.region_id > 0).any() and res.region_labels.values.max() == max(ids)
+    s = res.summary()
+    assert s[(s.step == "regions") & (s.item == "regions from CSR hotspots")].value.iloc[0] == len(ids)
+    assert s[(s.step == f"region {hid}") & s.item.str.startswith("p (")].note.iloc[0].startswith("unit-level")
+    assert f"{len(ids)} regions from CSR hotspots" in repr(res)
+
+
+def test_region_source_csr_takes_every_csr_hotspot(planted):
+    res = bcr.hotspot_workflow(planted, rng=0, region_source="csr", clone_null=False, gc_call=False, **FAST)
+    R = res.regions
+    assert (R.source == "csr").all() and R.region_id.tolist() == [int(h) for h in res.csr.table.hotspot]
+    assert (R.shm_hotspots != "").sum() >= 1  # the planted CSR ∩ SHM disc keeps its SHM hotspots
+    assert res.messages[0].startswith("region_source='csr'") and res.params["region_source_used"] == "csr"
 
 
 def test_from_files_without_gex_or_alignments(tmp_path):
@@ -202,7 +243,8 @@ def test_from_files_without_gex_or_alignments(tmp_path):
     assert res.regions.gex_label.isna().all() and any("no GEX" in m for m in res.messages)
     noalign = sa.air.drop(columns=["v_sequence_alignment", "v_germline_alignment"])
     res2 = bcr.hotspot_workflow(SpatialAIR(noalign, sa.gex, {}), rng=0, **{**FAST, "clone_null": False})
-    assert res2.shm is None and len(res2.regions) == 0 and res2.csr is not None
+    assert res2.shm is None and res2.csr is not None
+    assert len(res2.regions) == res2.csr.summary["n_hotspots"] and (res2.regions.source == "csr").all()
     assert any("no V alignments" in m for m in res2.messages)
     assert not res2.records.evaluable.any()
 
@@ -210,6 +252,7 @@ def test_from_files_without_gex_or_alignments(tmp_path):
 def test_legacy_replays_the_archive_draws(planted):
     res = bcr.hotspot_workflow(planted, rng=0, legacy=True, clone_null=False, gc_call=False, **FAST)
     assert res.csr.params["threshold_rule"] == "quantile" and res.csr.params["neff_kernel"] == "legacy"
+    assert res.params["min_hotspot_loci"] == 0 and res.csr.params["min_units"] == 0  # the archive kept every set
     iso = res.loci[res.loci.switched.notna() & res.loci.on_grid].reset_index(drop=True)
     iso["switched"] = iso.switched.astype(bool)
     direct = bcr.csr_hotspots(iso, blocks=None, n_perm=99, rng=np.random.default_rng(0), sigma_um=30.0,
@@ -276,6 +319,10 @@ def test_input_errors(planted):
         bcr.hotspot_workflow(two, **FAST)
     with pytest.raises(ValueError, match="shm_from"):
         bcr.hotspot_workflow(planted, shm_from="both")
+    with pytest.raises(ValueError, match="region_source"):
+        bcr.hotspot_workflow(planted, region_source="both")
+    with pytest.raises(ValueError, match="min_hotspot_loci"):
+        bcr.hotspot_workflow(planted, min_hotspot_loci=-1)
     with pytest.raises(TypeError, match="SpatialAIR"):
         bcr.hotspot_workflow("file.tsv")
 
@@ -378,6 +425,21 @@ def test_species_mismatch_warns_and_names_species(planted):
         res = bcr.hotspot_workflow(SpatialAIR(planted.air, g, planted.meta), rng=0, clone_null=False, gc_call=False,
                                    **FAST)  # fmt: skip
     assert res.regions.gex_label.iloc[0] == "undetermined" and any("species='human'" in m for m in res.messages)
+
+
+def test_min_hotspot_loci_drops_hotspots_and_says_so(planted, planted_result):
+    """Hotspots with fewer loci of their map than ``min_hotspot_loci`` are dropped, counted and named in messages."""
+    assert planted_result.params["min_hotspot_loci"] == 1 and planted_result.csr.params["min_units"] == 1
+    assert (planted_result.csr.table.units >= 1).all()
+    kw = {**FAST, "clone_null": False, "gc_call": False}
+    base = bcr.hotspot_workflow(planted, rng=0, min_hotspot_loci=0, **kw)
+    n = int(base.csr.table.units.min())
+    res = bcr.hotspot_workflow(planted, rng=0, min_hotspot_loci=n + 1, **kw)
+    gone = int((base.csr.table.units <= n).sum())
+    assert res.csr.summary["n_hotspots"] == base.csr.summary["n_hotspots"] - gone >= 0
+    assert res.params["hotspots_dropped_min_loci"]["csr"] == gone and res.params["min_hotspot_loci"] == n + 1
+    assert any(m.startswith(f"{gone} CSR hotspot") and m.endswith(f"dropped (min_hotspot_loci={n + 1})")
+               for m in res.messages)  # fmt: skip
 
 
 @pytest.mark.slow

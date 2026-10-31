@@ -13,14 +13,14 @@ from typing import Any
 
 import numpy as np
 
-from spaclone.pl._colors import CHROME, DIVERGING, MARKS, OUTLINE_SLOTS, RAMPS, RECEPTOR_COLORS
+from spaclone.pl._colors import ATLAS_STYLES, CHROME, DIVERGING, MARKS, OUTLINE_SLOTS, RAMPS, RECEPTOR_COLORS
 from spaclone.pl._frame import SectionFrame, attach
 
 __all__ = ["niche_profile", "share_map"]
 
 _DARK, _LIGHT = (
     {"bg": CHROME[m]["bg"], "fg": CHROME[m]["ink"], "tissue": CHROME[m]["tissue"], "hot": MARKS[m]["hot"],
-     "cold": MARKS[m]["cold"]}
+     "cold": MARKS[m]["cold"], "edge": ATLAS_STYLES[m]["tissue_edge"]}
     for m in ("dark", "light")
 )  # fmt: skip
 #: Sequential ramp of the share layer by receptor family (BCR blue to ice, TCR magenta).
@@ -121,6 +121,16 @@ def _contour(
         cs.set(path_effects=[patheffects.withStroke(linewidth=lw + 1.6, foreground=halo), patheffects.Normal()])
 
 
+def _display_tissue(sm: Any) -> np.ndarray:
+    """The tissue a map is drawn over: the mask it was computed on, else its eligible pixels with holes filled."""
+    from scipy import ndimage as ndi
+
+    t = getattr(sm, "tissue", None)
+    if t is not None and np.shape(t) == tuple(sm.grid.shape) and np.asarray(t).any():
+        return np.asarray(t, dtype=bool)
+    return ndi.binary_fill_holes(np.asarray(sm.eligible, dtype=bool))
+
+
 def share_map(
     result: Any,
     *,
@@ -141,7 +151,11 @@ def share_map(
     crop: bool = True,
     title: str | None = None,
 ) -> Any:
-    """Draw a share map (or another layer) on the eligible pixels, with hotspot outlines.
+    """Draw a share map (or another layer) over the tissue, with hotspot outlines.
+
+    The map covers the whole tissue mask: pixels used for inference (eligible) get their full colour, and every other
+    tissue pixel takes the colour of the eligible pixels around it, fading into the tissue grey within a few pixels,
+    so places with too few units read as tissue without hard-edged holes. The section has a smooth outline.
 
     Parameters
     ----------
@@ -193,7 +207,16 @@ def share_map(
     matplotlib.axes.Axes
         The axes drawn on.
     """
-    from matplotlib.colors import LinearSegmentedColormap, ListedColormap
+    from matplotlib import colormaps
+    from matplotlib.collections import LineCollection
+    from matplotlib.colors import LinearSegmentedColormap, Normalize
+    from matplotlib.patches import PathPatch
+    from matplotlib.path import Path
+
+    from spaclone.pl.atlas import _continuous_rgba, _fill_from, _mask_fill, _mask_lines
+
+    def get_cmap(name: str) -> Any:
+        return colormaps[name]
 
     sm = result.map if getattr(result, "map", None) is not None else result
     labels = getattr(result, "labels", None)
@@ -219,34 +242,42 @@ def share_map(
     if cmap is None:
         stops = RAMPS[_RAMPS.get(receptor.upper(), "csr")]["dark" if style == "dark" else "light"]
         cmap = LinearSegmentedColormap.from_list(f"spaclone_{receptor}", stops)
-    weighted = (~sm.eligible) & (sm.n_eff > 0)
+    tissue = _display_tissue(sm)
+    valid = np.asarray(sm.eligible, dtype=bool) & np.isfinite(vals)
     gx, gy = grid.centres()
-    ii, jj = np.nonzero(sm.eligible | (sm.n_eff > 0))
+    ii, jj = np.nonzero(tissue | valid)
     pts = np.column_stack([gx[ii], gy[jj]]) if len(ii) else np.column_stack([gx[[0, -1]], gy[[0, -1]]])
     fr = SectionFrame(pts, rotate, crop=crop)
     ax = _axes(ax, style, (8.0, float(np.clip((5.4 if colorbar else 7.4) * fr.aspect(0.75) + 1.3, 3.0, 9.0))))
     attach(ax, fr)
     tr = fr.affine() + ax.transData
-    ax.imshow(
-        np.where(weighted, 1.0, np.nan).T,
+    norm = Normalize(vmin=vmin, vmax=vmax)
+    cmap = get_cmap(cmap) if isinstance(cmap, str) else cmap
+    filled, support = _fill_from(vals, valid)
+    rgba = _continuous_rgba(filled, valid, support, tissue, cmap, norm, pal["tissue"])
+    fill = _mask_fill(tissue, grid, 1.5)
+    clip = None
+    if fill:
+        path = Path.make_compound_path(*[Path(p, c) for p, c in fill])
+        ax.add_patch(PathPatch(path, facecolor=pal["tissue"], edgecolor="none", lw=0, zorder=0, transform=tr))
+        clip = PathPatch(path, facecolor="none", edgecolor="none", transform=tr)
+    shown = ax.imshow(
+        np.ascontiguousarray(rgba.transpose(1, 0, 2)),
         origin="lower",
         extent=grid.extent,
-        cmap=ListedColormap([pal["tissue"]]),
-        interpolation="nearest",
-        zorder=0,
-        transform=tr,
-    )
-    im = ax.imshow(
-        vals.T,
-        origin="lower",
-        extent=grid.extent,
-        cmap=cmap,
-        vmin=vmin,
-        vmax=vmax,
-        interpolation="nearest",
+        interpolation="bilinear",
         zorder=1,
         transform=tr,
     )
+    if clip is not None:
+        shown.set_clip_path(clip)
+    shown.set_cmap(cmap)  # the colours are precomputed (RGBA); cmap and norm name the scale for the colour bar
+    shown.set_norm(norm)
+    edge = _mask_lines(tissue, grid, 1.5)
+    if edge:
+        ax.add_collection(LineCollection(edge, colors=pal["edge"], linewidths=0.8, zorder=2, capstyle="round",
+                                         transform=tr))  # fmt: skip
+    im = shown
     # on a light diverging map the red / blue hotspot outlines would vanish into the pixels: outline in ink
     hot_c, cold_c = (pal["fg"], pal["fg"]) if (layer in _Z_LAYERS and style != "dark") else (pal["hot"], pal["cold"])
     if hotspots and labels is not None:

@@ -136,6 +136,8 @@ def test_tissue_raster_sets_the_grid_and_the_eligible_pixels():
     sm = tl.share_map(t, mark="mark", tissue=tl.Raster(tissue, grid), sigma_um=20.0, min_neff=5.0)
     assert sm.grid == grid
     assert (sm.eligible <= tissue).all() and sm.eligible.any()
+    np.testing.assert_array_equal(sm.tissue, tissue)  # kept for drawing the section
+    assert tl.share_map(t, mark="mark", sigma_um=20.0).tissue is None
     with pytest.raises(ValueError, match="different grid"):
         tl.share_map(t, mark="mark", grid=tl.Grid((0.0, 0.0), 10.0, (30, 30)), tissue=tl.Raster(tissue, grid))
 
@@ -243,6 +245,34 @@ def test_hotspots_is_deterministic_given_the_seed():
     np.testing.assert_array_equal(a.labels.values, b.labels.values)
     pd.testing.assert_frame_equal(a.table, b.table)
     assert not np.array_equal(a.null, c.null)
+
+
+def test_min_units_drops_hotspots_with_too_few_units_and_keeps_the_rest():
+    """``min_units`` drops pixel sets above the threshold that hold fewer units; the rest is unchanged.
+
+    Null model: random labelling of units (positions fixed); the shuffles, the threshold and the map-level p-values
+    do not depend on the rule, so dropping sets never adds a hotspot. References: Nichols & Holmes 2002,
+    doi:10.1002/hbm.1058; Phipson & Smyth 2010, doi:10.2202/1544-6115.1585.
+    """
+    t = _field(hot=(150.0, 150.0, 40.0, 0.7), seed=9)
+    kw = {"mark": "mark", "sigma_um": 20.0, "n_perm": 99, "rng": 1}
+    full = tl.hotspots(t, **kw)
+    assert full.summary["n_dropped_min_units"] == 0 and full.params["min_units"] == 0 and len(full.table)
+    k = int(full.table.units.max())
+    cut = tl.hotspots(t, min_units=k, **kw)
+    keep = full.table[full.table.units >= k]
+    assert cut.summary["n_hotspots"] == len(keep) and cut.summary["n_dropped_min_units"] == len(full.table) - len(keep)
+    np.testing.assert_array_equal(cut.null, full.null)
+    assert cut.threshold == full.threshold
+    np.testing.assert_allclose(cut.table.p_value.to_numpy(), keep.p_value.to_numpy())
+    assert cut.table.hotspot.tolist() == list(range(1, len(keep) + 1))  # renumbered by area
+    for new, old in zip(cut.table.hotspot, keep.hotspot, strict=True):
+        np.testing.assert_array_equal(cut.labels.values == new, full.labels.values == old)
+    none = tl.hotspots(t, min_units=k + 1, **kw)
+    assert none.summary["n_hotspots"] == 0 and none.summary["n_dropped_min_units"] == len(full.table)
+    assert not none.labels.values.any()
+    with pytest.raises(ValueError, match="min_units"):
+        tl.hotspots(t, min_units=-1, **kw)
 
 
 def test_coldspots_two_sided_and_cluster_mass():

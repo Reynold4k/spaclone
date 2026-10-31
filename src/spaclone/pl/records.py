@@ -106,14 +106,18 @@ def spatial_records(
     palette
         ``{value: colour}`` overrides for a categorical ``color`` column.
     highlight
-        Values of the ``color`` column to draw in colour; the other records are drawn grey underneath.
+        Values of the ``color`` column to draw in colour; the other records are drawn grey underneath. The highlighted
+        values take the colours before the ``max_categories`` cut, so a rare value is never pooled into "other"
+        because unhighlighted values are more frequent; only when more values are highlighted than
+        ``max_categories`` are the least frequent of them pooled as "other".
     background
         ``"gex"`` (the spots of ``gex``), ``"none"``, or positions in µm (``DataFrame`` with ``x_key`` / ``y_key`` or
         an ``(n, 2)`` array).
     style
         ``"dark"`` (the black house style, default) or ``"light"`` (white).
     size
-        Marker area in points² (default: smaller for more records).
+        Marker area in points² (default: smaller for more records; with ``highlight``, the highlighted records are
+        sized by their own number, never smaller than the grey ones, so a few of them stay visible over many).
     alpha
         Marker opacity.
     max_categories
@@ -196,24 +200,30 @@ def spatial_records(
             ax.scatter(*bg.T, s=bs, c=pal["tissue"], lw=0, marker="s", rasterized=True, zorder=0)
 
     # categories
+    hl = None if highlight is None else {str(h) for h in highlight}
     if color is None:
         labels = np.full(n, "records", dtype=object)
         order, colours = ["records"], {"records": pal["BCR"]}
+        raw = labels
     elif color == "receptor":
         loc = air[locus_key].astype(str).str.upper().to_numpy(dtype=object)
         labels = np.where(np.isin(loc, S.BCR_LOCI), "BCR", np.where(np.isin(loc, S.TCR_LOCI), "TCR", "other"))
         order = [c for c in ("BCR", "TCR", "other") if (labels == c).any()]
         colours = {"BCR": pal["BCR"], "TCR": pal["TCR"], "other": pal["other"]}
+        raw = labels
     else:
         if color not in air.columns:
             raise KeyError(f"spatial_records: column {color!r} not in the receptor table")
         col = air[color]
         vals = col.astype(str).to_numpy(dtype=object)
         vals = np.where(col.isna().to_numpy(), "NA", vals)
+        raw = vals
         k = max(1, min(int(max_categories), 8))
         vocab = [v for v in vocabulary(col, order=FIXED_ORDER.get(color)) if v not in _MISSING]
         present = pd.Series(vals[vals != "NA"]).value_counts()
         ranked = [v for v in vocab if v in present.index]
+        if hl is not None:  # highlighted values take the colours first: the others are drawn grey anyway
+            ranked = [v for v in ranked if v in hl]
         if len(ranked) <= k:
             keep = ranked
         else:  # most frequent k - 1 (ties: category order), drawn in category order
@@ -227,25 +237,29 @@ def spatial_records(
         colours |= {"other": pal["other"], "NA": pal["other"]}
         labels = np.where(np.isin(vals, keep) | (vals == "NA"), vals, "other")
         order = list(keep) + [c for c in ("other", "NA") if (labels == c).any()]
-    if highlight is not None:
-        hl = {str(h) for h in highlight}
-        dim = ~np.isin(labels, list(hl))
-        ax.scatter(*xy[dim].T, s=s, c=pal["other"], lw=0, alpha=0.5, rasterized=n > 5000, zorder=1)
-        order = [c for c in order if c in hl]
+    shown = np.ones(n, dtype=bool)  # records drawn in their category colour
+    s_shown = s
+    if hl is not None:
+        shown = np.isin(raw, list(hl))
+        ax.scatter(*xy[~shown].T, s=s, c=pal["other"], lw=0, alpha=0.5, rasterized=n > 5000, zorder=1)
+        order = [c for c in order if (shown & (labels == c)).any()]
+        if size is None:  # a few highlighted records stay visible over many grey ones
+            s_shown = max(s, float(np.clip(4000 / max(int(shown.sum()), 1), 0.5, 12)))
     handles = []
-    counts = {cat: int((labels == cat).sum()) for cat in order}
+    counts = {cat: int((shown & (labels == cat)).sum()) for cat in order}
     stack = sorted(order, key=lambda c: -counts[c])  # large groups underneath, small ones stay visible
     for cat in order:
-        m = labels == cat
+        m = shown & (labels == cat)
         z = 2 + stack.index(cat)
-        ax.scatter(*xy[m].T, s=s, c=colours[cat], lw=0, alpha=alpha, rasterized=n > 5000, zorder=z)
+        ax.scatter(*xy[m].T, s=s_shown, c=colours[cat], lw=0, alpha=alpha, rasterized=n > 5000, zorder=z)
         handles.append(
             Line2D([], [], ls="", marker="o", ms=7, mfc=colours[cat], mec="none", label=f"{cat} ({counts[cat]:,})")
         )
     if legend and len(handles) >= 2:  # under the map, so it never covers the tissue
+        rows = -(-len(handles) // 6)  # at most six entries per row, the rows balanced (8 entries: 4 + 4)
         lg = ax.legend(
-            handles=handles, loc="upper left", bbox_to_anchor=(0.0, -0.01), ncol=min(len(handles), 6), fontsize=9.5,
-            frameon=False, handletextpad=0.3, columnspacing=1.2,
+            handles=handles, loc="upper left", bbox_to_anchor=(0.0, -0.01), ncol=-(-len(handles) // rows),
+            fontsize=9.5, frameon=False, handletextpad=0.3, columnspacing=1.2,
         )  # fmt: skip
         lg.set_zorder(20)
         for t in lg.get_texts():

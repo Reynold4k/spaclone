@@ -52,6 +52,28 @@ def test_csr_flow_colour_by_committor_and_table_input(model_and_flux):
     plt.close(fig)
 
 
+def test_csr_flow_grid_arrows_fit_inside_their_grid_cell(model_and_flux):
+    from matplotlib.quiver import Quiver
+
+    m, _ = model_and_flux
+    d = tl.transition_displacement(m)
+    d.loc[d.index[:4], ["dx_um", "dy_um"]] *= 40.0  # a few far longer vectors, as at the edge of a section
+    h = 10.0
+    ax = pl.csr_flow(d, kind="grid", grid_um=h, rotate=False, s=0)
+    q = next(c for c in ax.collections if isinstance(c, Quiver))
+    assert q.pivot in ("mid", "middle")  # each arrow centred on its grid point (matplotlib stores "middle")
+    vec = np.column_stack([np.asarray(q.U, dtype=float), np.asarray(q.V, dtype=float)]) / q.scale
+    length = np.hypot(vec[:, 0], vec[:, 1])
+    assert length.max() == pytest.approx(0.9 * h)  # the longest arrows span 0.9 grid spacings
+    assert (np.abs(vec) / 2).max() < 0.5 * h  # inside the cell of its grid point: neighbours never overlap
+    g = tl.flow_grid(d, grid_um=h).set_index(["x_um", "y_um"])
+    xy = np.asarray(q.get_offsets(), dtype=float)
+    speed = np.hypot(*g.loc[list(map(tuple, xy)), ["dx_um", "dy_um"]].to_numpy().T)
+    ref = np.percentile(speed, 90)
+    np.testing.assert_allclose(length, 0.9 * h * np.minimum(speed, ref) / ref, rtol=1e-9)  # linear below the cap
+    plt.close(ax.figure)
+
+
 def test_flux_matrix_and_stationary(model_and_flux):
     _, res = model_and_flux
     ax = pl.flux_matrix(res, value="net", order=["follicle", "GC", "red pulp"], mask_improbable=True)

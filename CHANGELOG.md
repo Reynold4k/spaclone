@@ -5,7 +5,9 @@ versions follow [semantic versioning](https://semver.org/).
 
 ## 1.0.1 (2026-10-31)
 
-Release archived on Zenodo for a citable DOI; no code changes.
+- `bcr.hotspot_workflow(region_source="auto")`: without a CSR ∩ SHM region, each CSR hotspot becomes a region (`regions.source`), with its shares, clone-level CSR p, confirmatory SHM q (`shm_clone_q`), GEX profile and zoom ("CSR hotspot N" in `pl.hotspot_atlas` / `pl.region_zoom`); `min_hotspot_loci` (default 1, `tl.hotspots(min_units=)`) drops hotspots that hold no locus.
+- `spaclone.read`, `io.read_airspace` and `datasets.load_airspace` keep MiXCR's V alignments by default (`alignments="auto"`), so SHM runs from the main entry point.
+- Plots: share maps (`pl.share_map`, the atlas, `pl.csr_map`) cover the tissue with a smooth outline; the legend says why a unit has no score, and the atlas note wraps instead of being cut. `pl.spatial_records` colours highlighted values before the category cut, so `ext.scirpy.clonotype_modularity().plot()` shows its q < 0.05 clonotypes. `pl.csr_flow(kind="grid")` arrows fit the grid pitch. `pl.same_spot_multiplicity` no longer warns on classes without an expectation. The `pl.tree_tissue` legend sits above the map. `ext.threadfin` compartment names follow the labels (no "red pulp" on a lymph node; numbers unchanged). `pl.spot_qc_map` gains `style="dark"` and a visible low end. `pl.clone_map` uses the README hero settings by default. `pl.diversity` draws the rarefied interval even when the full-sample statistic lies outside it.
 
 ## 1.0.0 (2026-10-31)
 

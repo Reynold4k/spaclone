@@ -124,7 +124,7 @@ def read_airspace(
     tissue_radius_um: float = 100.0,
     keep_x: bool = True,
     library_id: str | None = None,
-    alignments: bool = False,
+    alignments: bool | Literal["auto"] = "auto",
     min_overlap: float = 0.5,
     unmatched: Literal["drop", "error"] = "drop",
 ) -> SpatialAIR:
@@ -156,12 +156,15 @@ def read_airspace(
     library_id
         Library label; default: the sample name from the clone-table file name (``GSM..._<sample>_ovp...``).
     alignments
-        Also keep MiXCR's alignment strings of the representative read (``allVAlignments``, ``allDAlignments``,
+        Keep MiXCR's alignment strings of the representative read (``allVAlignments``, ``allDAlignments``,
         ``allJAlignments``, ``allCAlignments`` as ``v_alignment_mixcr``, ``d_alignment_mixcr``,
         ``j_alignment_mixcr``, ``c_alignment_mixcr``): reference start / end / length, read start / end, the
         substitutions and indels against the reference gene, and the score, for every hit. They give somatic
         hypermutation counts without re-alignment: ``bcr.shm(air, mixcr_alignment="v_alignment_mixcr", ...)``
-        (parsed by :func:`spaclone.io.parse_mixcr_alignment`). Off by default (they double the table's memory).
+        (parsed by :func:`spaclone.io.parse_mixcr_alignment`) and the SHM maps of
+        :func:`spaclone.bcr.hotspot_workflow`. ``"auto"`` (default): kept when the clone table has them (the GEO
+        tables do); ``True``: required (``ValueError`` without ``allVAlignments``); ``False``: left out (half the
+        memory of the table).
     min_overlap
         Smallest share of the clone table's distinct bead barcodes that must be beads of the h5ad; below it the two
         files are taken to come from different samples and a ``ValueError`` gives examples from both.
@@ -249,8 +252,10 @@ def read_airspace(
 
     head = pd.read_csv(cpath, sep="\t", nrows=0)
     use = [c for c in _AIR_COLUMNS if c in head.columns]
+    if alignments not in (True, False, "auto"):
+        raise ValueError(f"alignments must be True, False or 'auto', got {alignments!r}")
     aln = [c for c in _ALIGNMENT_COLUMNS if c in head.columns] if alignments else []
-    if alignments and "allVAlignments" not in aln:
+    if not isinstance(alignments, str) and alignments and "allVAlignments" not in aln:
         raise ValueError("alignments=True: the clone table has no allVAlignments column")
     use += aln
     for need in _REQUIRED:

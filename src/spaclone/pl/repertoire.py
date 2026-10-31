@@ -115,10 +115,8 @@ def diversity(
     lo = t["rarefied_lo"].to_numpy(dtype=float) if "rarefied_lo" in t else np.full(len(t), np.nan)
     hi = t["rarefied_hi"].to_numpy(dtype=float) if "rarefied_hi" in t else np.full(len(t), np.nan)
     ok = np.isfinite(lo) & np.isfinite(hi)
-    if ok.any():
-        ax.errorbar(
-            x[ok], y[ok], yerr=np.vstack([y[ok] - lo[ok], hi[ok] - y[ok]]), fmt="none", ecolor=color, elinewidth=2
-        )
+    if ok.any():  # the rarefied interval itself: the full-sample statistic may lie outside it
+        ax.vlines(x[ok], lo[ok], hi[ok], color=color, lw=2)
     ax.scatter(x, y, s=64, color=color, zorder=3, edgecolor=_LIGHT["bg"], linewidth=1.5)
     if kind == "contrast":
         ax.axhline(0, color=NULL_EDGE, lw=1, ls="--")

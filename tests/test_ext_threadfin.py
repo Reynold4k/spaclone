@@ -219,6 +219,77 @@ def test_spatial_context_and_signed_distances():
         tfx.spatial_context(gex, cell_type_key="nope")
 
 
+def _node_like(seed=2):
+    """The toy section with a lymph node's right half: sparse typed spots (B, T and blood erythrocytes) among untyped
+    ones (medulla, sinus), so the area outside the B and T zones holds no erythroid-rich red pulp."""
+    _, gex, truth = _toy(seed=seed)
+    rng = np.random.default_rng(seed)
+    red = truth["red"]
+    ct = gex.obs["cell_type"].astype(str).to_numpy().copy()
+    ct[red] = rng.choice(["Monocytes", "B_cells", "T_cells", "Erythrocyte"], red.sum(), p=[0.91, 0.03, 0.03, 0.03])
+    gex.obs["cell_type"] = pd.Categorical(ct)
+    return gex, truth
+
+
+def test_spatial_context_names_follow_the_labels():
+    """Red pulp only where the labels show one; tissue-neutral names elsewhere; names never move a pixel."""
+    _, gex, truth = _toy(seed=2)
+    spleen = tfx.spatial_context(gex, cell_type_key="cell_type")
+    assert spleen.params["naming"] == "spleen" and spleen.params["outside_erythroid_share"] >= 0.8
+    assert spleen.compartments.categories == tfx.COMPARTMENT_NAMES["spleen"]
+    assert list(spleen.masks) == ["T zone", "B-rich", "red pulp", "erythroid-rich"]
+    node, truth = _node_like()
+    ctx = tfx.spatial_context(node, cell_type_key="cell_type")
+    assert ctx.params["naming"] == "neutral" and ctx.params["names"] == "auto"
+    assert ctx.params["outside_erythroid_share"] < tfx.RED_PULP_MIN_ERYTHROID
+    assert ctx.compartments.categories == ("T zone", "non-B/T area", "follicle")
+    assert list(ctx.masks) == ["T zone", "B-rich", "non-B/T area", "erythroid-rich"]
+    xy = node.obsm["spatial"]
+    smp = ctx.sample(xy[:, 0], xy[:, 1])
+    core = truth["red"] & (xy[:, 0] >= xy[:, 0].max() * 0.65)
+    assert (smp.compartment[core] == "non-B/T area").mean() > 0.95
+    assert "dist_non_b_t_area_um" in smp.columns and not smp.columns.str.contains("pulp").any()
+    forced = tfx.spatial_context(node, cell_type_key="cell_type", names="spleen")
+    assert forced.params["naming"] == "spleen" and "red pulp" in forced.compartments.categories
+    np.testing.assert_array_equal(forced.compartments.values, ctx.compartments.values)  # same pixels, other names
+    for a, b in zip(forced.masks.values(), ctx.masks.values(), strict=True):
+        np.testing.assert_array_equal(a.values, b.values)
+    smp2 = forced.sample(xy[:, 0], xy[:, 1])
+    np.testing.assert_array_equal(smp2["dist_red_pulp_um"].to_numpy(), smp["dist_non_b_t_area_um"].to_numpy())
+    neutral = tfx.spatial_context(gex, cell_type_key="cell_type", names="neutral")
+    assert "red pulp" not in neutral.compartments.categories
+    with pytest.raises(ValueError, match="names"):
+        tfx.spatial_context(gex, cell_type_key="cell_type", names="lymph node")
+
+
+def test_compartment_names_never_change_a_number(state_data):
+    """Calling the red pulp the non-B/T area leaves every readout unchanged (the default red covers both names)."""
+    *_, res = state_data
+    u = res.units.copy()
+    u["compartment"] = u["compartment"].astype(str).replace({"red pulp": "non-B/T area"})
+    renamed = dataclasses.replace(res, units=u)
+    a = tfx.spanning_clones(res, n_perm=19, rng=3)
+    b = tfx.spanning_clones(renamed, n_perm=19, rng=3)
+    assert a.table["white_and_red"].astype(float).sum() > 0  # the red / white columns are in play
+    pd.testing.assert_frame_equal(a.table, b.table)
+    assert a.summary.keys() == b.summary.keys()
+    for k, v in a.summary.items():
+        assert v == b.summary[k] or (isinstance(v, float) and np.isnan(v) and np.isnan(b.summary[k])), k
+
+
+@pytest.mark.slow
+def test_compartment_names_never_change_niche_by_axis(state_data):
+    """The niche readout under either name: the same table, row for row, but for the category label."""
+    *_, res = state_data
+    u = res.units.copy()
+    u["compartment"] = u["compartment"].astype(str).replace({"red pulp": "non-B/T area"})
+    renamed = dataclasses.replace(res, units=u)
+    n1 = tfx.niche_by_axis(res, n_perm=9, rng=2, n_bins=4, within=None)
+    n2 = tfx.niche_by_axis(renamed, n_perm=9, rng=2, n_bins=4, within=None)
+    t2 = n2.table.assign(category=n2.table.category.replace({"non-B/T area": "red pulp"}))
+    pd.testing.assert_frame_equal(n1.table, t2)
+
+
 def test_region_inputs_agree():
     _, gex, truth = _toy(seed=2)
     mask = truth["red"] & (gex.obsm["spatial"][:, 1] < 60)

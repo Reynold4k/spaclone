@@ -8,16 +8,17 @@
    gene + J gene + junction amino acids (:func:`spaclone.pp.define_clones`); isotype class, subclass and switched
    flag (:func:`spaclone.bcr.isotype`); V mismatches, excess over the allele baseline and the mutated call
    (:func:`spaclone.bcr.shm` on the AIRR V alignments: evaluable with >= 30 reads and >= 250 aligned V nt, or on
-   MiXCR's ``v_alignment_mixcr`` of :func:`spaclone.io.read_airspace` with ``alignments=True``; mutated at >= 3
-   excess mismatches).
+   MiXCR's ``v_alignment_mixcr``, which :func:`spaclone.read` / :func:`spaclone.io.read_airspace` keep for AIR-SPACE;
+   mutated at >= 3 excess mismatches).
 2. **loci** — same-clone spots within ``loci_radius_um`` merged into one inferred cell (:func:`spaclone.pp.merge_loci`),
    switched when >= 50% of its isotyped records are IgG / IgA / IgE, mutated when the median excess of its evaluable
    records is >= 3 (:func:`spaclone.bcr.call_isotype`, :func:`spaclone.bcr.call_shm`).
 3. **maps and hotspots** — Gaussian (``sigma_um``) switched-share map of the isotyped loci and mutated-share maps of
    the evaluable loci, raw and isotype-matched, on a ``pixel_um`` grid over the tissue; hotspots = connected pixels
    above the 95th percentile of the shuffled maps' maxima (family-wise over the section; loci shuffled one by one,
-   within isotype class for the isotype-matched map) (:func:`spaclone.bcr.csr_hotspots`,
-   :func:`spaclone.bcr.shm_hotspots`). Every CSR hotspot is also tested for more mutated loci than its isotype mix
+   within isotype class for the isotype-matched map), each holding at least ``min_hotspot_loci`` loci of its map
+   (:func:`spaclone.bcr.csr_hotspots`, :func:`spaclone.bcr.shm_hotspots`). Every CSR hotspot is also tested for more
+   mutated loci than its isotype mix
    predicts (``csr_shm_test``, loci shuffled within isotype; and ``csr_shm_clone``, whole clones relabelled: the
    confirmatory SHM test, as CSR hotspots are selected on switching only; :func:`spaclone.bcr.region_test`).
 4. **CSR ∩ SHM regions** — a region is a CSR hotspot whose drawn outline (indicator smoothed by a Gaussian of 0.7
@@ -25,7 +26,10 @@
    region; regions are numbered along the section's long axis. Each region gets its switched and mutated shares,
    the isotype-matched SHM excess (loci shuffled within isotype, as the archive) and, with ``clone_null``, the
    **clone-level** p-values (whole clones relabelled, :func:`spaclone.tl.hotspots` with ``blocks``): the stringent
-   test, because the loci of one expanded clone share their isotype and mutations.
+   test, because the loci of one expanded clone share their isotype and mutations. With ``region_source="auto"``
+   (default) a section without such a region (no SHM hotspot, or none touching a CSR hotspot) takes every CSR
+   hotspot as a region instead (``regions.source == "csr"``, region id = CSR hotspot id), with the same numbers and
+   the CSR hotspot's own SHM tests.
 5. **GEX** — what each region is made of, from the transcriptome only (no Ig gene): marker pseudobulk inside vs the
    rest of a window vs the whole tissue (:func:`spaclone.gex.profile_regions`), smoothed module maps for drawing
    (:func:`spaclone.gex.module_scores`) and an optional GC-B call (:func:`spaclone.gex.call_regions`).
@@ -91,6 +95,10 @@ _LONG_COLUMNS = (
     "v_germline_alignment",
     "j_sequence_alignment",
     "j_germline_alignment",
+    "v_alignment_mixcr",
+    "d_alignment_mixcr",
+    "j_alignment_mixcr",
+    "c_alignment_mixcr",
 )
 _ISO_CLASSES = ("IgM", "IgD", "IgG", "IgA", "IgE", "unknown")
 _POLY_SIGMA_PX = 0.7
@@ -131,7 +139,9 @@ class HotspotWorkflowResult:
         SHM hotspots with the raw and with the isotype-matched expectation (archive T7), or ``None`` without
         evaluable loci.
     regions
-        One row per CSR ∩ SHM region (empty when there is none), numbered 1, 2, ... along the section's long axis:
+        One row per CSR ∩ SHM region, numbered 1, 2, ... along the section's long axis, or, with
+        ``region_source="csr"`` (or ``"auto"`` without an overlap region), one row per CSR hotspot with its hotspot
+        id; empty when there is none. ``source`` says which (``"overlap"`` / ``"csr"``). Columns:
         ``region_id``, ``csr_hotspots`` / ``shm_hotspots`` (``";"``-joined hotspot ids), ``x_um``, ``y_um``
         (centroid), ``area_um2``, ``n_loci``, ``n_isotyped``, ``n_switched``, ``switched_share``, ``n_evaluable``,
         ``n_mutated``, ``mutated_share``, ``shm_expected`` (isotype-matched), ``shm_excess_ratio``, ``p`` and ``q``
@@ -141,8 +151,12 @@ class HotspotWorkflowResult:
         the region on the clone-relabelled, studentised map against the maxima of the shuffled maps: map-level,
         selection-proof) and ``shm_clone_region_p`` (excess of mutated loci given isotype and clone size inside the
         region; **descriptive**: the region was selected on SHM, so this p is not a test; the confirmatory number is
-        ``csr_shm_clone``), and the GEX answer ``gex_label``, ``gex_ratio_window``, ``gex_second_label``,
-        ``gex_second_ratio``, ``gex_mixed``, ``gex_ratio_tissue``, ``n_gex_units``, ``n_gex_window_units``.
+        ``csr_shm_clone``), the GEX answer ``gex_label``, ``gex_ratio_window``, ``gex_second_label``,
+        ``gex_second_ratio``, ``gex_mixed``, ``gex_ratio_tissue``, ``n_gex_units``, ``n_gex_window_units``, then
+        ``shm_clone_q`` (the ``csr_shm_clone`` q-value of the region's CSR hotspot, the smallest when it joins
+        several) and ``source``. A region from a CSR hotspot was selected on switching alone: its ``p`` / ``q`` and
+        ``shm_clone_region_p`` are the hotspot's ``csr_shm_test`` and ``csr_shm_clone`` rows (tests, not
+        descriptions), and ``shm_p_map`` is missing unless it touches an SHM hotspot.
     profiles
         Region × marker set (:attr:`spaclone.gex.RegionProfiles.table`): UMIs per 10k inside / window / tissue and
         the ratios.
@@ -219,16 +233,23 @@ class HotspotWorkflowResult:
         for k, v in {"gex": None, "csr_shm_clone": None, **dict(state)}.items():
             object.__setattr__(self, k, v)
 
+    def _from_csr(self) -> bool:
+        """Whether the regions are CSR hotspots (``region_source`` "csr", or "auto" without an overlap region)."""
+        return "source" in self.regions.columns and bool((self.regions["source"].astype(str) == "csr").any())
+
     def __repr__(self) -> str:
         n_c = self.csr.summary.get("n_hotspots", 0) if self.csr is not None else 0
         n_s = self.shm.summary.get("n_hotspots", 0) if self.shm is not None else 0
+        csr_src = self._from_csr()
         reg = "; ".join(
-            f"{int(r.region_id)}: {r.gex_label} (clone-level p CSR {r.csr_clone_p:.3g}, SHM {r.shm_clone_p:.3g})"
+            f"{int(r.region_id)}: {r.gex_label} (clone-level p CSR {r.csr_clone_p:.3g}, "
+            + (f"SHM q {getattr(r, 'shm_clone_q', np.nan):.3g})" if csr_src else f"SHM {r.shm_clone_p:.3g})")
             for r in self.regions.itertuples()
         )
+        kind = "regions from CSR hotspots" if csr_src else "CSR∩SHM regions"
         return (
             f"HotspotWorkflowResult({len(self.records):,} IGH records, {len(self.loci):,} loci; {n_c} CSR and {n_s} SHM "
-            f"hotspots; {len(self.regions)} CSR∩SHM regions{': ' + reg if reg else ''})"
+            f"hotspots; {len(self.regions)} {kind}{': ' + reg if reg else ''})"
         )
 
     def summary(self) -> pd.DataFrame:
@@ -289,7 +310,16 @@ class HotspotWorkflowResult:
             if res is not None:
                 add(name, "hotspots", res.summary.get("n_hotspots"), "whole clones relabelled, studentised map")
                 add(name, "map-level p of the maximum", res.summary.get("p_map_hot"))
-        add("regions", "CSR ∩ SHM regions", len(self.regions))
+        csr_src = self._from_csr()
+        if csr_src:
+            src = (self.params or {}).get("region_source")
+            touch = int((self.regions.shm_hotspots.astype(str).str.len() > 0).sum())
+            add("regions", "CSR ∩ SHM regions", touch, "CSR hotspots that touch an SHM hotspot")
+            add("regions", "regions from CSR hotspots", len(self.regions),
+                (f"region_source={src!r}: " if src else "") + "every CSR hotspot is a region (region id = CSR "
+                "hotspot id)" + (" because no CSR hotspot touches an SHM hotspot" if src == "auto" else ""))  # fmt: skip
+        else:
+            add("regions", "CSR ∩ SHM regions", len(self.regions))
         for r in self.regions.itertuples():
             st = f"region {int(r.region_id)}"
             add(st, "CSR hotspots", r.csr_hotspots)
@@ -298,12 +328,23 @@ class HotspotWorkflowResult:
             add(st, "switched share", r.switched_share, f"{int(r.n_switched)} of {int(r.n_isotyped)} isotyped loci")
             add(st, "mutated share", r.mutated_share, f"{int(r.n_mutated)} of {int(r.n_evaluable)} evaluable loci")
             add(st, "SHM excess ratio (isotype-matched)", r.shm_excess_ratio)
-            add(st, "p (isotype-matched, loci shuffled)", r.p,
-                "descriptive: the region was selected on SHM (it touches an SHM hotspot)")  # fmt: skip
-            add(st, "clone-level p, CSR (map-level)", r.csr_clone_p, "stringent: whole clones relabelled, max-T")
-            add(st, "clone-level p, SHM (map-level)", r.shm_clone_p, "stringent: whole clones relabelled, max-T")
-            add(st, "clone-level p, SHM excess in region (descriptive)", r.shm_clone_region_p,
-                "descriptive: the region was selected on SHM; the confirmatory SHM test is per CSR hotspot")  # fmt: skip
+            if csr_src:
+                add(st, "p (isotype-matched, loci shuffled)", r.p,
+                    "unit-level: loci of one clone count as independent; the region is a CSR hotspot, selected on "
+                    "switching only")  # fmt: skip
+                add(st, "clone-level p, CSR (map-level)", r.csr_clone_p, "stringent: whole clones relabelled, max-T")
+                add(st, "clone-level p, SHM (map-level)", r.shm_clone_p, "stringent: whole clones relabelled, max-T")
+                add(st, "clone-level SHM test of the CSR hotspot: p", r.shm_clone_region_p,
+                    "confirmatory (csr_shm_clone): whole clones relabelled, the hotspot fixed")  # fmt: skip
+                add(st, "clone-level SHM test of the CSR hotspot: q (BH)", getattr(r, "shm_clone_q", np.nan),
+                    "BH over the tested CSR hotspots")  # fmt: skip
+            else:
+                add(st, "p (isotype-matched, loci shuffled)", r.p,
+                    "descriptive: the region was selected on SHM (it touches an SHM hotspot)")  # fmt: skip
+                add(st, "clone-level p, CSR (map-level)", r.csr_clone_p, "stringent: whole clones relabelled, max-T")
+                add(st, "clone-level p, SHM (map-level)", r.shm_clone_p, "stringent: whole clones relabelled, max-T")
+                add(st, "clone-level p, SHM excess in region (descriptive)", r.shm_clone_region_p,
+                    "descriptive: the region was selected on SHM; the confirmatory SHM test is per CSR hotspot")  # fmt: skip
             add(st, "GEX label", r.gex_label, f"ratio to window {r.gex_ratio_window:.2f}")
             add(st, "GEX second", r.gex_second_label, f"ratio to window {r.gex_second_ratio:.2f}")
         for m in self.messages:
@@ -318,7 +359,7 @@ class HotspotWorkflowResult:
         folder
             Output directory.
         alignments
-            Also write the long sequence / alignment columns of ``records``.
+            Also write the long sequence / alignment columns of ``records`` (AIRR and MiXCR alignments).
 
         Returns
         -------
@@ -572,6 +613,8 @@ def hotspot_workflow(
     min_neff: float = 10.0,
     shm_from: Literal["raw", "isotype"] = "raw",
     overlap: Literal["polygon", "pixel"] = "polygon",
+    region_source: Literal["auto", "overlap", "csr"] = "auto",
+    min_hotspot_loci: int | Literal["auto"] = "auto",
     window_pad_um: float = 100.0,
     tissue_key: str | None = "in_tissue",
     gc_call: bool = True,
@@ -594,7 +637,7 @@ def hotspot_workflow(
         A :class:`~spaclone.io.SpatialAIR` from :func:`spaclone.io.read` (receptor records with ``spot_id``,
         ``x_um``, ``y_um``, ``locus``, the V / J / C calls, ``junction_aa``, ``productive``, ``consensus_count`` and,
         for SHM, ``v_sequence_alignment`` / ``v_germline_alignment`` or MiXCR's ``v_alignment_mixcr``, e.g. from
-        :func:`spaclone.io.read_airspace` with ``alignments=True``; GEX with raw counts and ``obsm["spatial"]`` in
+        :func:`spaclone.read` of an AIR-SPACE pair (kept by default); GEX with raw counts and ``obsm["spatial"]`` in
         µm). A receptor table alone runs steps 1–4 (no GEX characterisation). One section at a time.
     species
         ``"mouse"`` or ``"human"``: IgH constant-locus order and the default marker sets.
@@ -634,6 +677,18 @@ def hotspot_workflow(
         (isotype-matched map: only places with more mutation than their isotype mix predicts).
     overlap
         ``"polygon"`` (drawn outlines intersect, archive T7b) or ``"pixel"`` (hotspot pixels overlap, archive T8).
+    region_source
+        What the regions are. ``"overlap"``: CSR hotspots that overlap an SHM hotspot (the archive's rule; no region
+        without SHM hotspots). ``"csr"``: every CSR hotspot. ``"auto"`` (default): the overlap regions when there is
+        at least one, else every CSR hotspot. ``regions.source``, ``params["region_source_used"]``, ``summary()``
+        and ``messages`` say which was used. A region from a CSR hotspot keeps the hotspot's id and gets the same
+        columns, windows and GEX profile as an overlap region, with the hotspot's own SHM tests (``csr_shm_test``,
+        ``csr_shm_clone``) as its ``p`` / ``q`` and ``shm_clone_region_p`` / ``shm_clone_q``.
+    min_hotspot_loci
+        Smallest number of loci of a map inside a hotspot (isotyped loci for CSR, evaluable loci for SHM, as in each
+        hotspot table's ``units``). Hotspots with fewer are dropped and counted in ``messages``
+        (:func:`spaclone.tl.hotspots` ``min_units``): next to a strong hotspot the kernel alone can lift pixels that
+        hold no locus. ``"auto"`` (default): 1, so every hotspot holds a locus; 0 with ``legacy``, as the archive.
     window_pad_um
         Pad (µm) around a region's bounding box: the box is the region's window, whose other GEX units are its
         surroundings in the profile.
@@ -704,7 +759,10 @@ def hotspot_workflow(
     selected on switching alone; BH over the hotspots); ``p`` and ``shm_clone_region_p`` are descriptive, because
     a region is a CSR hotspot that touches an SHM hotspot.
 
-    No overlap region: ``regions`` is empty and ``messages`` says why; the hotspots are still returned.
+    No overlap region: with ``region_source="auto"`` every CSR hotspot becomes a region (``source`` ``"csr"``) and
+    ``messages`` says why; with ``"overlap"`` ``regions`` is empty. The hotspots are always returned. For a region
+    from a CSR hotspot, ``p`` / ``q`` and ``shm_clone_region_p`` / ``shm_clone_q`` test SHM (the hotspot was selected
+    on switching alone) instead of describing it.
 
     References
     ----------
@@ -726,6 +784,16 @@ def hotspot_workflow(
         raise ValueError("shm_from must be 'raw' or 'isotype'")
     if overlap not in ("polygon", "pixel"):
         raise ValueError("overlap must be 'polygon' or 'pixel'")
+    if region_source not in ("auto", "overlap", "csr"):
+        raise ValueError("region_source must be 'auto', 'overlap' or 'csr'")
+    if isinstance(min_hotspot_loci, str):
+        if min_hotspot_loci != "auto":
+            raise ValueError(f"min_hotspot_loci must be an integer >= 0 or 'auto', got {min_hotspot_loci!r}")
+        min_loci = 0 if legacy else 1
+    else:
+        min_loci = int(min_hotspot_loci)
+        if min_loci < 0 or min_loci != min_hotspot_loci:
+            raise ValueError(f"min_hotspot_loci must be an integer >= 0 or 'auto', got {min_hotspot_loci!r}")
     if clone_method not in ("exact", "vj_length_identity", "given"):
         raise ValueError("clone_method must be 'exact', 'vj_length_identity' or 'given'")
     if not 0 < alpha < 1:
@@ -842,7 +910,8 @@ def hotspot_workflow(
         baseline_table = None
         note(
             "no V alignments (v_sequence_alignment / v_germline_alignment, or MiXCR's v_alignment_mixcr from "
-            "io.read_airspace(..., alignments=True)): SHM calls, SHM maps and regions skipped"
+            "io.read_airspace(..., alignments=True)): SHM calls, SHM maps and "
+            + ("regions skipped" if region_source == "overlap" else "CSR ∩ SHM regions skipped")
         )
         for c, v in (("shm_mismatches", np.nan), ("shm_excess", np.nan), ("shm_evaluable", False)):
             H[c] = v
@@ -896,13 +965,25 @@ def hotspot_workflow(
     qc_rows.append({"step": "loci on the map grid", "records": int(on.sum()), "note": tissue_src})
 
     # ============================================================================================ 3. CSR
-    map_kw = {"sigma_um": sigma_um, "tissue": tissue, "grid": grid, "min_neff": min_neff, "alpha": alpha}
+    map_kw = {"sigma_um": sigma_um, "tissue": tissue, "grid": grid, "min_neff": min_neff, "alpha": alpha,
+              "min_units": min_loci}  # fmt: skip
+    dropped: dict[str, int] = {}
+
+    def drop_note(key: str, res: HotspotResult | None, what: str, locus: str) -> None:
+        """Count (and say) the hotspots of one map dropped by ``min_hotspot_loci``."""
+        k = int(res.summary.get("n_dropped_min_units", 0)) if res is not None else 0
+        dropped[key] = k
+        if k:
+            rule = f"without an {locus} locus inside" if min_loci == 1 else f"with fewer than {min_loci} {locus} loci"
+            note(f"{k} {what} hotspot{'s' if k != 1 else ''} {rule} dropped (min_hotspot_loci={min_loci})")
+
     I = L[L["switched"].notna().to_numpy() & on].reset_index(drop=True)
     I["switched"] = I["switched"].astype(bool)
     csr = None
     if len(I) and I["switched"].nunique() == 2:
         g3 = np.random.default_rng(int(rng)) if legacy else gen("csr")
         csr = csr_hotspots(I, blocks=None, n_perm=n_perm, rng=g3, **map_kw, **legacy_kw)
+        drop_note("csr", csr, "CSR", "isotyped")
     else:
         note("CSR map skipped: fewer than two isotyped loci classes (switched and unswitched) on the grid")
 
@@ -928,6 +1009,8 @@ def hotspot_workflow(
                 E, match_by="isotype_class", blocks=None, n_perm=n_perm, rng=gen("shm_iso"), **map_kw
             )
             g_test, g_region = gen("csr_shm_test"), gen("region_test")
+        drop_note("shm_raw", shm_raw, "raw SHM", "evaluable")
+        drop_note("shm_iso", shm_iso, "isotype-matched SHM", "evaluable")
         if csr is not None and _hot_ids(csr):
             csr_test = region_test(
                 E,
@@ -962,12 +1045,12 @@ def hotspot_workflow(
     lab_shm = shm_src.labels.values if shm_src is not None else None
     csr_ids, shm_ids = _hot_ids(csr), _hot_ids(shm_src)
     groups: list[tuple[list[int], list[int]]] = []
+    links: dict[int, set[int]] = {}
     if csr_ids and shm_ids:
         shape = (lambda m: _poly(m)) if overlap == "polygon" else (lambda m: m)
         cpoly = {h: shape(lab_csr == h) for h in csr_ids}
         spoly = {s: shape(lab_shm == s) for s in shm_ids}
         union = shape(np.isin(lab_shm, shm_ids))
-        links: dict[int, set[int]] = {}
         for h in csr_ids:
             if (cpoly[h] & union).any():
                 linked = {s for s in shm_ids if (cpoly[h] & spoly[s]).any()}
@@ -989,9 +1072,12 @@ def hotspot_workflow(
                         comp_s |= links[h2]
                         stack.append(h2)
             groups.append((sorted(comp_c), sorted(comp_s)))
+    # region source: the overlap regions, or every CSR hotspot ("csr"; "auto" when there is no overlap region)
+    from_csr = bool(csr_ids) and (region_source == "csr" or (region_source == "auto" and not groups))
+    source = "csr" if from_csr else ("overlap" if groups else None)
     region_labels = Raster(np.zeros(grid.shape, dtype=np.int32), grid, name="regions")
     rows: list[dict[str, Any]] = []
-    if groups:
+    if source == "overlap":
         axis_xy = T[[S.X, S.Y]].to_numpy(dtype=float)
         centre, axis = _long_axis(axis_xy)
         gx, gy = grid.centres()
@@ -1009,15 +1095,44 @@ def hotspot_workflow(
                          "x_um": cx, "y_um": cy, "area_um2": float(pix.sum() * grid.pixel_area_um2),
                          "_csr": cs, "_shm": ss})  # fmt: skip
         region_labels = Raster(lab, grid, name="regions")
-    elif not csr_ids:
-        note("no CSR ∩ SHM region: no CSR hotspot on the map")
-    elif not shm_ids:
-        note(f"no CSR ∩ SHM region: no {shm_from} SHM hotspot on the map; the CSR hotspots are returned")
-    else:
-        note(
-            f"no CSR ∩ SHM region: none of the {len(csr_ids)} CSR hotspots overlaps one of the {len(shm_ids)} "
-            f"{shm_from} SHM hotspots ({overlap} rule); the hotspots are returned"
+    elif source == "csr":  # one region per CSR hotspot, numbered as the hotspots (1 = largest)
+        gx, gy = grid.centres()
+        lab = np.zeros(grid.shape, dtype=np.int32)
+        for h in csr_ids:
+            pix = lab_csr == h
+            ii, jj = np.nonzero(pix)
+            ss = sorted(int(s) for s in links.get(h, ()))
+            lab[pix] = h
+            rows.append({"region_id": h, "csr_hotspots": str(h), "shm_hotspots": ";".join(map(str, ss)),
+                         "x_um": float(gx[ii].mean()), "y_um": float(gy[jj].mean()),
+                         "area_um2": float(pix.sum() * grid.pixel_area_um2), "_csr": [h], "_shm": ss})  # fmt: skip
+        region_labels = Raster(lab, grid, name="regions")
+    n_c = len(csr_ids)
+    these = "the CSR hotspot is the region" if n_c == 1 else f"the {n_c} CSR hotspots are the regions"
+    region_msg = None
+    if region_source == "csr":
+        k = sum(1 for h in csr_ids if links.get(h))
+        region_msg = (
+            f"region_source='csr': {these}" + (f" ({k} of them touch an SHM hotspot)" if k else "")
+            if csr_ids
+            else "no region: no CSR hotspot on the map (region_source='csr')"
         )
+    elif not groups:
+        auto = region_source == "auto"
+        if not csr_ids:
+            region_msg = "no CSR ∩ SHM region: no CSR hotspot on the map"
+        elif not shm_ids:
+            region_msg = f"no CSR ∩ SHM region: no {shm_from} SHM hotspot on the map; " + (
+                f"{these} (region_source='auto')" if auto else "the CSR hotspots are returned"
+            )
+        else:
+            region_msg = (
+                f"no CSR ∩ SHM region: none of the {len(csr_ids)} CSR hotspots overlaps one of the {len(shm_ids)} "
+                f"{shm_from} SHM hotspots ({overlap} rule); "
+                + ("the CSR hotspots are the regions (region_source='auto')" if auto else "the hotspots are returned")
+            )
+    if region_msg is not None:
+        note(region_msg)
 
     # loci and records: hotspots and regions
     xs, ys = L[S.X].to_numpy(), L[S.Y].to_numpy()
@@ -1035,7 +1150,9 @@ def hotspot_workflow(
     # ============================================================================================ 6. region tests
     rt = rt_clone = csr_clone = shm_clone = None
     if rows:
-        if len(E) and E["mutated"].nunique() == 2:
+        if source == "csr":  # the regions are the CSR hotspots: their own SHM tests (region id = hotspot id)
+            rt, rt_clone = csr_test, csr_clone_test
+        elif len(E) and E["mutated"].nunique() == 2:
             rt = region_test(
                 E,
                 regions=region_labels,
@@ -1066,22 +1183,30 @@ def hotspot_workflow(
                         **clone_kw,
                     ),
                 )
-                rt_clone = optional(
-                    "clone-level region test",
-                    lambda: region_test(
-                        E,
-                        regions=region_labels,
-                        match_by="isotype_class",
-                        blocks=S.CLONE,
-                        n_perm=n_perm_region,
-                        min_units=5,
-                        rng=gen("region_clone"),
-                    ),
-                )
-    rtab = rt.table.assign(key=rt.table.region.astype(str)).set_index("key") if rt is not None else None
-    ctab = (
-        rt_clone.table.assign(key=rt_clone.table.region.astype(str)).set_index("key") if rt_clone is not None else None
-    )
+                if source != "csr":
+                    rt_clone = optional(
+                        "clone-level region test",
+                        lambda: region_test(
+                            E,
+                            regions=region_labels,
+                            match_by="isotype_class",
+                            blocks=S.CLONE,
+                            n_perm=n_perm_region,
+                            min_units=5,
+                            rng=gen("region_clone"),
+                        ),
+                    )
+            drop_note("csr_clone", csr_clone, "clone-level CSR", "isotyped")
+            drop_note("shm_clone", shm_clone, "clone-level SHM", "evaluable")
+
+    def keyed(res: TestResult | None) -> pd.DataFrame | None:
+        """A region test's table indexed by its ids as strings (``region``, or ``csr_hotspot`` for csr_shm_clone)."""
+        if res is None:
+            return None
+        t = res.table
+        return t.assign(key=t["region" if "region" in t.columns else "csr_hotspot"].astype(str)).set_index("key")
+
+    rtab, ctab, qtab = keyed(rt), keyed(rt_clone), keyed(csr_clone_test)
     for r in rows:
         k = r["region_id"]
         pix = region_labels.values == k
@@ -1097,7 +1222,9 @@ def hotspot_workflow(
         r["p"] = float(row.p_value) if row is not None else np.nan
         r["q"] = float(row.q_value) if row is not None else np.nan
         r["csr_peak_z"], _ = _region_peak(csr, pix)
-        r["shm_peak_z"], _ = _region_peak(shm_src, np.isin(lab_shm, r["_shm"]) if lab_shm is not None else pix)
+        r["shm_peak_z"], _ = _region_peak(
+            shm_src, np.isin(lab_shm, r["_shm"]) if (lab_shm is not None and r["_shm"]) else pix
+        )
         ct = csr.table.set_index("hotspot") if csr is not None else None
         st = shm_src.table.set_index("hotspot") if shm_src is not None else None
         r["csr_p_map"] = float(ct.loc[r["_csr"], "p_value"].min()) if ct is not None else np.nan
@@ -1107,6 +1234,10 @@ def hotspot_workflow(
         crow = ctab.loc[str(k)] if (ctab is not None and str(k) in ctab.index) else None
         r["shm_clone_region_p"] = float(crow.p_value) if crow is not None else np.nan
         r["shm_clone_null_mean"] = float(crow.null_mean) if crow is not None else np.nan
+        qs = [float(qtab.loc[str(h), "q_value"]) for h in r["_csr"] if qtab is not None and str(h) in qtab.index]
+        qs = [q for q in qs if np.isfinite(q)]
+        r["shm_clone_q"] = min(qs) if qs else np.nan
+        r["source"] = source
 
     # ============================================================================================ 7. GEX
     module_maps: dict[str, pd.Series] = {}
@@ -1180,7 +1311,7 @@ def hotspot_workflow(
         "shm_excess_ratio", "p", "q", "csr_peak_z", "shm_peak_z", "csr_p_map", "shm_p_map", "csr_clone_peak_z",
         "csr_clone_p", "shm_clone_peak_z", "shm_clone_p", "shm_clone_region_p", "shm_clone_null_mean", "gex_label",
         "gex_ratio_window", "gex_second_label", "gex_second_ratio", "gex_mixed", "gex_ratio_tissue", "n_gex_units",
-        "n_gex_window_units",
+        "n_gex_window_units", "shm_clone_q", "source",
     ]  # fmt: skip
     regions = pd.DataFrame([{c: r.get(c, np.nan) for c in reg_cols} for r in rows], columns=reg_cols)
     if len(regions):
@@ -1203,8 +1334,8 @@ def hotspot_workflow(
                  "mutated", "on_grid", "csr_hotspot", "shm_hotspot", "shm_iso_hotspot", "region_id"]  # fmt: skip
     L = L[[c for c in loci_cols if c in L.columns] + [c for c in L.columns if c not in loci_cols]]
     qc = pd.DataFrame(qc_rows, columns=["step", "records", "note"])
-    if not rows:
-        messages.insert(0, next((m for m in messages if m.startswith("no CSR ∩ SHM")), "no CSR ∩ SHM region"))
+    if not rows or source == "csr":  # what the regions are (or why there is none) comes first
+        messages.insert(0, region_msg if region_msg is not None else "no CSR ∩ SHM region")
         messages = list(dict.fromkeys(messages))
     params = {
         "species": species,
@@ -1222,6 +1353,10 @@ def hotspot_workflow(
         "markers": markers if isinstance(markers, str) else {k: list(v) for k, v in markers.items()},
         "shm_from": shm_from,
         "overlap": overlap,
+        "region_source": region_source,
+        "region_source_used": source,
+        "min_hotspot_loci": min_loci,
+        "hotspots_dropped_min_loci": dropped,
         "window_pad_um": window_pad_um,
         "tissue_key": tissue_key,
         "tissue_from": tissue_src,
@@ -1266,6 +1401,11 @@ def hotspot_workflow(
         "warnings": warn_log,
         "messages": messages,
     }
+    if source == "csr":
+        params["null_designs"]["regions from CSR hotspots"] = (
+            "p / q = the hotspot's csr_shm_test row, shm_clone_region_p / shm_clone_q = its csr_shm_clone row (tests: "
+            "the hotspot was selected on switching alone)"
+        )
     return HotspotWorkflowResult(
         records=rec,
         loci=L,

@@ -15,7 +15,8 @@ within 15 µm merged, about one cell; :func:`spaclone.pp.merge_loci`). :func:`ru
   (``threadfin.profiles.model_from_adata``) projected with the profile components (``project_features``), unshrunk;
   the mean of a clone's unit positions is its unshrunk profile position;
 * per unit: coordinates, Ig RNA depth stratum and, with a :class:`SpatialContext`, the compartment (T zone /
-  follicle / red pulp), signed distances to the structures and region memberships. :func:`run` builds the context
+  follicle / red pulp; the last is the ``"non-B/T area"`` when the labels show no red pulp, as in a lymph node),
+  signed distances to the structures and region memberships. :func:`run` builds the context
   itself when that is certain: one standard cell-type label column of the GEX
   (:func:`spaclone.io.annotations.detect_annotations`) whose classes name T, B and erythroid cells in
   :data:`MASK_TYPES`; otherwise ``result.context`` is None and ``result.context_note`` says why.
@@ -108,8 +109,21 @@ MASK_TYPES: dict[str, tuple[str, ...]] = {
     "B": ("B", "GC_B", "ASC", "B lineage", "B_cells", "B cells", "B cell", "plasma"),
     "erythroid": ("erythroid", "erythrocyte", "Erythrocyte", "Erythrocytes", "Ery"),
 }
-#: Compartments counted as white pulp by :func:`spanning_clones`.
+#: Compartment names of :func:`spatial_context` (T-rich, outside the B-rich area and the T zones, B-rich) under each
+#: naming: the spleen's, and tissue-neutral ones for a section without a red pulp (e.g. a lymph node, whose area outside
+#: its B and T zones is mostly medulla and sinus). Only the middle name differs.
+COMPARTMENT_NAMES: dict[str, tuple[str, str, str]] = {
+    "spleen": ("T zone", "red pulp", "follicle"),
+    "neutral": ("T zone", "non-B/T area", "follicle"),
+}
+#: Share of the typed spots outside the B-rich area and the T zones that must lie in the erythroid-rich mask for
+#: ``spatial_context(names="auto")`` to name that compartment red pulp.
+RED_PULP_MIN_ERYTHROID = 0.5
+#: Compartments counted as white pulp (B-rich follicles and T zones) by :func:`spanning_clones`, under either naming.
 WHITE_PULP = ("T zone", "follicle")
+#: Compartments counted as red pulp (outside the B-rich area and the T zones) by :func:`spanning_clones`: its name under
+#: either naming of :func:`spatial_context`.
+RED_PULP = (COMPARTMENT_NAMES["spleen"][1], COMPARTMENT_NAMES["neutral"][1])
 
 
 class ThreadfinWarning(SpacloneWarning):
@@ -183,7 +197,7 @@ class SpatialContext:
         Code raster (:func:`spaclone.tl.compartments`) whose categories name the compartments, or None.
     masks
         Boolean rasters (``{name: Raster}``) whose signed distance (µm, negative inside) describes a unit's place,
-        e.g. ``"T zone"``, ``"B-rich"``, ``"red pulp"``.
+        e.g. ``"T zone"``, ``"B-rich"``, ``"red pulp"`` (``"non-B/T area"`` without a red pulp).
     regions
         Integer label rasters of region instances (0 = none), e.g. ``{"CSR/SHM overlap": labels}``.
     params
@@ -289,13 +303,15 @@ def spatial_context(
     min_area_um2: float = 8000.0,
     pad_edges: bool = True,
     spatial_key: str = "spatial",
+    names: Literal["auto", "spleen", "neutral"] = "auto",
 ) -> SpatialContext:
     """Compartments, masks and regions of a section from cell-typed spots (the archive's StereoIR T-series rule).
 
     Typed spots (class in one of ``types``) are counted on a ``pixel_um`` grid; the T-rich, B-rich and
     erythroid-rich masks are :func:`spaclone.tl.mask_from_types` (30-µm Gaussian, Otsu threshold, closing / opening,
     small islands and holes removed); compartments are T zone > red pulp (erythroid-rich, or outside the B-rich area)
-    > follicle (:func:`spaclone.tl.compartments`).
+    > follicle (:func:`spaclone.tl.compartments`). The middle compartment is called red pulp only where the labels show
+    one (see ``names``); otherwise it is the ``"non-B/T area"``, with the same pixels.
 
     Parameters
     ----------
@@ -316,12 +332,20 @@ def spatial_context(
         Keep mask pixels at the grid edge during the closing; ``False`` reproduces the 2026-10 archive.
     spatial_key
         ``obsm`` key of the coordinates.
+    names
+        Names of the compartments (:data:`COMPARTMENT_NAMES`), derived from the labels by default (``"auto"``): the
+        spleen's (``T zone`` / ``red pulp`` / ``follicle``) when most typed spots outside the B-rich area and the T
+        zones lie in the erythroid-rich mask (share at least :data:`RED_PULP_MIN_ERYTHROID`; 0.95 on the StereoIR
+        spleen), else tissue-neutral (``T zone`` / ``non-B/T area`` / ``follicle``; 0.00 to 0.18 on the AIR-SPACE
+        lymph nodes, whose area outside the B and T zones is mostly medulla and sinus). ``"spleen"`` or ``"neutral"``
+        forces either set. Names never change a pixel.
 
     Returns
     -------
     SpatialContext
-        Compartments ``T zone`` / ``red pulp`` / ``follicle``; masks ``"T zone"``, ``"B-rich"``, ``"red pulp"``
-        (the red-pulp compartment) and ``"erythroid-rich"``; the regions.
+        Compartments ``T zone`` / ``red pulp`` (or ``non-B/T area``) / ``follicle``; masks ``"T zone"``,
+        ``"B-rich"``, the middle compartment under its name, and ``"erythroid-rich"``; the regions. ``params`` records
+        the naming (``names``, ``naming``) and the erythroid share it was decided on (``outside_erythroid_share``).
 
     References
     ----------
@@ -332,6 +356,8 @@ def spatial_context(
 
     if cell_type_key not in gex.obs:
         raise KeyError(f"cell_type_key {cell_type_key!r} not in gex.obs")
+    if names not in ("auto", *COMPARTMENT_NAMES):
+        raise ValueError(f"names must be 'auto', 'spleen' or 'neutral', got {names!r}")
     groups = {k: tuple(v) for k, v in (types or MASK_TYPES).items()}
     missing = [k for k in ("T", "B", "erythroid") if k not in groups]
     if missing:
@@ -348,8 +374,15 @@ def spatial_context(
     m_t = mask_from_types(units, types="T", type_key="cell_type", grid=grid, **kw)
     m_b = mask_from_types(units, types="B", type_key="cell_type", grid=grid, **kw)
     m_e = mask_from_types(units, types="erythroid", type_key="cell_type", grid=grid, **kw)
-    comp = compartments([("T zone", m_t), ("red pulp", m_e), ("red pulp", ~m_b)], default="follicle")
-    red = Raster(comp.values == comp.categories.index("red pulp"), grid, name="red pulp")
+    # label-derived names: the area outside the B-rich area and the T zones is the red pulp when it is erythroid-rich
+    ux, uy = units[S.X].to_numpy(dtype=float), units[S.Y].to_numpy(dtype=float)
+    in_t, in_b, in_e = (np.asarray(m.sample(ux, uy, fill=0), dtype=bool) for m in (m_t, m_b, m_e))
+    outside = ~in_t & (in_e | ~in_b)  # the typed spots of the middle compartment (same rule as the raster below)
+    ery_share = float(in_e[outside].mean()) if outside.any() else float("nan")
+    naming = names if names != "auto" else ("spleen" if ery_share >= RED_PULP_MIN_ERYTHROID else "neutral")
+    t_name, out_name, b_name = COMPARTMENT_NAMES[naming]
+    comp = compartments([(t_name, m_t), (out_name, m_e), (out_name, ~m_b)], default=b_name)
+    red = Raster(comp.values == comp.categories.index(out_name), grid, name=out_name)
     regs = {str(k): _as_label_raster(v, gex, grid, spatial_key) for k, v in (regions or {}).items()}
     params = {
         "cell_type_key": cell_type_key,
@@ -357,10 +390,13 @@ def spatial_context(
         "n_typed_spots": int(typed.sum()),
         "grid": {"origin": grid.origin, "pixel_um": grid.pixel_um, "shape": grid.shape},
         **kw,
+        "names": names,
+        "naming": naming,
+        "outside_erythroid_share": ery_share,
     }
     return SpatialContext(
         compartments=comp,
-        masks={"T zone": m_t, "B-rich": m_b, "red pulp": red, "erythroid-rich": m_e},
+        masks={t_name: m_t, "B-rich": m_b, out_name: red, "erythroid-rich": m_e},
         regions=regs,
         params=params,
     )
@@ -874,7 +910,8 @@ def run(
         for ``"niche"`` / ``"joint"``, the signed distances of the niche features. ``"auto"`` (default) builds it with
         :func:`spatial_context` only when that is certain: exactly one standard cell-type label column in
         ``gex.obs`` (:func:`spaclone.io.annotations.detect_annotations`) whose classes include T, B and erythroid
-        classes of :data:`MASK_TYPES` (the spleen recipe: T zone, follicle, red pulp); otherwise no context.
+        classes of :data:`MASK_TYPES` (the spleen recipe: T zone, follicle, red pulp, the last named the non-B/T area
+        when the labels show no red pulp); otherwise no context.
         ``None``: no context. ``result.context_note`` records which.
     niche
         :class:`NicheSpec` (or its fields as a dict) for ``"niche"`` / ``"joint"``.
@@ -1430,9 +1467,8 @@ def niche_by_axis(
         raise ValueError("n_bins must be at least 2")
     comp = result.units[compartment_key].astype(str).to_numpy()
     cats = [c for c in pd.unique(comp) if c != "nan"]
-    order = [c for c in ("T zone", "follicle", "red pulp") if c in cats] + sorted(
-        c for c in cats if c not in ("T zone", "follicle", "red pulp")
-    )
+    first = (*WHITE_PULP, *RED_PULP)  # T zone, follicle, then red pulp under either name
+    order = [c for c in first if c in cats] + sorted(c for c in cats if c not in first)
     ind = {c: (comp == c).astype(float) for c in order}
     for f in flags or []:
         if f not in result.units.columns:
@@ -1699,7 +1735,7 @@ def spanning_clones(
     max_tries: int = 50,
     compartment_key: str = "compartment",
     white: Sequence[str] = WHITE_PULP,
-    red: Sequence[str] = ("red pulp",),
+    red: Sequence[str] = RED_PULP,
     rng: RngLike = None,
 ) -> TestResult:
     """Clones whose members sit at both ends of a clone axis: how spread they are and how far apart the two ends lie.
@@ -1708,8 +1744,9 @@ def spanning_clones(
     ``min_units`` units and *spans* when it has at least one unit in the bottom and one in the top tertile. Per
     expanded clone: ``spanning``, ``axis_range`` (max − min of its units' positions), ``cross_um`` (median, over its
     bottom-tertile units, of the distance to the nearest top-tertile unit of the clone), ``white_and_red`` (units in
-    white pulp and in red pulp), ``red_to_white_um`` (median distance from a red-pulp unit to the nearest white-pulp
-    unit of the clone), ``median_pairwise_um`` and ``mst_um`` (spread).
+    the ``white`` and in the ``red`` compartments: white pulp and red pulp on a spleen, B / T zones and the non-B/T
+    area elsewhere), ``red_to_white_um`` (median distance from a ``red`` unit to the nearest ``white`` unit of the
+    clone), ``median_pairwise_um`` and ``mst_um`` (spread).
 
     Parameters
     ----------
@@ -1736,7 +1773,9 @@ def spanning_clones(
         Relocation: at most ``max_tries * n_perm`` copies are tried per clone (``n_valid`` reports how many were
         accepted; a clone too large for the tissue gets NaN p-values).
     compartment_key, white, red
-        Compartment column and the compartments counted as white and as red pulp.
+        Compartment column and the compartments counted as white (default :data:`WHITE_PULP`: T zone and follicle)
+        and as red (default :data:`RED_PULP`: the red pulp or, under tissue-neutral names, the non-B/T area; see
+        :func:`spatial_context`).
     rng
         Seed or generator.
 

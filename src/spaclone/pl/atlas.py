@@ -6,10 +6,12 @@ The atlas zooms on the regions where both concentrate and shows what the transcr
 
 * top row: the whole section twice, the switched share of loci (CSR map, blue, CSR hotspots outlined in yellow)
   and the mutated share (SHM map, green, SHM hotspots outlined in vermilion), with numbered windows;
-* one column per region where a CSR hotspot overlaps an SHM hotspot: the CSR zoom (isotype of every locus: IgG red,
-  IgA orange, IgM / IgD grey), the SHM zoom (mutated loci vermilion, the others grey) and the transcriptome zoom
-  (the module score of the cell type the region's profile points to, in purple, with the region outline in yellow,
-  the germinal-centre B area found from gene expression in cyan, and units without a score in dark grey);
+* one column per region where a CSR hotspot overlaps an SHM hotspot (or per CSR hotspot when the workflow found no
+  such region, ``regions.source == "csr"``: panels titled "CSR hotspot N"): the CSR zoom (isotype of every locus:
+  IgG red, IgA orange, IgM / IgD grey), the SHM zoom (mutated loci vermilion, the others grey) and the transcriptome
+  zoom (the module score of the cell type the region's profile points to, in purple, with the region outline in
+  yellow, the germinal-centre B area found from gene expression in cyan, and units without a score in dark grey,
+  named in the legend by why: outside the tissue mask, or left out by ``score_units``);
 * a legend row.
 
 :func:`hotspot_overview` draws the top row alone and :func:`region_zoom` the zooms of one region. The section is
@@ -26,6 +28,7 @@ from __future__ import annotations
 
 import logging
 import math
+import re
 import textwrap
 from collections.abc import Mapping, Sequence
 from typing import Any
@@ -134,8 +137,6 @@ def _ids(value: Any) -> list[int]:
     if value is None:
         return []
     if isinstance(value, str):
-        import re
-
         return [int(v) for v in re.findall(r"-?\d+", re.sub(r"int\d+\(", "(", value))]
     if isinstance(value, float) and not np.isfinite(value):
         return []
@@ -412,6 +413,55 @@ def _draw_image(
         im.set_clip_path(patch)
 
 
+#: Pixels without inference take the mean of the inferred pixels around them and fade into the tissue colour as those
+#: get scarce: Gaussian standard deviation of that neighbourhood (pixels).
+_FADE_PX = 2.0
+
+
+def _fill_from(vals: np.ndarray, valid: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """A map's values on every pixel, filled from its valid pixels, and how much colour each pixel keeps (0..1).
+
+    Valid pixels (used for inference) keep their value and full colour. Every other pixel takes the Gaussian-weighted
+    mean of the valid pixels around it (standard deviation ``_FADE_PX`` pixels) and keeps ``2 x`` their local weight
+    of colour, capped at 1: full colour along the edge of the valid pixels, none a few pixels away. Far from the loci a
+    kernel share is the share of the nearest locus (Voronoi cells), so it is never shown there.
+    """
+    valid = np.asarray(valid, dtype=bool)
+    vals = np.asarray(vals, dtype=float)
+    den = ndi.gaussian_filter(valid.astype(float), _FADE_PX)
+    num = ndi.gaussian_filter(np.where(valid, vals, 0.0), _FADE_PX)
+    filled = np.where(valid, vals, np.where(den > 1e-9, num / np.maximum(den, 1e-12), np.nan))
+    support = np.where(valid, 1.0, np.clip(den / 0.5, 0.0, 1.0))
+    return filled, support
+
+
+def _continuous_rgba(
+    values: np.ndarray, valid: np.ndarray, support: np.ndarray, tissue: np.ndarray, cmap: Any, norm: Any, base: Any
+) -> np.ndarray:
+    """RGBA image of a map that covers the whole tissue mask without holes.
+
+    Valid pixels (those used for inference) get their full colour; every other tissue pixel fades into the tissue
+    colour ``base`` as its ``support`` (0..1) drops, so places with too few units read as tissue, without hard-edged
+    holes. The image is opaque on the tissue and one pixel around it, with every off-tissue pixel coloured as its
+    nearest tissue pixel: draw it clipped to the smoothed tissue outline (``_mask_fill``) for a smooth edge.
+    """
+    from matplotlib.colors import to_rgb
+
+    values = np.asarray(values, dtype=float)
+    fin = np.isfinite(values)
+    shown = _nearest_fill(values, fin) if fin.any() else np.zeros_like(values)
+    rgb = np.asarray(cmap(norm(shown)), dtype=float)[..., :3]
+    a = np.where(valid, 1.0, np.clip(np.nan_to_num(support, nan=0.0), 0.0, 1.0) * fin)[..., None]
+    out = np.zeros((*values.shape, 4))
+    out[..., :3] = a * rgb + (1.0 - a) * np.asarray(to_rgb(base), dtype=float)
+    tis = np.asarray(tissue, dtype=bool)
+    if tis.any() and not tis.all():
+        for c in range(3):
+            out[..., c] = _nearest_fill(out[..., c], tis)
+    out[..., 3] = _opaque_rim(tis)
+    return out
+
+
 # ------------------------------------------------------------------------------------------------ result access
 
 
@@ -497,9 +547,13 @@ class _AtlasData:
         t = _as_bool_array(_field(self.result, "tissue"), self.grid)
         if t is not None and t.any():
             return t
-        for sm in (self.sm_csr, self.sm_shm):
-            if sm is not None:
-                return np.asarray(sm.eligible, dtype=bool) | (np.nan_to_num(np.asarray(sm.n_eff, dtype=float)) > 0)
+        maps = [sm for sm in (self.sm_csr, self.sm_shm) if sm is not None]
+        for sm in maps:  # the mask the map was computed on (spaclone >= 1.0.1)
+            t = _as_bool_array(getattr(sm, "tissue", None), self.grid)
+            if t is not None and t.any():
+                return t
+        if maps:  # the pixels used for inference, holes filled
+            return ndi.binary_fill_holes(np.asarray(maps[0].eligible, dtype=bool))
         return np.ones(self.grid.shape, dtype=bool)
 
     def tissue_fill(self) -> list[tuple[np.ndarray, np.ndarray]]:
@@ -529,17 +583,16 @@ class _AtlasData:
         fin = vals[elig]
         lo, hi = np.quantile(fin, [0.02, 0.995]) if len(fin) else (0.0, 1.0)
         norm = Normalize(float(lo), float(hi) if hi > lo else float(lo) + 1e-9)
-        rgba = cmap(norm(_nearest_fill(vals, elig)))
-        rgba[..., 3] = _opaque_rim(elig)
+        # the whole tissue is coloured: places with too few loci for inference fade into the tissue colour
+        filled, support = _fill_from(vals, elig)
+        rgba = _continuous_rgba(filled, elig, support, self.tissue, cmap, norm, self.pal["tissue"])
         self._cache[key] = rgba
         self._cache[f"norm_{which}"] = norm
-        self._cache[f"clip_{which}"] = _mask_fill(elig, self.grid, 0.7)
         return rgba
 
     def map_clip(self, which: str) -> list[tuple[np.ndarray, np.ndarray]]:
-        """Smoothed outline of the eligible pixels of a map (the edge the map is drawn to)."""
-        self.map_image(which)
-        return self._cache.get(f"clip_{which}") or self.tissue_fill()
+        """The edge a map is drawn to: the smoothed tissue outline (the map covers the whole tissue)."""
+        return self.tissue_fill()
 
     def hotspot_lines(self, which: str) -> list[np.ndarray]:
         key = f"hot_{which}"
@@ -699,14 +752,34 @@ class _AtlasData:
         self._cache["mut_dots"] = out
         return out
 
+    def from_csr(self, rid: Any) -> bool:
+        """Whether a region is a CSR hotspot (``regions.source == "csr"``: the workflow found no overlap region)."""
+        return "source" in self.regions.columns and str(self.regions.loc[rid].get("source")) == "csr"
+
+    def region_name(self, rid: Any) -> str:
+        """``"CSR hotspot 3"`` for a region that is a CSR hotspot (its hotspot id), else ``"region 2"``."""
+        if self.from_csr(rid):
+            ids = _ids(self.regions.loc[rid].get("csr_hotspots"))
+            return f"CSR hotspot {ids[0] if len(ids) == 1 else rid}"
+        return f"region {rid}"
+
     def clone_p_line(self, rid: Any) -> str | None:
         """The region's short p line, e.g. ``"clone-level p: CSR = 0.018 · SHM = 0.41"``.
 
-        From ``regions.csr_clone_p`` / ``shm_clone_p``; None when the region has no finite clone-level p-value.
+        From ``regions.csr_clone_p`` / ``shm_clone_p``; None when the region has no finite clone-level p-value. A
+        region that is a CSR hotspot shows its clone-level CSR p and the q-value of its confirmatory SHM test
+        (``regions.shm_clone_q``), e.g. ``"clone-level: CSR p = 0.027 · SHM q = 0.671"``.
         """
         row = self.regions.loc[rid]
         p = self.params if isinstance(self.params, Mapping) else {}
         n_perm = p.get("n_perm")
+        if self.from_csr(rid):
+            parts = []
+            for name, col, n in (("CSR p", "csr_clone_p", n_perm), ("SHM q", "shm_clone_q", 0)):
+                txt = _fmt_p(row.get(col), n) if col in self.regions.columns else None
+                if txt is not None:
+                    parts.append(f"{name} {txt}" if txt.startswith("<") else f"{name} = {txt}")
+            return "clone-level: " + " · ".join(parts) if parts else None
         parts = []
         for name, col in (("CSR", "csr_clone_p"), ("SHM", "shm_clone_p")):
             if col in self.regions.columns:
@@ -924,6 +997,48 @@ class _AtlasData:
         sel = self._box_pixels(box)
         px = img[sel]
         return bool(((px[:, 3] > 0.5) & (np.abs(px[:, :3] - grey).sum(1) < 0.02)).any())
+
+    def unscored_label(self, items: Sequence[tuple[Any, tuple[float, float, float, float]]]) -> str:
+        """Legend name of the grey units in the GEX zooms ``items`` (region id, window): why they have no score.
+
+        Units off the tissue mask (``result.units["tissue"]`` False) are ``"outside the tissue mask"``; tissue units
+        left out by ``score_units`` / ``score_mask`` are ``"non-B bin"`` (the archive scored B-lineage bins only) or,
+        when the workflow's ``score_units`` names no B cells, ``"unscored bin"`` ("spot" for sparse spots). Both
+        kinds in the windows give both names.
+        """
+        pos = self.gex_positions()
+        mm = _field(self.result, "module_maps")
+        units = _field(self.result, "units")
+        off = excluded = False
+        if pos is not None and isinstance(mm, Mapping):
+            tissue = None
+            if isinstance(units, pd.DataFrame) and "tissue" in units.columns:
+                tissue = units["tissue"].reindex(pos.index).fillna(True).to_numpy(dtype=bool)
+            xy = self.frame(pos.x_um.to_numpy(dtype=float), pos.y_um.to_numpy(dtype=float))
+            keep = self._mask_for(pos.index)
+            for rid, box in items:
+                val = mm.get(self.module_key(self.regions.loc[rid].get("gex_label")))
+                if not isinstance(val, pd.Series):
+                    excluded = True
+                    continue
+                v = pd.to_numeric(val, errors="coerce").reindex(pos.index).to_numpy(dtype=float)
+                if keep is not None:
+                    v = np.where(keep, v, np.nan)
+                inb = (xy[:, 0] >= box[0]) & (xy[:, 0] <= box[1]) & (xy[:, 1] >= box[2]) & (xy[:, 1] <= box[3])
+                none = inb & ~np.isfinite(v)
+                off |= bool((none & ~tissue).any()) if tissue is not None else False
+                excluded |= bool((none & tissue).any()) if tissue is not None else bool(none.any())
+        else:
+            excluded = True
+        word = self.unit_word()
+        su = self.params.get("score_units") if isinstance(self.params, Mapping) else None
+        names = [str(v) for v in np.ravel(np.asarray(su[1], dtype=object))] if (
+            isinstance(su, tuple | list) and len(su) == 2 and not isinstance(su[1], str)) else []  # fmt: skip
+        b_named = not names or any(re.search(r"(^|[^A-Za-z])B([^A-Za-z]|$)", n) for n in names)
+        left_out = f"non-B {word}" if b_named else f"unscored {word}"
+        if off and not excluded:
+            return "outside the tissue mask"
+        return f"{left_out} / outside the tissue mask" if off else left_out
 
     def _box_pixels(self, box: tuple[float, float, float, float]) -> np.ndarray:
         """Boolean grid mask of the pixels whose centres fall in a display window."""
@@ -1195,7 +1310,8 @@ def _zoom_panel(
                 zorder=8,
             )
             share = _pct(row.get("switched_share"))
-            text = f"CSR · region {rid}" + (f" · {share} switched" if share else "")
+            name = data.region_name(rid) if data.from_csr(rid) else f"CSR · region {rid}"
+            text = name + (f" · {share} switched" if share else "")
         else:
             mut = data.mutation_dots()
             no = inb & (mut == 0)
@@ -1211,7 +1327,8 @@ def _zoom_panel(
                 zorder=8,
             )
             share = _pct(row.get("mutated_share"))
-            text = "SHM" + (f" · {share} mutated" if share else "")
+            none = " · no evaluable locus inside" if data.from_csr(rid) else ""
+            text = "SHM" + (f" · {share} mutated" if share else none)
         if img is None:
             _note(ax, f"no {channel.upper()} map", pal, _FS["note"] * s)
         texts.append(_label(ax, text, pal, _FS["label"] * s, s))
@@ -1230,7 +1347,8 @@ def _zoom_panel(
         _draw_lines(ax, data.frame, data.gc_lines(), pal["gcb"], _LW["gcb"] * s, 7)
         _draw_lines(ax, data.frame, data.region_lines(), pal["csr"], _LW["gex"] * s, 8)
         shown = _short_label(label) if has_label else "GEX n/a"
-        texts.append(_label(ax, f"Hotspot · {shown}", pal, _FS["gex"] * s, s))
+        head = data.region_name(rid) if data.from_csr(rid) else "Hotspot"
+        texts.append(_label(ax, f"{head} · {shown}", pal, _FS["gex"] * s, s))
     _set_view(ax, box, data.invert_y)
     return texts
 
@@ -1275,16 +1393,20 @@ def _dot_legend(ax: Any, data: _AtlasData, channel: str, s: float) -> Any:
     return leg
 
 
-def _gex_legend(ax: Any, data: _AtlasData, s: float, *, gcb: bool, unscored: bool) -> Any:
+def _gex_legend(
+    ax: Any, data: _AtlasData, s: float, *, gcb: bool, unscored: bool | str, region_label: str = "region (CSR hotspot)"
+) -> Any:
     from matplotlib.lines import Line2D
     from matplotlib.patches import Patch
 
     pal = data.pal
-    hh = [Line2D([], [], lw=1.6 * s, color=pal["csr"], label="region (CSR hotspot)")]
+    hh = [Line2D([], [], lw=1.6 * s, color=pal["csr"], label=region_label)]
     if gcb:
         hh.append(Line2D([], [], lw=1.0 * s, color=pal["gcb"], label="GC B (GEX)"))
     if unscored:
-        hh.append(Patch(color=pal["unscored"], label=f"non-B {data.unit_word()}"))
+        hh.append(
+            Patch(color=pal["unscored"], label=unscored if isinstance(unscored, str) else f"non-B {data.unit_word()}")
+        )
     leg = ax.legend(
         handles=hh,
         loc="lower right",
@@ -1308,12 +1430,16 @@ def _line_legend(
     *,
     shm: str | None,
     gcb: bool,
-    unscored: bool,
+    unscored: bool | str,
     extra_text: str | None,
     y: float,
     csr_label: str | None = "CSR hotspot",
 ) -> Any:
-    """The legend row: outline colours (and the grey of units without a score) of what the figure shows."""
+    """The legend row: outline colours (and the grey of units without a score) of what the figure shows.
+
+    ``unscored``: the name of the units without a score (:meth:`_AtlasData.unscored_label`), or True for the
+    archive's ``"non-B bin"``.
+    """
     from matplotlib.lines import Line2D
     from matplotlib.patches import Patch
 
@@ -1324,7 +1450,9 @@ def _line_legend(
     if gcb:
         hh.append(Line2D([], [], lw=1.0 * s, color=pal["gcb"], label="GC B (GEX)"))
     if unscored:
-        hh.append(Patch(color=pal["unscored"], label=f"non-B {data.unit_word()}"))
+        hh.append(
+            Patch(color=pal["unscored"], label=unscored if isinstance(unscored, str) else f"non-B {data.unit_word()}")
+        )
     if extra_text:
         fig.text(0.995, y + 0.006, extra_text, ha="right", va="bottom", color=pal["muted"], fontsize=_FS["small"] * s)
     if not hh:
@@ -1401,12 +1529,14 @@ def _choose_regions(data: _AtlasData, regions: Any, max_regions: int) -> tuple[l
 
 
 def _missing_map_reason(result: Any, which: str) -> str:
-    """Short reason, from the workflow's messages, why the ``which`` ("SHM" / "CSR") map is missing ("" if unknown)."""
-    msgs = [str(m) for m in (getattr(result, "messages", None) or [])]
+    """The reason, from the workflow's messages, why the ``which`` ("SHM" / "CSR") map is missing ("" if unknown)."""
+    msgs = [str(m) for m in (_field(result, "messages") or [])]
     if which == "SHM" and any(m.startswith("no V alignments") for m in msgs):
-        return "The records have no V alignments; for AIR-SPACE, io.read_airspace(..., alignments=True) keeps MiXCR's"
-    hit = next((m for m in msgs if which in m and "skipped" in m), "")
-    return hit if len(hit) <= 110 else hit[:108].rstrip() + "…"
+        return (
+            "The records have no V alignments (AIRR v_sequence_alignment / v_germline_alignment, or MiXCR's "
+            "v_alignment_mixcr, which spaclone.read keeps for AIR-SPACE)."
+        )
+    return next((m for m in msgs if which in m and "skipped" in m), "")
 
 
 def _new_figure(figsize: tuple[float, float], dpi: float, pal: dict[str, Any]) -> Any:
@@ -1415,17 +1545,20 @@ def _new_figure(figsize: tuple[float, float], dpi: float, pal: dict[str, Any]) -
     return plt.figure(figsize=figsize, dpi=dpi, facecolor=pal["bg"])
 
 
-def _layout(n: int, sec_aspect: float, W: float, H: float, legend: bool, n_maps: int = 2) -> dict[str, Any]:
+def _layout(
+    n: int, sec_aspect: float, W: float, H: float, legend: bool, n_maps: int = 2, note_lines: int = 3
+) -> dict[str, Any]:
     """Axes rectangles (figure fractions) of the atlas: two overview maps on top, then the zooms.
 
     Three or more regions: one column per region, rows CSR / SHM / GEX (the archive layout). One or two regions:
     one row per region, columns CSR / SHM / GEX, so that the zoom panels keep a reasonable shape. No region and one
-    map (e.g. no SHM map): that map alone, the figure as wide as it needs (``width`` in inches).
+    map (e.g. no SHM map): that map alone, the figure as wide as it needs (``width`` in inches), with room for a note
+    of ``note_lines`` lines under it.
     """
     legend_h = 0.042 if legend else 0.008
     mx = 0.004
-    if n == 0 and n_maps == 1:  # one map: the figure narrows to its width, with a note of up to three lines
-        note_h = 0.1
+    if n == 0 and n_maps == 1:  # one map: the figure narrows to its width, with the note (three lines or more) under it
+        note_h = max(0.1, (note_lines * 1.5 * _FS["note"] * W / _REF_W / 72 + 0.15) / H)
         y0 = legend_h + note_h
         h = 1 - y0 - 0.008
         width = float(np.clip(h * H * sec_aspect + 0.3, 0.5 * W, W))
@@ -1531,7 +1664,9 @@ def hotspot_atlas(
     clone_p
         Write each region's clone-level map p-values (``regions.csr_clone_p`` / ``shm_clone_p``: whole clones
         relabelled) at the bottom left of its GEX tile, e.g. ``"clone-level p: CSR = 0.018 · SHM = 1"``; values at the
-        smallest attainable p are shown as ``"< 1/n_perm"``. Nothing is written when the result has no such values.
+        smallest attainable p are shown as ``"< 1/n_perm"``. A region that is a CSR hotspot shows ``csr_clone_p`` and
+        ``shm_clone_q`` instead (``"clone-level: CSR p = 0.027 · SHM q = 0.671"``). Nothing is written when the
+        result has no such values.
     x_key, y_key
         Coordinate columns of ``result.loci``.
 
@@ -1543,7 +1678,11 @@ def hotspot_atlas(
 
     Notes
     -----
-    With no region (no CSR hotspot overlaps an SHM hotspot) the figure shows the overview and a note; when one of
+    Regions that are CSR hotspots (``regions.source == "csr"``: :func:`spaclone.bcr.hotspot_workflow` found no
+    overlap region, or ``region_source="csr"``) are drawn the same way, titled "CSR hotspot N · <shares>" and
+    "CSR hotspot N · <GEX label>", with the p line ``"clone-level: CSR p = … · SHM q = …"`` (``csr_clone_p`` and the
+    q-value of the hotspot's confirmatory SHM test, ``shm_clone_q``). With no region at all the figure shows the
+    overview and a note; when one of
     the two maps is missing (e.g. no SHM map: records without V alignments), it shows the other map alone in a
     narrower figure, with the reason under it. Region numbers
     are the ``region_id`` values; columns follow the order along the (rotated) section. The colour scales are the
@@ -1561,7 +1700,19 @@ def hotspot_atlas(
     n = len(sel)
     maps = [w for w in ("csr", "shm") if data.map_image(w) is not None] if n == 0 else ["csr", "shm"]
     maps = maps if len(maps) == 1 else ["csr", "shm"]
+    note_text = None
     lay = _layout(n, sec_aspect, W, H, legend, n_maps=len(maps))
+    if n == 0 and len(maps) == 1:  # the reason under the one map: wrapped to the figure width, never cut
+        n_c = 0 if data.csr_labels is None else int(len(np.setdiff1d(np.unique(data.csr_labels), [0])))
+        gone = "SHM" if maps == ["csr"] else "CSR"
+        why = _missing_map_reason(result, gone)
+        raw = f"No {gone} map in the result, so no CSR ∩ SHM region ({n_c} CSR hotspot{'s' if n_c != 1 else ''})"
+        raw += f"\n{why}" if why else ""
+        for _ in range(3):  # the width follows the note's height and the line length follows the width
+            per_line = max(30, int(lay.get("width", W) * 72 / (0.56 * _FS["note"] * W / _REF_W)))
+            note_text = "\n".join(textwrap.fill(part, per_line) for part in raw.split("\n"))
+            n_lines = note_text.count("\n") + 1
+            lay = _layout(n, sec_aspect, W, H, legend, n_maps=1, note_lines=max(3, n_lines))
     fig = _new_figure((lay.get("width", W), H), dpi, pal)
     texts: list[Any] = []
     ov_axes = [fig.add_axes(r) for r in lay["overview"]]
@@ -1587,13 +1738,8 @@ def hotspot_atlas(
             if n_all == 0
             else f"{n_all} region{'s' if n_all != 1 else ''} not zoomed (choose with regions=)"
         )
-        if len(maps) == 1:  # the other map is missing: say which, and why when the workflow said so
-            gone = "SHM" if maps == ["csr"] else "CSR"
-            why = _missing_map_reason(result, gone)
-            note = f"No {gone} map in the result, so no CSR ∩ SHM region ({n_c} CSR hotspot{'s' if n_c != 1 else ''})"
-            note += f"\n{why}" if why else ""
-            per_line = max(30, int(lay.get("width", W) * 72 / (0.56 * _FS["note"] * s)))  # characters that fit
-            note = "\n".join(textwrap.fill(part, per_line) for part in note.split("\n"))
+        if note_text is not None:  # the other map is missing: say which, and why when the workflow said so
+            note = note_text
         fig.text(0.5, lay["note_y"], note, ha="center", va="center", color=pal["muted"], fontsize=_FS["note"] * s,
                  linespacing=1.5)  # fmt: skip
     if legend:
@@ -1603,7 +1749,9 @@ def hotspot_atlas(
             _dot_legend(zoom_axes[(last, "shm")], data, "shm", s)
         extra = None
         if n and n < n_all:
-            extra = f"{n} of {n_all} regions shown ({', '.join(map(str, sel))}); choose with regions="
+            what = "CSR hotspots" if all(data.from_csr(r) for r in data.regions.index) else "regions"
+            extra = f"{n} of {n_all} {what} shown ({', '.join(map(str, sel))}); choose with regions="
+        grey = [r for r in sel if data.unscored(r, windows[r])]
         _line_legend(
             fig,
             data,
@@ -1611,7 +1759,7 @@ def hotspot_atlas(
             csr_label="CSR hotspot" if (n or data.hotspot_lines("csr")) else None,
             shm=("SHM hotspot (top map)" if n else "SHM hotspot") if data.hotspot_lines("shm") else None,
             gcb=bool(n) and data.gc_visible([windows[r] for r in sel]),
-            unscored=any(data.unscored(r, windows[r]) for r in sel),
+            unscored=data.unscored_label([(r, windows[r]) for r in grey]) if grey else False,
             extra_text=extra,
             y=-0.004,
         )
@@ -1715,7 +1863,8 @@ def hotspot_overview(
         if windows:
             from matplotlib.patches import Patch
 
-            hh.append(Patch(fc="none", ec=pal["frame"], lw=1.2 * s, label="window = region"))
+            what = "CSR hotspot" if all(data.from_csr(r) for r in sel) else "region"
+            hh.append(Patch(fc="none", ec=pal["frame"], lw=1.2 * s, label=f"window = {what}"))
         fig.legend(
             handles=hh,
             loc="lower center",
@@ -1810,19 +1959,20 @@ def region_zoom(
     texts = []
     gex_shown = "gex" in chans
     gcb = gex_shown and data.gc_visible([box])
-    unscored = gex_shown and data.unscored(region_id, box)
+    unscored = data.unscored_label([(region_id, box)]) if (gex_shown and data.unscored(region_id, box)) else False
+    region_label = "CSR hotspot" if data.from_csr(region_id) else "region (CSR hotspot)"
     for a, ch in zip(axes, chans, strict=True):
         texts += _zoom_panel(a, data, region_id, ch, box, s)
         if legend and ch in ("csr", "shm"):
             _dot_legend(a, data, ch, s)
         if legend and ch == "gex" and len(chans) == 1:
-            _gex_legend(a, data, s, gcb=gcb, unscored=unscored)
+            _gex_legend(a, data, s, gcb=gcb, unscored=unscored, region_label=region_label)
     line = data.clone_p_line(region_id) if clone_p else None
     if line:
         on = axes[chans.index("gex")] if "gex" in chans else axes[0]
         texts.append(_p_line(on, line, pal, s, where="bottom" if "gex" in chans else "title"))
     if legend and ax is None and len(chans) > 1:
         _line_legend(fig, data, s, shm=None, gcb=gcb, unscored=unscored, extra_text=None, y=0.0,
-                     csr_label="region (CSR hotspot)")  # fmt: skip
+                     csr_label=region_label)  # fmt: skip
     _fit_texts(fig, texts)
     return axes[0] if len(chans) == 1 else fig

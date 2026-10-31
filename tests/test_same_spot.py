@@ -451,6 +451,26 @@ def test_multiplicity_plot_returns_axes():
     plt.close("all")
 
 
+def test_multiplicity_plot_is_silent_on_classes_without_an_expectation():
+    """A multiplicity class with no chance expectation (0 expected hits) has NaN intervals: no point, no warning."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    from spaclone.pl import same_spot_multiplicity
+
+    cats = pd.Categorical(["1", "2", "3-5"], categories=["1", "2", "3-5"])
+    bm = pd.DataFrame({"level": "spot", "locus": "IGK", "multiplicity": cats, "n": [50.0, 10.0, 4.0],
+                       "hits": [5.0, 1.0, 0.0], "expected": [4.0, 0.5, 0.0]})  # fmt: skip
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        ax = same_spot_multiplicity(bm, p_det=0.5)
+    y = ax.lines[0].get_ydata() if ax.lines else ax.containers[0][0].get_ydata()
+    assert np.isfinite(np.asarray(y, dtype=float)[:2]).all() and np.isnan(np.asarray(y, dtype=float)[2])
+    plt.close("all")
+
+
 # ------------------------------------------------------------------------------- empirical chance (review B1)
 
 

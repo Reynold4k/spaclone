@@ -406,7 +406,8 @@ def read(
         ``obsm["airr"]`` in one object) or a Stereo-XCR-seq LUAD cell-call h5ad, it reads both from it.
     airr
         The receptor table(s): a file of any format of :data:`spaclone.io.formats.RECEPTOR_FORMATS` (or several, e.g.
-        BCR and TCR, concatenated), a ``DataFrame``, an AnnData / MuData with scirpy data or a Dandelion object.
+        BCR and TCR, concatenated), a ``DataFrame``, an AnnData / MuData with scirpy data or a Dandelion object. An
+        AIR-SPACE clone table is read by :func:`spaclone.io.read_airspace`, which keeps MiXCR's alignments for SHM.
     unit_um
         µm per GEX coordinate unit: ``"auto"`` (technology facts only, see :func:`spaclone.io.gexio.detect_unit`; an
         error names this argument when the unit cannot be established; an AIR-SPACE bead h5ad with its clone table

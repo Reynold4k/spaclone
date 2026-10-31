@@ -127,9 +127,11 @@ def test_alignments_are_kept_for_the_representative_read(tmp_path):
     M["allJAlignments"] = "0|40|50|150|190||400.0"
     path = tmp_path / "aln_ovp_clone_table.txt"
     M.to_csv(path, sep="\t", index=False)
-    plain = io.read_airspace(_beads(), path)
+    plain = io.read_airspace(_beads(), path, alignments=False)
     assert "v_alignment_mixcr" not in plain.air.columns
-    sa = io.read_airspace(_beads(), path, alignments=True)
+    sa = io.read_airspace(_beads(), path)  # default "auto": kept when the table has them
+    pd.testing.assert_frame_equal(sa.air, io.read_airspace(_beads(), path, alignments=True).air)
+    pd.testing.assert_frame_equal(io.read(_beads(), path).air, sa.air)  # spaclone.read keeps them too
     air = sa.air
     assert sa.meta["alignments"] == ["v_alignment_mixcr", "j_alignment_mixcr"]
     mol = air.set_index(["spot_id", "umi", "locus"]).loc[("BEAD000", "AAAAAAA", "IGK")]
@@ -137,6 +139,9 @@ def test_alignments_are_kept_for_the_representative_read(tmp_path):
     assert mol.v_alignment_mixcr == rep.allVAlignments and mol.j_alignment_mixcr == "0|40|50|150|190||400.0"
     with pytest.raises(ValueError, match="allVAlignments"):
         io.read_airspace(_beads(), CT, alignments=True)
+    assert io.read_airspace(_beads(), CT).meta["alignments"] == []  # "auto" on a table without them
+    with pytest.raises(ValueError, match="alignments must be"):
+        io.read_airspace(_beads(), CT, alignments="yes")
 
 
 def test_read_dispatch_honours_unit_overlap_and_unmatched(caplog, capsys):

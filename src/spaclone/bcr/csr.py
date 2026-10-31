@@ -494,8 +494,10 @@ def csr_hotspots(
     **kwargs
         Passed to :func:`spaclone.tl.hotspots` (``tissue``, ``grid``, ``min_neff``, ``correction``,
         ``threshold_rule``, ``neff_kernel``, ``match_by``, ``within``, ``block_design``, ``standardise``,
-        ``min_blocks``, ``x_key``, ...). The archive's settings are ``blocks=None, neff_kernel="legacy",
-        threshold_rule="quantile"`` (13 hotspots in T3; 12 with the exact kernel and the rank rule).
+        ``min_blocks``, ``min_units``, ``x_key``, ...). The archive's settings are ``blocks=None,
+        neff_kernel="legacy", threshold_rule="quantile"`` (13 hotspots in T3; 12 with the exact kernel and the rank
+        rule). ``min_units=1`` drops hotspots without an isotyped locus inside (:func:`spaclone.bcr.hotspot_workflow`
+        does by default).
 
     Returns
     -------

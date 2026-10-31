@@ -48,16 +48,20 @@ _PALETTE: dict[str, dict[str, str]] = {
 #: Categorical slots (validated reference palette; never cycled: names beyond the slots are drawn in grey).
 _SLOTS = SLOTS
 _NEUTRAL = NEUTRAL
-#: Fixed colours of the compartments and regions (a compartment keeps its colour in every plot).
+#: Fixed colours of the compartments and regions (a compartment keeps its colour in every plot; the non-B/T area is the
+#: red pulp's tissue-neutral name, see :func:`spaclone.ext.threadfin.spatial_context`, and keeps its colour).
 _NAMED = {
     mode: {
         "follicle": REGION_COLORS[mode]["follicle"],
         "T zone": REGION_COLORS[mode]["T zone"],
         "red pulp": REGION_COLORS[mode]["red pulp"],
+        "non-B/T area": REGION_COLORS[mode]["red pulp"],
         "hotspot": SLOTS[mode][3],
     }
     for mode in ("dark", "light")
 }
+#: Compartments listed first, in this order, in compartment panels (T zone, follicle, red pulp under either name).
+_COMPARTMENT_ORDER = ("T zone", "follicle", "red pulp", "non-B/T area")
 #: Diverging maps (blue, neutral grey, red) for signed axis values.
 _DIVERGING = DIVERGING
 
@@ -150,6 +154,18 @@ def _outline(ax: Axes, raster: Any, colour: str, lw: float, *, smooth: float = 1
     )
 
 
+def _union_label(ctx: Any) -> str:
+    """Name of the B-rich area joined with the T zones, from the context's own compartment names.
+
+    ``"white pulp (B-rich + T zones)"`` when the context names a red pulp (which
+    :func:`spaclone.ext.threadfin.spatial_context` does only where the labels show an erythroid-rich red pulp, as in
+    a spleen), else the tissue-neutral ``"B-rich + T zones"`` (e.g. a lymph node).
+    """
+    comp = getattr(ctx, "compartments", None)
+    cats = set(getattr(comp, "categories", None) or ())
+    return "white pulp (B-rich + T zones)" if "red pulp" in cats else "B-rich + T zones"
+
+
 def _draw_context(ax: Axes, result: Any, pal: dict[str, str], outlines: bool, regions: bool) -> list[tuple]:
     """Outlines of the B-rich area, T zones and regions of the result's context; returns legend entries."""
     ctx = getattr(result, "context", None)
@@ -162,7 +178,7 @@ def _draw_context(ax: Axes, result: Any, pal: dict[str, str], outlines: bool, re
             t = ctx.masks.get("T zone")
             wp = type(b)(np.asarray(b.values, bool) | (np.asarray(t.values, bool) if t is not None else False), b.grid)
             _outline(ax, wp, pal["fg"], 0.6)
-            handles.append(("white pulp (B-rich + T zones)", pal["fg"]))
+            handles.append((_union_label(ctx), pal["fg"]))
         if "T zone" in ctx.masks:
             _outline(ax, ctx.masks["T zone"], pal["t_edge"], 0.8)
             handles.append(("T zone", pal["t_edge"]))
@@ -271,14 +287,15 @@ def clone_state_map(
     background
         Draw every unit underneath in the tissue colour.
     outlines, regions
-        Draw the context's white-pulp and T-zone outlines and its regions (yellow).
+        Draw the context's outlines (the B-rich area with the T zones, called white pulp where the context names a
+        red pulp, and the T zones) and its regions (yellow).
     cmap
         Colour map for numeric colours (default: diverging blue - grey - red).
     vmax, quantile
         Symmetric colour limits: ``±vmax``, else ``±`` the ``quantile`` of the absolute values.
     end_labels
         Names of the negative and positive ends written under the colour bar (e.g. ``("red-pulp end",
-        "white-pulp end")``).
+        "white-pulp end")`` on a spleen).
     colorbar, legend, scalebar_um, invert_y, title
         Colour bar, legend of outlines / categories, scale bar length (None = none), image-like y axis, title.
     rotate
@@ -529,8 +546,8 @@ def clone_axis_profile(
     cats = (
         list(categories)
         if categories is not None
-        else [c for c in ("T zone", "follicle", "red pulp") if c in obs.columns]
-        + [c for c in obs.columns if c not in ("T zone", "follicle", "red pulp", "outside")]
+        else [c for c in _COMPARTMENT_ORDER if c in obs.columns]
+        + [c for c in obs.columns if c not in (*_COMPARTMENT_ORDER, "outside")]
     )
     # expression panel input
     expr = expression
@@ -691,7 +708,7 @@ def spanning_clones(
     style
         ``"dark"`` (house style) or ``"light"`` / None.
     outlines, regions
-        Context outlines (white pulp, T zones) and regions.
+        Context outlines (the B-rich area with the T zones, and the T zones) and regions.
     vmax
         Colour limit (default: 98th percentile of the absolute positions of profiled units).
     unit_um

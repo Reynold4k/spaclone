@@ -138,16 +138,21 @@ def same_spot_multiplicity(
             continue
         xpos = np.array([cats.index(c) for c in s.index], dtype=float) + (i - (len(show) - 1) / 2) * width
         h, e = s["hits"].to_numpy(float), s["expected"].to_numpy(float)
+        n = s["n"].to_numpy(float)
         with np.errstate(divide="ignore", invalid="ignore"):
             ratio = h / e
             lo = np.where(h > 0, stats.chi2.ppf(a / 2, 2 * h) / 2, 0.0) / e
             hi = stats.chi2.ppf(1 - a / 2, 2 * (h + 1)) / 2 / e
+            yerr = np.vstack([ratio - lo, hi - ratio])
+            full = (e + p_det * (n - e)) / e if p_det is not None else None
+        # a class without a chance expectation (expected 0) has no ratio and no interval: drawn as nothing, silently
+        fin = np.isfinite(ratio) & np.isfinite(yerr).all(axis=0)
+        ratio, yerr = np.where(fin, ratio, np.nan), np.where(fin, yerr, np.nan)
         col = used[str(lc)]
-        ax.errorbar(xpos, ratio, yerr=[ratio - lo, hi - ratio], fmt="o", ms=5, color=col, ecolor=col, elinewidth=1.2,
-                    capsize=0, label=str(lc), zorder=3)  # fmt: skip
-        if p_det is not None:
-            n = s["n"].to_numpy(float)
-            full = (e + p_det * (n - e)) / e
+        ax.errorbar(xpos, ratio, yerr=yerr, fmt="o", ms=5, color=col, ecolor=col, elinewidth=1.2, capsize=0,
+                    label=str(lc), zorder=3)  # fmt: skip
+        if full is not None:
+            full = np.where(np.isfinite(full), full, np.nan)
             ax.scatter(xpos, full, marker="_", s=120, color=col, linewidths=1.6, zorder=2)
     ax.axhline(1.0, color=th["muted"], lw=1.0, ls=(0, (3, 2)), zorder=1)
     ax.annotate("chance", xy=(1.0, 1.0), xycoords=("axes fraction", "data"), xytext=(-2, 3),

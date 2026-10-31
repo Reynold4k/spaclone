@@ -767,7 +767,9 @@ def shm_hotspots(
     **kwargs
         Passed to :func:`spaclone.tl.hotspots` (``tissue``, ``grid``, ``min_neff``, ``correction``,
         ``threshold_rule``, ``neff_kernel``, ``block_design``, ``standardise``, ``min_blocks``, ``null_marks``,
-        ``x_key``, ...). The archive's T7 maps: ``blocks=None, neff_kernel="legacy", threshold_rule="quantile"``.
+        ``min_units``, ``x_key``, ...). The archive's T7 maps: ``blocks=None, neff_kernel="legacy",
+        threshold_rule="quantile"``. ``min_units=1`` drops hotspots without an evaluable locus inside
+        (:func:`spaclone.bcr.hotspot_workflow` does by default).
 
     Returns
     -------

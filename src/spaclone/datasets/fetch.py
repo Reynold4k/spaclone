@@ -207,7 +207,8 @@ def load_airspace(
     Returns
     -------
     SpatialAIR
-        Molecules (every bead kept, off-tissue beads flagged) and the bead GEX.
+        Molecules (every bead kept, off-tissue beads flagged; MiXCR's V alignments kept for SHM, as
+        ``read_airspace``'s default ``alignments="auto"``) and the bead GEX.
     """
     from spaclone.io.airspace import read_airspace
 

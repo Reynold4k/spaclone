@@ -1,10 +1,12 @@
 """Clone maps (minimum-spanning-tree links between the units of a clone) and clonal-scan results.
 
 Clone maps follow the conventions of every spaclone map: y increases downwards (image convention) unless
-``invert_y=False``, and colours come from the validated categorical slots of :mod:`spaclone.pl._colors`, given to the
-clones in the order they are named (``clones=``) or ranked (largest first), never cycled: clones past the eighth slot
-are grey. Only the first three slots stay apart for every pair, so a map of more than three clones should be read with
-its legend; ``palette`` fixes a clone's colour across figures.
+``invert_y=False``, a scale bar replaces the axes, and colours come from the validated categorical slots of
+:mod:`spaclone.pl._colors`, given to the clones in the order they are named (``clones=``) or ranked (largest first),
+never cycled: clones past the eighth slot are grey. Only the first three slots stay apart for every pair, so a map of
+more than three clones should be read with its legend; ``palette`` fixes a clone's colour across figures. By default a
+clone's tree is drawn only through links of at most 250 µm (the README figure's settings): the longer links of a
+clone that spans the tissue join far-apart groups of its units and would cross the whole map.
 """
 
 from __future__ import annotations
@@ -27,6 +29,9 @@ from spaclone.pl._colors import CHROME, NEUTRAL, SLOTS, fixed_colors
 from spaclone.pl._frame import SectionFrame, attach
 
 __all__ = ["clonal_scan", "clone_map", "mst_edges"]
+
+#: Round scale-bar lengths (µm) a clone map falls back to when the asked length is longer than a quarter of the view.
+_SCALEBAR_UM = (10, 20, 50, 100, 200, 250, 500, 1000, 2000, 5000)
 
 #: Colours of the two house styles (from :mod:`spaclone.pl._colors`; validated pair: blue / orange on the background).
 STYLES: dict[str, dict[str, Any]] = {
@@ -103,13 +108,13 @@ def clone_map(
     loci: str | Sequence[str] | None = "heavy",
     ax: Axes | None = None,
     links: bool = True,
-    max_link_um: float | None = None,
+    max_link_um: float | None = 250.0,
     background: bool = True,
     style: Literal["light", "dark"] = "dark",
     size: float = 6.0,
-    background_size: float = 1.0,
+    background_size: float = 2.0,
     legend: bool = True,
-    scalebar_um: float | None = None,
+    scalebar_um: float | None = 500.0,
     palette: Mapping[str, str] | None = None,
     invert_y: bool = True,
     rotate: bool | float = True,
@@ -140,17 +145,21 @@ def clone_map(
     links
         Draw the minimum-spanning-tree links between the distinct positions of each clone.
     max_link_um
-        Links longer than this are not drawn (the tree is still computed on all units).
+        Links longer than this are not drawn (the tree is still computed on all units). Default 250 µm (about 25
+        bead or bin widths on 10-µm platforms): local groups keep their trees, and the long links that join far-apart
+        groups of a tissue-spanning clone, which would cross the whole map, are left out. ``None`` draws every link.
     background
         Draw every unit of the table in grey underneath.
     style
         ``"dark"`` (black, the house style; default) or ``"light"`` (white).
     size, background_size
-        Marker sizes of the clones and of the background.
+        Marker sizes of the clones and of the background (default 2, so the tissue reads under the clones).
     legend
         Show a legend with each clone and its number of distinct spots (``"clone 45 · 56 spots"``), above the map.
     scalebar_um
-        Length of a scale bar in µm (none if ``None``); with a scale bar the axes are hidden.
+        Length of a scale bar in µm (default 500; ``None``: no bar, the axes are shown); with a scale bar the axes are
+        hidden. A length longer than a quarter of the view is replaced by the longest round length that fits (as on
+        :func:`spaclone.pl.clone_state_map`).
     palette
         ``{clone_id: colour}`` overrides, to keep a clone's colour across figures.
     invert_y
@@ -185,11 +194,13 @@ def clone_map(
     else:
         chosen = [clones] if isinstance(clones, str) else list(clones)
     fr = SectionFrame(air[[x_key, y_key]].to_numpy(dtype=float), rotate, crop=crop)
-    if ax is None:  # as tall as the section needs, with room for the legend above it and the axis labels below
-        top_in, bottom_in = 0.3 + (0.2 * len(chosen) if legend else 0.0), 0.65
-        hgt = float(np.clip(8.0 * 0.775 * fr.aspect() * 1.03 + top_in + bottom_in, 3.0, 12.0))
+    if ax is None:  # as tall as the section needs, with room for the legend above it (and axis labels without a bar)
+        bar = bool(scalebar_um)  # a scale bar replaces the axes: no room is kept for tick labels
+        left, right = (0.03, 0.97) if bar else (0.125, 0.9)
+        top_in, bottom_in = 0.3 + (0.2 * len(chosen) if legend else 0.0), (0.25 if bar else 0.65)
+        hgt = float(np.clip(8.0 * (right - left) * fr.aspect() * 1.03 + top_in + bottom_in, 3.0, 12.0))
         fig, ax = plt.subplots(figsize=(8.0, hgt))
-        fig.subplots_adjust(left=0.125, right=0.9, bottom=bottom_in / hgt, top=1 - top_in / hgt)
+        fig.subplots_adjust(left=left, right=right, bottom=bottom_in / hgt, top=1 - top_in / hgt)
     _apply_style(ax, st)
     attach(ax, fr)
     if background:
@@ -216,21 +227,25 @@ def clone_map(
     ax.set_xlabel(fr.labels[0])
     ax.set_ylabel(fr.labels[1])
     fr.set_view(ax, invert_y=invert_y)
-    if scalebar_um:  # lower left of the display, whichever way y runs (get_ylim gives bottom, top)
+    x0, x1 = ax.get_xlim()
+    y0, y1 = ax.get_ylim()  # (bottom, top) of the display, whichever way y runs
+    bar_um = float(scalebar_um) if scalebar_um else 0.0
+    if bar_um > 0.25 * abs(x1 - x0):  # a round length that fits a quarter of the view
+        fits = [v for v in _SCALEBAR_UM if v <= 0.25 * abs(x1 - x0)]
+        bar_um = float(fits[-1]) if fits else 0.0
+    if bar_um > 0:  # lower left of the display
         ax.set_xticks([])  # the scale bar replaces the axes, as on every spaclone tissue map
         ax.set_yticks([])
         ax.set_xlabel("")
         ax.set_ylabel("")
         for sp_ in ax.spines.values():
             sp_.set_visible(False)
-        x0, x1 = ax.get_xlim()
-        y0, y1 = ax.get_ylim()
         bx, by = x0 + 0.05 * (x1 - x0), y0 + 0.05 * (y1 - y0)
-        ax.plot([bx, bx + scalebar_um], [by, by], color=st["fg"], lw=2, zorder=4)
+        ax.plot([bx, bx + bar_um], [by, by], color=st["fg"], lw=2, zorder=4)
         ax.text(
-            bx + scalebar_um / 2,
+            bx + bar_um / 2,
             by + 0.015 * (y1 - y0),
-            f"{scalebar_um:g} µm",
+            f"{bar_um / 1000:g} mm" if bar_um >= 1000 else f"{bar_um:g} µm",
             color=st["fg"],
             ha="center",
             va="bottom",

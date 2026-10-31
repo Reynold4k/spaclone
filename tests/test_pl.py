@@ -351,14 +351,18 @@ def test_share_maps_draw_the_permutation_z_map_by_default():
     t, hs = _hotspot_result()
     assert hs.params["standardise"] == "permutation"
     ax = pl.share_map(hs)
-    img = np.asarray(ax.images[-1].get_array(), dtype=float).T
-    expected = np.where(hs.map.eligible, hs.z_map.values, np.nan)
-    np.testing.assert_array_equal(np.isnan(img), np.isnan(expected))
-    np.testing.assert_allclose(img[np.isfinite(img)], expected[np.isfinite(expected)])
+    im = ax.images[-1]
+    img = np.asarray(im.get_array(), dtype=float).transpose(1, 0, 2)  # RGBA on the grid
+    valid = hs.map.eligible & np.isfinite(hs.z_map.values)
+    np.testing.assert_allclose(img[valid], im.get_cmap()(im.norm(hs.z_map.values[valid])))
+    tissue = pl.maps._display_tissue(hs.map)
+    assert valid.any() and (img[tissue][:, 3] == 1).all()  # the map covers the whole tissue: no holes
     assert ax.figure.axes[-1].get_ylabel() == "z (permutation-studentised)"
     ax = pl.share_map(hs, layer="share")
-    np.testing.assert_allclose(np.asarray(ax.images[-1].get_array(), dtype=float).T[hs.map.eligible],
-                               hs.map.share[hs.map.eligible])  # fmt: skip
+    im = ax.images[-1]
+    img = np.asarray(im.get_array(), dtype=float).transpose(1, 0, 2)
+    elig = hs.map.eligible
+    np.testing.assert_allclose(img[elig], im.get_cmap()(im.norm(hs.map.share[elig])))
     for fn in (pl.csr_share_map, pl.shm_share_map):
         ax = fn(hs)
         assert ax.images[-1].get_cmap().name.startswith("spaclone_diverging")

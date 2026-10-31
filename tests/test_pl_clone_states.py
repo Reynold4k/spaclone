@@ -15,7 +15,7 @@ from spaclone import TestResult, pl
 from spaclone.ext import threadfin as tfx
 
 
-def _light(seed=0, side=24):
+def _light(seed=0, side=24, names="auto"):
     """A ThreadfinSpatialResult-shaped object without running Threadfin (the plots use its tables only)."""
     rng = np.random.default_rng(seed)
     ii, jj = np.meshgrid(np.arange(side), np.arange(side), indexing="ij")
@@ -30,7 +30,7 @@ def _light(seed=0, side=24):
     )
     gex.obsm["spatial"] = np.c_[x, y]
     gex.obs["reg"] = red & (y < 60)
-    ctx = tfx.spatial_context(gex, cell_type_key="ct", regions={"hotspot": "reg"})
+    ctx = tfx.spatial_context(gex, cell_type_key="ct", regions={"hotspot": "reg"}, names=names)
     clone = np.full(n, None, dtype=object)
     sizes = [12, 9, 8, 6, 5, 3, 3, 2, 2, 2] + [1] * 20
     order = rng.permutation(n)
@@ -167,6 +167,36 @@ def test_clone_state_map_follows_the_house_orientation():
     ax = pl.clone_state_map(res, style="dark")
     assert ax.yaxis_inverted()
     assert ax.figure.get_dpi() >= 150  # a figure made here is slide-sized and sharp
+
+
+def _legend_entries(ax):
+    """{label: colour} of the legend above a map."""
+    leg = ax.get_legend()
+    return {
+        t.get_text(): matplotlib.colors.to_hex(h.get_color())
+        for h, t in zip(leg.legend_handles, leg.get_texts(), strict=True)
+    }
+
+
+@pytest.mark.parametrize("style", ["dark", "light"])
+def test_outline_names_follow_the_context_names(style):
+    """'White pulp' only where the context names a red pulp (a spleen); tissue-neutral names otherwise."""
+    from spaclone.pl._colors import REGION_COLORS
+
+    spleen = _light()
+    assert spleen.context.params["naming"] == "spleen"  # the right half is erythroid: a red pulp
+    assert "white pulp (B-rich + T zones)" in _legend_entries(pl.clone_state_map(spleen, style=style))
+    node = _light(names="neutral")  # e.g. a lymph node: the area outside the B and T zones is not red pulp
+    texts = list(_legend_entries(pl.clone_state_map(node, style=style)))
+    assert "B-rich + T zones" in texts and "T zone" in texts
+    assert not any("pulp" in t for t in texts)
+    entries = _legend_entries(pl.clone_state_map(node, color="compartment", colorbar=False, style=style))
+    third = [t for t in entries if t.startswith("non-B/T area")]
+    assert third and not any("pulp" in t for t in entries)
+    assert entries[third[0]] == REGION_COLORS[style]["red pulp"]  # same place, same colour under either name
+    fig = pl.clone_axis_profile(node, n_bins=4, style=style)
+    labels = [t.get_text() for t in fig.axes[0].get_legend().get_texts()]
+    assert "non-B/T area" in labels and labels == [c for c in ("T zone", "follicle", "non-B/T area") if c in labels]
 
 
 def test_clone_axis_profile_without_compartments_keeps_the_expression_panel(caplog):

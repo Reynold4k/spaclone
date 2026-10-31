@@ -48,10 +48,12 @@ from spaclone.pl.atlas import (
     _REF_W,
     _AtlasData,
     _cmap,
+    _continuous_rgba,
     _draw_fill,
     _draw_image,
     _draw_lines,
     _field,
+    _fill_from,
     _Frame,
     _labels_array,
     _mask_fill,
@@ -319,10 +321,11 @@ def _ramp(color: str, style: str | None) -> list[str]:
     return [to_hex(np.clip(s, 0, 1)) for s in stops]
 
 
-def _share_rgba(sm: Any, tissue: np.ndarray, ramp: Sequence[str]) -> tuple[np.ndarray, float, float]:
-    """RGBA image of a share map on its eligible pixels (2nd-99.5th percentile colour limits).
+def _share_rgba(sm: Any, tissue: np.ndarray, ramp: Sequence[str], base: str) -> tuple[np.ndarray, float, float]:
+    """RGBA image of a share map over the whole tissue (2nd-99.5th percentile colour limits on eligible pixels).
 
-    The image is opaque one pixel beyond the eligible pixels; draw it clipped to :func:`_eligible_fill`.
+    Eligible pixels get their full colour; the other tissue pixels fade into the tissue colour ``base`` as their
+    effective units drop (:func:`spaclone.pl.atlas._continuous_rgba`). Draw it clipped to :func:`_eligible_fill`.
     """
     from matplotlib.colors import Normalize
 
@@ -331,16 +334,16 @@ def _share_rgba(sm: Any, tissue: np.ndarray, ramp: Sequence[str]) -> tuple[np.nd
     fin = vals[elig]
     lo, hi = np.quantile(fin, [0.02, 0.995]) if len(fin) else (0.0, 1.0)
     hi = float(hi) if hi > lo else float(lo) + 1e-9
-    rgba = _cmap(ramp, "spaclone_csr_iso")(Normalize(float(lo), hi)(_nearest_fill(vals, elig)))
-    rgba[..., 3] = _opaque_rim(elig)
+    filled, support = _fill_from(vals, elig)
+    rgba = _continuous_rgba(
+        filled, elig, support, tissue, _cmap(ramp, "spaclone_csr_iso"), Normalize(float(lo), hi), base
+    )
     return rgba, float(lo), hi
 
 
 def _eligible_fill(sm: Any, tissue: np.ndarray) -> list[tuple[np.ndarray, np.ndarray]]:
-    """Smoothed outline of a share map's eligible pixels (the clip of its image)."""
-    vals = np.asarray(sm.share, dtype=float)
-    elig = np.asarray(sm.eligible, dtype=bool) & tissue & np.isfinite(vals)
-    return _mask_fill(elig, sm.grid, 0.7)
+    """Smoothed tissue outline: the clip of a map image, which covers the whole tissue."""
+    return _mask_fill(tissue, sm.grid, 1.5)
 
 
 def _share_maps(inp: _CSRInputs, lab: pd.Series, names: Sequence[str]) -> dict[str, Any]:
@@ -408,10 +411,13 @@ def _dominant_rgba(
     else:
         base = np.array(to_rgb(CHROME["light"]["floor"]))
         rgb = base + (rgb_dom - base) * t[..., None]
+    grey = np.array(to_rgb(pal["tissue"]))
     rgba = np.zeros((*tissue.shape, 4))
-    for k in range(3):
-        rgba[..., k] = _nearest_fill(rgb[..., k], elig)
-    rgba[..., 3] = _opaque_rim(elig)
+    for k in range(3):  # few loci: the colour of the inferred pixels around, fading into the tissue
+        ch, support = _fill_from(rgb[..., k], elig)
+        ch = support * np.nan_to_num(ch, nan=grey[k]) + (1.0 - support) * grey[k]
+        rgba[..., k] = _nearest_fill(ch, tissue) if tissue.any() else ch
+    rgba[..., 3] = _opaque_rim(tissue)
     return rgba, present
 
 
@@ -995,7 +1001,7 @@ def csr_map(
         _draw_fill(ax, frame, fill, pal["tissue"], z=-1)
         if kind == "switched":
             if sm_sw is not None:
-                rgba, lo, hi = _share_rgba(sm_sw, tissue_arr, pal["csr_ramp"])
+                rgba, lo, hi = _share_rgba(sm_sw, tissue_arr, pal["csr_ramp"], pal["tissue"])
                 _draw_image(ax, frame, inp.grid, rgba, z=0, clip=_eligible_fill(sm_sw, tissue_arr))
                 texts += _title_band(ax, "Switched share", pal, s, ramp=pal["csr_ramp"], lo=lo, hi=hi)
             else:
@@ -1018,7 +1024,7 @@ def csr_map(
             title = f"{name} · {_fmt_pct(share)} of loci"
             color = _iso_color(name, style)
             ramp = _ramp(color, style)
-            rgba, lo, hi = _share_rgba(sm, tissue_arr, ramp) if sm is not None else (None, 0.0, 0.0)
+            rgba, lo, hi = _share_rgba(sm, tissue_arr, ramp, pal["tissue"]) if sm is not None else (None, 0.0, 0.0)
             if rgba is not None and hi - lo > 1e-6:
                 _draw_image(ax, frame, inp.grid, rgba, z=0, clip=_eligible_fill(sm, tissue_arr))
                 band = _title_band(ax, title, pal, s, swatch=color, ramp=ramp, lo=lo, hi=hi)

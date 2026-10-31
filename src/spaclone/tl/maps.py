@@ -513,6 +513,9 @@ class ShareMap:
         Units on the grid and marked units among them.
     params
         Arguments that define the map.
+    tissue
+        The tissue mask the map was computed on (``None`` when none was given); plots draw the section outline and
+        the map over it.
     """
 
     grid: Grid
@@ -525,6 +528,7 @@ class ShareMap:
     n_units: int
     n_marked: int
     params: dict[str, Any] = field(default_factory=dict)
+    tissue: np.ndarray | None = None
 
     _LAYERS = ("share", "expected", "z", "n_eff", "eligible")
 
@@ -620,7 +624,8 @@ def _build(
     share = np.where(pos, s1 / n1, np.nan)
     exp_share = np.where(pos, e / n1, np.nan)
     z = _z(s1, e, v)
-    elig = _tissue_array(tissue, u.grid) & (eng.neff >= min_neff)
+    tis = _tissue_array(tissue, u.grid)
+    elig = tis & (eng.neff >= min_neff)
     params = {
         "sigma_um": sigma_um,
         "pixel_um": u.grid.pixel_um,
@@ -632,8 +637,9 @@ def _build(
         "n_off_grid": u.n_off_grid,
     }
     sm = ShareMap(
-        u.grid, share, exp_share, z, eng.neff, elig, float(u.mark.mean()), len(u.mark), int(u.mark.sum()), params
-    )
+        u.grid, share, exp_share, z, eng.neff, elig, float(u.mark.mean()), len(u.mark), int(u.mark.sum()), params,
+        tissue=tis if tissue is not None else None,
+    )  # fmt: skip
     return u, eng, sm, e, v
 
 
@@ -855,6 +861,7 @@ def hotspots(
     grid: Grid | None = None,
     neff_kernel: NeffKernel = "exact",
     null_marks: Any = None,
+    min_units: int = 0,
     x_key: str = S.X,
     y_key: str = S.Y,
     rng: RngLike = None,
@@ -920,6 +927,11 @@ def hotspots(
     null_marks
         Optional ``(n_perm, len(table))`` array of shuffled marks (one null data set per row, in the row order of
         ``table``), used instead of the built-in shuffles: a custom design or a replayed archive null.
+    min_units
+        Smallest number of units inside a hotspot. A connected set of pixels above the threshold that holds fewer
+        units is dropped and counted in ``summary["n_dropped_min_units"]``. Such sets occur next to a strong
+        hotspot, where the kernel alone lifts pixels that hold no unit of their own. Default 0: every set is kept,
+        as in 1.0. Dropping sets never adds a hotspot, so the family-wise error stays at most α.
     rng
         Seed or generator; shuffles are drawn from it in order (unit design: one ``permutation`` per stratum and map;
         matched block design: ``random(n_blocks)`` then ``random(n_units)`` per map).
@@ -984,6 +996,8 @@ def hotspots(
         raise ValueError("standardise must be 'auto', 'binomial' or 'permutation'")
     if not 0 < alpha < 1:
         raise ValueError("alpha must lie in (0, 1)")
+    if min_units < 0:
+        raise ValueError("min_units must be >= 0")
     gen = as_rng(rng)
     u, eng, sm, e_obs, v_obs = _build(
         table,
@@ -1123,6 +1137,7 @@ def hotspots(
     rows: list[dict[str, Any]] = []
     gx, gy = u.grid.centres()
     next_id = 0
+    n_dropped = 0
     for k, s in enumerate(sides):
         sgn = sign[s]
         t_obs = np.nan_to_num(sgn * z_obs_full, nan=-np.inf)
@@ -1145,8 +1160,12 @@ def hotspots(
             thresholds[s] = a_side
             flag = elig & np.isfinite(z_obs_full) & (p_pix <= a_side)
         lab, n = _label_by_area(flag)
+        n_inside = np.bincount(lab[u.i, u.j], minlength=n + 1)
         keep = []
         for h in range(1, n + 1):
+            if n_inside[h] < min_units:  # spill-over of the kernel: no (or too few) units of its own
+                n_dropped += 1
+                continue
             pix = lab == h
             peak = float(np.max(t_obs[pix]))
             if correction == "cluster_mass":
@@ -1228,6 +1247,7 @@ def hotspots(
     summary: dict[str, Any] = {
         "n_hotspots": sum(r["direction"] == "hot" for r in rows),
         "n_coldspots": sum(r["direction"] == "cold" for r in rows),
+        "n_dropped_min_units": n_dropped,
     }
     for s in sides:
         summary[f"threshold_{s}"] = thresholds[s]
@@ -1263,6 +1283,7 @@ def hotspots(
             "alternative": alternative,
             "alpha": alpha,
             "threshold_rule": threshold_rule,
+            "min_units": min_units,
             "design": design,
             "rng_entropy": rng_entropy(gen),
             "subcellular_units": n_subcell,
