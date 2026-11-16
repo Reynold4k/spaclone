@@ -100,14 +100,14 @@ RECEPTOR_COLORS: dict[str, dict[str, str]] = {
     "dark": {"BCR": "#3987e5", "TCR": "#e8559b"},
     "light": {"BCR": "#2a78d6", "TCR": "#c2399b"},
 }
-#: Fixed colours of tissue regions: follicle blue, germinal centre (GC) orange, T zone magenta, ASC area violet, red
-#: pulp green (every pair passes the all-pairs floors in both modes).
+#: Fixed colours of tissue regions: follicle blue, germinal centre (GC) orange, T zone magenta, the area of
+#: antibody-secreting cells (ASC) violet, red pulp green (every pair passes the all-pairs floors in both modes).
 REGION_COLORS: dict[str, dict[str, str]] = {
     "dark": {"follicle": "#3987e5", "GC": "#d95926", "T zone": "#ed49ab", "ASC": "#8645b2", "red pulp": "#179467"},
     "light": {"follicle": "#2a78d6", "GC": "#eb6834", "T zone": "#b7489b", "ASC": "#682dac", "red pulp": "#04a97a"},
 }
-#: Other spellings of the region labels (``"PC"`` is the plasma-cell / ASC area; the non-B/T area, the red pulp's name on
-#: sections without one, keeps its colour).
+#: Other spellings of the region labels (``"PC"``, an older name of the ASC area; the non-B/T area, the red pulp's name
+#: on sections without one, keeps its colour).
 REGION_ALIASES = {
     "PC": "ASC",
     "germinal centre": "GC",
@@ -117,8 +117,9 @@ REGION_ALIASES = {
     "red_pulp": "red pulp",
     "non-B/T area": "red pulp",
 }
-#: Fixed colours of the built-in cell classes (dark, light): B blue, T pink, ASC amber, GC B aqua, myeloid orange,
-#: stromal green, Tfh violet, erythroid red. Nine classes cannot keep every pair apart (see the module notes).
+#: Fixed colours of the built-in cell classes (dark, light): B blue, T pink, ASC amber (``"plasma"``: another spelling),
+#: GC B aqua, myeloid orange, stromal green, Tfh violet, erythroid red. Nine classes cannot keep every pair apart (see
+#: the module notes).
 CELL_COLORS: dict[str, tuple[str, str]] = {
     "B": ("#3987e5", "#2d7bd9"),
     "T": ("#ce5199", "#e77ba7"),

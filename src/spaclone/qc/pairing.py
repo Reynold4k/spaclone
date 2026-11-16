@@ -1,9 +1,9 @@
 """Heavy/light chain pairing beyond chance: do the two chains of the same cells meet in the same bins?
 
-A B cell or plasma cell (a T cell) puts its heavy and its light transcripts (beta and alpha) into the same 10–20 µm of
-tissue, so if a share of the receptor records is where its cell was, a heavy clone co-occurs in small bins with its
-own light partner more often than with other light clones. Under barcode swapping the two chains are amplified in
-separate reactions and land independently, and the co-occurrence of any heavy and light clone is what their
+A B cell or an antibody-secreting cell (a T cell) puts its heavy and its light transcripts (beta and alpha) into the
+same 10–20 µm of tissue, so if a share of the receptor records is where its cell was, a heavy clone co-occurs in small
+bins with its own light partner more often than with other light clones. Under barcode swapping the two chains are
+amplified in separate reactions and land independently, and the co-occurrence of any heavy and light clone is what their
 placements alone give.
 
 For bins b of side ``bin_um`` let ``H[b, h]`` and ``L[b, k]`` count the (spot, clone) units of heavy clone h and light

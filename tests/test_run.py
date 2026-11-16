@@ -300,11 +300,11 @@ def test_auto_cell_type_key_uses_the_only_standard_label_column(chips):
     given = spc.run(d, n_perm=19, rng=0, steps=OWN, cell_type_key="cell2loc_anno")
     ct = auto.params["cell_types"]
     assert ct["key"] == "cell2loc_anno" and "only standard cell-type label column" in ct["key_rule"]
-    assert ct["own_types"]["BCR"]["labels"] == ["B", "GC B", "plasma"] and ct["own_types"]["TCR"]["labels"] == ["T"]
+    assert ct["own_types"]["BCR"]["labels"] == ["ASC", "B", "GC B"] and ct["own_types"]["TCR"]["labels"] == ["T"]
     num = ["observed", "chance", "p_value", "n"]
     pd.testing.assert_frame_equal(auto.tests()[num], given.tests()[num])  # the same test as naming the column
     notes = auto.tests().set_index("locus").note
-    assert "cell types obs['cell2loc_anno']; own BCR types: B, GC B, plasma" in notes["BCR"]
+    assert "cell types obs['cell2loc_anno']; own BCR types: ASC, B, GC B" in notes["BCR"]
     assert "gex.obs['cell2loc_anno'] (cell_type_key='auto'" in auto.methods()
     assert any("cell types: obs['cell2loc_anno']" in n for n in auto.params["notes"])
 
@@ -360,13 +360,13 @@ def test_own_type_vocabulary_matches_whole_words_only():
 
 def test_receptor_without_matching_categories_is_skipped_with_the_categories(chips):
     d = _relabel(chips["planted"])
-    d.gex.obs["cell_type"] = d.gex.obs.cell_type.astype(str).replace({"B": "Bc", "GC B": "GCBc", "plasma": "PC"})
+    d.gex.obs["cell_type"] = d.gex.obs.cell_type.astype(str).replace({"B": "Bc", "GC B": "GCBc", "ASC": "ASCc"})
     rep = spc.run(d, n_perm=19, rng=0, steps=OWN)
     t = rep.tests().set_index("locus")
     assert t.loc["BCR", "verdict"] == "not run" and t.loc["TCR", "verdict"] != "not run"
     assert "no category of obs['cell_type'] matches the B-lineage vocabulary" in t.loc["BCR", "note"]
     assert "'Bc'" in t.loc["BCR", "note"] and "own_types={'BCR': [labels]}" in t.loc["BCR", "note"]
-    rep2 = spc.run(d, n_perm=19, rng=0, steps=OWN, own_types={"BCR": ["Bc", "GCBc", "PC"]})
+    rep2 = spc.run(d, n_perm=19, rng=0, steps=OWN, own_types={"BCR": ["Bc", "GCBc", "ASCc"]})
     assert rep2.tests().set_index("locus").loc["BCR", "verdict"] != "not run"
 
 

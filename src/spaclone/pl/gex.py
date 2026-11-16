@@ -1,10 +1,10 @@
 """Plots of the spot-level transcriptome: spatial maps of genes, cell types and regions; DE volcano and dot plots.
 
-Every function takes ``ax=None`` and returns the Axes; nothing is shown or saved. ``style="dark"`` is the house
-style (black background, B blue, T pink, ASC amber); the default is a light figure. Category colours follow the
-entity, never its rank: a class keeps its colour whatever else is on the map, and a class without a house colour takes
-a slot by its position in the column's full list of categories, not among the classes drawn. Maps follow the image
-convention (y increases downwards) unless ``invert_y=False``.
+Every function takes ``ax=None`` and returns the Axes; nothing is shown or saved. ``style="dark"`` is the house style
+(black background, B blue, T pink, antibody-secreting cells (ASC: plasmablasts and plasma cells) amber); the default is
+a light figure. Category colours follow the entity, never its rank: a class keeps its colour whatever else is on the
+map, and a class without a house colour takes a slot by its position in the column's full list of categories, not among
+the classes drawn. Maps follow the image convention (y increases downwards) unless ``invert_y=False``.
 
 Palette notes: every colour comes from :mod:`spaclone.pl._colors` (validated with the dataviz palette checker on black
 and on white). Regions have their own set (:data:`spaclone.pl._colors.REGION_COLORS`): follicle blue, germinal centre
@@ -357,7 +357,8 @@ def gex_regions(
     """Map of called regions with every instance labelled at its centroid (labels are the secondary encoding).
 
     Regions keep the fixed, validated region colours (:data:`spaclone.pl._colors.REGION_COLORS`): follicle blue,
-    germinal centre (GC) orange, T zone magenta, ASC area violet, red pulp green; unassigned units grey.
+    germinal centre (GC) orange, T zone magenta, the area of antibody-secreting cells (ASC: plasmablasts and plasma
+    cells) violet, red pulp green; unassigned units grey.
 
     Parameters
     ----------

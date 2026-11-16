@@ -73,7 +73,7 @@ def fake_result(n_regions=3, *, seed=0, angle_deg=0.0, extra=True, gex=True):
                             "x_um": [c[0] for c in centres], "y_um": [c[1] for c in centres],
                             "switched_share": rng.uniform(0.3, 0.6, n_regions),
                             "mutated_share": rng.uniform(0.2, 0.5, n_regions),
-                            "gex_label": ["ASC", "GC B", "ASC", "plasma cell", "ASC", "GC B"][:n_regions]})  # fmt: skip
+                            "gex_label": ["ASC", "GC B", "ASC", "ASC (Sdc1+)", "ASC", "GC B"][:n_regions]})  # fmt: skip
     res = types.SimpleNamespace(loci=loci, grid=grid, tissue=Raster(tissue, grid), csr=_hotspots("csr", grid, tissue, csr, 1),
                                 shm=_hotspots("shm", grid, tissue, shm, 2), regions=regions,
                                 params={"min_excess": 3})  # fmt: skip
@@ -86,7 +86,7 @@ def fake_result(n_regions=3, *, seed=0, angle_deg=0.0, extra=True, gex=True):
         units = pd.DataFrame({"x_um": ux[keep], "y_um": uy[keep]}, index=ids)
         score = pd.Series(rng.normal(0, 1, len(ids)), index=ids)
         score[rng.random(len(ids)) < 0.4] = np.nan  # units without a score (non-B)
-        res.module_maps = {"ASC": score, "GC B": score * 0.5, "plasma cell": score + 1}
+        res.module_maps = {"ASC": score, "GC B": score * 0.5, "ASC (Sdc1+)": score + 1}
         res.gex_units = units
         th = np.linspace(0, 2 * np.pi, 40)
         cx, cy = centres[0] if centres else (500.0, 500.0)
@@ -259,7 +259,7 @@ def _paired_section(seed=0, nx=48, ny=32, centre=(160.0, 160.0, 50.0)):
     from scipy import sparse
 
     rng = np.random.default_rng(seed)
-    markers = {"plasmablast/ASC": ["Jchain", "Xbp1", "Prdm1", "Irf4", "Mzb1"], "T": ["Cd3e", "Cd3g", "Cd3d", "Cd4"],
+    markers = {"ASC": ["Jchain", "Xbp1", "Prdm1", "Irf4", "Mzb1"], "T": ["Cd3e", "Cd3g", "Cd3d", "Cd4"],
                "GC B": ["Aicda", "S1pr2", "Rgs13", "Gcsam"]}  # fmt: skip
     genes = [g for v in markers.values() for g in v] + ["Actb", "Malat1"]
     ii, jj = np.meshgrid(np.arange(nx), np.arange(ny), indexing="ij")
@@ -269,7 +269,7 @@ def _paired_section(seed=0, nx=48, ny=32, centre=(160.0, 160.0, 50.0)):
     hot = (10.0 * ii - centre[0]) ** 2 + (10.0 * jj - centre[1]) ** 2 < centre[2] ** 2
     lam = np.full((len(ids), len(genes)), 0.15)
     lam[:, genes.index("Actb")], lam[:, genes.index("Malat1")] = 15.0, 10.0
-    for g in markers["plasmablast/ASC"]:
+    for g in markers["ASC"]:
         lam[hot, genes.index(g)] += 3.0
     a = ad.AnnData(X=sparse.csr_matrix(rng.poisson(lam).astype(np.float32)), obs=pd.DataFrame(index=ids),
                    var=pd.DataFrame(index=genes))  # fmt: skip
@@ -311,7 +311,7 @@ def test_workflow_to_atlas_end_to_end():
     texts = _texts(fig)
     assert any(t.startswith("CSR · region 1") and "switched" in t for t in texts)
     assert any(t.startswith("SHM ·") and "mutated" in t for t in texts)
-    assert any(t.startswith("Hotspot · ASC") for t in texts)  # "plasmablast/ASC" shown as the archive does
+    assert any(t.startswith("Hotspot · ASC") for t in texts)  # the built-in "ASC" set
     assert any("≥ 3 excess V mutations" in t for t in texts)  # params["min_excess"]
     assert fig.axes[4].get_images(), "the module score map is drawn in the first region's GEX zoom"
     plt.close(fig)
@@ -396,6 +396,29 @@ def test_units_without_a_score_are_named_by_why():
     fig = pl.hotspot_atlas(res, **FAST)
     assert "non-B bin / outside the tissue mask" in _texts(fig)
     plt.close(fig)
+
+
+def test_gex_labels_name_their_module_map():
+    """A region's GEX zoom shows the map of its label's top set; ``"ASC"`` for a mix of the two ASC sets keeps the map
+    of the set that ranked first, which the region's second set names."""
+    from spaclone.pl.atlas import _short_label, _top_set
+
+    assert _top_set("ASC (Sdc1+) / GC B (mixed)") == "ASC (Sdc1+)"
+    assert _top_set("erythroid / ASC (mixed)") == "erythroid"
+    assert _top_set("ASC", "ASC (Sdc1+)") == "ASC" and _top_set("ASC", "ASC") == "ASC (Sdc1+)"
+    assert _top_set("ASC", "GC B") == "ASC" and _top_set("ASC") == "ASC"
+    assert _short_label("ASC (Sdc1+)") == "ASC (Sdc1+)" and _short_label("GC B / ASC (mixed)") == "GC B / ASC (mixed)"
+    assert _short_label("plasmablast/ASC / plasma cell (mixed)") == "ASC / plasma cell (mixed)"  # a 1.1.0 label
+    res = fake_result(3)
+    res.regions["gex_second_label"] = ["ASC (Sdc1+)", "T", "ASC"]  # region 3: "ASC" whose top set is "ASC (Sdc1+)"
+    data = pl.atlas._AtlasData(res, style="dark", rotate=False, invert_y=True)
+    assert [data.region_module_key(r) for r in (1, 2, 3)] == ["ASC", "GC B", "ASC (Sdc1+)"]
+    old = fake_result(1)  # a result of spaclone 1.1.0: its own set names and labels
+    old.regions["gex_label"] = ["plasmablast/ASC / plasma cell (mixed)"]
+    old.module_maps = {"plasmablast/ASC": old.module_maps["ASC"], "plasma cell": old.module_maps["ASC (Sdc1+)"]}
+    assert pl.atlas._AtlasData(old, style="dark", rotate=False, invert_y=True).region_module_key(1) == "plasmablast/ASC"
+    assert "Hotspot · ASC / plasma cell (mixed)" in _texts(pl.hotspot_atlas(old, **FAST))
+    plt.close("all")
 
 
 def test_maps_cover_the_whole_tissue_without_holes():

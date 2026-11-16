@@ -5,9 +5,11 @@ transcriptome alone. For every marker set it pools the raw counts of the set's g
 over the rest of a window around it (units inside any region left out) and over the whole tissue, as UMIs per 10,000
 UMIs of all genes (pseudobulk CP10k), and reports the ratios inside / window and inside / tissue. The region's label is
 the cell-type set with the highest ratio to its window; it is ``"<first> / <second> (mixed)"`` when the second set's
-ratio is within ``2 ** mixed_log2`` (1.23×) of the first. The readout sets (cycling, switched Ig) are reported but never
-label a region. This is the rule of the 2026-10 archive (``04_external_validation_2026-10/workflow/qc/T8f_celltype_overlap.py``),
-fixed before looking at the data. It is descriptive: no test, no p-value.
+ratio is within ``2 ** mixed_log2`` (1.23×) of the first. A mix of the two sets of antibody-secreting cells (ASC:
+plasmablasts and plasma cells) is labelled ``"ASC"`` (see below). The readout sets (cycling, switched Ig) are reported
+but never label a region. This is the rule of the 2026-10 archive
+(``04_external_validation_2026-10/workflow/qc/T8f_celltype_overlap.py``), fixed before looking at the data. It is
+descriptive: no test, no p-value.
 
 :func:`module_scores` gives one score per unit and marker set for drawing: the mean over the set's genes of the
 z-scored ``log1p(CP10k)`` (z over all units, population standard deviation), then the mean over the unit and its
@@ -16,7 +18,10 @@ away along the axes).
 
 The built-in cell-type sets (:data:`PROFILE_MARKERS`) contain no immunoglobulin gene, so a region found from BCR
 isotype calls is characterised independently of those calls; Ig genes given in a cell-type set are dropped with a
-warning. Jchain is not an immunoglobulin locus gene and stays in the antibody-secreting-cell set.
+warning. Two built-in sets mark ASC: ``"ASC"`` (Jchain, Xbp1, Prdm1, Irf4, Mzb1; Jchain is not an immunoglobulin locus
+gene) and ``"ASC (Sdc1+)"`` (Sdc1, Tnfrsf17, Slamf7). These markers cannot tell plasmablasts from plasma cells, so a
+region whose label would be a mix of these two sets is labelled ``"ASC"``; its ``top``, ``second`` and ``mixed``
+columns still name both sets.
 
 References
 ----------
@@ -56,11 +61,12 @@ __all__ = [
 logger = logging.getLogger("spaclone")
 
 #: Cell-type marker sets of :func:`profile_regions` (archive T8f, fixed 2026-10-28 before looking). No Ig gene.
+#: ``"ASC"`` and ``"ASC (Sdc1+)"`` both mark antibody-secreting cells (ASC: plasmablasts and plasma cells).
 PROFILE_MARKERS: dict[str, dict[str, list[str]]] = {
     "immune_mouse_no_ig": {
         "GC B": ["Aicda", "S1pr2", "Rgs13", "Gcsam", "Mef2b", "Bcl6", "Mybl1", "Lmo2"],
-        "plasmablast/ASC": ["Jchain", "Xbp1", "Prdm1", "Irf4", "Mzb1"],
-        "plasma cell": ["Sdc1", "Tnfrsf17", "Slamf7"],
+        "ASC": ["Jchain", "Xbp1", "Prdm1", "Irf4", "Mzb1"],
+        "ASC (Sdc1+)": ["Sdc1", "Tnfrsf17", "Slamf7"],
         "follicular B": ["Fcer2a", "Sell", "Klf2", "Ms4a1"],
         "MZ B": ["Cr2", "Cd1d1", "Cd9", "Dtx1", "S1pr3"],
         "T": ["Cd3e", "Cd3g", "Cd3d", "Cd4", "Cd8b1"],
@@ -69,8 +75,8 @@ PROFILE_MARKERS: dict[str, dict[str, list[str]]] = {
     },
     "immune_human_no_ig": {
         "GC B": ["AICDA", "S1PR2", "RGS13", "GCSAM", "MEF2B", "BCL6", "MYBL1", "LMO2"],
-        "plasmablast/ASC": ["JCHAIN", "XBP1", "PRDM1", "IRF4", "MZB1"],
-        "plasma cell": ["SDC1", "TNFRSF17", "SLAMF7"],
+        "ASC": ["JCHAIN", "XBP1", "PRDM1", "IRF4", "MZB1"],
+        "ASC (Sdc1+)": ["SDC1", "TNFRSF17", "SLAMF7"],
         "follicular B": ["FCER2", "SELL", "KLF2", "MS4A1"],
         "MZ B": ["CR2", "CD1C", "CD9", "DTX1", "S1PR3"],
         "T": ["CD3E", "CD3G", "CD3D", "CD4", "CD8B"],
@@ -78,9 +84,11 @@ PROFILE_MARKERS: dict[str, dict[str, list[str]]] = {
         "erythroid": ["CA2", "ALAS2", "GYPA", "KLF1", "HBB"],
     },
 }
+#: The two ASC sets of :data:`PROFILE_MARKERS`: a region whose label would be a mix of only these two is ``"ASC"``.
+_ASC_SETS = ("ASC", "ASC (Sdc1+)")
 
-#: Readout sets reported next to the cell types (never used for the label): cycling (plasmablast vs plasma cell) and
-#: switched Ig RNA (a GEX check of a class-switch call).
+#: Readout sets reported next to the cell types (never used for the label): cycling (dividing cells) and switched Ig
+#: RNA (a GEX check of a class-switch call).
 PROFILE_READOUTS: dict[str, dict[str, list[str]]] = {
     "immune_mouse_no_ig": {
         "cycling": ["Mki67", "Top2a", "Stmn1", "Birc5"],
@@ -401,7 +409,8 @@ class RegionProfiles:
         ``ratio_window`` and ``ratio_tissue`` (inside over window / tissue; NaN when the denominator is 0),
         ``frac_units_detected_inside`` (share of inside units with at least one UMI of the set).
     labels
-        One row per region: ``region_id``, ``label`` (top set, or ``"<top> / <second> (mixed)"``), ``top``,
+        One row per region: ``region_id``, ``label`` (top set, or ``"<top> / <second> (mixed)"``; ``"ASC"`` for a mix
+        of the two sets of antibody-secreting cells (ASC: plasmablasts and plasma cells)), ``top``,
         ``top_ratio_window``, ``top_ratio_tissue``, ``second``, ``second_ratio_window``, ``mixed``,
         ``n_units_inside``, ``n_units_window``, ``ranking`` (``"set=ratio;..."`` by decreasing ratio to the window) and
         one ``<readout>_ratio_window`` column per readout set.
@@ -570,7 +579,8 @@ def profile_regions(
         ``"own"`` = units of the region itself only.
     mixed_log2
         The label is ``"<top> / <second> (mixed)"`` when ``log2(top ratio / second ratio)`` is below this (0.3 =
-        1.23×).
+        1.23×); a mix of the two sets of antibody-secreting cells (ASC: plasmablasts and plasma cells), ``"ASC"`` and
+        ``"ASC (Sdc1+)"``, is labelled ``"ASC"``.
     tissue_key
         Boolean ``obs`` column of tissue units; regions, windows and the whole-tissue reference use tissue units only.
         ``None`` or an absent column: every unit.
@@ -590,7 +600,8 @@ def profile_regions(
     Descriptive, no test: the ratios compare pooled counts and carry no uncertainty; with few units inside a region
     (fewer than ~30) or a sparse window, treat the label as a hint. The rule is the archive's T8f: pseudobulk UMIs per
     10,000 UMIs of each set inside the region vs the rest of its window (other regions excluded) and vs the whole
-    tissue; label = cell-type set with the highest ratio to the window, mixed when the second is within 1.23×.
+    tissue; label = cell-type set with the highest ratio to the window, mixed when the second is within 1.23×
+    (a mix of the two ASC sets is ``"ASC"``).
 
     References
     ----------
@@ -668,6 +679,8 @@ def profile_regions(
         else:
             mixed = bool(np.log2(rc.iloc[0] / rc.iloc[1]) < mixed_log2)
             label = f"{top} / {second} (mixed)" if mixed else top
+            if mixed and {top, second} == set(_ASC_SETS):  # both sets mark the same class
+                label = _ASC_SETS[0]
         lr = {
             "region_id": r,
             "label": label,

@@ -11,13 +11,13 @@ scanpy kNN graph, the sciCSR / CellRank setting) or both (``"joint"``), so the c
 between expression states. ``backend="cellrank"`` computes the same matrices with an installed CellRank (1.x or 2.x).
 
 :func:`tpt_flux` applies transition path theory (TPT) between a source and a target set of states, which may be
-isotypes, cell types or tissue regions (follicle, germinal centre, ASC foci, red pulp from
-:func:`spaclone.gex.call_regions`): TPT runs on the unit-level chain and is coarse-grained onto the states, exactly
-as sciCSR's ``fitTPT`` does (forward and backward committors, gross flux ``pi_i q-_i T_ij q+_j``, net flux,
-stationary distribution, rate, mean first-passage time and dominant pathways), and every pairwise flux is tested
-against a stated randomisation null. :func:`transition_displacement` projects the transition matrix onto tissue
-coordinates (expected displacement per unit and step, in µm) and :func:`flow_grid` averages it on a grid for arrow
-or stream plots (:func:`spaclone.pl.csr_flow`).
+isotypes, cell types or tissue regions (follicle, germinal centre, the area of antibody-secreting cells (ASC:
+plasmablasts and plasma cells), red pulp from :func:`spaclone.gex.call_regions`): TPT runs on the unit-level chain and
+is coarse-grained onto the states, exactly as sciCSR's ``fitTPT`` does (forward and backward committors, gross flux
+``pi_i q-_i T_ij q+_j``, net flux, stationary distribution, rate, mean first-passage time and dominant pathways), and
+every pairwise flux is tested against a stated randomisation null. :func:`transition_displacement` projects the
+transition matrix onto tissue coordinates (expected displacement per unit and step, in µm) and :func:`flow_grid`
+averages it on a grid for arrow or stream plots (:func:`spaclone.pl.csr_flow`).
 
 References
 ----------

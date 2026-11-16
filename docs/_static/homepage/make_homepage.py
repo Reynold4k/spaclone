@@ -147,7 +147,7 @@ def c_as_flow(r: Results):
     sa = r("as_sa")
     g = sa.gex.copy()
     spc.gex.call_regions(g, kind="germinal_centre")
-    spc.gex.call_regions(g, kind="plasma_cell")
+    spc.gex.call_regions(g, kind="asc")
     g = g[g.obs["in_tissue"].to_numpy(bool)]
     ok = spc.pp.filter_records(sa.air, valid_junction=True, productive=True, on_tissue=True).air
     ok = ok[ok["spot_id"].astype(str).isin(g.obs_names)].reset_index(drop=True)
@@ -167,7 +167,7 @@ def c_si_flow(r: Results):
     )
     g = ad.AnnData(X=counts, obs=obs, var=pd.DataFrame(index=sa.gex.var_names.astype(str)))
     g.obsm["spatial"] = np.asarray(sa.gex.obsm["spatial"], dtype=float)
-    for kind in ("germinal_centre", "plasma_cell", "t_zone", "red_pulp", "follicle"):
+    for kind in ("germinal_centre", "asc", "t_zone", "red_pulp", "follicle"):
         spc.gex.call_regions(g, kind=kind)
     ok = spc.pp.filter_records(sa.air, valid_junction=True, productive=True).air
     ok = ok[ok["spot_id"].astype(str).isin(names)].reset_index(drop=True)

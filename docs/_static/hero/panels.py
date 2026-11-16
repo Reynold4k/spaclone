@@ -214,7 +214,7 @@ def compute_csr_flow(c):
         var=pd.DataFrame(index=sa.gex.var_names.astype(str)),
     )  # fmt: skip
     g.obsm["spatial"] = np.asarray(sa.gex.obsm["spatial"], dtype=float)
-    for kind in ("germinal_centre", "plasma_cell", "t_zone", "red_pulp", "follicle"):
+    for kind in ("germinal_centre", "asc", "t_zone", "red_pulp", "follicle"):
         sc.gex.call_regions(g, kind=kind)
     region = g.obs["region"].astype(str).replace({"nan": "other"})
     ok = _valid(sa.air)

@@ -12,8 +12,8 @@ from spaclone.io import SpatialAIR
 
 MARKERS = {
     "GC B": ["Aicda", "S1pr2", "Rgs13", "Gcsam", "Mef2b", "Bcl6", "Mybl1", "Lmo2"],
-    "plasmablast/ASC": ["Jchain", "Xbp1", "Prdm1", "Irf4", "Mzb1"],
-    "plasma cell": ["Sdc1", "Tnfrsf17", "Slamf7"],
+    "ASC": ["Jchain", "Xbp1", "Prdm1", "Irf4", "Mzb1"],
+    "ASC (Sdc1+)": ["Sdc1", "Tnfrsf17", "Slamf7"],
     "follicular B": ["Fcer2a", "Sell", "Klf2", "Ms4a1"],
     "T": ["Cd3e", "Cd3g", "Cd3d", "Cd4", "Cd8b1"],
     "myeloid": ["Lyz2", "C1qa", "C1qb", "Cd68", "Csf1r"],
@@ -47,7 +47,7 @@ def _section(seed=0, nx=48, ny=32, both=(160.0, 160.0, 50.0), csr_only=(380.0, 1
     gi = {g: k for k, g in enumerate(GENES)}
     lam = np.full((n, len(GENES)), 0.15)
     lam[:, gi["Actb"]], lam[:, gi["Malat1"]] = 15.0, 10.0
-    for g in MARKERS["plasmablast/ASC"]:
+    for g in MARKERS["ASC"]:
         lam[ina, gi[g]] += 3.0
     for g in MARKERS["GC B"]:
         lam[inb, gi[g]] += 2.0
@@ -115,7 +115,7 @@ def test_workflow_finds_and_labels_the_planted_region(planted_result):
     assert abs(r.x_um - 660) < 30 and abs(r.y_um - 1160) < 30
     assert r.switched_share > 0.5 and r.mutated_share > 0.4 and r.shm_excess_ratio > 1.3
     assert r.p < 0.01 and r.csr_clone_p < 0.05 and r.shm_clone_p < 0.05 and r.shm_clone_region_p < 0.05
-    assert r.gex_label == "plasmablast/ASC" and r.gex_ratio_window > 3
+    assert r.gex_label == "ASC" and r.gex_ratio_window > 3
     # the CSR-only disc is a CSR hotspot that is not a region
     csr_only = res.csr.table[(res.csr.table.x_um - 880).abs() < 40]
     assert len(csr_only) == 1 and int(csr_only.hotspot.iloc[0]) not in [int(h) for h in r.csr_hotspots.split(";")]
@@ -142,8 +142,8 @@ def test_result_tables_have_the_documented_columns(planted_result):
         assert c in res.regions.columns
     assert list(res.windows.columns) == ["region_id", "x0", "x1", "y0", "y1"]
     assert set(res.profiles.region_id) == {1} and "ratio_window" in res.profiles
-    assert set(res.module_maps) >= {"GC B", "plasmablast/ASC", "cycling", "switched Ig"}
-    assert res.module_maps["plasmablast/ASC"].index.equals(res.units.index)
+    assert set(res.module_maps) >= {"GC B", "ASC", "cycling", "switched Ig"}
+    assert res.module_maps["ASC"].index.equals(res.units.index)
     assert res.grid.pixel_um == 10.0 and res.tissue.values.dtype == bool
     assert res.region_labels.values.max() == 1 and res.csr_shm_test is not None
     # records and loci agree: a locus's region is the region of its records
@@ -151,8 +151,8 @@ def test_result_tables_have_the_documented_columns(planted_result):
     assert (res.loci.set_index("locus_id").region_id.loc[m.index] == m).all()
     s = res.summary()
     assert list(s.columns) == ["step", "item", "value", "note"]
-    assert s[(s.step == "region 1") & (s.item == "GEX label")].value.iloc[0] == "plasmablast/ASC"
-    assert "1: plasmablast/ASC" in repr(res)
+    assert s[(s.step == "region 1") & (s.item == "GEX label")].value.iloc[0] == "ASC"
+    assert "1: ASC" in repr(res)
 
 
 def test_to_csv_writes_every_table(planted_result, tmp_path):
@@ -161,7 +161,7 @@ def test_to_csv_writes_every_table(planted_result, tmp_path):
     assert {"regions.csv", "records.csv", "loci.csv", "profiles.csv", "units.csv", "params.json"} <= names
     assert "csr_shm_clone.csv" in names
     back = pd.read_csv(tmp_path / "out" / "regions.csv")
-    assert back.gex_label.iloc[0] == "plasmablast/ASC"
+    assert back.gex_label.iloc[0] == "ASC"
     assert "v_sequence_alignment" not in pd.read_csv(tmp_path / "out" / "records.csv", nrows=2).columns
 
 
@@ -266,7 +266,7 @@ def test_legacy_replays_the_archive_draws(planted):
 def test_isotype_matched_regions_and_pixel_overlap(planted):
     res = bcr.hotspot_workflow(planted, rng=0, shm_from="isotype", overlap="pixel", clone_null=False, **FAST)
     assert res.params["shm_from"] == "isotype" and len(res.regions) == 1
-    assert res.regions.gex_label.iloc[0] == "plasmablast/ASC"
+    assert res.regions.gex_label.iloc[0] == "ASC"
 
 
 def test_two_regions_are_numbered_along_the_long_axis():
@@ -274,7 +274,7 @@ def test_two_regions_are_numbered_along_the_long_axis():
     res = bcr.hotspot_workflow(io.read(a, air), rng=0, clone_null=False, **FAST)
     assert len(res.regions) == 2
     assert res.regions.region_id.tolist() == [1, 2] and res.regions.x_um.is_monotonic_increasing
-    assert (res.regions.gex_label == "plasmablast/ASC").all()
+    assert (res.regions.gex_label == "ASC").all()
 
 
 def test_score_units_restricts_the_module_maps_only(planted, planted_result):
@@ -287,7 +287,7 @@ def test_score_units_restricts_the_module_maps_only(planted, planted_result):
     res = bcr.hotspot_workflow(sa, rng=0, score_units=("kind", ["B_cells"]), **kw)
     np.testing.assert_array_equal(res.score_mask.to_numpy(), b)
     assert res.score_mask.index.equals(g.obs_names) and (res.units.scored == res.score_mask).all()
-    m = res.module_maps["plasmablast/ASC"]
+    m = res.module_maps["ASC"]
     assert m[b].notna().all() and m[~b].isna().all()
     assert res.params["score_units"] == ("kind", ["B_cells"]) and res.params["n_scored_units"] == int(b.sum())
     # the regions, their tests and their GEX labels do not depend on which units are scored for the maps
@@ -413,7 +413,7 @@ def test_shm_from_mixcr_alignments(planted):
     assert res.records.evaluable.mean() > 0.95 and (res.records.shm_aligned_nt == 150).all()
     np.testing.assert_array_equal(res.records.shm_mutations, res.records.shm_mutations.astype(int))
     assert res.shm is not None and len(res.regions) == 1
-    assert res.regions.mutated_share.iloc[0] > 0.4 and res.regions.gex_label.iloc[0] == "plasmablast/ASC"
+    assert res.regions.mutated_share.iloc[0] > 0.4 and res.regions.gex_label.iloc[0] == "ASC"
     with pytest.warns(WorkflowWarning, match=r"none of the 1,217 heavy-chain records is evaluable for SHM \(0 below"):
         strict = bcr.hotspot_workflow(sa, rng=0, shm_min_aligned_nt=250,
                                       **{**FAST, "clone_null": False, "gc_call": False})  # fmt: skip

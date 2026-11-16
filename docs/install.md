@@ -137,16 +137,18 @@ Python (programs that pip put into this environment), then `PATH`:
 ## Tested installations
 
 Fresh environments built with plain `pip` from the built wheel on Linux, each followed by `pip check` and the test
-suite with the docstring examples. spaclone 1.1.0 (2026-11-16), with the `interactive` extra:
+suite with the docstring examples. spaclone 1.2.0 (2026-11-16):
 
 | Python | Install | Resolved versions | Result |
 |---|---|---|---|
 | 3.11 | core + `[interactive]`, lowest supported versions | numpy 2.0.2, pandas 2.2.3, scipy 1.13.1, anndata 0.10.9, matplotlib 3.8.4, pyarrow 16.1.0 | all tests and docstring examples pass; the browser tests skip (no Playwright) |
-| 3.12 | core + `[interactive]` | numpy 2.5.5, pandas 3.1.1, scipy 1.18.1, anndata 0.13.4, matplotlib 3.11.2, pyarrow 26.0.1 | as 3.11 |
-| 3.13 | core + `[interactive]` | as 3.12 | as 3.11 |
+| 3.12 | `[full]` | numpy 2.5.5, pandas 3.1.1, scipy 1.18.1, anndata 0.13.4, scanpy 1.12.6, scirpy 0.26.1, squidpy 1.8.4, SpatialData 0.9.0, sc-dandelion 1.0.2, CellRank 2.4.0, deeptime 0.5.0, Threadfin 4.7.0, Change-O 1.3.5 | every optional Python feature available; all tests, the docstring examples and the slow tests pass; the README examples run as written |
+| 3.13 | `[full]` | as 3.12 | all tests and docstring examples pass |
 
-The browser tests of the interactive figures (`pytest -m browser`) ran in Chromium 159 and Firefox 159 (Playwright
-1.65) on Python 3.12; WebKit is in the CI browser job. spaclone 1.0.3 (2026-11-16):
+The tutorials were re-executed with 1.2.0 in the environment of the 1.0.3 row for Python 3.12 below (the same package
+versions, Threadfin 4.6.2, one BLAS thread). The browser tests of the interactive figures (`pytest -m browser`) ran in
+Chromium 159 and Firefox 159 (Playwright 1.65) on Python 3.12; WebKit is in the CI browser job. spaclone 1.1.0
+(2026-11-16) passed on the same three Pythons with core + `[interactive]`. spaclone 1.0.3 (2026-11-16):
 
 | Python | Install | Resolved versions | Result |
 |---|---|---|---|

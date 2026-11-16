@@ -1001,10 +1001,10 @@ def clonal_scan(
         than 1.5 units within ``block_radius_um``).
     block_radius_um
         Radius of the blocks in µm (leader clustering, see Notes): at least the diameter of the largest cell plus the
-        diagonal of a unit (a grid cell for ``units="bins"``, a spot for ``"records"``), so that one cell is never
-        split between blocks; larger blocks only make the test more conservative. The default 25 µm keeps cells up
-        to about 12 µm whole on the default 10-µm grid (a 15-µm radius split plasma-like 12-µm cells: up to 11 %
-        false positives at alpha = 0.05, F4a).
+        diagonal of a unit (a grid cell for ``units="bins"``, a spot for ``"records"``), so that one cell is never split
+        between blocks; larger blocks only make the test more conservative. The default 25 µm keeps cells up to about
+        12 µm whole on the default 10-µm grid (a 15-µm radius split 12-µm cells such as antibody-secreting cells: up to
+        11 % false positives at alpha = 0.05, F4a).
     radii_um
         Window radii in µm. A window holds the grid cells whose centres lie within the radius of the window's centre
         cell (``shape="circle"``) or within the square of that half-side (``shape="square"``). The archive's windows
@@ -1079,12 +1079,13 @@ def clonal_scan(
     cells of one clone (dense clones), or several independently placed molecules (misplaced receptor records), make
     the null clumpier than the observed clone, i.e. the test conservative.
 
-    Calibration (F4a design study; 200 chips per setting; cells of radius 4 µm, or 15 % plasma-like cells of radius
-    6 µm with 5x molecules, covering 1.1-9.4 spots; uniform or clumped pools; labels random over cells, over molecules,
-    or half of the molecules misplaced; 8 small (20-50 cells) and one large (15 % of the cells) null clone per chip):
-    per-clone false-positive rate at alpha = 0.05 of the default design 0-4.1 % for small and 0-8.0 % for large
-    clones, within binomial tolerance in all 80 cells; power at alpha = 0.05 for a clone of 30 cells with 15 of them
-    packed together 0.92-1.0, and for a germinal-centre-like clone (75 of its 150 cells packed in a clump) 0.99-1.0.
+    Calibration (F4a design study; 200 chips per setting; cells of radius 4 µm, or 15 % large cells (like
+    antibody-secreting cells) of radius 6 µm with 5x molecules, covering 1.1-9.4 spots; uniform or clumped pools; labels
+    random over cells, over molecules, or half of the molecules misplaced; 8 small (20-50 cells) and one large (15 % of
+    the cells) null clone per chip): per-clone false-positive rate at alpha = 0.05 of the default design 0-4.1 % for
+    small and 0-8.0 % for large clones, within binomial tolerance in all 80 cells; power at alpha = 0.05 for a clone of
+    30 cells with 15 of them packed together 0.92-1.0, and for a germinal-centre-like clone (75 of its 150 cells packed
+    in a clump) 0.99-1.0.
     The legacy designs on the same chips: ``units="records", null="units"`` 15-100 % false positives as soon as cells
     cover more than one spot; ``units="loci", null="units"`` up to 27 %. On the reviewer's chips (review 2026-10-30,
     B4: cells covering 4-5 spots) the default called 3.4 % of null clones and 2 % of chips at FDR 5 %, against

@@ -325,9 +325,9 @@ def main():
         if legacy:
             continue
         sw = air[air.truth == "swapped"]
-        b_share = float(sw.cell_type.isin(["B", "GC B", "plasma"]).mean())
+        b_share = float(sw.cell_type.isin(["B", "GC B", "ASC"]).mean())
         old = sim.synthetic_chip(rng=0, legacy=True).air
-        b_old = float(old[old.truth == "swapped"].cell_type.isin(["B", "GC B", "plasma"]).mean())
+        b_old = float(old[old.truth == "swapped"].cell_type.isin(["B", "GC B", "ASC"]).mean())
         add("synthetic_chip (realistic) swapped records on B-lineage spots / legacy share (> 1.8)", 1.8,
             b_share / b_old, f"{b_share:.3f} vs legacy {b_old:.3f}: receptor-rich, cDNA-rich cells attract swaps",
             match=b_share / b_old > 1.8)  # fmt: skip

@@ -2,16 +2,17 @@
 
 Two generators:
 
-* :func:`synthetic_chip`: a tissue section with cells (follicular B, germinal-centre B, plasma cells, T cells, other
-  cells) in structures (a T zone, follicles with germinal centres, plasma-cell foci, red pulp). Every B-lineage cell
-  carries one heavy and one light chain clone of its lineage (T cells one TRB and one TRA clone); germinal centres
-  hold a few expanded lineages, plasma-cell foci are dominated by one or two (some shared with germinal centres).
+* :func:`synthetic_chip`: a tissue section with cells (follicular B, germinal-centre B, antibody-secreting cells (ASC:
+  plasmablasts and plasma cells), T cells, other cells) in structures (a T zone, follicles with germinal centres, ASC
+  foci, red pulp). Every B-lineage cell carries one heavy and one light chain clone of its lineage (T cells one TRB
+  and one TRA clone); germinal centres hold a few expanded lineages, ASC foci are dominated by one or two (some shared
+  with germinal centres).
   Each receptor molecule is either **genuine** (it sits on a spot inside its cell), **swapped** (its barcode was
   exchanged in library PCR, so it sits on the spot of another captured cDNA molecule anywhere on the chip, on or off
   the tissue) or a **sink** record (one of many chimeric copies collected by a single barcode-sink spot).
 
   The default (``legacy=False``) is the realistic chip of spaclone 1.0: captured cDNA per spot depends on the cell
-  under it (B / plasma cells and the white pulp capture 1.5–1.8× more), constant-region transcripts sit only on the
+  under it (B cells, ASC and the white pulp capture 1.5–1.8× more), constant-region transcripts sit only on the
   spots of the cells that express them (bursty, cell-to-cell heterogeneous), swapped molecules land on spots with
   probability proportional to the spot's cDNA (so receptor-rich cells attract more swaps, and some swaps land on a
   spot that holds their chain's constant-region RNA by chance), and an optional share of swaps is
@@ -112,8 +113,8 @@ _GEX = {
           "Ighd": 0.02},
     "GC B": {"Actb": 0.25, "Malat1": 0.20, "Cd74": 0.15, "Cd79a": 0.08, "Aicda": 0.07, "S1pr2": 0.05, "Igkc": 0.10,
              "Ighg1": 0.05, "Ighm": 0.05},
-    "plasma": {"Jchain": 0.15, "Xbp1": 0.10, "Igkc": 0.35, "Igha": 0.10, "Ighg1": 0.10, "Ighm": 0.05, "Actb": 0.10,
-               "Malat1": 0.05},
+    "ASC": {"Jchain": 0.15, "Xbp1": 0.10, "Igkc": 0.35, "Igha": 0.10, "Ighg1": 0.10, "Ighm": 0.05, "Actb": 0.10,
+            "Malat1": 0.05},
     "T": {"Actb": 0.30, "Malat1": 0.25, "Cd3e": 0.15, "Cd3d": 0.10, "Trac": 0.05, "Trbc2": 0.05, "Cd74": 0.05,
           "Igkc": 0.05},
 }  # fmt: skip
@@ -124,31 +125,36 @@ _GEX_V2 = {
     "other": {"Actb": 0.30, "Malat1": 0.25, "Hbb-bs": 0.22, "Lyz2": 0.15, "Cd74": 0.08},
     "B": {"Actb": 0.28, "Malat1": 0.22, "Cd74": 0.25, "Cd79a": 0.13, "Ms4a1": 0.12},
     "GC B": {"Actb": 0.28, "Malat1": 0.22, "Cd74": 0.18, "Cd79a": 0.10, "Aicda": 0.12, "S1pr2": 0.10},
-    "plasma": {"Jchain": 0.35, "Xbp1": 0.25, "Actb": 0.20, "Malat1": 0.10, "Sdc1": 0.10},
+    "ASC": {"Jchain": 0.35, "Xbp1": 0.25, "Actb": 0.20, "Malat1": 0.10, "Sdc1": 0.10},
     "T": {"Actb": 0.32, "Malat1": 0.28, "Cd3e": 0.20, "Cd3d": 0.15, "Cd74": 0.05},
 }  # fmt: skip
 #: Captured background cDNA per spot by tissue compartment, relative to the red pulp (realistic chip): the white pulp
-#: (T zone, follicles, germinal centres) and plasma-cell foci capture 1.5–1.7× more (survey S3 §B, archive v2).
+#: (T zone, follicles, germinal centres) and the foci of antibody-secreting cells (ASC: plasmablasts and plasma cells)
+#: capture 1.5–1.7× more (survey S3 §B, archive v2).
 CDNA_BY_COMPARTMENT: dict[str, float] = {
     "T zone": 1.5,
     "follicle": 1.6,
     "germinal centre": 1.7,
-    "plasma-cell focus": 1.6,
+    "ASC focus": 1.6,
     "red pulp": 1.0,
 }
 #: Captured background cDNA per spot by the type of the cell covering it, on top of the compartment factor
-#: (realistic chip): B-lineage and plasma cells capture more than T and other cells, spots without a cell less.
-CDNA_BY_TYPE: dict[str, float] = {"plasma": 1.3, "GC B": 1.15, "B": 1.1, "T": 1.0, "other": 1.0, "none": 0.7}
+#: (realistic chip): B cells, GC B cells and antibody-secreting cells (ASC: plasmablasts and plasma cells) capture more
+#: than T and other cells, spots without a cell less.
+CDNA_BY_TYPE: dict[str, float] = {"ASC": 1.3, "GC B": 1.15, "B": 1.1, "T": 1.0, "other": 1.0, "none": 0.7}
 #: Mean captured constant-region transcripts per cell and chain besides the receptor-library molecules (realistic
 #: chip): the cell's other Ig / TCR mRNA, which the GEX library sees and the receptor library does not.
-CONSTANT_PER_CELL: dict[str, float] = {"plasma": 30.0, "GC B": 8.0, "B": 4.0, "T": 2.0}
+CONSTANT_PER_CELL: dict[str, float] = {"ASC": 30.0, "GC B": 8.0, "B": 4.0, "T": 2.0}
+#: Names of the ASC cell type and of its compartment before spaclone 1.2: still accepted as keys of the mappings by
+#: cell type or compartment that :func:`synthetic_chip` takes.
+_OLD_NAMES = {"plasma": "ASC", "plasma-cell focus": "ASC focus"}
 #: Cell-type probabilities by compartment.
-_TYPES = ("B", "GC B", "plasma", "T", "other")
+_TYPES = ("B", "GC B", "ASC", "T", "other")
 _TYPE_P = {
     "T zone": (0.10, 0.00, 0.00, 0.85, 0.05),
     "follicle": (0.80, 0.00, 0.00, 0.10, 0.10),
     "germinal centre": (0.00, 0.85, 0.00, 0.05, 0.10),
-    "plasma-cell focus": (0.00, 0.00, 0.75, 0.00, 0.25),
+    "ASC focus": (0.00, 0.00, 0.75, 0.00, 0.25),
     "red pulp": (0.07, 0.00, 0.03, 0.05, 0.85),
 }
 #: Heavy-chain isotype probabilities by B-lineage cell type.
@@ -156,10 +162,10 @@ _ISOTYPES = ("IGHM", "IGHD", "IGHG1", "IGHG2B", "IGHA")
 _ISO_P = {
     "B": (0.70, 0.30, 0.0, 0.0, 0.0),
     "GC B": (0.30, 0.0, 0.50, 0.10, 0.10),
-    "plasma": (0.30, 0.0, 0.30, 0.0, 0.40),
+    "ASC": (0.30, 0.0, 0.30, 0.0, 0.40),
 }
 #: Mean receptor molecules per cell and chain.
-_MOLECULES = {"plasma": 20.0, "GC B": 4.0, "B": 2.0, "T": 1.0, "other": 0.0}
+_MOLECULES = {"ASC": 20.0, "GC B": 4.0, "B": 2.0, "T": 1.0, "other": 0.0}
 SwapWeight = Literal["gex", "captured", "background"]
 
 
@@ -202,6 +208,22 @@ def _draw_weighted(rng: np.random.Generator, weights: np.ndarray, n: int) -> np.
         raise ValueError("no cDNA to place swapped molecules on")
     u = rng.random(n) * cw[-1]
     return np.minimum(np.searchsorted(cw, u, side="right"), len(cw) - 1).astype(np.int64)
+
+
+def _renamed(mapping: Mapping[str, float] | None) -> dict[str, float]:
+    """A mapping by cell type or compartment with the names before 1.2 renamed (a later key wins for one name)."""
+    return {_OLD_NAMES.get(k, k): v for k, v in (mapping or {}).items()}
+
+
+def _categorical(values: np.ndarray) -> pd.Categorical:
+    """A categorical whose categories keep the order of spaclone < 1.2, i.e. sorted by the former names.
+
+    ``"ASC"`` takes the place of ``"plasma"`` (and ``"ASC focus"`` that of ``"plasma-cell focus"``), so that the
+    category codes, and the colours and legends that follow the categories, are those of earlier releases.
+    """
+    former = {new: old for old, new in _OLD_NAMES.items()}
+    cats = sorted(pd.unique(pd.Series(values, dtype=object).dropna()), key=lambda v: former.get(v, v))
+    return pd.Categorical(values, categories=cats)
 
 
 # --------------------------------------------------------------------------------------------- synthetic_chip
@@ -278,13 +300,13 @@ def synthetic_chip(
     n_gc, gc_radius_um, gc_lineages
         Germinal centres (discs in the follicle ring) and the lineages each one holds (Zipf weights 1/k).
     n_pc_foci, pc_radius_um, pc_lineages, gc_to_pc
-        Plasma-cell foci near the tissue edge, the lineages of each, and the probability that a focus lineage is one
-        of the germinal-centre lineages (the same clone in a germinal centre and a focus).
+        Foci of antibody-secreting cells (ASC: plasmablasts and plasma cells) near the tissue edge, the lineages of
+        each, and the probability that a focus lineage is one of the germinal-centre lineages (the same clone in a
+        germinal centre and a focus).
     t_expanded, t_expanded_share
         Expanded T-cell lineages and the share of T cells that belong to them (the rest are unique).
     molecules_per_cell
-        Mean receptor-library molecules per cell and chain by cell type (Poisson); default plasma 20, GC B 4, B 2,
-        T 1.
+        Mean receptor-library molecules per cell and chain by cell type (Poisson); default ASC 20, GC B 4, B 2, T 1.
     genuine_fraction
         Probability that a molecule sits on its own cell (one value, or by locus). The rest are swapped.
     n_sinks, sink_size
@@ -316,16 +338,16 @@ def synthetic_chip(
         Library label.
     cdna_by_type, cdna_by_compartment
         Realistic chip: factors of the captured background cDNA of a tissue spot, by the type of its covering cell
-        (default :data:`CDNA_BY_TYPE`: plasma 1.3, GC B 1.15, B 1.1, T and other 1.0, no cell 0.7) and by its
-        compartment (default :data:`CDNA_BY_COMPARTMENT`: T zone 1.5, follicle 1.6, germinal centre 1.7, plasma-cell
-        focus 1.6, red pulp 1.0), so the white pulp holds 1.5–1.8× more cDNA per area than the red pulp; keys not
-        given keep their default, and all-1 mappings remove the dependence.
+        (default :data:`CDNA_BY_TYPE`: ASC 1.3, GC B 1.15, B 1.1, T and other 1.0, no cell 0.7) and by its
+        compartment (default :data:`CDNA_BY_COMPARTMENT`: T zone 1.5, follicle 1.6, germinal centre 1.7, ASC focus
+        1.6, red pulp 1.0), so the white pulp holds 1.5–1.8× more cDNA per area than the red pulp; keys not given
+        keep their default, and all-1 mappings remove the dependence.
     cdna_shape
         Realistic chip: gamma shape of the per-spot background amount (smaller = more spots without cDNA and more
         molecules on the occupied ones).
     constant_per_cell
         Realistic chip: mean captured constant-region transcripts per cell and chain besides its receptor-library
-        molecules (default :data:`CONSTANT_PER_CELL`: plasma 40, GC B 8, B 4, T 2), of the cell's own constant genes
+        molecules (default :data:`CONSTANT_PER_CELL`: ASC 30, GC B 8, B 4, T 2), of the cell's own constant genes
         (its isotype and light-chain class; Trac and the cell's Trbc gene for T cells). They lie only on the spots
         covered by the cell (a cell whose spots all belong to nearer cell centres carries none). Zeros remove them.
     constant_burst
@@ -358,7 +380,7 @@ def synthetic_chip(
         Realistic chip: give every record its contig (``sequence``) and V and J alignments (``v_sequence_alignment``,
         ``v_germline_alignment``, ``v_germline_start`` / ``_end``, ``v_sequence_start`` / ``_end``,
         ``j_sequence_start`` / ``_end``, 1-based as IgBLAST's AIRR output), and the B cells of germinal-centre and
-        plasma-cell-focus lineages (and lone plasma cells) somatic hypermutation along planted lineage trees, so that
+        ASC-focus lineages (and lone ASC) somatic hypermutation along planted lineage trees, so that
         :func:`spaclone.bcr.lineage_workflow` can build trees whose truth is known (see :mod:`spaclone.sim.lineages`:
         synthetic germline genes, a Kingman coalescent per lineage, no change to any other draw of the chip: the same
         seed gives the same chip with or without sequences). Adds the truth columns ``true_genotype``,
@@ -401,6 +423,12 @@ def synthetic_chip(
 
     Notes
     -----
+    Cell types: ``"B"`` (follicular B), ``"GC B"``, ``"ASC"``, ``"T"`` and ``"other"`` (``"none"``: a spot without a
+    cell); compartments: ``"T zone"``, ``"follicle"``, ``"germinal centre"``, ``"ASC focus"`` and ``"red pulp"``
+    (``"off tissue"`` in ``gex.obs``); structures ``"T0"``, ``"GC0"``, ``"GC1"``, ... and ``"ASC0"``, ``"ASC1"``, ....
+    The mappings by cell type or compartment (``molecules_per_cell``, ``cdna_by_type``, ``constant_per_cell``,
+    ``cdna_by_compartment``) also accept the names before spaclone 1.2, ``"plasma"`` and ``"plasma-cell focus"``.
+
     Realistic chip, in order: cells and receptor molecules as in the legacy chip; every grid spot gets its covering
     cell and background cDNA (by cell type); every receptor-carrying cell gets bursts of its constant-region
     transcripts on its own spots; the GEX library detects each constant-region transcript with
@@ -482,7 +510,7 @@ def _chip_v1(
     if not 0 <= p_det <= 1:
         raise ValueError("p_det must be in [0, 1]")
     mpc = dict(_MOLECULES)
-    mpc.update(molecules_per_cell or {})
+    mpc.update(_renamed(molecules_per_cell))
     params["molecules_per_cell"] = mpc
     params["genuine_fraction"] = dict(genuine_fraction) if isinstance(genuine_fraction, Mapping) else genuine_fraction
     params["rng_entropy"] = rng_entropy(gen)
@@ -503,7 +531,7 @@ def _chip_v1(
     for k in range(n_pc_foci):
         a = a0 + np.pi / max(n_gc, 1) + 2 * np.pi * k / max(n_pc_foci, 1)
         structures.append(
-            {"kind": "plasma-cell focus", "structure": f"PC{k}", "x_um": c0 + edge * np.cos(a),
+            {"kind": "ASC focus", "structure": f"ASC{k}", "x_um": c0 + edge * np.cos(a),
              "y_um": c0 + edge * np.sin(a), "radius_um": pc_radius_um}
         )  # fmt: skip
     st = pd.DataFrame(structures)
@@ -544,17 +572,17 @@ def _chip_v1(
     gc_lin = {r.structure: [new_lineage("BCR", "germinal centre", r.structure) for _ in range(gc_lineages)]
               for r in st.itertuples() if r.kind == "germinal centre"}  # fmt: skip
     all_gc = [i for v in gc_lin.values() for i in v]
-    pc_lin = {}
+    asc_lin = {}
     for r in st.itertuples():
-        if r.kind != "plasma-cell focus":
+        if r.kind != "ASC focus":
             continue
         ids = []
         for _ in range(pc_lineages):
             if all_gc and gen.random() < gc_to_pc:
                 ids.append(int(gen.choice(all_gc)))
             else:
-                ids.append(new_lineage("BCR", "plasma-cell focus", r.structure))
-        pc_lin[r.structure] = ids
+                ids.append(new_lineage("BCR", "ASC focus", r.structure))
+        asc_lin[r.structure] = ids
     t_lin = [new_lineage("TCR", "T zone", "T0") for _ in range(t_expanded if tcr else 0)]
     cell_lin = np.full(n_cells, -1, dtype=np.int64)
 
@@ -562,8 +590,8 @@ def _chip_v1(
         w = 1.0 / np.arange(1, len(options) + 1)
         return np.asarray(options)[gen.choice(len(options), n, p=w / w.sum())]
 
-    for sid_, opts in list(gc_lin.items()) + list(pc_lin.items()):
-        want = "GC B" if sid_.startswith("GC") else "plasma"
+    for sid_, opts in list(gc_lin.items()) + list(asc_lin.items()):
+        want = "GC B" if sid_.startswith("GC") else "ASC"
         m = (cstruct == sid_) & (ctype == want)
         if m.any() and opts:
             cell_lin[m] = zipf_pick(opts, int(m.sum()))
@@ -571,7 +599,7 @@ def _chip_v1(
         m = np.flatnonzero(ctype == "T")
         exp = m[gen.random(len(m)) < t_expanded_share]
         cell_lin[exp] = zipf_pick(t_lin, len(exp))
-    for i in np.flatnonzero((cell_lin < 0) & np.isin(ctype, ["B", "GC B", "plasma"] + (["T"] if tcr else []))):
+    for i in np.flatnonzero((cell_lin < 0) & np.isin(ctype, ["B", "GC B", "ASC"] + (["T"] if tcr else []))):
         cell_lin[i] = new_lineage("TCR" if ctype[i] == "T" else "BCR", str(ccomp[i]), str(cstruct[i]))
     L = pd.DataFrame(lineages)
     n_lin = len(L)
@@ -725,8 +753,8 @@ def _chip_v1(
         {
             "in_tissue": s_in,
             "total_counts": np.asarray(X.sum(axis=1)).ravel().astype(float),
-            "cell_type": pd.Categorical(type_at(spots)),
-            "compartment": pd.Categorical(s_comp),
+            "cell_type": _categorical(type_at(spots)),
+            "compartment": _categorical(s_comp),
             S.LIBRARY: library_id,
         },
         index=pd.Index(sids, dtype=str),
@@ -909,13 +937,13 @@ def _chip_v2(
     if not (shm_mutations >= 0 and 0 <= seq_error_rate <= 1 and 0 <= truncated_fraction <= 1):
         raise ValueError("shm_mutations must be >= 0, seq_error_rate and truncated_fraction in [0, 1]")
     mpc = dict(_MOLECULES)
-    mpc.update(molecules_per_cell or {})
+    mpc.update(_renamed(molecules_per_cell))
     cmult = dict(CDNA_BY_TYPE)
-    cmult.update(cdna_by_type or {})
+    cmult.update(_renamed(cdna_by_type))
     kmult = dict(CDNA_BY_COMPARTMENT)
-    kmult.update(cdna_by_compartment or {})
+    kmult.update(_renamed(cdna_by_compartment))
     cpc = dict(CONSTANT_PER_CELL)
-    cpc.update(constant_per_cell or {})
+    cpc.update(_renamed(constant_per_cell))
     params.update(
         molecules_per_cell=mpc,
         cdna_by_type=cmult,
@@ -942,7 +970,7 @@ def _chip_v2(
     for k in range(n_pc_foci):
         a = a0 + np.pi / max(n_gc, 1) + 2 * np.pi * k / max(n_pc_foci, 1)
         structures.append(
-            {"kind": "plasma-cell focus", "structure": f"PC{k}", "x_um": c0 + edge * np.cos(a),
+            {"kind": "ASC focus", "structure": f"ASC{k}", "x_um": c0 + edge * np.cos(a),
              "y_um": c0 + edge * np.sin(a), "radius_um": pc_radius_um}
         )  # fmt: skip
     st = pd.DataFrame(structures)
@@ -983,17 +1011,17 @@ def _chip_v2(
     gc_lin = {r.structure: [new_lineage("BCR", "germinal centre", r.structure) for _ in range(gc_lineages)]
               for r in st.itertuples() if r.kind == "germinal centre"}  # fmt: skip
     all_gc = [i for v in gc_lin.values() for i in v]
-    pc_lin = {}
+    asc_lin = {}
     for r in st.itertuples():
-        if r.kind != "plasma-cell focus":
+        if r.kind != "ASC focus":
             continue
         ids = []
         for _ in range(pc_lineages):
             if all_gc and gen.random() < gc_to_pc:
                 ids.append(int(gen.choice(all_gc)))
             else:
-                ids.append(new_lineage("BCR", "plasma-cell focus", r.structure))
-        pc_lin[r.structure] = ids
+                ids.append(new_lineage("BCR", "ASC focus", r.structure))
+        asc_lin[r.structure] = ids
     t_lin = [new_lineage("TCR", "T zone", "T0") for _ in range(t_expanded if tcr else 0)]
     cell_lin = np.full(n_cells, -1, dtype=np.int64)
 
@@ -1001,8 +1029,8 @@ def _chip_v2(
         w = 1.0 / np.arange(1, len(options) + 1)
         return np.asarray(options)[gen.choice(len(options), n, p=w / w.sum())]
 
-    for sid_, opts in list(gc_lin.items()) + list(pc_lin.items()):
-        want = "GC B" if sid_.startswith("GC") else "plasma"
+    for sid_, opts in list(gc_lin.items()) + list(asc_lin.items()):
+        want = "GC B" if sid_.startswith("GC") else "ASC"
         m = (cstruct == sid_) & (ctype == want)
         if m.any() and opts:
             cell_lin[m] = zipf_pick(opts, int(m.sum()))
@@ -1010,7 +1038,7 @@ def _chip_v2(
         m = np.flatnonzero(ctype == "T")
         exp = m[gen.random(len(m)) < t_expanded_share]
         cell_lin[exp] = zipf_pick(t_lin, len(exp))
-    for i in np.flatnonzero((cell_lin < 0) & np.isin(ctype, ["B", "GC B", "plasma"] + (["T"] if tcr else []))):
+    for i in np.flatnonzero((cell_lin < 0) & np.isin(ctype, ["B", "GC B", "ASC"] + (["T"] if tcr else []))):
         cell_lin[i] = new_lineage("TCR" if ctype[i] == "T" else "BCR", str(ccomp[i]), str(cstruct[i]))
     L = pd.DataFrame(lineages, columns=["lineage", "kind", "compartment", "structure"])
     n_lin = len(L)
@@ -1240,8 +1268,8 @@ def _chip_v2(
         {
             "in_tissue": s_in,
             "total_counts": np.asarray(X.sum(axis=1)).ravel().astype(float),
-            "cell_type": pd.Categorical(stype[spots]),
-            "compartment": pd.Categorical(s_comp),
+            "cell_type": _categorical(stype[spots]),
+            "compartment": _categorical(s_comp),
             S.LIBRARY: library_id,
             "captured_cdna": w_cap[spots] + np.isin(spots, trap_lin),
         },

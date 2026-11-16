@@ -66,6 +66,34 @@ def test_mixed_label_and_threshold():
     assert prof0.labels.iloc[0].label == "a_copy"
 
 
+def test_mix_of_the_two_asc_sets_is_labelled_asc():
+    a = _tiny()
+    region = np.array([1, 1, 0, 0, 0, 0])
+    window = {1: np.array([0, 0, 1, 1, 0, 0], bool)}
+    kw = {"readouts": None, "window": window, "tissue_key": None}
+    # the sets of test_mixed_label_and_threshold under the built-in ASC names: the same ratios, one label "ASC"
+    asc = {"ASC": ["A1", "A2"], "ASC (Sdc1+)": ["A1"]}
+    prof = gex.profile_regions(a, region, markers=asc, **kw)
+    lab = prof.labels.iloc[0]
+    assert lab.label == "ASC" and lab.top == "ASC (Sdc1+)" and lab.second == "ASC" and lab.mixed
+    assert lab.ranking == "ASC (Sdc1+)=12.00;ASC=10.50"
+    swapped = gex.profile_regions(a, region, markers={"ASC (Sdc1+)": ["A1", "A2"], "ASC": ["A1"]}, **kw)
+    assert swapped.labels.iloc[0].label == "ASC" and swapped.labels.iloc[0].top == "ASC"
+    # not mixed: the top set alone
+    assert gex.profile_regions(a, region, markers=asc, mixed_log2=0.1, **kw).labels.iloc[0].label == "ASC (Sdc1+)"
+    # a mix with another set keeps both names
+    other = gex.profile_regions(a, region, markers={"ASC": ["A1", "A2"], "b": ["A1"]}, **kw)
+    assert other.labels.iloc[0].label == "b / ASC (mixed)"
+    # a user's own names are never renamed; the numbers do not depend on the names
+    own = gex.profile_regions(a, region, markers={"plasmablast/ASC": ["A1", "A2"], "plasma cell": ["A1"]}, **kw)
+    assert own.labels.iloc[0].label == "plasma cell / plasmablast/ASC (mixed)"
+    num = [c for c in prof.table.columns if c != "set"]
+    pd.testing.assert_frame_equal(prof.table[num], own.table[num])
+    pd.testing.assert_frame_equal(
+        prof.table[num], gex.profile_regions(a, region, markers={"x": ["A1", "A2"], "y": ["A1"]}, **kw).table[num]
+    )
+
+
 def test_region_and_window_inputs_agree():
     a = _tiny()
     labels = np.array([2, 2, 0, 0, 0, 0])
@@ -115,7 +143,7 @@ def test_ig_genes_are_removed_from_cell_type_sets():
         gex.profile_markers({"Ig": ["Igkc"]})
     builtin, reads = gex.profile_markers("immune_mouse_no_ig")
     assert not any(is_ig_gene(g).any() for g in builtin.values())
-    assert "switched Ig" in reads and "plasmablast/ASC" in builtin
+    assert "switched Ig" in reads and {"ASC", "ASC (Sdc1+)"} <= set(builtin)
     assert set(gex.PROFILE_MARKERS) == {"immune_mouse_no_ig", "immune_human_no_ig"}
 
 
@@ -207,7 +235,7 @@ def test_unit_mask_forms_and_errors():
     with pytest.raises(KeyError, match="not found"):
         gex.unit_mask(a, ("annotation", ["B"]))
     with pytest.raises(ValueError, match="no unit has"):
-        gex.unit_mask(a, ("kind", ["Plasma"]))
+        gex.unit_mask(a, ("kind", ["ASC"]))
     with pytest.raises(ValueError, match="one flag per unit"):
         gex.unit_mask(a, np.ones(4, bool))
     with pytest.raises(ValueError, match="lacks"):

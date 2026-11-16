@@ -1,9 +1,9 @@
-/*! spaclone interactive figure engine 1.1.0 | part of spaclone (MIT licence, (c) Chen Zhu) |
+/*! spaclone interactive figure engine 1.2.0 | part of spaclone (MIT licence, (c) Chen Zhu) |
  * https://github.com/Reynold4k/spaclone | The data are inside this file; nothing is loaded from the network.
  * Drawing is done on the CPU into a 2D canvas (no WebGL), so the figure works wherever a canvas does. */
 (function (global) {
   "use strict";
-  var VERSION = "1.1.0";
+  var VERSION = "1.2.0";
   var engines = (global.__spacloneEngines = global.__spacloneEngines || {});
   var SCRIPT = global.document && global.document.currentScript;  // the script element running this code
   if (engines[VERSION]) { engines[VERSION].mountAll(SCRIPT); return; }

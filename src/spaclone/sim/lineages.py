@@ -8,13 +8,13 @@ and its V and J alignments, in the AIRR fields that IgBLAST (``-outfmt 19``) wri
   1-4 of every locus, each V gene 285-297 nt of sense codons ending in the conserved cysteine codon ``TGC``, a 30-nt
   FR4 after each J gene's last junction codon, an 18-nt leader before each V gene and 24 nt of every constant region.
   They are not real immunoglobulin genes.
-* **Planted lineages.** The cells of a germinal-centre or plasma-cell-focus lineage (and a lone plasma cell) descend
-  from one naive B cell along a Kingman coalescent tree. Somatic hypermutation adds Poisson numbers of substitutions on
-  every branch: a quarter of ``shm_mutations`` (the mean V mutations of a cell) on the trunk shared by every cell of the
-  lineage, the rest spread over the tree in proportion to branch length; light chains mutate at half the heavy-chain
-  rate. Mutations hit V positions from the 13th up to the cysteine codon, never create a stop codon and
-  leave the junction unchanged, so a lineage stays one exact clone. Naive B cells (follicles, T zone, red pulp) and T
-  cells carry their germline.
+* **Planted lineages.** The cells of a germinal-centre lineage or of a lineage in a focus of antibody-secreting cells
+  (ASC: plasmablasts and plasma cells), and a lone ASC, descend from one naive B cell along a Kingman coalescent tree.
+  Somatic hypermutation adds Poisson numbers of substitutions on every branch: a quarter of ``shm_mutations`` (the
+  mean V mutations of a cell) on the trunk shared by every cell of the lineage, the rest spread over the tree in
+  proportion to branch length; light chains mutate at half the heavy-chain rate. Mutations hit V positions from the
+  13th up to the cysteine codon, never create a stop codon and leave the junction unchanged, so a lineage stays one
+  exact clone. Naive B cells (follicles, T zone, red pulp) and T cells carry their germline.
 * **Records.** Every record (genuine, swapped or sink) carries the sequence of the cell its molecule came from, plus
   its own sequencing errors (``seq_error_rate`` per V base, never a stop codon); a ``truncated_fraction`` of the
   contigs start inside the V gene, as 5' truncated assemblies do.
@@ -51,8 +51,8 @@ _SENSE = np.array(
     [a + b + c for a in "ACGT" for b in "ACGT" for c in "ACGT" if a + b + c not in ("TAA", "TAG", "TGA")], dtype=object
 )
 _ACGT = np.frombuffer(b"ACGT", np.uint8)
-#: Lineage compartments whose B cells carry somatic hypermutation (lone plasma cells too).
-_MUTATED_COMPARTMENTS = ("germinal centre", "plasma-cell focus")
+#: Lineage compartments whose B cells carry somatic hypermutation (lone ASC too).
+_MUTATED_COMPARTMENTS = ("germinal centre", "ASC focus")
 
 
 @functools.lru_cache(maxsize=1)
@@ -167,7 +167,7 @@ def _plant_sequences(
         cells = np.asarray(members.get(lin, []), dtype=np.int64)
         if kinds[lin] != "BCR" or not len(cells):
             continue
-        mutated = comps[lin] in _MUTATED_COMPARTMENTS or (len(cells) == 1 and cell_type[cells[0]] == "plasma")
+        mutated = comps[lin] in _MUTATED_COMPARTMENTS or (len(cells) == 1 and cell_type[cells[0]] == "ASC")
         if not mutated:
             continue
         n = len(cells)

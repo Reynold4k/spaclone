@@ -24,15 +24,15 @@ default 4 µm, a label-free proxy of "inside a cell that expresses the gene") an
 the barcode of a random captured cDNA molecule, so a spot is drawn in proportion to its cDNA. This is the exact null
 of placing each swapped molecule on a random cDNA molecule of its stratum and needs no assumption about how
 constant-region RNA is spread over spots, which matters because it is not spread at all: it sits, in bursts, on the
-spots of the B / plasma (T) cells that express it. Its identifying assumption is that, within a stratum, swaps land
-in proportion to the cDNA the GEX library *sees*; cDNA it missed (bursty Ig RNA at low saturation) would draw swaps
-to spots that hold the gene and give hits above chance without located molecules (an upward bias, so upper bounds
-stay conservative while a "signal" needs :func:`shift_test` and the clone-level tests). The analytic alternatives treat
-the spot's molecules as a random subset of its tile's molecules: ``"conditional"`` (``c_i = 1 − C(T − S, m_i) /
-C(T, m_i)``, the 1.0.0.dev0 default) and ``"binomial"`` (``c_i = 1 − (1 − S/T)^{m_i}``, the archived estimate).
-They over-state the chance of a randomly placed molecule (Ig RNA is clustered) and under-state it for a molecule on
-its own B / plasma cell (whose other Ig RNA counts as chance), so hits fall below "chance" on broken data and θ is
-over-estimated on good data (review 2026-10-30, B1).
+spots of the B cells and antibody-secreting cells (T cells) that express it. Its identifying assumption is that, within
+a stratum, swaps land in proportion to the cDNA the GEX library *sees*; cDNA it missed (bursty Ig RNA at low saturation)
+would draw swaps to spots that hold the gene and give hits above chance without located molecules (an upward bias, so
+upper bounds stay conservative while a "signal" needs :func:`shift_test` and the clone-level tests). The analytic
+alternatives treat the spot's molecules as a random subset of its tile's molecules: ``"conditional"``
+(``c_i = 1 − C(T − S, m_i) / C(T, m_i)``, the 1.0.0.dev0 default) and ``"binomial"`` (``c_i = 1 − (1 − S/T)^{m_i}``,
+the archived estimate). They over-state the chance of a randomly placed molecule (Ig RNA is clustered) and under-state
+it for a molecule on its own B cell or antibody-secreting cell (whose other Ig RNA counts as chance), so hits fall below
+"chance" on broken data and θ is over-estimated on good data (review 2026-10-30, B1).
 
 **Estimand and estimator** (``estimator=``). The default, ``"ipw"``, estimates the plain mean of ``θ_i`` over the
 tested records, ``θ̂ = mean[(y_i − c_i) / (1 − c_i)]``, the located fraction (times detection) among the molecules
@@ -46,11 +46,11 @@ e.g. molecules of one cell and bursts), plus the sampling variance of the empiri
 shared by neighbouring records), against a t quantile with (blocks − 1) degrees of freedom. ``"exact"`` is the Rogan–Gladen moment estimate ``θ̂ = (H − Σc_i) / (N − Σc_i)``
 with the exact Poisson-binomial interval (widened to the block interval when ``variance="cluster"``); it estimates a
 ``(1 − c_i)``-weighted mean of ``θ_i``, which down-weights located molecules on spots rich in constant-region RNA
-(the B / plasma cells where they would sit), so its upper bound is not a bound on the fraction located. ``"ml"`` is
-maximum likelihood (biased towards 0 under the alternative). Because the test only sees GEX-occupied spots, a
-located molecule enters more often when its own transcript was detected (an empty spot becomes occupied by it):
-``θ`` is ``ρ`` times the detection rate *given an occupied spot*, which is at least ``p_det``, so ``ρ = θ / p_det``
-with the library-wide ``p_det`` is conservative (too large).
+(the B cells and antibody-secreting cells where they would sit), so its upper bound is not a bound on the fraction
+located. ``"ml"`` is maximum likelihood (biased towards 0 under the alternative). Because the test only sees
+GEX-occupied spots, a located molecule enters more often when its own transcript was detected (an empty spot becomes
+occupied by it): ``θ`` is ``ρ`` times the detection rate *given an occupied spot*, which is at least ``p_det``, so
+``ρ = θ / p_det`` with the library-wide ``p_det`` is conservative (too large).
 
 **Deficit rule.** Fewer hits than chance, beyond what the interval allows (``deficit_p <= (1 − conf_level) / 2``,
 the larger of the exact Poisson-binomial and the block p-value), means that the chance model over-states the chance;
@@ -1913,8 +1913,9 @@ def same_spot(
     strata
         Empirical chance: name of a spot label set of ``gex`` (:meth:`GexLookup.add_labels`, e.g. ``"cell_type"``;
         :meth:`GexLookup.from_anndata` loads them with ``labels=``). Reference spots must carry the record spot's
-        label. A located molecule sits on its own B / plasma (T) cell, whose other constant-region RNA counts as
-        chance; without labels its chance comes from a mixture of cell types and ``ρ`` is over-estimated.
+        label. A located molecule sits on its own B cell or antibody-secreting cell (T cell), whose other
+        constant-region RNA counts as chance; without labels its chance comes from a mixture of cell types and ``ρ`` is
+        over-estimated.
     context_um
         Empirical chance (ignored by the analytic chances): also match the number of constant-gene molecules on the
         other spots within this distance (classes ``context_bins``; default 4 µm, about one cell radius), a label-free proxy of "on or next to a cell

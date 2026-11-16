@@ -11,7 +11,7 @@ from spaclone import gex, tl
 matplotlib.use("Agg")
 
 GC = ["Aicda", "S1pr2", "Gcsam", "Rgs13", "Mef2b"]
-PC = ["Jchain", "Xbp1", "Prdm1", "Sdc1"]
+ASC = ["Jchain", "Xbp1", "Prdm1", "Sdc1"]
 
 
 def _tissue(seed=0, n_side=40, centres=((100.0, 100.0), (290.0, 280.0)), asc=(300.0, 90.0), jitter=True):
@@ -19,7 +19,7 @@ def _tissue(seed=0, n_side=40, centres=((100.0, 100.0), (290.0, 280.0)), asc=(30
     rng = np.random.default_rng(seed)
     g = np.stack(np.meshgrid(np.arange(n_side), np.arange(n_side), indexing="ij"), -1).reshape(-1, 2) * 10.0
     xy = g + (rng.uniform(-3, 3, size=g.shape) if jitter else 0)
-    genes = GC + PC + ["Cd79a", "Cd3e", "Actb"] + [f"G{i}" for i in range(20)]
+    genes = GC + ASC + ["Cd79a", "Cd3e", "Actb"] + [f"G{i}" for i in range(20)]
     lam = np.full((len(xy), len(genes)), 0.3)
     lam[:, genes.index("Actb")] = 20
     for cx, cy in centres:
@@ -105,7 +105,7 @@ def test_default_rule_recovers_planted_germinal_centres_and_asc_area():
     for cx, cy in ((100.0, 100.0), (290.0, 280.0)):
         assert np.min(np.hypot(cen[:, 0] - cx, cen[:, 1] - cy)) < 15
     assert (tab.n_units >= tab.n_core).all()
-    gex.call_regions(a, kind="plasma_cell")
+    gex.call_regions(a, kind="asc")
     reg = a.obs.region.astype(str).to_numpy()
     xy = a.obsm["spatial"]
     in_asc = np.hypot(xy[:, 0] - 300, xy[:, 1] - 90) < 30
@@ -114,14 +114,30 @@ def test_default_rule_recovers_planted_germinal_centres_and_asc_area():
     assert a.obs.region_id.astype(object)[reg == "ASC"].isna().all()
 
 
+def test_asc_kind_spellings_give_the_same_result():
+    ref = _tissue(seed=2)
+    gex.call_regions(ref, kind="germinal_centre")
+    tab = gex.call_regions(ref, kind="asc")
+    assert ref.uns["spaclone"]["call_regions_ASC"]["kind"] == "asc" and set(ref.obs.region.astype(str)) >= {"ASC"}
+    for spelling in ("ASC", "plasma_cell", "pc", "plasma"):  # the kind's names before 1.2 keep working
+        a = _tissue(seed=2)
+        gex.call_regions(a, kind="germinal_centre")
+        pd.testing.assert_frame_equal(gex.call_regions(a, kind=spelling), tab)
+        pd.testing.assert_frame_equal(a.obs, ref.obs)
+        assert a.uns["spaclone"]["call_regions_ASC"] == ref.uns["spaclone"]["call_regions_ASC"]
+    assert gex.REGION_LABELS["asc"] == "ASC" and gex.REGION_MARKERS["asc"]["mouse"] == ASC
+    with pytest.raises(ValueError, match="unknown region kind"):
+        gex.call_regions(ref, kind="plasmablast")
+
+
 def test_priority_overwrite_and_relabel():
     a = _tissue(seed=3)
     gex.call_regions(a, kind="germinal_centre")
     gc_units = a.obs.region.astype(str) == "GC"
     # ASC called with every marker of the GC set: without overwrite the GC units keep their label
-    gex.call_regions(a, kind="plasma_cell", markers=GC, top_frac=0.2)
+    gex.call_regions(a, kind="asc", markers=GC, top_frac=0.2)
     assert (a.obs.region.astype(str)[gc_units] == "GC").all()
-    gex.call_regions(a, kind="plasma_cell", markers=GC, top_frac=0.2, overwrite=True)
+    gex.call_regions(a, kind="asc", markers=GC, top_frac=0.2, overwrite=True)
     assert (a.obs.region.astype(str)[gc_units] == "ASC").any()
     # calling the same kind again replaces the earlier call instead of adding to it
     b = _tissue(seed=3)

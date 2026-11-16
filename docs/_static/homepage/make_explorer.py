@@ -29,7 +29,7 @@ def build(out_dir: Path) -> Path:
     data = {day: io.read_airspace(*spaclone.datasets.airspace(day), alignments=True) for day in DAYS}
     for sa in data.values():
         gex.call_regions(sa.gex, kind="germinal_centre")
-        gex.call_regions(sa.gex, kind="plasma_cell")
+        gex.call_regions(sa.gex, kind="asc")
     hot = {day: bcr.hotspot_workflow(sa) for day, sa in data.items()}
     fig = spaclone.pl.explore(data, hotspots=hot, genes=300, title="AIR-SPACE mouse lymph nodes, Mock to day 21")
     return fig.save(out_dir / "spaclone_airspace_explorer.html")

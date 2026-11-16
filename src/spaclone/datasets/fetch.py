@@ -219,9 +219,10 @@ def load_airspace(
 def synthetic_example(*, sequences: bool = False, rng: RngLike = 0, **kwargs: Any) -> SpatialAIR:
     """A small synthetic section with known truth, no download (:func:`spaclone.sim.synthetic_chip`, seed 0).
 
-    The section is simulated, not tissue: a disc of cells in a T zone, follicles with germinal centres and plasma-cell
-    foci, with 30% of the receptor molecules on their own cell (the rest swapped or in barcode sinks) unless
-    ``genuine_fraction`` says otherwise.
+    The section is simulated, not tissue: a disc of cells in a T zone, follicles with germinal centres and foci of
+    antibody-secreting cells (ASC: plasmablasts and plasma cells), with 30% of the receptor molecules on their own cell
+    (the rest swapped or in barcode sinks) unless ``genuine_fraction`` says otherwise. Its cell types are ``"B"``,
+    ``"GC B"``, ``"ASC"``, ``"T"`` and ``"other"``.
 
     Parameters
     ----------

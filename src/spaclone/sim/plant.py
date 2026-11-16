@@ -5,11 +5,12 @@
 1. **Placebo background.** A null design of :mod:`spaclone.nulls` removes every clone–position link from the real
    data (default: clone identity permuted among the records of the same locus, positions and read counts fixed), so
    whatever a method calls on the background alone is false by construction.
-2. **Plants.** A fraction of every clone's records is moved into cells of that clone, placed by biology: plasma-cell
-   clones as foci of cells around one site (``"focus"``), germinal-centre clones inside one germinal centre
-   (``"gc"``), follicular clones as single cells (``"scattered"``). Heavy and light clones are paired and share their
-   cells (one heavy and one light chain per cell). Planted records are background records, so their read counts come
-   from the same distribution as everything else: a caller cannot find them by read support alone.
+2. **Plants.** A fraction of every clone's records is moved into cells of that clone, placed by biology: clones of
+   antibody-secreting cells (ASC: plasmablasts and plasma cells) as foci of cells around one site (``"focus"``),
+   germinal-centre clones inside one germinal centre (``"gc"``), follicular clones as single cells (``"scattered"``).
+   Heavy and light clones are paired and share their cells (one heavy and one light chain per cell). Planted records
+   are background records, so their read counts come from the same distribution as everything else: a caller cannot
+   find them by read support alone.
 3. The planted records are the truth (``planted`` column); :func:`score` compares calls with it.
 
 References
@@ -130,13 +131,14 @@ def plant(
     fraction
         Share of each clone's records that is planted (a binomial draw per clone), e.g. 0.001–0.1.
     pattern
-        ``"focus"`` (plasma-cell focus: 20 records per cell, cells within 25 µm of one site), ``"gc"`` (germinal
-        centre: 4 per cell, within 40 µm), ``"scattered"`` (follicular B cells: 2 per cell, each cell at its own
-        site), or ``{clone_id: pattern}`` (clones not listed use ``"scattered"``).
+        ``"focus"`` (a focus of antibody-secreting cells (ASC: plasmablasts and plasma cells): 20 records per cell,
+        cells within 25 µm of one site), ``"gc"`` (germinal centre: 4 per cell, within 40 µm), ``"scattered"``
+        (follicular B cells: 2 per cell, each cell at its own site), or ``{clone_id: pattern}`` (clones not listed use
+        ``"scattered"``).
     sites
         Candidate centres in µm (``DataFrame`` with ``x_key`` / ``y_key`` or an ``(n, 2)`` array), or
         ``{pattern: sites}``. Default: the background's record positions. Pass the places where the biology happens
-        (plasma-cell areas, germinal centres, mature-B areas) for a realistic benchmark.
+        (ASC areas, germinal centres, mature-B areas) for a realistic benchmark.
     design
         Placebo design applied to the background before planting: ``"default"`` permutes the clone id together with
         its sequence fields (those of ``junction_aa``, ``junction``, ``v_call``, ``d_call``, ``j_call``, ``c_call``

@@ -423,7 +423,7 @@ def _atlas(
             for r in ids:
                 lab = data.regions.loc[r].get("gex_label") if "gex_label" in data.regions.columns else None
                 if isinstance(lab, str) and lab.strip():
-                    hl.module_image(lab, when={"region": str(r)})
+                    hl.module_image(lab, second=data.regions.loc[r].get("gex_second_label"), when={"region": str(r)})
             # move module images under the outlines: images were appended after the outlines
             imgs = [q for q in panel["layers"] if q["type"] == "image"]
             rest = [q for q in panel["layers"] if q["type"] != "image"]

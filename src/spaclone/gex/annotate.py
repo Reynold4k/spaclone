@@ -37,8 +37,8 @@ class JoinWarning(SpacloneWarning):
     """Few units could be matched when joining an external table."""
 
 
-#: Built-in marker modules (mouse and human symbols). B, plasma (ASC), T, myeloid and stromal are the archive's X6
-#: modules; GC B is the archive's X3 germinal-centre B set.
+#: Built-in marker modules (mouse and human symbols). B, antibody-secreting cells (ASC: plasmablasts and plasma cells),
+#: T, myeloid and stromal are the archive's X6 modules; GC B is the archive's X3 germinal-centre B set.
 MARKERS: dict[str, dict[str, list[str]]] = {
     "immune_mouse": {
         "B": ["Cd79a", "Cd79b", "Ms4a1", "Cd19", "Pax5", "Cr2", "Fcer2a"],

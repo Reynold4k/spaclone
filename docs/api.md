@@ -312,7 +312,7 @@ replicates, and spatial statistics.
 | [`REGION_LABELS`](#spaclone.gex.REGION_LABELS) | Default label of each region kind in the region column. |
 | [`REGION_MARKERS`](#spaclone.gex.REGION_MARKERS) | Marker sets of the share-based regions (archive X3). |
 | [`PROFILE_MARKERS`](#spaclone.gex.PROFILE_MARKERS) | Cell-type marker sets of `profile_regions` (archive T8f, fixed 2026-10-28 before looking). |
-| [`PROFILE_READOUTS`](#spaclone.gex.PROFILE_READOUTS) | Readout sets reported next to the cell types (never used for the label): cycling (plasmablast vs plasma cell) and switched Ig RNA (a GEX check of a class-switch call). |
+| [`PROFILE_READOUTS`](#spaclone.gex.PROFILE_READOUTS) | Readout sets reported next to the cell types (never used for the label): cycling (dividing cells) and switched Ig RNA (a GEX check of a class-switch call). |
 
 ### Spatial domains
 
@@ -728,8 +728,8 @@ lineage trees scored against the planted ones, and the planted-truth benchmark.
 |---|---|
 | [`legacy_demo_chip`](#spaclone.sim.legacy_demo_chip) | The synthetic Stereo-XCR-seq BCR chip of the archived `spaclone demo`, with per-molecule truth. |
 | [`synthetic_chip`](#spaclone.sim.synthetic_chip) | Simulate a spatial BCR / TCR section with known truth for every receptor record. |
-| [`CDNA_BY_COMPARTMENT`](#spaclone.sim.CDNA_BY_COMPARTMENT) | Captured background cDNA per spot by tissue compartment, relative to the red pulp (realistic chip): the white pulp (T zone, follicles, germinal centres) and plasma-cell foci capture 1.5–1.7× more (survey S3 §B, archive v2). |
-| [`CDNA_BY_TYPE`](#spaclone.sim.CDNA_BY_TYPE) | Captured background cDNA per spot by the type of the cell covering it, on top of the compartment factor (realistic chip): B-lineage and plasma cells capture more than T and other cells, spots without a cell less. |
+| [`CDNA_BY_COMPARTMENT`](#spaclone.sim.CDNA_BY_COMPARTMENT) | Captured background cDNA per spot by tissue compartment, relative to the red pulp (realistic chip): the white pulp (T zone, follicles, germinal centres) and the foci of antibody-secreting cells (ASC: plasmablasts and plasma cells) capture 1.5–1.7× more (survey S3 §B, archive v2). |
+| [`CDNA_BY_TYPE`](#spaclone.sim.CDNA_BY_TYPE) | Captured background cDNA per spot by the type of the cell covering it, on top of the compartment factor (realistic chip): B cells, GC B cells and antibody-secreting cells (ASC: plasmablasts and plasma cells) capture more than T and other cells, spots without a cell less. |
 | [`CONSTANT_PER_CELL`](#spaclone.sim.CONSTANT_PER_CELL) | Mean captured constant-region transcripts per cell and chain besides the receptor-library molecules (realistic chip): the cell's other Ig / TCR mRNA, which the GEX library sees and the receptor library does not. |
 | [`MOUSE_CONSTANT_GENES`](#spaclone.sim.MOUSE_CONSTANT_GENES) | Constant-region call → mouse GEX gene symbol used by the generators. |
 

@@ -3,6 +3,49 @@
 All notable changes are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versions follow [semantic versioning](https://semver.org/).
 
+## 1.2.0 (2026-11-16)
+
+- **Antibody-secreting cells instead of plasma cells.** Everything spaclone writes and shows now calls
+  antibody-secreting cells (ASC: plasmablasts and plasma cells) "ASC". The marker genes cannot tell plasmablasts from
+  plasma cells, so "plasma cells" overstated the resolution. Only labels, names and text changed: every score, test,
+  call, p-value, coordinate, simulated value and figure is the same as in 1.1.0, number for number (checked on all nine
+  tutorials, the synthetic example and the AIR-SPACE day-21 node). The one exception is a test that you stratify by the
+  synthetic section's renamed labels (see "Orders").
+
+  | Where | 1.1.0 | 1.2.0 |
+  |---|---|---|
+  | GEX marker set (`gex.PROFILE_MARKERS`; `profile_regions` sets, labels, `top`, `second`; `module_scores` columns; `bcr.hotspot_workflow` `module_maps` keys, `gex_label`, `gex_second_label`, `profiles`, the `score_` columns of `units.csv`) | `plasmablast/ASC` | `ASC` |
+  | The second ASC set (Sdc1, Tnfrsf17, Slamf7), in the same places | `plasma cell` | `ASC (Sdc1+)` |
+  | Label of a region whose two top sets are these two, within 1.23× | `plasmablast/ASC / plasma cell (mixed)` (drawn as "ASC / plasma cell (mixed)") | `ASC` (`top`, `second` and `mixed` still name both sets) |
+  | Legend of the module map in the interactive atlas | `plasmablast/ASC module score` | `ASC module score` |
+  | Region kind of `gex.call_regions` (keys of `REGION_MARKERS` and `REGION_LABELS`; `kind` in the instance table and in `uns["spaclone"]`) | `plasma_cell` | `asc` |
+  | Cell type of the synthetic section (`sim.synthetic_chip`, `datasets.synthetic_example`: `cell_type`, `true_cell_type`, `meta["cells"]`; keys of `CDNA_BY_TYPE`, `CONSTANT_PER_CELL` and `meta["params"]`) | `plasma` | `ASC` |
+  | Compartment of the synthetic section (`compartment`, `true_compartment`, `meta["structures"]`, `meta["lineages"]`; keys of `CDNA_BY_COMPARTMENT`) | `plasma-cell focus` | `ASC focus` |
+  | Structures of the synthetic section | `PC0`, `PC1`, ... | `ASC0`, `ASC1`, ... |
+
+- **Old spellings still work as input.** `gex.call_regions(kind=...)` takes `"plasma_cell"`, `"pc"` and `"plasma"` as
+  before and gives exactly the result of `kind="asc"`. The mappings of `sim.synthetic_chip` by cell type or compartment
+  (`molecules_per_cell`, `cdna_by_type`, `constant_per_cell`, `cdna_by_compartment`) accept the keys `"plasma"` and
+  `"plasma-cell focus"`. The vocabularies that recognise your own labels ("Plasma cells", "plasmablasts", "PC",
+  "Plasmacell", "plasma", ...: `run(own_types="auto")`, the region masks, `ext.threadfin`, the plot colours) are
+  unchanged, a marker dictionary with your own set names keeps your names, and results saved with 1.1.0 still draw
+  (the atlas finds their module maps). Constants and results are read with their new keys
+  (`gex.REGION_MARKERS["asc"]`, `module_maps["ASC"]`).
+- **Orders.** The categories of the synthetic `gex.obs["cell_type"]` and `["compartment"]` keep their 1.1.0 order
+  ("ASC" where "plasma" sorted), so colours, legends and category codes are those of 1.1.0. Where spaclone sorts your
+  labels by name, "ASC" now comes first: the notes and methods text of `spaclone.run` on the synthetic section list
+  the own B-lineage types as "ASC, B, GC B" (before: "B, GC B, plasma"), and a static plot coloured by the synthetic
+  receptor table's `cell_type` lists ASC first in its legend (same colours). Tests that visit their strata in the
+  sorted order of the stratum names (`qc.colocalisation` and `qc.composition` with `within=`, `tl.niche_profile` with
+  `compartment=`) therefore draw differently from 1.1.0 when you stratify them by the synthetic section's cell types,
+  compartments or structures: the tests are unchanged, the names they sort are not. The arguments `n_pc_foci`,
+  `pc_radius_um`, `pc_lineages` and `gc_to_pc` of `sim.synthetic_chip` keep their names and now describe the ASC
+  foci.
+- **Documentation.** Docstrings, the docs pages, the README and the tutorials say ASC. The tutorials were re-executed
+  with 1.2.0 in the environment of their 1.0.3 run (the same package versions, Threadfin 4.6.2, one BLAS thread):
+  labels and version lines are the only changes in their outputs. The docstring of
+  `sim.synthetic_chip(constant_per_cell=)` gave 40 for the ASC default; the value is 30, as it was.
+
 ## 1.1.0 (2026-11-16)
 
 - **Interactive figures.** The spatial figures (all but the Threadfin clone-state maps) and the main other ones have an

@@ -115,8 +115,8 @@ def test_structures_hold_their_lineages():
     d = np.hypot(gc.x_um - gc.structure.map(st.x_um), gc.y_um - gc.structure.map(st.y_um))
     assert (d <= 40.0 + 1e-9).all()
     gc_lin = set(L[L.compartment == "germinal centre"].lineage)
-    pc = cells[(cells.cell_type == "plasma") & cells.structure.str.startswith("PC")]
-    assert set(pc.lineage) <= gc_lin  # every focus lineage comes from a germinal centre
+    asc = cells[(cells.cell_type == "ASC") & cells.structure.str.startswith("ASC")]
+    assert set(asc.lineage) <= gc_lin  # every focus lineage comes from a germinal centre
     # a germinal centre holds a few expanded lineages
     assert gc.groupby("structure").lineage.nunique().max() <= 4
 
@@ -156,7 +156,7 @@ def test_own_constant_transcript_is_captured_with_p_det(legacy):
 
 
 def _area_density(sa):
-    """GEX molecules per grid spot in the white pulp, red pulp and plasma-cell foci (empty spots included)."""
+    """GEX molecules per grid spot in the white pulp, red pulp and ASC foci (empty spots included)."""
     p = sa.meta["params"]
     spot_um, size_um, radius_um = p["spot_um"], p["size_um"], p["tissue_radius_um"]
     nx = int(np.floor(size_um / spot_um)) + 1
@@ -166,7 +166,7 @@ def _area_density(sa):
     d0 = np.hypot(xy[:, 0] - c0, xy[:, 1] - c0)
     comp = np.where(d0 <= p["t_zone_radius_um"] + p["follicle_width_um"], "white", "red").astype(object)
     st = sa.meta["structures"]
-    for r in st[st.kind == "plasma-cell focus"].itertuples():
+    for r in st[st.kind == "ASC focus"].itertuples():
         comp[np.hypot(xy[:, 0] - r.x_um, xy[:, 1] - r.y_um) <= r.radius_um] = "focus"
     comp[d0 > radius_um] = "off"
     area = pd.Series(comp).value_counts()
@@ -199,7 +199,7 @@ def test_constant_region_rna_is_confined_to_its_cells_and_bursty():
     names = list(gex.var_names)
     X = gex.X.tocsc()
     ct = gex.obs.cell_type.astype(str).to_numpy()
-    for gene, types in (("Igkc", {"B", "GC B", "plasma"}), ("Ighm", {"B", "GC B", "plasma"}), ("Trac", {"T"})):
+    for gene, types in (("Igkc", {"B", "GC B", "ASC"}), ("Ighm", {"B", "GC B", "ASC"}), ("Trac", {"T"})):
         v = np.asarray(X[:, names.index(gene)].todense()).ravel()
         assert v.sum() > 0 and set(ct[v > 0]) <= types  # only on the spots of cells that express it
     ik = np.asarray(X[:, names.index("Igkc")].todense()).ravel()
@@ -209,13 +209,13 @@ def test_constant_region_rna_is_confined_to_its_cells_and_bursty():
     lk = np.asarray(legacy.X.tocsc()[:, list(legacy.var_names).index("Igkc")].todense()).ravel()
     assert set(legacy.obs.cell_type.astype(str).to_numpy()[lk > 0]) >= {"none", "other"}  # legacy: everywhere
     per = sa.meta["cells"].groupby("cell_type").constant_transcripts.mean()
-    assert per["plasma"] > per["GC B"] > per["B"] > 0 and per["T"] > 0 and per["other"] == 0
+    assert per["ASC"] > per["GC B"] > per["B"] > 0 and per["T"] > 0 and per["other"] == 0
 
 
 def test_swaps_land_on_cdna_rich_receptor_rich_cells():
     def b_share(sa):
         sw = sa.air[sa.air.truth == "swapped"]
-        return sw.cell_type.isin(["B", "GC B", "plasma"]).mean()
+        return sw.cell_type.isin(["B", "GC B", "ASC"]).mean()
 
     real = [sim.synthetic_chip(rng=s, genuine_fraction=0.0, **WIDE) for s in range(2)]
     old = [sim.synthetic_chip(rng=s, genuine_fraction=0.0, legacy=True, **WIDE) for s in range(2)]

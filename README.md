@@ -120,7 +120,7 @@ Every statistic reproduces the numbers of the analyses it came from (AIR-SPACE a
 
 | Package | What spaclone does with it, spatially | Install |
 |---|---|---|
-| [scanpy](https://scanpy.readthedocs.io) · [anndata](https://anndata.readthedocs.io) | Transcriptome workflow on spots: QC, clusters, regions (germinal centres, ASC foci, T zones), DE with regions as replicates; one container for spots and receptor records | core |
+| [scanpy](https://scanpy.readthedocs.io) · [anndata](https://anndata.readthedocs.io) | Transcriptome workflow on spots: QC, clusters, regions (germinal centres, areas of antibody-secreting cells (ASC: plasmablasts and plasma cells), T zones), DE with regions as replicates; one container for spots and receptor records | core |
 | [squidpy](https://squidpy.readthedocs.io) | Neighbourhood enrichment, co-occurrence and spatial autocorrelation of receptor-derived labels (`ext.squidpy`) | `[squidpy]` |
 | [scirpy](https://scirpy.scverse.org) | Clonotypes, expansion, diversity, overlap and V(D)J usage per spatial unit, mapped back to tissue (`ext.scirpy`) | `[scirpy]` |
 | [SpatialData](https://spatialdata.scverse.org) | SpatialData in and out: records as points, spots as shapes (`io.to_spatialdata`) | `[spatialdata]` |

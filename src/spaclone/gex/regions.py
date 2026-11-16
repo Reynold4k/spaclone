@@ -1,15 +1,16 @@
-"""Tissue regions from the transcriptome: germinal centres, plasma-cell (ASC) areas, T zones, follicles, red pulp.
+"""Tissue regions from the transcriptome: germinal centres, antibody-secreting-cell areas, T zones, follicles, red pulp.
 
-Two families of rules:
+Antibody-secreting cells (ASC: plasmablasts and plasma cells) form one kind, the ASC area: their markers cannot tell
+the two apart. Two families of rules:
 
-* **marker-share regions** (``"germinal_centre"``, ``"plasma_cell"``): the share of a marker set among all counts
+* **marker-share regions** (``"germinal_centre"``, ``"asc"``): the share of a marker set among all counts
   within ``smooth_um`` of each tissue unit; units in the top ``top_frac`` are "hot"; hot units are grouped into
   region instances by DBSCAN (``dbscan_eps_um``, ``min_samples``), clusters with fewer than ``min_units`` hot units
   are dropped, and the kept clusters are widened by ``widen_um`` (every tissue unit within that distance of a
   kept hot unit joins the nearest one's instance). The defaults are the archive's AIR-SPACE rules
   (``04_external_validation_2026-10/workflow/X3_airspace_claims.py`` and ``X3b_airspace_gc_sharing.py``):
   germinal centres = GC-B share (Aicda, S1pr2, Gcsam, Rgs13, Mef2b) within 30 µm in the top 8%, DBSCAN 25 µm /
-  8 units, ≥ 30 units, widened by 25 µm; ASC area = plasma-cell share (Jchain, Xbp1, Prdm1, Sdc1) within 30 µm in the
+  8 units, ≥ 30 units, widened by 25 µm; ASC area = ASC-marker share (Jchain, Xbp1, Prdm1, Sdc1) within 30 µm in the
   top 8% and not already a germinal centre (no instances).
 * **cell-type-mask regions** (``"t_zone"``, ``"follicle"``, ``"red_pulp"``): masks of the pixels where T,
   B-lineage or erythroid units dominate (``spaclone.tl.mask_from_types``: 10-µm grid, 30-µm Gaussian, Otsu), T zones
@@ -45,23 +46,25 @@ REGION_MARKERS: dict[str, dict[str, list[str]]] = {
         "mouse": ["Aicda", "S1pr2", "Gcsam", "Rgs13", "Mef2b"],
         "human": ["AICDA", "S1PR2", "GCSAM", "RGS13", "MEF2B", "SERPINA9"],
     },
-    "plasma_cell": {"mouse": ["Jchain", "Xbp1", "Prdm1", "Sdc1"], "human": ["JCHAIN", "XBP1", "PRDM1", "SDC1"]},
+    "asc": {"mouse": ["Jchain", "Xbp1", "Prdm1", "Sdc1"], "human": ["JCHAIN", "XBP1", "PRDM1", "SDC1"]},
 }
 
 #: Default label of each region kind in the region column.
 REGION_LABELS: dict[str, str] = {
     "germinal_centre": "GC",
-    "plasma_cell": "ASC",
+    "asc": "ASC",
     "t_zone": "T zone",
     "follicle": "follicle",
     "red_pulp": "red pulp",
 }
+#: Other spellings of the region kinds; ``"plasma_cell"`` (the ASC kind's name before 1.2), ``"pc"`` and ``"plasma"``
+#: give the ASC area.
 _ALIASES = {
     "gc": "germinal_centre",
     "germinal_center": "germinal_centre",
-    "asc": "plasma_cell",
-    "pc": "plasma_cell",
-    "plasma": "plasma_cell",
+    "plasma_cell": "asc",
+    "pc": "asc",
+    "plasma": "asc",
     "tzone": "t_zone",
     "t zone": "t_zone",
     "red pulp": "red_pulp",
@@ -75,7 +78,7 @@ _SHARE_DEFAULTS: dict[str, dict[str, float]] = {
         "min_units": 30,
         "widen_um": 25.0,
     },
-    "plasma_cell": {
+    "asc": {
         "top_frac": 0.08,
         "smooth_um": 30.0,
         "dbscan_eps_um": 0.0,
@@ -84,7 +87,7 @@ _SHARE_DEFAULTS: dict[str, dict[str, float]] = {
         "widen_um": 0.0,
     },
 }
-_SHARE_KEY = {"germinal_centre": "gc_share", "plasma_cell": "asc_share"}
+_SHARE_KEY = {"germinal_centre": "gc_share", "asc": "asc_share"}
 #: Cell classes behind the masks (labels of :data:`spaclone.gex.MARKERS` and common deconvolution names).
 _MASK_TYPES = {
     "T": ("T", "Tfh", "T lineage", "T_cells", "T cells"),
@@ -195,7 +198,8 @@ def call_regions(
     adata
         Spot-level AnnData with raw counts, ``obsm[spatial_key]`` in µm and (for share kinds) a tissue column.
     kind
-        ``"germinal_centre"``, ``"plasma_cell"`` (alias ``"asc"``), ``"t_zone"``, ``"follicle"`` or ``"red_pulp"``.
+        ``"germinal_centre"``, ``"asc"`` (the area of antibody-secreting cells (ASC: plasmablasts and plasma cells);
+        ``"plasma_cell"``, ``"pc"`` and ``"plasma"`` give the same), ``"t_zone"``, ``"follicle"`` or ``"red_pulp"``.
     markers
         Marker genes of a share kind (default :data:`REGION_MARKERS` for ``species``).
     species
@@ -262,7 +266,7 @@ def call_regions(
     kind                  top_frac  smooth_um  dbscan_eps_um  min_samples  min_units  widen_um
     ====================  ========  =========  =============  ===========  =========  ========
     germinal_centre       0.08      30         25             8            30         25
-    plasma_cell           0.08      30         0 (off)        –            –          0
+    asc                   0.08      30         0 (off)        –            –          0
     t_zone etc. (masks)   –         30 (σ)     –              –            –          –
     ====================  ========  =========  =============  ===========  =========  ========
 

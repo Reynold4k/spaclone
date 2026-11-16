@@ -245,13 +245,14 @@ def own_type_share(
     -----
     Recommended design (the one :func:`spaclone.run` uses when it has the GEX): ``by_spot=True``,
     ``weights=gex.obs["total_counts"]`` and, for BCR, ``within`` = the local Ig RNA bin of every unit. Without Ig RNA
-    strata a broken assay whose receptor calls follow Ig cDNA (B-lineage and plasma units hold most of it) looks like
-    a positional signal: on AIR-SPACE D14 the BCR molecules sat on B-lineage beads 1.80 times as often as uniformly
-    placed spots, 1.37 times as often as cDNA-weighted ones, and no more often than beads of the same Ig RNA (0.58 vs
-    0.59; ``validation/results/m2_own_type_share.csv``). The strata cost power: in the package simulator (2-µm spots, swaps on
-    captured cDNA) a 5% genuine fraction was detected in 93% of BCR chips with cDNA weights alone and in 17% with Ig
-    strata (radius 5 µm); 30% genuine in 100% and 98%. With the spot's own Ig RNA (radius 0) as the stratum on
-    2-µm spots the test lost all power (genuine molecules are what puts Ig RNA on their spots).
+    strata a broken assay whose receptor calls follow Ig cDNA (B-lineage units, those of antibody-secreting cells among
+    them, hold most of it) looks like a positional signal: on AIR-SPACE D14 the BCR molecules sat on B-lineage beads
+    1.80 times as often as uniformly placed spots, 1.37 times as often as cDNA-weighted ones, and no more often than
+    beads of the same Ig RNA (0.58 vs 0.59; ``validation/results/m2_own_type_share.csv``). The strata cost power: in the
+    package simulator (2-µm spots, swaps on captured cDNA) a 5% genuine fraction was detected in 93% of BCR chips with
+    cDNA weights alone and in 17% with Ig strata (radius 5 µm); 30% genuine in 100% and 98%. With the spot's own Ig RNA
+    (radius 0) as the stratum on 2-µm spots the test lost all power (genuine molecules are what puts Ig RNA on their
+    spots).
 
     False-positive rates at alpha = 0.05 (200 simulated chips without genuine molecules, ``fixes/F2``): swaps
     weighted by cell-type cDNA (the 2026-10-30 review's scenario) 100% with the legacy design, 1.5% with cDNA weights,
@@ -897,7 +898,7 @@ def composition_power(
     models
         ``"polyclonal"`` (every genuine record a new clone, e.g. naive B cells), ``"oligoclonal"`` (``n_oligo`` new
         clones with Zipf(1) sizes, e.g. germinal centres) or ``"resident"`` (the ``n_resident`` largest existing
-        clones in a reshuffled, group-specific mix, e.g. plasma cells of the dominant clones).
+        clones in a reshuffled, group-specific mix, e.g. antibody-secreting cells of the dominant clones).
     n_rep, n_perm, alpha
         Replicates per (model, g), null tables per test and the level.
     rare_max

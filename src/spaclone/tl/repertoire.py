@@ -15,11 +15,12 @@ same questions per region, niche or section, and two things change.
   must move them together. Shuffling clone labels over the units (``placebo="labels"``) shows only how large a
   difference the unit counts produce; its p-values reject whenever clones are spatially clustered.
 
-Example: in the AIR-SPACE lymph nodes the germinal centres hold fewer IGH molecules than the plasma-cell area and the
-Gini coefficient of clone sizes is lower there (0.13-0.44 vs 0.46-0.57), and clone labels shuffled over the tissue give
-a similar difference, so the raw contrast is mostly a unit-count effect (archive ``X3b``). Rarefied to the GC's size
-and tested against random placement of intact clones, the GC Gini is lower than placement predicts on days 10 and 21
-(p 0.004-0.02) and not different on days 7 and 14 (validation ``m9``).
+Example: in the AIR-SPACE lymph nodes the germinal centres hold fewer IGH molecules than the area of antibody-secreting
+cells (ASC: plasmablasts and plasma cells) and the Gini coefficient of clone sizes is lower there (0.13-0.44 vs
+0.46-0.57), and clone labels shuffled over the tissue give a similar difference, so the raw contrast is mostly a
+unit-count effect (archive ``X3b``). Rarefied to the GC's size and tested against random placement of intact clones, the
+GC Gini is lower than placement predicts on days 10 and 21 (p 0.004-0.02) and not different on days 7 and 14 (validation
+``m9``).
 """
 
 from __future__ import annotations

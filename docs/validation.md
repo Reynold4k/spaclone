@@ -109,11 +109,12 @@ largest DBSCAN label + 1", which match); by default it numbers the germinal cent
 **Pre-stated workflow check (3 rows).** The transcriptome workflow (`call_tissue` → `qc_metrics` → `filter` →
 `preprocess` → `cluster` → `embed` → `score_cell_types` → `call_regions` → `domains` → `rank_genes_regions` →
 `nhood_enrichment`) was run end to end on the AIR-SPACE D14 lymph node. No archived clustering exists, so the check was
-a rule fixed before the run: the Leiden clusters with the highest mean B, T and ASC module enrichment are three
-different clusters, and in each of them its own module's mean enrichment is at least 2 (twice the tissue mean) and
-higher than the other two modules'. The three clusters were different and the ASC cluster passed (enrichment 3.96), but
-the B and T clusters reached 1.14 and 1.91, so the rule failed. The result is reported as it came out (re-run on
-2026-10-30 after {func}`spaclone.gex.cluster` was made independent of the number of threads; before, 1.14 and 1.72).
+a rule fixed before the run, on the modules of B cells, T cells and antibody-secreting cells (ASC: plasmablasts and
+plasma cells): the Leiden clusters with the highest mean B, T and ASC module enrichment are three different clusters,
+and in each of them its own module's mean enrichment is at least 2 (twice the tissue mean) and higher than the other two
+modules'. The three clusters were different and the ASC cluster passed (enrichment 3.96), but the B and T clusters
+reached 1.14 and 1.91, so the rule failed. The result is reported as it came out (re-run on 2026-10-30 after
+{func}`spaclone.gex.cluster` was made independent of the number of threads; before, 1.14 and 1.72).
 
 ## By script
 
@@ -214,8 +215,8 @@ SpatialData.
 ### Transcriptome (`m7_*`)
 
 The Ig constant-gene RNA strata (units and receptor calls per stratum) on AIR-SPACE and the lung-cancer chips (X5), the
-AIR-SPACE tissue beads, germinal-centre and plasma-cell regions bead by bead (X3, X3b) and the bead cell types (X6), and
-the end-to-end workflow on one lymph node with its pre-stated check.
+AIR-SPACE tissue beads, germinal-centre and ASC regions bead by bead (X3, X3b; the archive's `GC` and `PC` beads) and
+the bead cell types (X6), and the end-to-end workflow on one lymph node with its pre-stated check.
 
 | File | Checks | Match | Differences | No pass/fail |
 |---|---:|---:|---:|---:|
@@ -246,7 +247,7 @@ parse of the same alignment strings and the tutorial's calculation; it has no ar
 ### Repertoire, dispersion and TCR (`m9_*`)
 
 AIR-SPACE clone dynamics with rarefaction (A1), public clones across lymph nodes (A4) and the germinal-centre versus
-plasma-cell Gini contrast (X3, X3b); the "clustered clone" calls of the StereoIR and AIR-SPACE data (S1), replayed with
+ASC-area Gini contrast (X3, X3b); the "clustered clone" calls of the StereoIR and AIR-SPACE data (S1), replayed with
 the archive's draws; and the StereoIR iNKT and MAIT chains (TR1, TR3) and OLGA generation probabilities (TR2).
 
 | File | Checks | Match | Differences | No pass/fail |

@@ -194,10 +194,12 @@ class HotspotLayers:
             out.append(lay)
         return out
 
-    # ---- module score image of a region's GEX label
-    def module_image(self, label: Any, *, when: Mapping[str, Any] | None = None) -> dict[str, Any] | None:
+    # ---- module score image of a region's GEX label (``second``: the region's second set, see ``module_key``)
+    def module_image(
+        self, label: Any, *, second: Any = None, when: Mapping[str, Any] | None = None
+    ) -> dict[str, Any] | None:
         d = self.data
-        key = d.module_key(label)
+        key = d.module_key(label, second)
         if key is None:
             return None
         img, _ = d.module_image(key)

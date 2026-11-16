@@ -1,9 +1,10 @@
 """Immunoglobulin constant-gene RNA per unit: depth strata for the location-trust tests and Ig class composition.
 
-A spatial BCR call is partly a readout of how much Ig RNA a unit holds (plasma cells hold far more than B cells, and
-Ig RNA spills over to neighbours). The trust tests therefore compare like with like inside strata of local Ig RNA
-(:data:`spaclone.nulls.IG_RNA_BINS`). :func:`ig_rna` gives that amount per unit, optionally summed within a radius,
-with the gene lists of the archive (``04_external_validation_2026-10/workflow/X5_depth_tests.py``).
+A spatial BCR call is partly a readout of how much Ig RNA a unit holds: antibody-secreting cells (ASC: plasmablasts and
+plasma cells) hold far more than B cells, and Ig RNA spills over to neighbours. The trust tests therefore compare like
+with like inside strata of local Ig RNA (:data:`spaclone.nulls.IG_RNA_BINS`). :func:`ig_rna` gives that amount per unit,
+optionally summed within a radius, with the gene lists of the archive
+(``04_external_validation_2026-10/workflow/X5_depth_tests.py``).
 """
 
 from __future__ import annotations

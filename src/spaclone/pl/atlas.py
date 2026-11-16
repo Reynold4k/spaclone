@@ -38,6 +38,7 @@ import pandas as pd
 from scipy import ndimage as ndi
 
 from spaclone import _schema as S
+from spaclone.gex.profile import _ASC_SETS
 from spaclone.pl._colors import ATLAS_STYLES
 
 __all__ = ["hotspot_atlas", "hotspot_overview", "region_zoom"]
@@ -151,16 +152,23 @@ def _ids(value: Any) -> list[int]:
     return out
 
 
-def _top_set(label: str) -> str:
-    """The first cell-type set of a GEX label: ``"plasmablast/ASC / plasma cell (mixed)"`` -> ``"plasmablast/ASC"``."""
+def _top_set(label: str, second: Any = None) -> str:
+    """The first cell-type set of a GEX label: ``"ASC (Sdc1+) / GC B (mixed)"`` -> ``"ASC (Sdc1+)"``.
+
+    ``"ASC"`` is also the label of a mix of the two ASC sets (:func:`spaclone.gex.profile_regions`); its first set is
+    the one that is not the region's second set ``second``: ``"ASC (Sdc1+)"`` when ``second`` is ``"ASC"``.
+    """
     lab = label.strip()
     if lab.endswith("(mixed)"):
         lab = lab[: -len("(mixed)")].strip()
-    return lab.split(" / ")[0].strip()
+    top = lab.split(" / ")[0].strip()
+    if top == second and top in _ASC_SETS:  # "ASC" for a mix of the two ASC sets: the top set is the other one
+        return next(t for t in _ASC_SETS if t != top)
+    return top
 
 
 def _short_label(label: str) -> str:
-    """Display form of a GEX label: each set by its last name (``"plasmablast/ASC"`` -> ``"ASC"``).
+    """Display form of a GEX label: each set by its name after the last ``/`` (``"X/Y"`` -> ``"Y"``).
 
     This is how the archive figure names the sets; a mixed label keeps both sets and its ``(mixed)`` mark.
     """
@@ -816,13 +824,16 @@ class _AtlasData:
         self._cache["gex_pos"] = pos
         return pos
 
-    def module_key(self, label: Any) -> Any:
-        """Module map of a region's GEX label (the top set of a mixed label ``"<top> / <second> (mixed)"``)."""
+    def module_key(self, label: Any, second: Any = None) -> Any:
+        """Module map of a region's GEX label (the top set of a mixed label ``"<top> / <second> (mixed)"``).
+
+        ``second`` is the region's second set (``gex_second_label``), which names the top set of an ``"ASC"`` label.
+        """
         mm = _field(self.result, "module_maps")
         if mm is None or label is None or (isinstance(label, float) and not np.isfinite(label)):
             return None
         keys = list(mm.columns) if isinstance(mm, pd.DataFrame) else list(mm.keys())
-        lab = _top_set(str(label))
+        lab = _top_set(str(label), second)
         for k in keys:
             if str(k) == lab:
                 return k
@@ -981,9 +992,14 @@ class _AtlasData:
         rgba[..., 3] = self.tissue.astype(float)
         return rgba, bool((self.tissue & ~fin).any())
 
+    def region_module_key(self, rid: Any) -> Any:
+        """Module map of a region's GEX label (:meth:`module_key` with the region's label and second set)."""
+        row = self.regions.loc[rid]
+        return self.module_key(row.get("gex_label"), row.get("gex_second_label"))
+
     def unscored(self, rid: Any, box: tuple[float, float, float, float] | None = None) -> bool:
         """Whether the GEX zoom of a region shows units without a score (they get the grey legend entry)."""
-        key = self.module_key(self.regions.loc[rid].get("gex_label"))
+        key = self.region_module_key(rid)
         if key is None:
             return False
         img, any_unscored = self.module_image(key)
@@ -1017,7 +1033,7 @@ class _AtlasData:
             xy = self.frame(pos.x_um.to_numpy(dtype=float), pos.y_um.to_numpy(dtype=float))
             keep = self._mask_for(pos.index)
             for rid, box in items:
-                val = mm.get(self.module_key(self.regions.loc[rid].get("gex_label")))
+                val = mm.get(self.region_module_key(rid))
                 if not isinstance(val, pd.Series):
                     excluded = True
                     continue
@@ -1335,7 +1351,7 @@ def _zoom_panel(
     else:
         label = row.get("gex_label")
         has_label = isinstance(label, str) and label.strip() != ""
-        key = data.module_key(label) if has_label else None
+        key = data.module_key(label, row.get("gex_second_label")) if has_label else None
         img, _ = data.module_image(key) if key is not None else (None, False)
         if img is not None:
             _draw_image(ax, data.frame, data.grid, img, z=0, clip=data.tissue_fill())
