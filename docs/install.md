@@ -33,6 +33,21 @@ reported as `broken`, with its error. A script or notebook can start with
 `spaclone.check_install(require=("datasets", "scirpy"))`: it checks only those extras and stops with an `ImportError`
 that names what is missing and the `pip install "spaclone[...]"` command that adds it.
 
+## With conda
+
+spaclone is on [Bioconda](https://bioconda.github.io/recipes/spaclone/README.html). In a new environment:
+
+```bash
+conda create -n spaclone -c conda-forge -c bioconda spaclone
+conda activate spaclone
+```
+
+`mamba` and `micromamba` take the same arguments, `python=3.12` after `spaclone` chooses the Python version, and
+`conda install -c conda-forge -c bioconda spaclone` adds spaclone to the environment you are in. The Bioconda package
+is the core. The extras come from pip in the same environment, for example `pip install "spaclone[full]"` (pip then
+replaces a few of conda's packages, scanpy among them, with the versions the extras need). For IgBLAST, IgPhyML and
+the R packages in one environment, see [below](#everything-with-igblast-and-r-conda).
+
 ## Run the tutorials
 
 The tutorials are Jupyter notebooks. Each one names the extras it needs in its first cell;
@@ -144,6 +159,12 @@ suite with the docstring examples. spaclone 1.2.0 (2026-11-16):
 | 3.11 | core + `[interactive]`, lowest supported versions | numpy 2.0.2, pandas 2.2.3, scipy 1.13.1, anndata 0.10.9, matplotlib 3.8.4, pyarrow 16.1.0 | all tests and docstring examples pass; the browser tests skip (no Playwright) |
 | 3.12 | `[full]` | numpy 2.5.5, pandas 3.1.1, scipy 1.18.1, anndata 0.13.4, scanpy 1.12.6, scirpy 0.26.1, squidpy 1.8.4, SpatialData 0.9.0, sc-dandelion 1.0.2, CellRank 2.4.0, deeptime 0.5.0, Threadfin 4.7.0, Change-O 1.3.5 | every optional Python feature available; all tests, the docstring examples and the slow tests pass; the README examples run as written |
 | 3.13 | `[full]` | as 3.12 | all tests and docstring examples pass |
+
+The Bioconda package of spaclone 1.2.0 (2026-11-17, Linux): `conda create -c conda-forge -c bioconda spaclone` alone
+(the solver chose Python 3.13.18 with numpy 2.5.5, pandas 3.1.1, anndata 0.13.4 and scanpy 1.13.0) and with
+`python=3.11`, `python=3.12` and `python=3.13`. Each environment passed `pip check`, `spaclone --help` and a run of the
+synthetic example (trust report, lineage trees, the interactive explorer); the test suite was not run there.
+`pip install "spaclone[full]"` in the first environment passed `pip check` and the same run.
 
 The tutorials were re-executed with 1.2.0 in the environment of the 1.0.3 row for Python 3.12 below (the same package
 versions, Threadfin 4.6.2, one BLAS thread). The browser tests of the interactive figures (`pytest -m browser`) ran in

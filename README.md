@@ -6,6 +6,7 @@ Claude (Anthropic) develops, tests and pushes all code in this repository, and k
 
 <p align="center">
   <a href="https://pypi.org/project/spaclone/"><img src="https://img.shields.io/pypi/v/spaclone?style=flat-square&color=2a78d6&label=PyPI" alt="PyPI version"></a>
+  <a href="https://bioconda.github.io/recipes/spaclone/README.html"><img src="https://img.shields.io/conda/vn/bioconda/spaclone?style=flat-square&color=2a78d6&label=bioconda" alt="Bioconda version"></a>
   <a href="https://pypi.org/project/spaclone/"><img src="https://img.shields.io/pypi/pyversions/spaclone?style=flat-square&color=2a78d6" alt="Python versions"></a>
   <a href="https://github.com/Reynold4k/spaclone/blob/main/LICENSE"><img src="https://img.shields.io/badge/licence-MIT-2a78d6?style=flat-square" alt="MIT licence"></a>
   <a href="https://github.com/Reynold4k/spaclone/actions/workflows/test.yaml"><img src="https://img.shields.io/github/actions/workflow/status/Reynold4k/spaclone/test.yaml?branch=main&style=flat-square&label=tests" alt="tests"></a>
@@ -56,6 +57,12 @@ spaclone adds the following, and the public record shows none of it elsewhere:
 pip install spaclone              # core: reading, QC, trust tests, BCR and TCR analysis, plots
 pip install "spaclone[datasets]"  # + the downloader of the public example data used below
 pip install "spaclone[full]"      # + every package in "Integrates" below (the downloader included)
+```
+
+Or with conda, from [Bioconda](https://bioconda.github.io/recipes/spaclone/README.html):
+
+```bash
+conda install -c conda-forge -c bioconda spaclone   # the core; the extras come from pip in the same environment
 ```
 
 ```python
