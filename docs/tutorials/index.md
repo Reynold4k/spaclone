@@ -30,6 +30,7 @@ covers every notebook. Each notebook says at the top where its files come from.
 | {doc}`06_hotspots_and_lineages` | Showcase on data that are not yet public (BGI; cannot be re-run until they are released). The flagship workflow on a Stereo-seq mouse spleen, from two files: the trust report, class-switch and mutation hotspots with their overlap regions and GEX identity (`bcr.hotspot_workflow`, `pl.hotspot_atlas`, `pl.region_zoom`, `pl.csr_map`), the confirmatory clone-level SHM test, lineage trees on the tissue (`bcr.lineage_workflow`, `pl.lineage_tree`, `pl.lineage_gallery`), sciCSR transitions over tissue regions (`pl.csr_flow`, `pl.flux_matrix`, `pl.stationary_distribution`) and Threadfin clone states (`pl.clone_state_map`, `pl.clone_axis_profile`, `pl.spanning_clones`). |
 | {doc}`07_airspace_time_course` | Every AIR-SPACE analysis on all six public lymph nodes (Mock and days 3, 7, 10, 14 and 21) with the package defaults: the trust report of each node, CSR and SHM hotspots with the hotspot atlas, isotype maps and switches within clones, isotype and share maps, sciCSR's class-switch potential and flow with the flux test, transcriptome regions, clone and scirpy maps, the repertoire across the days, Threadfin clone states, and one table of the key numbers per day. |
 | {doc}`08_lineages_and_clone_states` | The functions that only the showcase used, on data anyone can get: lineage trees on a synthetic section with planted lineages (`bcr.lineage_workflow`, `pl.lineage_tree`, `pl.lineage_gallery`), checked against the planted trees (`sim.score_lineages`), then on the public AIR-SPACE day-21 node a region zoom (`pl.region_zoom`), the stationary distribution of sciCSR's transition model (`pl.stationary_distribution`) and Threadfin clone states along the clone axis (`pl.clone_axis_profile`, `pl.spanning_clones`). |
+| {doc}`09_interactive_figures` | Interactive figures: the explorer on all six AIR-SPACE lymph nodes in one file (sample switcher, layers, gene picker, clone search, selections), the numbers of a selection in Python (`fig.summary`), one figure inline and others saved as files, how many genes a file carries, and how the files behave offline, in notebooks and on GitHub. |
 
 ```{toctree}
 :maxdepth: 1
@@ -43,4 +44,5 @@ covers every notebook. Each notebook says at the top where its files come from.
 06_hotspots_and_lineages
 07_airspace_time_course
 08_lineages_and_clone_states
+09_interactive_figures
 ```

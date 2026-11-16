@@ -12,3 +12,4 @@ docs/_build/
 .ipynb_checkpoints/
 docs/generated/
 docs/_build/
+docs/tutorials/interactive_figures/

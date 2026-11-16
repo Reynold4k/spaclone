@@ -4,7 +4,7 @@ requires = [ "hatchling" ]
 
 [project]
 name = "spaclone"
-version = "1.0.3"
+version = "1.1.0"
 description = "Is spatial immune-receptor data spatial? Calibrated location-trust tests and clonal concentration maps for spatial BCR/TCR data."
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -41,9 +41,14 @@ optional-dependencies.dandelion = [ "sc-dandelion>=0.5.7", "scanpy<1.13" ]
 optional-dependencies.datasets = [ "pooch>=1.7" ]
 optional-dependencies.fast = [ "numba>=0.59" ]
 # full includes spaclone[dandelion], so it carries the scanpy<1.13 pin above.
-optional-dependencies.full = [ "spaclone[bam,dandelion,datasets,fast,images,immcantation,leiden,scicsr,scverse,tcr,threadfin]" ]
+optional-dependencies.full = [
+  "spaclone[bam,dandelion,datasets,fast,images,immcantation,interactive,leiden,scicsr,scverse,tcr,threadfin]",
+]
 optional-dependencies.images = [ "tifffile>=2023.1" ]
 optional-dependencies.immcantation = [ "changeo>=1.3.5" ]
+# interactive: nothing to install. The interactive figures (spaclone.pl.interactive) are spaclone's own code with no
+# third-party script; the extra exists so that pip install "spaclone[interactive]" is valid and stays so.
+optional-dependencies.interactive = []
 optional-dependencies.leiden = [ "leidenalg>=0.10" ]
 optional-dependencies.scicsr = [
   "cellrank>=2,<2.3; python_version < '3.12'",
@@ -82,7 +87,10 @@ lint.pydocstyle.convention = "numpy"
 # the Examples of the docstrings (src/spaclone) run as doctests with the tests
 addopts = [ "--import-mode=importlib", "-m", "not slow", "--doctest-modules" ]
 testpaths = [ "tests", "src/spaclone" ]
-markers = [ "slow: long-running calibration or power tests (run with -m slow)" ]
+markers = [
+  "slow: long-running calibration or power tests (run with -m slow)",
+  "browser: interactive figures in a real headless browser (Playwright); skipped when no browser is installed",
+]
 filterwarnings = [ "error::spaclone._utils.SpacloneWarning" ]
 
 [tool.coverage.run]

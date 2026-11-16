@@ -226,6 +226,7 @@ CONTENTS = {
     "bcr": "isotypes, class switching, somatic hypermutation, lineage trees, the hotspot and lineage workflows",
     "tl": "share maps, hotspots, clonal scan, niches, transition models (TPT), repertoire statistics",
     "pl": "plots; each takes `ax=None` and returns the Axes or Figure",
+    "pl.interactive": "interactive figures: one self-contained HTML file each, the explorer `spaclone.pl.explore`",
     "sim": "simulated sections with known truth, planted-truth benchmarks",
     "datasets": "example data (download and cache)",
     "nulls": "null designs (random labelling, random placement) and the placebo engine",
@@ -234,7 +235,7 @@ CONTENTS = {
 
 _ROLE = re.compile(r"\{(?:func|class|mod|data|meth|attr|exc)\}`(~?)([\w.]+)`")
 _DOC_ROLE = re.compile(r"\{doc\}`([\w/]+)`")
-_TITLES = {"ecosystem": "Working with established packages"}
+_TITLES = {"ecosystem": "Working with established packages", "interactive": "Interactive figures"}
 
 
 def md(text: str) -> str:
@@ -306,6 +307,25 @@ keyword-only. Coordinates and distances are in micrometres, and distance argumen
 """
 
 
+#: Names a namespace re-exports from a subpackage documented in its own section (``spaclone.pl.explore`` is
+#: ``spaclone.pl.interactive.explore``).
+REEXPORTS = {"spaclone.pl": ("explore",)}
+
+INTERACTIVE = (
+    "pl.interactive",
+    "interactive-figures-pl-interactive",
+    "Interactive figures",
+    "Every function returns an {class}`~spaclone.pl.interactive.InteractiveFigure`: one self-contained HTML file with "
+    "its data inside, which opens offline in a browser and is what a notebook shows inline (with a static picture for "
+    "viewers that do not run scripts). {func}`~spaclone.pl.interactive.explore` (also `spaclone.pl.explore`) shows one "
+    "or several sections with sample, layer, gene and clone switchers; the "
+    "other functions are the interactive forms of the plots of the same name in `spaclone.pl`. See {doc}`interactive`.",
+    [
+        ("The explorer and the figure", ["explore", "InteractiveFigure", "Options", "FigureSizeWarning"]),
+    ],
+)
+
+
 def public_names(modname: str) -> list[tuple[str, str]]:
     """``(name, defining submodule)`` of every public name of a module, in ``__all__`` order."""
     mod = importlib.import_module(modname)
@@ -326,7 +346,10 @@ def public_names(modname: str) -> list[tuple[str, str]]:
     leaks = [
         n
         for n in dir(mod)
-        if not n.startswith("_") and n not in out and not isinstance(getattr(mod, n), types.ModuleType)
+        if not n.startswith("_")
+        and n not in out
+        and not isinstance(getattr(mod, n), types.ModuleType)
+        and n not in REEXPORTS.get(modname, ())
     ]
     if leaks:
         raise SystemExit(f"{modname}: public attributes outside every __all__: {leaks}")
@@ -448,6 +471,21 @@ def build() -> tuple[str, list[str], dict[str, int]]:
         documented += names
         counts[f"spaclone.{ns}"] = len(names)
         contents.append(f"| [`spaclone.{ns}`](#{slug(f'{heading} (`spaclone.{ns}`)')}) | {md(CONTENTS[ns])} |")
+
+    ns, _anchor, heading, text, first = INTERACTIVE
+    full = f"spaclone.{ns}"
+    mod = importlib.import_module(full)
+    lead = [n for n in first[0][1] if n in mod.__all__]
+    # ``options`` (the settings in use) is documented with its class: a page of its own would differ from
+    # ``Options`` only in case
+    rest = sorted((n for n in mod.__all__ if n not in lead and n != "options"), key=str.lower)
+    sec_heading = f"{heading} (`{full}`)"
+    body += [f"## {sec_heading}", "", para(text), "", "```{eval-rst}", f".. module:: {full}", "```", "",
+             f"### {first[0][0]}", "", *table(full, lead, {}), "### Interactive forms of the plots", "",
+             *table(full, rest, {})]  # fmt: skip
+    documented += [f"{full}.{n}" for n in lead + rest]
+    counts[full] = len(lead) + len(rest)
+    contents.append(f"| [`{full}`](#{slug(sec_heading)}) | {md(CONTENTS[ns])} |")
 
     ns, anchor, heading, text = NULLS
     lines, names = section(f"spaclone.{ns}", anchor, heading, text, [("", [f"spaclone.{ns}"])])

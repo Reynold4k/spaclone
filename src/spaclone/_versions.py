@@ -65,6 +65,7 @@ EXTRAS_FALLBACK: dict[str, tuple[str, ...]] = {
     "tcr": ("olga>=1.3",),
     "datasets": ("pooch>=1.7",),
     "fast": ("numba>=0.59",),
+    "interactive": (),  # nothing to install: the interactive figures are spaclone's own code
 }
 #: Extras that only group other extras.
 UMBRELLA_EXTRAS: dict[str, tuple[str, ...]] = {
@@ -76,6 +77,7 @@ UMBRELLA_EXTRAS: dict[str, tuple[str, ...]] = {
         "fast",
         "images",
         "immcantation",
+        "interactive",
         "leiden",
         "scicsr",
         "scverse",
@@ -170,6 +172,13 @@ FEATURES: tuple[Feature, ...] = (
     ),
     Feature("OLGA", "python", ("olga",), "tl.pgen; tl.public_clonotypes(pgen=True)", extra="tcr"),
     Feature("pooch", "python", ("pooch",), "downloads in spaclone.datasets", extra="datasets"),
+    Feature(
+        "interactive figures",
+        "python",
+        (),
+        "spaclone.pl.interactive, spaclone.pl.explore (self-contained HTML figures; built in, nothing to install)",
+        extra="interactive",
+    ),
     Feature("tifffile", "python", ("tifffile",), "io.read_tissue_mask (TIFF masks)", extra="images"),
     Feature("numba", "python", ("numba",), "nothing required (scanpy already installs it)", extra="fast"),
     Feature(
@@ -561,9 +570,11 @@ def _python_row(f: Feature, specs: list[str], deep: bool) -> dict[str, Any]:
     """Report row of a Python feature: presence, version and (``deep``) whether every module imports."""
     row: dict[str, Any] = {"feature": f.name, "kind": f.kind, "extra": f.extra or "", "used_by": f.used_by}
     row["enable"] = "pip install " + " ".join(_quote(s) for s in specs) if specs else ""
+    if not specs and not f.requires:  # built in: nothing beyond spaclone itself
+        row["enable"] = f"pip install {SOURCE}   (built in)"
     present = [importlib.util.find_spec(m) is not None for m in f.requires]
     dists = f.dists or f.requires
-    row["version"] = _version(dists[0]) or ""
+    row["version"] = (_version(dists[0]) or "") if dists else ""
     detail = ""
     if all(present):
         status = "yes"

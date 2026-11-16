@@ -20,7 +20,7 @@ def _pyproject() -> dict:
 
 def test_extras_fallback_mirrors_pyproject():
     extras = _pyproject()["project"]["optional-dependencies"]
-    umbrella = {k: v for k, v in extras.items() if all(s.startswith("spaclone[") for s in v)}
+    umbrella = {k: v for k, v in extras.items() if v and all(s.startswith("spaclone[") for s in v)}
     plain = {k: v for k, v in extras.items() if k not in umbrella}
     assert {k: sorted(v) for k, v in plain.items()} == {k: sorted(v) for k, v in V.EXTRAS_FALLBACK.items()}
     for k, v in umbrella.items():

@@ -32,6 +32,7 @@ reading_data
 cli
 concepts
 tutorials/index
+interactive
 ecosystem
 api
 validation

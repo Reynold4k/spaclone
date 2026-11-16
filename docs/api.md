@@ -20,6 +20,7 @@ keyword-only. Coordinates and distances are in micrometres, and distance argumen
 | [`spaclone.pl`](#plotting-spaclonepl) | plots; each takes `ax=None` and returns the Axes or Figure |
 | [`spaclone.sim`](#simulation-spaclonesim) | simulated sections with known truth, planted-truth benchmarks |
 | [`spaclone.datasets`](#example-data-spaclonedatasets) | example data (download and cache) |
+| [`spaclone.pl.interactive`](#interactive-figures-spacloneplinteractive) | interactive figures: one self-contained HTML file each, the explorer `spaclone.pl.explore` |
 | [`spaclone.nulls`](#null-designs-spaclonenulls) | null designs (random labelling, random placement) and the placebo engine |
 | [`spaclone.ext`](#ecosystem-bridges-spacloneext) | bridges to sciCSR, Threadfin, scirpy, squidpy, Dandelion and Immcantation |
 
@@ -764,6 +765,60 @@ downloaded once and verified by size and sha256.
 | [`synthetic_example`](#spaclone.datasets.synthetic_example) | A small synthetic section with known truth, no download (`spaclone.sim.synthetic_chip`, seed 0). |
 | [`AIRSPACE_FILES`](#spaclone.datasets.AIRSPACE_FILES) | AIR-SPACE GEO files per sample (Mock, then days after infection): exact HTTPS URL, sha256 and size in bytes (URLs and sizes checked against GEO with HEAD requests, sha256 of the downloaded files; 2026-10-30). |
 
+## Interactive figures (`spaclone.pl.interactive`)
+
+Every function returns an [`InteractiveFigure`](#spaclone.pl.interactive.InteractiveFigure): one self-contained HTML
+file with its data inside, which opens offline in a browser and is what a notebook shows inline (with a static picture
+for viewers that do not run scripts). [`explore`](#spaclone.pl.interactive.explore) (also `spaclone.pl.explore`) shows
+one or several sections with sample, layer, gene and clone switchers; the other functions are the interactive forms of
+the plots of the same name in `spaclone.pl`. See [Interactive figures](interactive.md).
+
+```{eval-rst}
+.. module:: spaclone.pl.interactive
+```
+
+### The explorer and the figure
+
+| Name | Summary |
+|---|---|
+| [`explore`](#spaclone.pl.interactive.explore) | Explore sections interactively: switch samples and layers, pick a gene, search clones, select regions. |
+| [`InteractiveFigure`](#spaclone.pl.interactive.InteractiveFigure) | An interactive figure: one self-contained HTML document with its data inside. |
+| [`Options`](#spaclone.pl.interactive.Options) | Settings of interactive figures; the settings in use are `spaclone.pl.interactive.options`. |
+| [`FigureSizeWarning`](#spaclone.pl.interactive.FigureSizeWarning) | An interactive figure is larger than `Options.warn_mb`. |
+
+### Interactive forms of the plots
+
+| Name | Summary |
+|---|---|
+| [`clonal_expansion`](#spaclone.pl.interactive.clonal_expansion) | Interactive form of `spaclone.pl.clonal_expansion`: stacked bars, units or clones (switcher). |
+| [`clonal_scan`](#spaclone.pl.interactive.clonal_scan) | Interactive form of `spaclone.pl.clonal_scan`: −log10 p against clone size, every clone on hover. |
+| [`clone_map`](#spaclone.pl.interactive.clone_map) | Interactive form of `spaclone.pl.clone_map`: a searchable clone list over every unit. |
+| [`csr_flow`](#spaclone.pl.interactive.csr_flow) | Interactive form of `spaclone.pl.csr_flow`: units coloured by the time key, the flow as streamlines. |
+| [`csr_map`](#spaclone.pl.interactive.csr_map) | Interactive form of `spaclone.pl.csr_map`: one map with a switcher over the isotype maps. |
+| [`csr_share_map`](#spaclone.pl.interactive.csr_share_map) | Interactive form of `spaclone.pl.csr_share_map`: the switched share (blue), CSR hotspots in yellow. |
+| [`csr_transitions`](#spaclone.pl.interactive.csr_transitions) | Interactive form of `spaclone.pl.csr_transitions`: the upstream x downstream matrix with a value switcher. |
+| [`diversity`](#spaclone.pl.interactive.diversity) | Interactive form of `spaclone.pl.diversity`: every metric of the table, with a switcher. |
+| [`flux_matrix`](#spaclone.pl.interactive.flux_matrix) | Interactive form of `spaclone.pl.flux_matrix`: net and gross TPT flux between states, with a switcher. |
+| [`gex_map`](#spaclone.pl.interactive.gex_map) | Interactive form of `spaclone.pl.gex_map`: any `obs` column or gene, with a gene picker. |
+| [`gex_regions`](#spaclone.pl.interactive.gex_regions) | Interactive form of `spaclone.pl.gex_regions`: called regions with their instance numbers. |
+| [`gex_volcano`](#spaclone.pl.interactive.gex_volcano) | Interactive form of `spaclone.pl.gex_volcano`: every region class, a gene search, gene names on hover. |
+| [`hotspot_atlas`](#spaclone.pl.interactive.hotspot_atlas) | Interactive form of `spaclone.pl.hotspot_atlas`: CSR map, SHM map and transcriptome, zoomed together. |
+| [`hotspot_overview`](#spaclone.pl.interactive.hotspot_overview) | Interactive form of `spaclone.pl.hotspot_overview`: the CSR and SHM maps, zoomed together. |
+| [`isotype_map`](#spaclone.pl.interactive.isotype_map) | Interactive form of `spaclone.pl.isotype_map`: units coloured by isotype, each class can be shown or hidden. |
+| [`lineage_tree`](#spaclone.pl.interactive.lineage_tree) | Interactive form of `spaclone.pl.lineage_tree`: every drawn tree of a lineage workflow, next to the tissue. |
+| [`niche_profile`](#spaclone.pl.interactive.niche_profile) | Interactive form of `spaclone.pl.niche_profile`: the profile, its chance band and global envelope. |
+| [`overlap`](#spaclone.pl.interactive.overlap) | Interactive form of `spaclone.pl.overlap`: the overlap matrix of every metric, with a switcher. |
+| [`placebo`](#spaclone.pl.interactive.placebo) | Interactive form of `spaclone.pl.placebo`: the null distribution and the observed value, per component. |
+| [`read_support`](#spaclone.pl.interactive.read_support) | Interactive form of `spaclone.pl.read_support`: records kept against the read floor, per group. |
+| [`region_zoom`](#spaclone.pl.interactive.region_zoom) | Interactive form of `spaclone.pl.region_zoom`: the hotspot atlas opened on one region. |
+| [`share_map`](#spaclone.pl.interactive.share_map) | Interactive form of `spaclone.pl.share_map`: a share map with a switcher over its layers. |
+| [`shm_share_map`](#spaclone.pl.interactive.shm_share_map) | Interactive form of `spaclone.pl.shm_share_map`: the mutated share (green), SHM hotspots in vermilion. |
+| [`spatial_records`](#spaclone.pl.interactive.spatial_records) | Interactive form of `spaclone.pl.spatial_records`: receptor records on the section. |
+| [`spot_qc_map`](#spaclone.pl.interactive.spot_qc_map) | Interactive form of `spaclone.pl.spot_qc_map`: a per-spot QC metric, with a switcher over the metrics. |
+| [`stationary_distribution`](#spaclone.pl.interactive.stationary_distribution) | Interactive form of `spaclone.pl.stationary_distribution`: stationary share per state with its interval. |
+| [`tree_tissue`](#spaclone.pl.interactive.tree_tissue) | Interactive form of `spaclone.pl.tree_tissue`: a lineage tree and the tips' tissue positions, linked. |
+| [`trust_report`](#spaclone.pl.interactive.trust_report) | Interactive form of `spaclone.pl.trust_report`: observed ÷ chance of every test row, with every number on hover. |
+
 ## Null designs (`spaclone.nulls`)
 
 A null design is an object that randomises a receptor table in a stated way: [`Permute`](#spaclone.nulls.Permute)
@@ -1277,6 +1332,38 @@ Bridge to IgBLAST, Change-O, SHazaM and dowser round trips (programs installed s
       datasets.load_airspace
       datasets.synthetic_example
       datasets.AIRSPACE_FILES
+      pl.interactive.explore
+      pl.interactive.InteractiveFigure
+      pl.interactive.Options
+      pl.interactive.FigureSizeWarning
+      pl.interactive.clonal_expansion
+      pl.interactive.clonal_scan
+      pl.interactive.clone_map
+      pl.interactive.csr_flow
+      pl.interactive.csr_map
+      pl.interactive.csr_share_map
+      pl.interactive.csr_transitions
+      pl.interactive.diversity
+      pl.interactive.flux_matrix
+      pl.interactive.gex_map
+      pl.interactive.gex_regions
+      pl.interactive.gex_volcano
+      pl.interactive.hotspot_atlas
+      pl.interactive.hotspot_overview
+      pl.interactive.isotype_map
+      pl.interactive.lineage_tree
+      pl.interactive.niche_profile
+      pl.interactive.overlap
+      pl.interactive.placebo
+      pl.interactive.read_support
+      pl.interactive.region_zoom
+      pl.interactive.share_map
+      pl.interactive.shm_share_map
+      pl.interactive.spatial_records
+      pl.interactive.spot_qc_map
+      pl.interactive.stationary_distribution
+      pl.interactive.tree_tissue
+      pl.interactive.trust_report
       nulls.bin_labels
       nulls.compare_designs
       nulls.placebo

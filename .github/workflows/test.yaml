@@ -45,6 +45,22 @@ jobs:
         if: matrix.deps == 'stable' && matrix.python == '3.12'
         run: python -m pytest -q -m slow || test $? -eq 5   # exit 5 = no slow tests collected yet
 
+  browser:
+    # interactive figures in real headless browsers (Chromium, Firefox, WebKit); the other jobs skip these tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest playwright
+          python -m playwright install --with-deps chromium firefox webkit
+      - name: Browser tests
+        run: python -m pytest -q -m browser
+
   lint:
     runs-on: ubuntu-latest
     steps:

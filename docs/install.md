@@ -59,6 +59,7 @@ Install one or several extras in the same way, for example `pip install "spaclon
 | `tcr` | OLGA | GPL-3.0 | {func}`~spaclone.tl.pgen`; `pgen=True` in {func}`~spaclone.tl.public_clonotypes` |
 | `leiden` | leidenalg | GPL-3.0-or-later | scanpy's leidenalg backend (spaclone's own clustering uses igraph) |
 | `datasets` | pooch | BSD-3-Clause | downloads in {mod}`spaclone.datasets` |
+| `interactive` | nothing (the interactive figures are spaclone's own code) | MIT | {mod}`spaclone.pl.interactive`, {func}`spaclone.pl.explore`; the extra exists so that the install command stays valid |
 | `images` | tifffile | BSD-3-Clause | {func}`~spaclone.io.read_tissue_mask` |
 | `fast` | numba | BSD | nothing required (scanpy already installs it) |
 | `full` | all of the above | all of the above | |
@@ -68,8 +69,9 @@ Install one or several extras in the same way, for example `pip install "spaclon
 spaclone's own code is MIT-licensed. It does not bundle the packages it works with: each one is a separate download,
 installed by you, and you use it under its own licence. The optional packages and programs include copyleft ones
 (GPL, LGPL, AGPL), as the tables show; the MIT licence of spaclone does not change their terms. The small format
-fixtures of the test suite carry their own attributions (`tests/_data/formats/README.md`). How to cite each package:
-[Citing](citing.md).
+fixtures of the test suite carry their own attributions (`tests/_data/formats/README.md`). The interactive figure files
+embed only spaclone's own drawing code (MIT; the notice is written into each file), no third-party script.
+How to cite each package: [Citing](citing.md).
 
 | Core dependency | Licence |
 |---|---|
@@ -134,8 +136,17 @@ Python (programs that pip put into this environment), then `PATH`:
 
 ## Tested installations
 
-Fresh environments built with plain `pip` from the built wheel on Linux (2026-11-16, spaclone 1.0.3), each followed by
-`pip check` and the test suite with the docstring examples:
+Fresh environments built with plain `pip` from the built wheel on Linux, each followed by `pip check` and the test
+suite with the docstring examples. spaclone 1.1.0 (2026-11-16), with the `interactive` extra:
+
+| Python | Install | Resolved versions | Result |
+|---|---|---|---|
+| 3.11 | core + `[interactive]`, lowest supported versions | numpy 2.0.2, pandas 2.2.3, scipy 1.13.1, anndata 0.10.9, matplotlib 3.8.4, pyarrow 16.1.0 | all tests and docstring examples pass; the browser tests skip (no Playwright) |
+| 3.12 | core + `[interactive]` | numpy 2.5.5, pandas 3.1.1, scipy 1.18.1, anndata 0.13.4, matplotlib 3.11.2, pyarrow 26.0.1 | as 3.11 |
+| 3.13 | core + `[interactive]` | as 3.12 | as 3.11 |
+
+The browser tests of the interactive figures (`pytest -m browser`) ran in Chromium 159 and Firefox 159 (Playwright
+1.65) on Python 3.12; WebKit is in the CI browser job. spaclone 1.0.3 (2026-11-16):
 
 | Python | Install | Resolved versions | Result |
 |---|---|---|---|

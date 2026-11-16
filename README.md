@@ -145,12 +145,30 @@ Every statistic reproduces the numbers of the analyses it came from (AIR-SPACE a
 | [Hotspots and lineages](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/06_hotspots_and_lineages.ipynb) | Showcase: the flagship on a Stereo-seq spleen (trust report, CSR/SHM hotspot atlas, lineage trees, sciCSR flow, Threadfin states). BGI data, not yet public: the notebook cannot be re-run until they are released; tutorial 08 runs the same functions on data anyone can get |
 | [AIR-SPACE time course](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/07_airspace_time_course.ipynb) | Every analysis on all six public AIR-SPACE lymph nodes, Mock to day 21, with the package defaults and one table of the key numbers |
 | [Lineages, zooms and clone states](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/08_lineages_and_clone_states.ipynb) | Lineage trees on a synthetic section with planted lineages, checked against the truth; a region zoom, the sciCSR stationary distribution and Threadfin clone-axis profiles and spanning clones on a public AIR-SPACE node |
+| [Interactive figures](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/09_interactive_figures.ipynb) | The explorer on all six AIR-SPACE lymph nodes in one HTML file (sample switcher, gene picker, clone search, region counts), and the interactive form of the other figures |
 
 Running them needs Jupyter and the extras each notebook names in its first cell (`pip install "spaclone[full]" jupyter` covers all).
 Tutorials 02 and 05 also need one file that is not downloaded for you: the Stereo-XCR-seq LUAD chip `GSM9684211_D06047A2.h5ad`
 (0.98 GB; GEO sample GSM9684211, series GSE328481, [download](https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9684nnn/GSM9684211/suppl/GSM9684211_D06047A2.h5ad)):
 put it next to the notebook or set the environment variable `SPACLONE_LUAD_H5AD` to its path.
 Reading data, the command line, concepts and the full API: [docs](https://github.com/Reynold4k/spaclone/tree/main/docs).
+
+## Interactive figures
+
+The spatial figures and the main other ones also come as one HTML file with their data inside: it opens offline in a
+browser, can be e-mailed, and is what a notebook shows inline. Zoom into a region, switch sample or layer, pick a gene,
+search clones, and count what a box or a free shape holds.
+
+```python
+spaclone.pl.explore(sections, hotspots=hot).save("explorer.html")   # sections = {"Mock": sa_mock, ..., "D21": sa_d21}
+spaclone.pl.interactive.hotspot_atlas(hot)                           # the interactive form of pl.hotspot_atlas
+```
+
+<p align="center"><img src="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/homepage/09_airspace_explorer.png" width="100%" alt="spaclone.pl.explore on the six AIR-SPACE lymph nodes: the day-21 node coloured by isotype class with its CSR hotspots, the sample and layer switchers, the gene picker and the counts of a box selection"></p>
+
+No kernel, server, WebGL or extra package is involved; where a notebook viewer does not run scripts (an untrusted
+notebook, a PDF export), it shows the figure's picture. Where they work, their limits and which functions have an
+interactive form: [docs/interactive.md](https://github.com/Reynold4k/spaclone/blob/main/docs/interactive.md).
 
 ## How to cite
 

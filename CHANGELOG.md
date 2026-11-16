@@ -3,6 +3,36 @@
 All notable changes are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versions follow [semantic versioning](https://semver.org/).
 
+## 1.1.0 (2026-11-16)
+
+- **Interactive figures.** The spatial figures (all but the Threadfin clone-state maps) and the main other ones have an
+  interactive form: one HTML file with its data inside that opens by double-click in a browser, works offline, can be
+  e-mailed, and is what a notebook shows inline. Zoom into a region (drag a box, scroll, pinch; panels of one section
+  zoom together, the µm scale bar follows), switch to another sample or layer of the same kind, pick a gene from a
+  searchable list, search clones, read any point on hover, and count what lies inside a box or a free shape (records,
+  clones, isotype and chain shares, mean reads; the same numbers in Python with `fig.summary`). The colours, orientation and styles are those of the static figures.
+- **`spaclone.pl.explore`** shows one or several sections in one figure: a sample switcher (e.g. the six AIR-SPACE
+  lymph nodes), a layer switcher (isotype class, switched state, BCR / TCR, chain, clones, reads, the CSR and SHM share
+  maps with their hotspots and regions, cell type, transcriptome regions, gene expression, UMIs), a gene picker over the
+  embedded genes (`genes=300` by default: the most variable genes plus the immune marker and immunoglobulin genes;
+  integer counts stored exactly, log1p(counts per 10k) computed in the figure) and a clone search.
+- **`spaclone.pl.interactive`** holds the interactive forms of `spatial_records`, `isotype_map`, `clone_map`,
+  `gex_map`, `gex_regions`, `spot_qc_map`, `share_map`, `csr_share_map`, `shm_share_map`, `hotspot_overview`,
+  `hotspot_atlas`, `region_zoom`, `csr_map`, `csr_flow`, `lineage_tree`, `tree_tissue`, `gex_volcano`,
+  `csr_transitions`, `flux_matrix`, `overlap`, `diversity`, `clonal_expansion`, `stationary_distribution`, `placebo`,
+  `clonal_scan`, `read_support`, `niche_profile` and `trust_report`, with the data arguments of the static functions;
+  the static functions are unchanged.
+- **Dependable by design.** The drawing code is spaclone's own (no WebGL, no third-party script, nothing to install;
+  `pip install "spaclone[interactive]"` is accepted and adds nothing): figures work where WebGL is off or exhausted, with
+  any number of figures on a page, offline from `file://` (Chrome / Chromium and Firefox tested), and in JupyterLab 4
+  and Notebook 7 (VS Code and Colab also run scripts in outputs; not tested). A notebook output also carries a PNG of
+  the first view, shown where scripts do not run (an untrusted notebook, nbconvert to PDF). Large sections are drawn
+  whole up to `max_points` (500,000 per sample; above it a random subset, with a note); saving prints the file size and
+  warns above 50 MB. Each file carries the spaclone version, the call that made it and its licence notice; the same
+  input gives the same bytes.
+- New tutorial `09_interactive_figures` and docs page "Interactive figures" (where they work, sizes, precision,
+  fallbacks, which plotting functions have an interactive form); `check_install()` lists the feature.
+
 ## 1.0.3 (2026-11-16)
 
 - **Tutorials say what data you must fetch yourself.** Tutorials 02 and 05 stop at the top with one sentence that
