@@ -6,53 +6,47 @@ Every public function, class and constant, grouped by namespace and then by task
 docstring. Functions are called through their namespace, for example `spaclone.pp.filter_records` or
 `spaclone.bcr.hotspot_workflow`. Data objects (receptor tables, AnnData) are positional arguments; everything else is
 keyword-only. Coordinates and distances are in micrometres, and distance arguments end in `_um`. Every test returns a
-{class}`~spaclone.TestResult` (or a subclass) and states its null model in the docstring.
+[`TestResult`](#spaclone.TestResult) (or a subclass) and states its null model in the docstring.
 
 | Namespace | Contents |
 |---|---|
-| [`spaclone`](#api-top-level) | read, run, the result class, table validation, install checks |
-| [`spaclone.io`](#readers-io) | readers of every mainstream format (coordinates in µm), format detection, scirpy / SpatialData, storage |
-| [`spaclone.pp`](#receptor-preprocessing-pp) | receptor QC metrics, filtering, deduplication, clones, loci, barcode sinks, aggregation |
-| [`spaclone.gex`](#transcriptome-gex) | transcriptome QC, clustering, cell types, Ig RNA, regions, domains, DE, spatial statistics |
-| [`spaclone.qc`](#location-trust-qc) | location-trust tests and the trust report: is a receptor molecule or call where its cell was? |
-| [`spaclone.bcr`](#b-cell-receptor-biology-bcr) | isotypes, class switching, somatic hypermutation, lineage trees, the hotspot and lineage workflows |
-| [`spaclone.tl`](#concentration-and-repertoire-tl) | share maps, hotspots, clonal scan, niches, transition models (TPT), repertoire statistics |
-| [`spaclone.pl`](#plotting-pl) | plots; each takes `ax=None` and returns the Axes or Figure |
-| [`spaclone.sim`](#simulation-sim) | simulated sections with known truth, planted-truth benchmarks |
-| [`spaclone.datasets`](#example-data-datasets) | example data (download and cache) |
-| [`spaclone.nulls`](#null-designs-nulls) | null designs (random labelling, random placement) and the placebo engine |
-| [`spaclone.ext`](#ecosystem-bridges-ext) | bridges to sciCSR, Threadfin, scirpy, squidpy, Dandelion and Immcantation |
+| [`spaclone`](#top-level-spaclone) | read, run, the result class, table validation, install checks |
+| [`spaclone.io`](#readers-and-storage-spacloneio) | readers of every mainstream format (coordinates in µm), format detection, scirpy / SpatialData, storage |
+| [`spaclone.pp`](#receptor-preprocessing-spaclonepp) | receptor QC metrics, filtering, deduplication, clones, loci, barcode sinks, aggregation |
+| [`spaclone.gex`](#transcriptome-spaclonegex) | transcriptome QC, clustering, cell types, Ig RNA, regions, domains, DE, spatial statistics |
+| [`spaclone.qc`](#location-trust-spacloneqc) | location-trust tests and the trust report: is a receptor molecule or call where its cell was? |
+| [`spaclone.bcr`](#b-cell-receptor-biology-spaclonebcr) | isotypes, class switching, somatic hypermutation, lineage trees, the hotspot and lineage workflows |
+| [`spaclone.tl`](#concentration-transitions-and-repertoire-spaclonetl) | share maps, hotspots, clonal scan, niches, transition models (TPT), repertoire statistics |
+| [`spaclone.pl`](#plotting-spaclonepl) | plots; each takes `ax=None` and returns the Axes or Figure |
+| [`spaclone.sim`](#simulation-spaclonesim) | simulated sections with known truth, planted-truth benchmarks |
+| [`spaclone.datasets`](#example-data-spaclonedatasets) | example data (download and cache) |
+| [`spaclone.nulls`](#null-designs-spaclonenulls) | null designs (random labelling, random placement) and the placebo engine |
+| [`spaclone.ext`](#ecosystem-bridges-spacloneext) | bridges to sciCSR, Threadfin, scirpy, squidpy, Dandelion and Immcantation |
 
-(api-top-level)=
 ## Top level (`spaclone`)
 
-`spaclone.read` reads any supported pair of files into a {class}`~spaclone.io.SpatialAIR`; `spaclone.run` runs QC,
-filtering and every applicable location-trust test in one call.
+`spaclone.read` reads any supported pair of files into a [`SpatialAIR`](#spaclone.io.SpatialAIR); `spaclone.run` runs
+QC, filtering and every applicable location-trust test in one call.
 
 ```{eval-rst}
 .. module:: spaclone
 ```
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
+| Name | Summary |
+|---|---|
+| [`read`](#spaclone.read) | Read a spatial GEX source and a receptor table of the same section into one SpatialAIR. |
+| [`run`](#spaclone.run) | Run QC, filtering and every location-trust test the data allow, and return a `TrustReport`. |
+| [`TestResult`](#spaclone.TestResult) | Result of a spaclone test. |
+| [`validate_air`](#spaclone.validate_air) | Check that a receptor table has the columns and types the package relies on. |
+| [`check_install`](#spaclone.check_install) | Which optional features work here, and the exact command that enables each missing one. |
+| [`show_versions`](#spaclone.show_versions) | Print the versions of Python, spaclone, its dependencies, the optional packages and the external tools. |
 
-   read
-   run
-   TestResult
-   validate_air
-   check_install
-   show_versions
-```
-
-(readers-io)=
 ## Readers and storage (`spaclone.io`)
 
-Every reader returns a {class}`~spaclone.io.SpatialAIR`: the receptor table with coordinates in µm, the matching
-spot-level GEX when there is one, and the reader's metadata (source unit and conversion factor). {func}`spaclone.read`
-(the same function as `spaclone.io.read`) reads a GEX source and a receptor table of any supported tool in one call;
-{func}`spaclone.io.sniff` says what a file is.
+Every reader returns a [`SpatialAIR`](#spaclone.io.SpatialAIR): the receptor table with coordinates in µm, the
+matching spot-level GEX when there is one, and the reader's metadata (source unit and conversion factor).
+[`spaclone.read`](#spaclone.read) (the same function as `spaclone.io.read`) reads a GEX source and a receptor table of
+any supported tool in one call; [`spaclone.io.sniff`](#spaclone.io.sniff) says what a file is.
 
 ```{eval-rst}
 .. module:: spaclone.io
@@ -60,148 +54,111 @@ spot-level GEX when there is one, and the reader's metadata (source unit and con
 
 ### Read a section
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   read
-   SpatialAIR
-   PAIRED_AIRR_FIELDS
-   STEREO_BINS
-```
+| Name | Summary |
+|---|---|
+| [`read`](#spaclone.io.read) | Read a spatial GEX source and a receptor table of the same section into one SpatialAIR. |
+| [`SpatialAIR`](#spaclone.io.SpatialAIR) | Receptor records, the matching spot-level GEX (optional) and reader metadata. |
+| [`PAIRED_AIRR_FIELDS`](#spaclone.io.PAIRED_AIRR_FIELDS) | AIRR fields `read` keeps by default: the reader defaults plus the alignments used for somatic hypermutation and lineage trees. |
+| [`STEREO_BINS`](#spaclone.io.STEREO_BINS) | Stereo-seq bin sizes (in DNB) of the earlier pitch rule (kept for compatibility; see `spaclone.io.gexio.SAW_BIN_SIZES` for the rule now used). |
 
 ### What is this file?
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   sniff
-   SniffResult
-```
+| Name | Summary |
+|---|---|
+| [`sniff`](#spaclone.io.sniff) | Identify a receptor table or GEX source and list the arguments still needed to read it. |
+| [`SniffResult`](#spaclone.io.SniffResult) | What `sniff` found. |
 
 ### Receptor tables of any tool
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   anchored_fraction
-   read_receptors
-   receptor_format
-   read_10x_vdj
-   read_bd_rhapsody
-   read_changeo
-   read_clone_table
-   read_mixcr
-   read_parse
-   read_trust4
-   read_airr
-   read_airr_frame
-   ANCHOR_THRESHOLDS
-```
+| Name | Summary |
+|---|---|
+| [`anchored_fraction`](#spaclone.io.anchored_fraction) | Share of amino-acid CDR3 / junction values that carry both conserved anchors (start C, end W or F). |
+| [`read_receptors`](#spaclone.io.read_receptors) | Read a receptor table of any supported tool into AIRR-named records. |
+| [`receptor_format`](#spaclone.io.receptor_format) | Identify the receptor format of a file, table or object (see `read_receptors`). |
+| [`read_10x_vdj`](#spaclone.io.read_10x_vdj) | Read 10x Cell Ranger V(D)J contig annotations (CSV, JSON, airr_rearrangement.tsv) into AIRR-named records (`read_receptors` restricted to 10x_contig_csv, 10x_contig_json, 10x_consensus_csv, airr). |
+| [`read_bd_rhapsody`](#spaclone.io.read_bd_rhapsody) | Read BD Rhapsody V(D)J tables into AIRR-named records (`read_receptors` restricted to bd_rhapsody, airr). |
+| [`read_changeo`](#spaclone.io.read_changeo) | Read Change-O tables (legacy uppercase or AIRR) into AIRR-named records (`read_receptors` restricted to changeo, airr). |
+| [`read_clone_table`](#spaclone.io.read_clone_table) | Read bulk clone tables (immunarch, VDJtools, MiGEC, MiTCR, Adaptive immunoSEQ v1-v3) into AIRR-named records (`read_receptors` restricted to immunarch, vdjtools, migec, mitcr, immunoseq_v2, immunoseq_v3). |
+| [`read_mixcr`](#spaclone.io.read_mixcr) | Read MiXCR exportClones / exportAlignments into AIRR-named records (`read_receptors` restricted to mixcr_clones, mixcr_alignments). |
+| [`read_parse`](#spaclone.io.read_parse) | Read Parse Evercode TCR / BCR barcode_report into AIRR-named records (`read_receptors` restricted to parse_barcode_report, airr). |
+| [`read_trust4`](#spaclone.io.read_trust4) | Read TRUST4 reports and AIRR tables into AIRR-named records (`read_receptors` restricted to trust4_report, trust4_barcode_report, airr). |
+| [`read_airr`](#spaclone.io.read_airr) | Read AIRR rearrangement TSV(s) whose records carry a spot position. |
+| [`read_airr_frame`](#spaclone.io.read_airr_frame) | `read_airr` on a table already in memory (AIRR column names; `cell_id` holds the spot / cell id). |
+| [`ANCHOR_THRESHOLDS`](#spaclone.io.ANCHOR_THRESHOLDS) | Junction decision on the share of amino-acid values that start with C and end with W or F: at least the first value means junction, at most the second means CDR3 without the anchors; in between the reader asks. |
 
 ### Spatial expression sources
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   detect_unit
-   gex_format
-   read_10x_h5
-   read_gef
-   read_gem
-   read_gex
-   read_slideseq
-   read_spaceranger
-   read_xenium
-   source_coordinates
-   GEX_FORMATS
-   SAW_BIN_SIZES
-```
+| Name | Summary |
+|---|---|
+| [`detect_unit`](#spaclone.io.detect_unit) | µm per coordinate unit along x and y, the unit's name and the rule that decided it (`unit_um="auto"`). |
+| [`gex_format`](#spaclone.io.gex_format) | Identify a GEX source (see `GEX_FORMATS`) and the evidence. |
+| [`read_10x_h5`](#spaclone.io.read_10x_h5) | Read a 10x feature-barcode matrix (`*_feature_bc_matrix.h5` / `cell_feature_matrix.h5`) with h5py. |
+| [`read_gef`](#spaclone.io.read_gef) | Read a Stereo-seq SAW `.gef`: square bins of `bin_size` DNB from `geneExp/bin1`, or the cell bins. |
+| [`read_gem`](#spaclone.io.read_gem) | Read a Stereo-seq GEM / GEM.gz (`geneID x y MIDCount` [`ExonCount`] [`CellID` / `label`]). |
+| [`read_gex`](#spaclone.io.read_gex) | Load a GEX source (any of `GEX_FORMATS`) as an AnnData with coordinates in source units. |
+| [`read_slideseq`](#spaclone.io.read_slideseq) | Read Slide-seq bead tables: `BeadLocationsForR.csv` (barcodes, xcoord, ycoord) + `MappedDGEForR.csv`. |
+| [`read_spaceranger`](#spaclone.io.read_spaceranger) | Read a Space Ranger Visium SD output folder or a Visium HD bin folder. |
+| [`read_xenium`](#spaclone.io.read_xenium) | Read a Xenium output folder: `cell_feature_matrix.h5` and `cells.parquet` (or `cells.csv.gz`). |
+| [`source_coordinates`](#spaclone.io.source_coordinates) | Coordinates of every unit in source units, where they came from, and the alternatives seen. |
+| [`GEX_FORMATS`](#spaclone.io.GEX_FORMATS) | Supported GEX sources: `gex_format=` value → description. |
+| [`SAW_BIN_SIZES`](#spaclone.io.SAW_BIN_SIZES) | Bin sizes (in DNB) of SAW / stereopy square bins; obs names that spell coordinates count as Stereo-seq ids only on one of these lattices. |
 
 ### Technology readers
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   read_airspace
-   tissue_beads
-   parse_mixcr_alignment
-   read_stereo_xcr
-   from_cell_calls
-   CURIO_UM
-   MIXCR_ALIGNMENT_FIELDS
-   STEREO_XCR_LUAD_CALLS
-   STEREO_XCR_LUAD_LOCI
-```
+| Name | Summary |
+|---|---|
+| [`read_airspace`](#spaclone.io.read_airspace) | Read one AIR-SPACE sample: the bead GEX (every bead, off-tissue beads included) and the per-read AIR table. |
+| [`tissue_beads`](#spaclone.io.tissue_beads) | Tissue beads by the AIR-SPACE authors' rule. |
+| [`parse_mixcr_alignment`](#spaclone.io.parse_mixcr_alignment) | Parse MiXCR alignment strings (`allVAlignments`, `bestVAlignment`, ...) into SHM counts. |
+| [`read_stereo_xcr`](#spaclone.io.read_stereo_xcr) | Read a Stereo-XCR-seq per-read meta table (`*.meta.gz`, the public `out.meta.gz`, or a Parquet cache). |
+| [`from_cell_calls`](#spaclone.io.from_cell_calls) | Build a receptor table from per-cell call columns of an AnnData. |
+| [`CURIO_UM`](#spaclone.io.CURIO_UM) | Micrometres per Curio bead coordinate unit, as used for AIR-SPACE (GSE286452). |
+| [`MIXCR_ALIGNMENT_FIELDS`](#spaclone.io.MIXCR_ALIGNMENT_FIELDS) | Columns of `parse_mixcr_alignment`, in order. |
+| [`STEREO_XCR_LUAD_CALLS`](#spaclone.io.STEREO_XCR_LUAD_CALLS) | Call columns of the Stereo-XCR-seq LUAD h5ad files (GEO GSE328481). |
+| [`STEREO_XCR_LUAD_LOCI`](#spaclone.io.STEREO_XCR_LUAD_LOCI) | The column that gives the locus of the mixed light-chain call in GSE328481. |
 
 ### Stereo-seq molecule-level inputs
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   p_det_from_saturation
-   read_gef_bin1
-   read_stereo_gef
-   read_tissue_mask
-   signed_distance_map
-   DistanceGrid
-   StereoGEX
-   UM_PER_DNB
-```
+| Name | Summary |
+|---|---|
+| [`p_det_from_saturation`](#spaclone.io.p_det_from_saturation) | Probability that a GEX library molecule is sequenced, from the SAW saturation curve (`REPORT/saturation.json`). |
+| [`read_gef_bin1`](#spaclone.io.read_gef_bin1) | Read the whole-chip bin1 GEX of a SAW `raw.gef`: per-DNB MID totals and the DNBs of a few genes. |
+| [`read_stereo_gef`](#spaclone.io.read_stereo_gef) | Read the whole-chip bin1 GEX of a SAW `raw.gef`: per-DNB MID totals and the DNBs of a few genes. |
+| [`read_tissue_mask`](#spaclone.io.read_tissue_mask) | Read a tissue mask image (e.g. SAW `*_tissue_cut.tif`) as a boolean array indexed `[y, x]` in DNBs. |
+| [`signed_distance_map`](#spaclone.io.signed_distance_map) | Signed distance to the edge of a tissue mask, in micrometres (negative inside tissue). |
+| [`DistanceGrid`](#spaclone.io.DistanceGrid) | Signed distance to the tissue edge on a regular grid, in micrometres (negative inside tissue). |
+| [`StereoGEX`](#spaclone.io.StereoGEX) | Whole-chip bin1 GEX of a SAW `.gef`, reduced to what the molecule-level tests need. |
+| [`UM_PER_DNB`](#spaclone.io.UM_PER_DNB) | Stereo-seq DNB pitch in micrometres (bin1). |
 
 ### Cell-type labels and barcodes
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   detect_annotations
-   match_barcodes
-   Annotations
-   BarcodeMatch
-```
+| Name | Summary |
+|---|---|
+| [`detect_annotations`](#spaclone.io.detect_annotations) | List cell-type label and deconvolution candidates of a GEX AnnData and choose one only when unambiguous. |
+| [`match_barcodes`](#spaclone.io.match_barcodes) | Match distinct receptor spot ids to GEX unit ids (exact, else one documented normalisation). |
+| [`Annotations`](#spaclone.io.Annotations) | Cell-type label and proportion candidates of a GEX AnnData (`detect_annotations`). |
+| [`BarcodeMatch`](#spaclone.io.BarcodeMatch) | How receptor spot ids were matched to GEX unit ids. |
 
 ### Format registry
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   detect_format
-   FormatMatch
-   ReceptorFormat
-   CANONICAL_FIELDS
-   COUNT_TYPES
-   RECEPTOR_FORMATS
-```
+| Name | Summary |
+|---|---|
+| [`detect_format`](#spaclone.io.detect_format) | Identify a receptor format from its header names. |
+| [`FormatMatch`](#spaclone.io.FormatMatch) | Result of `detect_format`: the format, why, and the formats it beat or that also came close. |
+| [`ReceptorFormat`](#spaclone.io.ReceptorFormat) | One receptor format: its signature, synonym table and documented count semantics. |
+| [`CANONICAL_FIELDS`](#spaclone.io.CANONICAL_FIELDS) | Canonical receptor fields (AIRR Rearrangement names) a reader can fill, with their meaning. |
+| [`COUNT_TYPES`](#spaclone.io.COUNT_TYPES) | Meanings a count column can have (`count_type=` values). |
+| [`RECEPTOR_FORMATS`](#spaclone.io.RECEPTOR_FORMATS) | Every receptor format, in the order the documentation lists them. |
 
 ### scirpy, SpatialData and storage
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
+| Name | Summary |
+|---|---|
+| [`from_scirpy`](#spaclone.io.from_scirpy) | Convert scirpy's AnnData (or MuData) back into a receptor table. |
+| [`to_scirpy`](#spaclone.io.to_scirpy) | Convert a receptor table into scirpy's AnnData (AIRR chains in an awkward `obsm["airr"]`). |
+| [`to_spatialdata`](#spaclone.io.to_spatialdata) | Build a `spatialdata.SpatialData` from a receptor table (and its GEX). |
+| [`write`](#spaclone.io.write) | Write a SpatialAIR (or a receptor table alone) to a directory. |
 
-   from_scirpy
-   to_scirpy
-   to_spatialdata
-   write
-```
-
-(receptor-preprocessing-pp)=
 ## Receptor preprocessing (`spaclone.pp`)
 
 Receptor QC metrics and filtering, deduplication, barcode sinks, contamination flags, clones, loci (inferred cells),
@@ -213,114 +170,81 @@ aggregation to spots, bins or cells, and coordinates.
 
 ### QC metrics
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   knee_point
-   qc_metrics
-   read_support_curve
-   Knee
-   QCMetrics
-   ReadSupport
-```
+| Name | Summary |
+|---|---|
+| [`knee_point`](#spaclone.pp.knee_point) | Knee and inflection of the distribution of reads per record (the barcode-rank rule of DropletUtils). |
+| [`qc_metrics`](#spaclone.pp.qc_metrics) | Quality-control metrics of a receptor table, per group and per spot. |
+| [`read_support_curve`](#spaclone.pp.read_support_curve) | Records and spots kept by each read floor, and the knee of that curve. |
+| [`Knee`](#spaclone.pp.Knee) | Result of `knee_point`: the knee and the inflection of a read-count distribution (NaN when undefined). |
+| [`QCMetrics`](#spaclone.pp.QCMetrics) | Result of `qc_metrics` (unpack as `table, spots = qc_metrics(air)`). |
+| [`ReadSupport`](#spaclone.pp.ReadSupport) | Result of `read_support_curve` (unpack as `curve, knee = read_support_curve(air)`). |
 
 ### Filtering and validity
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   filter_records
-   resolve_min_reads
-   filter_valid
-   is_valid_junction
-   FilterResult
-   STANDARD_AA
-```
+| Name | Summary |
+|---|---|
+| [`filter_records`](#spaclone.pp.filter_records) | Filter receptor records step by step and report what each step removed. |
+| [`resolve_min_reads`](#spaclone.pp.resolve_min_reads) | Turn a `min_reads` argument into a floor (number or per-chain dict) and say where it came from. |
+| [`filter_valid`](#spaclone.pp.filter_valid) | Keep the records whose sequence is valid, and report what each rule removed. |
+| [`is_valid_junction`](#spaclone.pp.is_valid_junction) | Apply the IMGT junction rules to amino-acid junctions. |
+| [`FilterResult`](#spaclone.pp.FilterResult) | Result of `filter_valid` (unpack as `air_ok, report = filter_valid(air)`). |
+| [`STANDARD_AA`](#spaclone.pp.STANDARD_AA) | The 20 standard amino acids (one-letter codes). |
 
 ### Deduplication and error variants
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   collapse_spot_clone
-   collapse_umis
-   find_error_variants
-   merge_error_variants
-   v_families
-   VariantMerge
-```
+| Name | Summary |
+|---|---|
+| [`collapse_spot_clone`](#spaclone.pp.collapse_spot_clone) | One unit per (spot, clone): collapse the records of a clone on a spot, summing their reads. |
+| [`collapse_umis`](#spaclone.pp.collapse_umis) | Collapse reads into molecules by UMI, correcting UMI sequencing errors. |
+| [`find_error_variants`](#spaclone.pp.find_error_variants) | Find satellite clones one amino acid (or synonymous) away from a larger parent clone. |
+| [`merge_error_variants`](#spaclone.pp.merge_error_variants) | Merge satellite clones into their parent and re-collapse to distinct (spot, clone) units. |
+| [`v_families`](#spaclone.pp.v_families) | Set of V families (or genes) named in each V call. |
+| [`VariantMerge`](#spaclone.pp.VariantMerge) | Result of `merge_error_variants` (unpack as `merged, variants = merge_error_variants(air)`). |
 
 ### Barcode sinks
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   barcode_sinks
-   spot_multiplicity
-   BarcodeSinks
-```
+| Name | Summary |
+|---|---|
+| [`barcode_sinks`](#spaclone.pp.barcode_sinks) | Flag barcode sinks: spots that carry at least `min_clones` distinct clones. |
+| [`spot_multiplicity`](#spaclone.pp.spot_multiplicity) | Count the distinct clones on each spot, over all loci and per locus. |
+| [`BarcodeSinks`](#spaclone.pp.BarcodeSinks) | Result of `barcode_sinks`. |
 
 ### Contamination
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   clonotype_key
-   flag_carryover
-   flag_public
-   CarryoverResult
-   PublicResult
-```
+| Name | Summary |
+|---|---|
+| [`clonotype_key`](#spaclone.pp.clonotype_key) | Clonotype key comparable between samples: `"<locus>\|<J gene>\|<junction>\|<V families>"`. |
+| [`flag_carryover`](#spaclone.pp.flag_carryover) | Flag cross-sample carry-over of clonotypes shared between samples. |
+| [`flag_public`](#spaclone.pp.flag_public) | Flag public (convergent) clonotypes. |
+| [`CarryoverResult`](#spaclone.pp.CarryoverResult) | Result of `flag_carryover` (unpack as `air_flagged, table = flag_carryover(air)`). |
+| [`PublicResult`](#spaclone.pp.PublicResult) | Result of `flag_public` (unpack as `air_flagged, table = flag_public(air)`). |
 
 ### Clones and loci
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   define_clones
-   gene_name
-   merge_loci
-   Loci
-```
+| Name | Summary |
+|---|---|
+| [`define_clones`](#spaclone.pp.define_clones) | Assign a clone id to every record. |
+| [`gene_name`](#spaclone.pp.gene_name) | Gene of a V / D / J / C call: the first of several comma-separated calls, without the allele. |
+| [`merge_loci`](#spaclone.pp.merge_loci) | Merge the spots of one clone that lie within `radius_um` of each other into loci. |
+| [`Loci`](#spaclone.pp.Loci) | Result of `merge_loci` (unpack as `loci, membership = merge_loci(air)`). |
 
 ### Aggregation and cells
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   aggregate
-   assign_to_cells
-   CellAssignment
-   CellAssignmentWarning
-```
+| Name | Summary |
+|---|---|
+| [`aggregate`](#spaclone.pp.aggregate) | Count records (or reads) of every clone in every spot, bin or cell. |
+| [`assign_to_cells`](#spaclone.pp.assign_to_cells) | Assign each record to the segmented cell that contains its position. |
+| [`CellAssignment`](#spaclone.pp.CellAssignment) | Result of `assign_to_cells` (unpack as `air_cells, report = assign_to_cells(air, cells)`). |
+| [`CellAssignmentWarning`](#spaclone.pp.CellAssignmentWarning) | Assigning receptor records to segmented cells does not show that they belong to those cells. |
 
 ### Coordinates and sections
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
+| Name | Summary |
+|---|---|
+| [`concat_sections`](#spaclone.pp.concat_sections) | Stack several sections into one table (or one `SpatialAIR`). |
+| [`transform`](#spaclone.pp.transform) | Scale, rotate, flip or affinely transform coordinates (in µm). |
+| [`transform_matrix`](#spaclone.pp.transform_matrix) | The 3 x 3 homogeneous matrix of `transform`. |
 
-   concat_sections
-   transform
-   transform_matrix
-```
-
-(transcriptome-gex)=
 ## Transcriptome (`spaclone.gex`)
 
 Spot-level transcriptome: QC on and off the tissue, scanpy-based preprocessing with spatial defaults, cell types, Ig
@@ -333,122 +257,89 @@ replicates, and spatial statistics.
 
 ### QC, tissue and bins
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   bin
-   bin_ids
-   call_tissue
-   filter
-   qc_metrics
-```
+| Name | Summary |
+|---|---|
+| [`bin`](#spaclone.gex.bin) | Aggregate units (DNBs, spots, beads) into square bins by summing their counts. |
+| [`bin_ids`](#spaclone.gex.bin_ids) | Integer square-bin indices of positions: `ix = floor((x - x0) / bin_um)` and the same along y. |
+| [`call_tissue`](#spaclone.gex.call_tissue) | Call tissue units from the transcriptome: enough counts, and enough such units around. |
+| [`filter`](#spaclone.gex.filter) | Filter units (and optionally genes) by QC thresholds without silently losing off-tissue units. |
+| [`qc_metrics`](#spaclone.gex.qc_metrics) | Per-unit and per-gene QC metrics (scanpy's `calculate_qc_metrics`), summarised on and off tissue. |
 
 ### Normalisation, clustering and embedding
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   cluster
-   embed
-   gene_group_mask
-   preprocess
-   EXACT_KNN_MAX
-   GENE_GROUPS
-```
+| Name | Summary |
+|---|---|
+| [`cluster`](#spaclone.gex.cluster) | Leiden (or Louvain) clustering on the expression neighbour graph (in place). |
+| [`embed`](#spaclone.gex.embed) | Two-dimensional embedding of the expression neighbour graph (UMAP; in place, `obsm["X_umap"]`). |
+| [`gene_group_mask`](#spaclone.gex.gene_group_mask) | Boolean mask of the genes that belong to the named groups of `GENE_GROUPS` (or regular expressions). |
+| [`preprocess`](#spaclone.gex.preprocess) | Normalise, log-transform, select highly variable genes and run PCA (in place). |
+| [`EXACT_KNN_MAX`](#spaclone.gex.EXACT_KNN_MAX) | Largest number of units for which `knn="auto"` builds the exact neighbour graph. |
+| [`GENE_GROUPS`](#spaclone.gex.GENE_GROUPS) | Case-insensitive name patterns of gene groups excluded from HVG selection (mouse and human symbols). |
 
 ### Cell types
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   celltype_composition
-   import_deconvolution
-   score_cell_types
-   LINEAGES
-   MARKERS
-```
+| Name | Summary |
+|---|---|
+| [`celltype_composition`](#spaclone.gex.celltype_composition) | Class composition of selected units against the composition expected from their depth alone. |
+| [`import_deconvolution`](#spaclone.gex.import_deconvolution) | Attach RCTD / cell2location cell-type weights to units, joined by unit id or by position, never by row order. |
+| [`score_cell_types`](#spaclone.gex.score_cell_types) | Type every unit by marker modules. |
+| [`LINEAGES`](#spaclone.gex.LINEAGES) | Classes that are commonly merged when reporting (labels of the built-in modules). |
+| [`MARKERS`](#spaclone.gex.MARKERS) | Built-in marker modules (mouse and human symbols). |
 
 ### Ig RNA
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   ig_class_composition
-   ig_genes
-   ig_rna
-   IG_CLASSES
-   IG_GENES
-```
+| Name | Summary |
+|---|---|
+| [`ig_class_composition`](#spaclone.gex.ig_class_composition) | Shares of IgM / IgD / IgG (subclasses) / IgA / IgE among heavy-chain constant molecules. |
+| [`ig_genes`](#spaclone.gex.ig_genes) | Ig constant genes present in `var_names`. |
+| [`ig_rna`](#spaclone.gex.ig_rna) | Molecules of Ig constant genes per unit (or summed within a radius), with depth-stratum labels. |
+| [`IG_CLASSES`](#spaclone.gex.IG_CLASSES) | Heavy-chain constant genes by class and subclass, in locus order (mouse Ighg2a is the BALB/c allele of Ighg2c). |
+| [`IG_GENES`](#spaclone.gex.IG_GENES) | Ig constant-region genes counted as "Ig RNA" (archive X5). |
 
 ### Regions and region profiles
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   call_regions
-   marker_share
-   is_ig_gene
-   module_scores
-   profile_markers
-   profile_regions
-   unit_mask
-   RegionProfiles
-   REGION_LABELS
-   REGION_MARKERS
-   PROFILE_MARKERS
-   PROFILE_READOUTS
-```
+| Name | Summary |
+|---|---|
+| [`call_regions`](#spaclone.gex.call_regions) | Call tissue regions and their instances (individual germinal centres, T zones, ...). |
+| [`marker_share`](#spaclone.gex.marker_share) | Share of marker-gene counts among all counts within a radius of each tissue unit. |
+| [`is_ig_gene`](#spaclone.gex.is_ig_gene) | Whether each gene name is an immunoglobulin locus gene (`Ighg2b`, `IGKC`, `Ighv1-26`, `Iglc1` ...). |
+| [`module_scores`](#spaclone.gex.module_scores) | Per-unit marker-module scores, smoothed over a small neighbourhood (maps of the archive's T8f). |
+| [`profile_markers`](#spaclone.gex.profile_markers) | Resolve the cell-type and readout sets of `profile_regions` and `module_scores`. |
+| [`profile_regions`](#spaclone.gex.profile_regions) | Which cell type does each region overlap? Marker pseudobulk inside vs around vs whole tissue (archive T8f). |
+| [`unit_mask`](#spaclone.gex.unit_mask) | Boolean selection of GEX units from a column, a column and its values, or one flag per unit. |
+| [`RegionProfiles`](#spaclone.gex.RegionProfiles) | Result of `profile_regions`. |
+| [`REGION_LABELS`](#spaclone.gex.REGION_LABELS) | Default label of each region kind in the region column. |
+| [`REGION_MARKERS`](#spaclone.gex.REGION_MARKERS) | Marker sets of the share-based regions (archive X3). |
+| [`PROFILE_MARKERS`](#spaclone.gex.PROFILE_MARKERS) | Cell-type marker sets of `profile_regions` (archive T8f, fixed 2026-10-28 before looking). |
+| [`PROFILE_READOUTS`](#spaclone.gex.PROFILE_READOUTS) | Readout sets reported next to the cell types (never used for the label): cycling (plasmablast vs plasma cell) and switched Ig RNA (a GEX check of a class-switch call). |
 
 ### Spatial domains
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   domains
-   neighbour_mean
-```
+| Name | Summary |
+|---|---|
+| [`domains`](#spaclone.gex.domains) | Spatial domains by Leiden clustering of own and neighbourhood-mean expression (in place). |
+| [`neighbour_mean`](#spaclone.gex.neighbour_mean) | Mean of `values` over each unit's spatial neighbours (the unit itself excluded). |
 
 ### Differential expression
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   pseudobulk
-   rank_genes_regions
-```
+| Name | Summary |
+|---|---|
+| [`pseudobulk`](#spaclone.gex.pseudobulk) | Sum raw counts over the units of each group (e.g. each region instance). |
+| [`rank_genes_regions`](#spaclone.gex.rank_genes_regions) | Genes that differ between region classes, with region instances (not units) as replicates. |
 
 ### Spatial statistics
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
+| Name | Summary |
+|---|---|
+| [`nhood_enrichment`](#spaclone.gex.nhood_enrichment) | Are units of two classes neighbours more (or less) often than random labelling gives? |
+| [`spatial_graph`](#spaclone.gex.spatial_graph) | Symmetric 0/1 spatial neighbour graph (self excluded; edges only within a section). |
+| [`spatially_variable_genes`](#spaclone.gex.spatially_variable_genes) | Global Moran's I of genes on the spatial neighbour graph (squidpy `spatial_autocorr`; needs squidpy). |
 
-   nhood_enrichment
-   spatial_graph
-   spatially_variable_genes
-```
-
-(location-trust-qc)=
 ## Location trust (`spaclone.qc`)
 
-Is a receptor molecule or call where its cell was? {func}`spaclone.run` runs every applicable test and returns a
-{class}`~spaclone.qc.TrustReport` with two-level verdicts (molecule and clone) from pre-stated criteria; each test can
-also be called on its own.
+Is a receptor molecule or call where its cell was? [`spaclone.run`](#spaclone.run) runs every applicable test and
+returns a [`TrustReport`](#spaclone.qc.TrustReport) with two-level verdicts (molecule and clone) from pre-stated
+criteria; each test can also be called on its own.
 
 ```{eval-rst}
 .. module:: spaclone.qc
@@ -456,79 +347,62 @@ also be called on its own.
 
 ### Trust report and criteria
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   evaluate_trust
-   TrustReport
-   CRITERIA
-   OVERALL_RULES
-```
+| Name | Summary |
+|---|---|
+| [`evaluate_trust`](#spaclone.qc.evaluate_trust) | Apply `CRITERIA` and `OVERALL_RULES` to the results of `spaclone.run`. |
+| [`TrustReport`](#spaclone.qc.TrustReport) | Result of `spaclone.run`. |
+| [`CRITERIA`](#spaclone.qc.CRITERIA) | The pre-stated criteria, one entry per test and for the multiplicity rule (printed in every report). |
+| [`OVERALL_RULES`](#spaclone.qc.OVERALL_RULES) | The overall verdict, in this order (printed in every report). |
 
 ### Molecule level
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   located_fraction
-   same_spot
-   shift_test
-   umi_collisions
-   umi_decoys
-   umi_match
-   composition_on_off
-   density_profile
-   swap_rate
-   tissue_zones
-   GexLookup
-   SameSpotResult
-   UmiMatchResult
-   SwapRateResult
-   CONTEXT_BINS
-   HUMAN_CONSTANT_GENES
-   M_BINS
-   MOUSE_CONSTANT_GENES
-   MULTIPLICITY_BINS
-   UNDETERMINED_GENES
-   DEFAULT_SHELLS_UM
-   TISSUE_ZONE_EDGES_UM
-   TISSUE_ZONE_LABELS
-```
+| Name | Summary |
+|---|---|
+| [`located_fraction`](#spaclone.qc.located_fraction) | Fraction of receptor molecules sitting on their own spot, from per-spot hits and chances. |
+| [`same_spot`](#spaclone.qc.same_spot) | Do receptor molecules sit on spots whose GEX holds their own constant-region transcript more often than chance? |
+| [`shift_test`](#spaclone.qc.shift_test) | Look the GEX up at displaced spots: a molecule that sits on its own transcript peaks only at offset (0, 0). |
+| [`umi_collisions`](#spaclone.qc.umi_collisions) | Expected UMI collisions among `M` molecules of one barcode with random UMIs of length `L`. |
+| [`umi_decoys`](#spaclone.qc.umi_decoys) | Decoy (barcode, UMI) keys: UMIs that no receptor molecule carries, on the barcodes of the receptor molecules. |
+| [`umi_match`](#spaclone.qc.umi_match) | Look every receptor molecule's (barcode, UMI) up in the GEX reads, beside decoy UMIs on the same barcode. |
+| [`composition_on_off`](#spaclone.qc.composition_on_off) | Clone composition on tissue against off tissue: log clone-frequency correlation and a permutation G-test. |
+| [`density_profile`](#spaclone.qc.density_profile) | Records per µm² against the signed distance to the tissue edge, optionally beside the GEX (cDNA) profile. |
+| [`swap_rate`](#spaclone.qc.swap_rate) | Barcode-swap rate from far off-tissue bins, `E[records(b)] = ρ · D_b`, and the excess it leaves on tissue. |
+| [`tissue_zones`](#spaclone.qc.tissue_zones) | Label signed distances to the tissue edge (negative inside) by zone. |
+| [`GexLookup`](#spaclone.qc.GexLookup) | Spot-level GEX molecule counts on a regular grid, for same-spot lookups. |
+| [`SameSpotResult`](#spaclone.qc.SameSpotResult) | Result of `same_spot`. |
+| [`UmiMatchResult`](#spaclone.qc.UmiMatchResult) | Result of `umi_match`. |
+| [`SwapRateResult`](#spaclone.qc.SwapRateResult) | Result of `swap_rate`. |
+| [`CONTEXT_BINS`](#spaclone.qc.CONTEXT_BINS) | Edges of the classes of constant-gene molecules around a spot (`context_um`) used by the empirical chance. |
+| [`HUMAN_CONSTANT_GENES`](#spaclone.qc.HUMAN_CONSTANT_GENES) | Constant-region genes per locus, human (HGNC symbols). |
+| [`M_BINS`](#spaclone.qc.M_BINS) | Edges of the GEX-molecule classes of the empirical chance: exact counts 1-4, then roughly logarithmic classes. |
+| [`MOUSE_CONSTANT_GENES`](#spaclone.qc.MOUSE_CONSTANT_GENES) | Constant-region genes per locus, mouse (Ensembl / SAW gene symbols). |
+| [`MULTIPLICITY_BINS`](#spaclone.qc.MULTIPLICITY_BINS) | Edges of the clones-per-spot classes reported by `same_spot` (`1`, `2`, `3-5`, `6-20`, `>=21`). |
+| [`UNDETERMINED_GENES`](#spaclone.qc.UNDETERMINED_GENES) | Gene labels of GEX reads whose gene could not be called (not used to pick a key's gene). |
+| [`DEFAULT_SHELLS_UM`](#spaclone.qc.DEFAULT_SHELLS_UM) | Signed-distance shells (µm, half-open `[lo, hi)`) of the archived density profile (03 B1). |
+| [`TISSUE_ZONE_EDGES_UM`](#spaclone.qc.TISSUE_ZONE_EDGES_UM) | Upper edges (µm, right-closed) of the archived tissue zones (03 B2). |
+| [`TISSUE_ZONE_LABELS`](#spaclone.qc.TISSUE_ZONE_LABELS) | Labels of the archived tissue zones: `d ≤ −50`, `−50 < d ≤ 0`, `0 < d ≤ 50`, `50 < d ≤ 300`, `d > 300`. |
 
 ### Cell and clone level
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   composition
-   composition_power
-   own_type_share
-   colocalisation
-   pairing
-   CompositionResult
-   ColocalisationResult
-   PairingResult
-   CLONES_PER_SPOT_BINS
-```
+| Name | Summary |
+|---|---|
+| [`composition`](#spaclone.qc.composition) | G-test of clone composition between two groups of (spot, clone) units against a fixed-margin null. |
+| [`composition_power`](#spaclone.qc.composition_power) | Power of `composition` to see a genuine fraction `g` of group-specific identities (spike-ins). |
+| [`own_type_share`](#spaclone.qc.own_type_share) | Share of receptor records on units of their own cell type, by read floor, vs random placement. |
+| [`colocalisation`](#spaclone.qc.colocalisation) | Share of same-clone unit pairs per distance band, observed vs clone labels shuffled. |
+| [`pairing`](#spaclone.qc.pairing) | Heavy/light co-occurrence in small bins against a chimera-aware null. |
+| [`CompositionResult`](#spaclone.qc.CompositionResult) | Result of `composition`; `clones` holds the per-clone exact tests (BH `q_value` within locus). |
+| [`ColocalisationResult`](#spaclone.qc.ColocalisationResult) | Result of `colocalisation`. |
+| [`PairingResult`](#spaclone.qc.PairingResult) | Result of `pairing`. |
+| [`CLONES_PER_SPOT_BINS`](#spaclone.qc.CLONES_PER_SPOT_BINS) | Strata of clones per spot (all loci) for the chimera-aware null: 1, 2, 3-5, >= 6 (archive B5c). |
 
 ### Read floor
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
+| Name | Summary |
+|---|---|
+| [`read_floor`](#spaclone.qc.read_floor) | Partner-chain sharing of the loci of one clonotype, observed vs shuffled, at a range of read floors. |
+| [`ReadFloorResult`](#spaclone.qc.ReadFloorResult) | Result of `read_floor`. |
 
-   read_floor
-   ReadFloorResult
-```
-
-(b-cell-receptor-biology-bcr)=
 ## B-cell receptor biology (`spaclone.bcr`)
 
 Isotypes and class switching, somatic hypermutation, mutation spectrum and selection, lineage trees, and the two
@@ -540,113 +414,85 @@ end-to-end workflows: CSR/SHM hotspots with their overlap regions, and lineage t
 
 ### Workflows
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   hotspot_workflow
-   lineage_workflow
-   HotspotWorkflowResult
-   LineageWorkflowResult
-   LineageWorkflowWarning
-```
+| Name | Summary |
+|---|---|
+| [`hotspot_workflow`](#spaclone.bcr.hotspot_workflow) | Run the class-switch / hypermutation hotspot analysis of one section end to end (see the module notes). |
+| [`lineage_workflow`](#spaclone.bcr.lineage_workflow) | Lineage trees per clone and per related clone group, with every tip's isotype, mutations and tissue location. |
+| [`HotspotWorkflowResult`](#spaclone.bcr.HotspotWorkflowResult) | Everything `hotspot_workflow` computed, from the filtered records to the GEX label of each region. |
+| [`LineageWorkflowResult`](#spaclone.bcr.LineageWorkflowResult) | Output of `lineage_workflow`. |
+| [`LineageWorkflowWarning`](#spaclone.bcr.LineageWorkflowWarning) | A part of `lineage_workflow` ran with less than it needs (no transcriptome, a harsh read floor). |
 
 ### Isotypes
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   call_isotype
-   isotype
-   isotype_order
-   CONSTANT_ORDER
-   ISOTYPE_CLASSES
-   SWITCHED_CLASSES
-   UNSWITCHED_CLASSES
-```
+| Name | Summary |
+|---|---|
+| [`call_isotype`](#spaclone.bcr.call_isotype) | Isotype and switched call of every clone, locus or other group of records. |
+| [`isotype`](#spaclone.bcr.isotype) | Isotype class, subclass, position on the constant locus and switched flag of every heavy-chain record. |
+| [`isotype_order`](#spaclone.bcr.isotype_order) | Position of every isotype on the IgH constant locus (0 = most 5'). |
+| [`CONSTANT_ORDER`](#spaclone.bcr.CONSTANT_ORDER) | Position (0 = most 5') of every expressed constant gene on the IgH locus, by species; allelic genes share one. |
+| [`ISOTYPE_CLASSES`](#spaclone.bcr.ISOTYPE_CLASSES) | Isotype classes, in the order used to break ties of the main isotype (as the 2026-10 archive: IgM, IgD, IgG, IgA). |
+| [`SWITCHED_CLASSES`](#spaclone.bcr.SWITCHED_CLASSES) | Classes produced by class-switch recombination. |
+| [`UNSWITCHED_CLASSES`](#spaclone.bcr.UNSWITCHED_CLASSES) | Classes of B cells that have not switched (IgD is co-expressed with IgM by alternative splicing). |
 
 ### Class switching
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   csr_hotspots
-   csr_map
-   csr_transitions
-   region_test
-```
+| Name | Summary |
+|---|---|
+| [`csr_hotspots`](#spaclone.bcr.csr_hotspots) | Class-switch hotspots: pixels whose switched share exceeds the family-wise threshold of shuffled maps (T3). |
+| [`csr_map`](#spaclone.bcr.csr_map) | Smoothed share of class-switched units (loci) over the tissue (archive T3 map). |
+| [`csr_transitions`](#spaclone.bcr.csr_transitions) | Pairs of upstream and downstream isotypes within clones, against random labelling. |
+| [`region_test`](#spaclone.bcr.region_test) | Excess of mutated (or switched) units in given regions beyond their isotype-matched expectation (T7). |
 
 ### CSR potential and SHM score (sciCSR)
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   csr_potential
-   ighc_definitions
-   ighc_transcripts
-   shm_score
-   CSR_ISOTYPES
-   IGH_LOCI
-```
+| Name | Summary |
+|---|---|
+| [`csr_potential`](#spaclone.bcr.csr_potential) | CSR potential (sciCSR) of every unit (cell, spot, bead, locus), with spatial imputation of missing isotypes. |
+| [`ighc_definitions`](#spaclone.bcr.ighc_definitions) | Genomic regions used to classify IGHC reads: the V(D)J span, each constant gene and its sterile region. |
+| [`ighc_transcripts`](#spaclone.bcr.ighc_transcripts) | Productive, sterile and C-only IGHC molecules per barcode, spot or bin, counted from BAM files. |
+| [`shm_score`](#spaclone.bcr.shm_score) | SHM score (sciCSR) per unit: min-max scaled `1 - V identity`, or the same scaling of allele-corrected SHM. |
+| [`CSR_ISOTYPES`](#spaclone.bcr.CSR_ISOTYPES) | Switch-competent IgH constant genes in 5' to 3' order (the C genes of sciCSR's mouse / human definitions); the position in this tuple is the isotype index `p` of the CSR potential. |
+| [`IGH_LOCI`](#spaclone.bcr.IGH_LOCI) | Ensembl coordinates (1-based, inclusive; all genes on the minus strand) of the IgH constant genes and of the V(D)J span (first to last IG_V / IG_D / IG_J gene, pseudogenes included) per assembly: GRCm39 and GRCh38 from Ensembl release 115 (rest.ensembl.org, 2026-10-30), GRCm38 = Ensembl 102 (via the Ensembl GRCm39 -> GRCm38 assembly map; identical to the gene ranges of sciCSR's mm10 definitions). |
 
 ### Somatic hypermutation
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   allele_baseline
-   call_shm
-   count_mismatches
-   run_igblast
-   shm
-   shm_hotspots
-   shm_map
-   tso_trim
-```
+| Name | Summary |
+|---|---|
+| [`allele_baseline`](#spaclone.bcr.allele_baseline) | Median V mismatches of every V allele over high-quality unswitched records, with an explicit fallback. |
+| [`call_shm`](#spaclone.bcr.call_shm) | Mutation call of every locus, clone or other group from its evaluable records. |
+| [`count_mismatches`](#spaclone.bcr.count_mismatches) | Aligned nucleotides and mismatches between paired sequence and germline alignment strings. |
+| [`run_igblast`](#spaclone.bcr.run_igblast) | Align sequences with an installed IgBLAST and return its AIRR rearrangement table. |
+| [`shm`](#spaclone.bcr.shm) | V mismatches against the germline, excess over the allele baseline, evaluability and mutated flag per record. |
+| [`shm_hotspots`](#spaclone.bcr.shm_hotspots) | SHM hotspots with family-wise error control over the map: clone-level shuffles, isotype-matched expectation. |
+| [`shm_map`](#spaclone.bcr.shm_map) | Smoothed share of mutated units (loci) with an isotype-matched expectation (archive T7). |
+| [`tso_trim`](#spaclone.bcr.tso_trim) | Nucleotides to trim at the 5' end of each V alignment because a template-switch oligo (TSO) sits there. |
+| [`SHMWarning`](#spaclone.bcr.SHMWarning) | No record passed the evaluability floors, so the mutated flags of `shm` carry no information. |
 
 ### Mutation spectrum and selection
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   mutations
-   spectrum
-   classify_mutation
-   selection
-   SpectrumResult
-   IMGT_REGIONS
-   CODON_TABLE
-```
+| Name | Summary |
+|---|---|
+| [`mutations`](#spaclone.bcr.mutations) | One row per mutation (germline and sequenced base both A / C / G / T and different). |
+| [`spectrum`](#spaclone.bcr.spectrum) | Substitution spectrum and targeting of AID hotspot / coldspot motifs against the germline motif background. |
+| [`classify_mutation`](#spaclone.bcr.classify_mutation) | `"R"` (replacement), `"S"` (silent) or `"stop"` for one base change in a germline codon. |
+| [`selection`](#spaclone.bcr.selection) | Replacement mutations in CDRs and FWRs against the expectation from the germline codons. |
+| [`SpectrumResult`](#spaclone.bcr.SpectrumResult) | Result of `spectrum`: motif targeting tests plus the substitution spectrum. |
+| [`IMGT_REGIONS`](#spaclone.bcr.IMGT_REGIONS) | IMGT V regions, 1-based inclusive nucleotide positions of IMGT-gapped alignments (CDR3 starts at 313). |
+| [`CODON_TABLE`](#spaclone.bcr.CODON_TABLE) | Standard genetic code, codon (upper-case DNA) -> one-letter amino acid (`*` = stop). |
 
 ### Lineage trees
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
+| Name | Summary |
+|---|---|
+| [`build_trees`](#spaclone.bcr.build_trees) | Germline-rooted lineage trees, one per clone, in pure Python. |
+| [`compare_trees`](#spaclone.bcr.compare_trees) | Robinson-Foulds distance and divergence correlation between two trees of the same tips. |
+| [`parsimony_score`](#spaclone.bcr.parsimony_score) | Parsimony length of a given tree topology on given tip sequences (e.g. to score a dowser tree). |
+| [`read_trees`](#spaclone.bcr.read_trees) | Read lineage trees from Newick strings or files, IgPhyML / Change-O tables, or dowser node tables. |
+| [`tip_table`](#spaclone.bcr.tip_table) | One row per input tip of every tree, ready for the lineage tests of `spaclone.tl`. |
+| [`LineageTree`](#spaclone.bcr.LineageTree) | One rooted tree: parent pointers, branch lengths (mutations) and tip labels. |
+| [`LineageTrees`](#spaclone.bcr.LineageTrees) | Trees by clone id (a read-only mapping), with the tips they were built from. |
+| [`GERMLINE`](#spaclone.bcr.GERMLINE) | Label of the germline tip (dowser convention). |
 
-   build_trees
-   compare_trees
-   parsimony_score
-   read_trees
-   tip_table
-   LineageTree
-   LineageTrees
-   GERMLINE
-```
-
-(concentration-and-repertoire-tl)=
 ## Concentration, transitions and repertoire (`spaclone.tl`)
 
 Share maps and map-level hotspots, the clonal scan, tissue structures and niches, sharing between regions, lineage
@@ -658,149 +504,108 @@ tests, Markov transition models with transition path theory (sciCSR on tissue), 
 
 ### Share maps and hotspots
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   hotspots
-   region_excess
-   share_map
-   HotspotResult
-   ShareMap
-```
+| Name | Summary |
+|---|---|
+| [`hotspots`](#spaclone.tl.hotspots) | Hotspots of a binary mark with family-wise error control over the whole map. |
+| [`region_excess`](#spaclone.tl.region_excess) | Do given regions hold more (or fewer) marked units than their covariate-matched expectation? |
+| [`share_map`](#spaclone.tl.share_map) | Smoothed share of a binary mark over units, with effective sample size and standardised residuals. |
+| [`HotspotResult`](#spaclone.tl.HotspotResult) | Result of `hotspots`: a `TestResult` plus the map, the label raster and thresholds. |
+| [`ShareMap`](#spaclone.tl.ShareMap) | A smoothed share map and its standardised residuals. |
 
 ### Clonal scan
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   clonal_scan
-   scan_llr
-```
+| Name | Summary |
+|---|---|
+| [`clonal_scan`](#spaclone.tl.clonal_scan) | Scan every clone for spatial concentration against random relabelling of its chain's cells. |
+| [`scan_llr`](#spaclone.tl.scan_llr) | Kulldorff log-likelihood ratio of scan windows (0 for windows without excess). |
 
 ### Tissue structures
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   compartments
-   mask_from_types
-   nearest_zone
-   otsu_threshold
-   signed_distance
-   tissue_mask
-   zones
-   Grid
-   Raster
-```
+| Name | Summary |
+|---|---|
+| [`compartments`](#spaclone.tl.compartments) | Classify every pixel by the first rule it satisfies (a priority order), else `default`. |
+| [`mask_from_types`](#spaclone.tl.mask_from_types) | Mask of the pixels where a cell class dominates the typed units (e.g. the B-rich or the T-rich area). |
+| [`nearest_zone`](#spaclone.tl.nearest_zone) | Label of the nearest zone pixel for every pixel (its own label inside a zone). |
+| [`otsu_threshold`](#spaclone.tl.otsu_threshold) | Otsu's threshold of a set of values (identical to `skimage.filters.threshold_otsu` 0.26 on float input). |
+| [`signed_distance`](#spaclone.tl.signed_distance) | Signed distance (µm) from every pixel centre to the mask border: negative inside, positive outside. |
+| [`tissue_mask`](#spaclone.tl.tissue_mask) | Pixels holding at least one unit, closed and with holes filled (the archive's tissue mask). |
+| [`zones`](#spaclone.tl.zones) | Connected components of a mask, labelled 1..n (0 = background). |
+| [`Grid`](#spaclone.tl.Grid) | A grid of square pixels in micrometres. |
+| [`Raster`](#spaclone.tl.Raster) | An array on a `Grid` (mask, labels, distances, codes). |
 
 ### Niches and sharing between regions
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   niche_profile
-   region_sharing
-```
+| Name | Summary |
+|---|---|
+| [`niche_profile`](#spaclone.tl.niche_profile) | Profile of a group of units across distance bands (or compartments) against a baseline, with chance bands. |
+| [`region_sharing`](#spaclone.tl.region_sharing) | Are clones shared between regions more, or less, than under random placement? |
 
 ### Lineage tests
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   patristic_distances
-   tip_contrast
-   tip_region_test
-   tree_tissue_distance
-```
+| Name | Summary |
+|---|---|
+| [`patristic_distances`](#spaclone.tl.patristic_distances) | Patristic distances (sum of branch lengths on the path) between the labelled nodes of a tree. |
+| [`tip_contrast`](#spaclone.tl.tip_contrast) | Within-tree difference of a tip value between two groups of tips, against within-tree label shuffles. |
+| [`tip_region_test`](#spaclone.tl.tip_region_test) | Do the tips of lineage trees lie in a region more often than their covariate predicts? |
+| [`tree_tissue_distance`](#spaclone.tl.tree_tissue_distance) | Are lineage relatives also tissue neighbours? Within-tree correlation of patristic and tissue distance. |
 
 ### Transition models and transition path theory
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   coarse_grain
-   flow_grid
-   neighbor_graph
-   stationary_distribution
-   tpt_flux
-   transition_displacement
-   transition_model
-   FluxResult
-   TransitionModel
-```
+| Name | Summary |
+|---|---|
+| [`coarse_grain`](#spaclone.tl.coarse_grain) | State-to-state transition matrix of a unit-level chain, lumped with stationary weights. |
+| [`flow_grid`](#spaclone.tl.flow_grid) | Gaussian-weighted mean displacement on a regular grid, for arrow and stream plots of the flow on the tissue. |
+| [`neighbor_graph`](#spaclone.tl.neighbor_graph) | Symmetric neighbour graph (connectivities) of the units in tissue space, expression space or both. |
+| [`stationary_distribution`](#spaclone.tl.stationary_distribution) | Stationary distribution `pi` of an irreducible row-stochastic matrix (`pi T = pi`, `sum(pi) = 1`). |
+| [`tpt_flux`](#spaclone.tl.tpt_flux) | Transition path theory from a source to a target set of states, with a randomisation test of every flux. |
+| [`transition_displacement`](#spaclone.tl.transition_displacement) | Projection of the transition matrix onto tissue coordinates: where each unit's next step is expected to go. |
+| [`transition_model`](#spaclone.tl.transition_model) | Markov chain of units that prefers steps towards a later time key, on a spatial, expression or joint graph. |
+| [`FluxResult`](#spaclone.tl.FluxResult) | Result of `tpt_flux`: a `TestResult` plus state, unit and pathway tables. |
+| [`TransitionModel`](#spaclone.tl.TransitionModel) | Unit-level Markov chain of `transition_model`. |
 
 ### Repertoire
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   cdr3_length
-   clonal_expansion
-   clone_sizes
-   clone_units
-   diversity
-   gene_usage
-   overlap
-   CloneRelocation
-   CloneUnits
-   DIVERSITY_METRICS
-   OVERLAP_METRICS
-   UNITS
-```
+| Name | Summary |
+|---|---|
+| [`cdr3_length`](#spaclone.tl.cdr3_length) | CDR3 length distribution (spectratype) per group. |
+| [`clonal_expansion`](#spaclone.tl.clonal_expansion) | Share of each group's units (and clones) in each clone-size class. |
+| [`clone_sizes`](#spaclone.tl.clone_sizes) | Size of every clone, per group, in units. |
+| [`clone_units`](#spaclone.tl.clone_units) | Turn receptor records into the units in which clones are counted. |
+| [`diversity`](#spaclone.tl.diversity) | Clonal diversity per group, rarefied to a common number of units, with a clone-level test of differences. |
+| [`gene_usage`](#spaclone.tl.gene_usage) | V, J (or C) gene usage per group. |
+| [`overlap`](#spaclone.tl.overlap) | Repertoire overlap between every pair of groups, optionally against a placebo. |
+| [`CloneRelocation`](#spaclone.tl.CloneRelocation) | Random placement of intact clones: permute clone centroids, carry every clone's footprint along. |
+| [`CloneUnits`](#spaclone.tl.CloneUnits) | Result of `clone_units` (unpack as `units, membership = clone_units(air)`). |
+| [`DIVERSITY_METRICS`](#spaclone.tl.DIVERSITY_METRICS) | Named diversity metrics of `diversity` (plus `"top<k>"`, e.g. `"top10"`, and callables). |
+| [`OVERLAP_METRICS`](#spaclone.tl.OVERLAP_METRICS) | Similarity metrics of `overlap`; each is 1 for identical and 0 for disjoint repertoires. |
+| [`UNITS`](#spaclone.tl.UNITS) | Units in which clones are counted (see `clone_units`). |
 
 ### Clonotype networks and public clonotypes
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   clonotype_network
-   pgen
-   public_clonotypes
-   public_top_clones
-   ClonotypeNetwork
-   OLGA_MODELS
-```
+| Name | Summary |
+|---|---|
+| [`clonotype_network`](#spaclone.tl.clonotype_network) | Sequence-similarity network of clonotypes, its connected components and their spatial summary. |
+| [`pgen`](#spaclone.tl.pgen) | Generation probability (OLGA) of every receptor chain in a table. |
+| [`public_clonotypes`](#spaclone.tl.public_clonotypes) | Clonotypes shared between individuals (samples), with their junction variants and optional Pgen. |
+| [`public_top_clones`](#spaclone.tl.public_top_clones) | Are a sample's largest clones found in other individuals more often than its other clones? |
+| [`ClonotypeNetwork`](#spaclone.tl.ClonotypeNetwork) | Result of `clonotype_network`. |
+| [`OLGA_MODELS`](#spaclone.tl.OLGA_MODELS) | OLGA default model per (species, chain). |
 
 ### Clone dispersion
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   clone_dispersion
-   DISPERSION_MEASURES
-```
+| Name | Summary |
+|---|---|
+| [`clone_dispersion`](#spaclone.tl.clone_dispersion) | Test every clone with at least `min_units` units for spatial clustering of its units. |
+| [`DISPERSION_MEASURES`](#spaclone.tl.DISPERSION_MEASURES) | Dispersion statistics of `clone_dispersion`. |
 
 ### Invariant TCR chains
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
+| Name | Summary |
+|---|---|
+| [`invariant_tcr`](#spaclone.tl.invariant_tcr) | Flag iNKT and MAIT alpha chains (and iNKT-type beta V genes). |
+| [`INKT_BETA_V`](#spaclone.tl.INKT_BETA_V) | TRB V genes preferred (not used exclusively) by iNKT cells. |
+| [`INVARIANT_TCR`](#spaclone.tl.INVARIANT_TCR) | Rules per species and cell type: chain, V genes, J genes, canonical junctions (or junction lengths). |
 
-   invariant_tcr
-   INKT_BETA_V
-   INVARIANT_TCR
-```
-
-(plotting-pl)=
 ## Plotting (`spaclone.pl`)
 
 Every plot takes `ax=None` (when it draws one panel) and returns the Axes or the Figure; none calls `show()` or
@@ -812,142 +617,101 @@ Every plot takes `ax=None` (when it draws one panel) and returns the Axes or the
 
 ### Hotspot atlas and class-switch map
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   hotspot_atlas
-   hotspot_overview
-   region_zoom
-   csr_map
-   isotype_composition
-   ISOTYPE_COLORS
-```
+| Name | Summary |
+|---|---|
+| [`hotspot_atlas`](#spaclone.pl.hotspot_atlas) | CSR and SHM hotspots of a section with zooms on the regions where they overlap (the archive's 03-01 figure). |
+| [`hotspot_overview`](#spaclone.pl.hotspot_overview) | The whole-section CSR and SHM maps with their hotspots and the numbered region windows (atlas top row). |
+| [`region_zoom`](#spaclone.pl.region_zoom) | The zooms of one region: CSR (isotype dots), SHM (mutated dots) and GEX (module score) side by side. |
+| [`csr_map`](#spaclone.pl.csr_map) | Isotype maps along the IgH constant locus, switched share, dominant switched class and switches within clones. |
+| [`isotype_composition`](#spaclone.pl.isotype_composition) | Isotype mix of loci as stacked bars, one bar per region, compartment or group, segments in locus order. |
+| [`ISOTYPE_COLORS`](#spaclone.pl.ISOTYPE_COLORS) | Heavy-chain isotypes: the hue names the class (IgM light blue, IgD blue, IgG red, IgE violet, IgA orange); inside IgG (and human IgA) the lightness names the subclass along the locus, light to dark (an ordinal ramp, always read with labels). |
 
 ### Lineage trees
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   lineage_gallery
-   lineage_tree
-```
+| Name | Summary |
+|---|---|
+| [`lineage_gallery`](#spaclone.pl.lineage_gallery) | Write one figure per selected tree (`lineage_tree`) and an index table. |
+| [`lineage_tree`](#spaclone.pl.lineage_tree) | One lineage tree next to the tissue (the archive's annotated lineage figure, all text in English). |
 
 ### Transitions on tissue
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   csr_flow
-   flux_matrix
-   stationary_distribution
-```
+| Name | Summary |
+|---|---|
+| [`csr_flow`](#spaclone.pl.csr_flow) | Flow of a transition model over the tissue: units coloured by the time key, the projected chain as arrows. |
+| [`flux_matrix`](#spaclone.pl.flux_matrix) | TPT flux between every pair of states as a bubble matrix (sciCSR's `plotFluxMatrix`). |
+| [`stationary_distribution`](#spaclone.pl.stationary_distribution) | Lumped stationary distribution per state with bootstrap 95% intervals (sciCSR's `plotStationaryDistribution`). |
 
 ### Threadfin clone states
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   clone_axis_profile
-   clone_state_map
-   spanning_clones
-```
+| Name | Summary |
+|---|---|
+| [`clone_axis_profile`](#spaclone.pl.clone_axis_profile) | Niche composition and marker expression along a clone axis. |
+| [`clone_state_map`](#spaclone.pl.clone_state_map) | Tissue coloured by Threadfin clone states. |
+| [`spanning_clones`](#spaclone.pl.spanning_clones) | The largest spanning clones on the tissue, linked by their minimum spanning trees. |
 
 ### Location trust
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   trust_report
-   placebo
-   placement
-```
+| Name | Summary |
+|---|---|
+| [`trust_report`](#spaclone.pl.trust_report) | Plot a `TrustReport`: observed ÷ chance for every test row, by level and test. |
+| [`placebo`](#spaclone.pl.placebo) | Draw the placebo (null) distribution of a `spaclone.nulls.placebo` result with the observed value and p. |
+| [`placement`](#spaclone.pl.placement) | Plot the observed statistic against its null interval for every row of a test table. |
 
 ### Records and QC
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   spatial_records
-   clones_per_spot
-   qc_panel
-   read_support
-   spot_qc_map
-   valid_shares
-   density_profile
-   same_spot_multiplicity
-   LOCUS_COLORS
-```
+| Name | Summary |
+|---|---|
+| [`spatial_records`](#spaclone.pl.spatial_records) | Draw receptor records at their positions, optionally over the spots of the section. |
+| [`clones_per_spot`](#spaclone.pl.clones_per_spot) | Histogram of distinct clones per spot, with the barcode-sink threshold. |
+| [`qc_panel`](#spaclone.pl.qc_panel) | Four QC panels of a receptor table: read support, valid / productive shares, clones per spot, spot map. |
+| [`read_support`](#spaclone.pl.read_support) | Records kept against the read floor, one line per group, with the knee of each curve. |
+| [`spot_qc_map`](#spaclone.pl.spot_qc_map) | Map of a per-spot QC metric (records, reads, clones, valid share...) at the spots' positions in µm. |
+| [`valid_shares`](#spaclone.pl.valid_shares) | Share of records with a valid junction and share productive, per chain. |
+| [`density_profile`](#spaclone.pl.density_profile) | Records (and GEX molecules) per µm² against the signed distance to the tissue edge. |
+| [`same_spot_multiplicity`](#spaclone.pl.same_spot_multiplicity) | Same-spot hits ÷ chance-expected hits by clones per spot, with the chance line at 1. |
+| [`LOCUS_COLORS`](#spaclone.pl.LOCUS_COLORS) | Fixed colour of every chain (categorical slots of the validated house palette, light mode). |
 
 ### Maps, niches and clones
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   niche_profile
-   share_map
-   clonal_scan
-   clone_map
-   mst_edges
-```
+| Name | Summary |
+|---|---|
+| [`niche_profile`](#spaclone.pl.niche_profile) | Draw a niche profile (ratio to the baseline per band) with its pointwise band and global envelope. |
+| [`share_map`](#spaclone.pl.share_map) | Draw a share map (or another layer) over the tissue, with hotspot outlines. |
+| [`clonal_scan`](#spaclone.pl.clonal_scan) | Plot a `spaclone.tl.clonal_scan` result. |
+| [`clone_map`](#spaclone.pl.clone_map) | Map of clones: their units coloured and linked by the clone's minimum spanning tree, over all other units. |
+| [`mst_edges`](#spaclone.pl.mst_edges) | Edges `(i, j)` of the Euclidean minimum spanning tree of points (Delaunay graph; exact for distinct points). |
 
 ### B-cell receptor maps
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   csr_share_map
-   csr_transitions
-   isotype_map
-   shm_share_map
-   tree_tissue
-```
+| Name | Summary |
+|---|---|
+| [`csr_share_map`](#spaclone.pl.csr_share_map) | Switched-share map (blue) with CSR hotspots outlined in yellow; optionally switched units as dots. |
+| [`csr_transitions`](#spaclone.pl.csr_transitions) | Upstream x downstream matrix of a `spaclone.bcr.csr_transitions` result. |
+| [`isotype_map`](#spaclone.pl.isotype_map) | Units (loci, spots, records) on the tissue, coloured by isotype class. |
+| [`shm_share_map`](#spaclone.pl.shm_share_map) | SHM share map (green) with SHM hotspots outlined in vermilion and, optionally, CSR hotspots in yellow. |
+| [`tree_tissue`](#spaclone.pl.tree_tissue) | A lineage tree (one row per tip, x = mutations from the germline) next to the tips' tissue positions. |
 
 ### Transcriptome
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   gex_dotplot
-   gex_map
-   gex_regions
-   gex_volcano
-   HOUSE_COLORS
-```
+| Name | Summary |
+|---|---|
+| [`gex_dotplot`](#spaclone.pl.gex_dotplot) | Dot plot of marker genes per group: dot area = share of units with the gene detected, colour = mean value. |
+| [`gex_map`](#spaclone.pl.gex_map) | Spatial map of a gene, a cell type, a region or any `obs` column, in µm. |
+| [`gex_regions`](#spaclone.pl.gex_regions) | Map of called regions with every instance labelled at its centroid (labels are the secondary encoding). |
+| [`gex_volcano`](#spaclone.pl.gex_volcano) | Volcano plot of `spaclone.gex.rank_genes_regions` (log2 fold change vs −log10 p). |
+| [`HOUSE_COLORS`](#spaclone.pl.HOUSE_COLORS) | Fixed colours of the built-in cell classes and regions (dark, light). |
 
 ### Repertoire
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
+| Name | Summary |
+|---|---|
+| [`clonal_expansion`](#spaclone.pl.clonal_expansion) | Stacked bars of each group's units (or clones) by clone-size class. |
+| [`clone_dispersion`](#spaclone.pl.clone_dispersion) | Per-clone dispersion: observed / null ratio against clone size, significant clones highlighted. |
+| [`diversity`](#spaclone.pl.diversity) | Diversity per group (or per contrast) with its rarefaction interval and the placebo range. |
+| [`gene_usage`](#spaclone.pl.gene_usage) | Gene usage: a genes x groups heatmap of shares (bars for a single group). |
+| [`overlap`](#spaclone.pl.overlap) | Heatmap of pairwise repertoire overlap. |
+| [`spectratype`](#spaclone.pl.spectratype) | CDR3 length distributions, one line per group. |
 
-   clonal_expansion
-   clone_dispersion
-   diversity
-   gene_usage
-   overlap
-   spectratype
-```
-
-(simulation-sim)=
 ## Simulation (`spaclone.sim`)
 
 Simulated sections with known truth for every record (with receptor sequences and planted lineage trees on request),
@@ -959,43 +723,30 @@ lineage trees scored against the planted ones, and the planted-truth benchmark.
 
 ### Simulated sections
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   legacy_demo_chip
-   synthetic_chip
-   CDNA_BY_COMPARTMENT
-   CDNA_BY_TYPE
-   CONSTANT_PER_CELL
-   MOUSE_CONSTANT_GENES
-```
+| Name | Summary |
+|---|---|
+| [`legacy_demo_chip`](#spaclone.sim.legacy_demo_chip) | The synthetic Stereo-XCR-seq BCR chip of the archived `spaclone demo`, with per-molecule truth. |
+| [`synthetic_chip`](#spaclone.sim.synthetic_chip) | Simulate a spatial BCR / TCR section with known truth for every receptor record. |
+| [`CDNA_BY_COMPARTMENT`](#spaclone.sim.CDNA_BY_COMPARTMENT) | Captured background cDNA per spot by tissue compartment, relative to the red pulp (realistic chip): the white pulp (T zone, follicles, germinal centres) and plasma-cell foci capture 1.5–1.7× more (survey S3 §B, archive v2). |
+| [`CDNA_BY_TYPE`](#spaclone.sim.CDNA_BY_TYPE) | Captured background cDNA per spot by the type of the cell covering it, on top of the compartment factor (realistic chip): B-lineage and plasma cells capture more than T and other cells, spots without a cell less. |
+| [`CONSTANT_PER_CELL`](#spaclone.sim.CONSTANT_PER_CELL) | Mean captured constant-region transcripts per cell and chain besides the receptor-library molecules (realistic chip): the cell's other Ig / TCR mRNA, which the GEX library sees and the receptor library does not. |
+| [`MOUSE_CONSTANT_GENES`](#spaclone.sim.MOUSE_CONSTANT_GENES) | Constant-region call → mouse GEX gene symbol used by the generators. |
 
 ### Planted lineages
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   score_lineages
-```
+| Name | Summary |
+|---|---|
+| [`score_lineages`](#spaclone.sim.score_lineages) | Lineage trees of `spaclone.bcr.lineage_workflow` against the lineages planted by the simulator. |
 
 ### Planted-truth benchmark
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
+| Name | Summary |
+|---|---|
+| [`plant`](#spaclone.sim.plant) | Plant clonal structure with known truth into a placebo version of a receptor table. |
+| [`score`](#spaclone.sim.score) | Score the calls of one or several methods against the planted (or simulated) truth. |
+| [`Planted`](#spaclone.sim.Planted) | Result of `plant`. |
+| [`PATTERNS`](#spaclone.sim.PATTERNS) | Planting patterns: records per cell and the radius (µm) of the clone's focus (`None` = single cells anywhere). |
 
-   plant
-   score
-   Planted
-   PATTERNS
-```
-
-(example-data-datasets)=
 ## Example data (`spaclone.datasets`)
 
 A synthetic section (no download) and the six AIR-SPACE lymph nodes of GEO GSE286452 (Mock, D3, D7, D10, D14, D21),
@@ -1005,51 +756,41 @@ downloaded once and verified by size and sha256.
 .. module:: spaclone.datasets
 ```
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
+| Name | Summary |
+|---|---|
+| [`airspace`](#spaclone.datasets.airspace) | Paths to the bead AnnData and the clone table of one AIR-SPACE GEO sample. |
+| [`data_dir`](#spaclone.datasets.data_dir) | The cache folder: `path`, else `$SPACLONE_DATA_DIR`, else the user cache (`pooch.os_cache`). |
+| [`load_airspace`](#spaclone.datasets.load_airspace) | Fetch one AIR-SPACE sample and read it with `spaclone.io.read_airspace`. |
+| [`synthetic_example`](#spaclone.datasets.synthetic_example) | A small synthetic section with known truth, no download (`spaclone.sim.synthetic_chip`, seed 0). |
+| [`AIRSPACE_FILES`](#spaclone.datasets.AIRSPACE_FILES) | AIR-SPACE GEO files per sample (Mock, then days after infection): exact HTTPS URL, sha256 and size in bytes (URLs and sizes checked against GEO with HEAD requests, sha256 of the downloaded files; 2026-10-30). |
 
-   airspace
-   data_dir
-   load_airspace
-   synthetic_example
-   AIRSPACE_FILES
-```
-
-(null-designs-nulls)=
 ## Null designs (`spaclone.nulls`)
 
-A null design is an object that randomises a receptor table in a stated way: {class}`~spaclone.nulls.Permute` (random
-labelling) or {class}`~spaclone.nulls.Relocate` (random placement). {func}`~spaclone.nulls.placebo` re-runs any
-statistic on many randomised tables, and {func}`~spaclone.nulls.compare_designs` does it under several designs at
-once.
+A null design is an object that randomises a receptor table in a stated way: [`Permute`](#spaclone.nulls.Permute)
+(random labelling) or [`Relocate`](#spaclone.nulls.Relocate) (random placement). [`placebo`](#spaclone.nulls.placebo)
+re-runs any statistic on many randomised tables, and [`compare_designs`](#spaclone.nulls.compare_designs) does it
+under several designs at once.
 
 ```{eval-rst}
 .. module:: spaclone.nulls
 ```
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
+| Name | Summary |
+|---|---|
+| [`bin_labels`](#spaclone.nulls.bin_labels) | Label values by half-open bins `[edges[i], edges[i + 1])`; returns strings such as `"3-9"` or `">=300"`. |
+| [`compare_designs`](#spaclone.nulls.compare_designs) | Run `placebo` under several null designs and stack the tables (column `design`). |
+| [`placebo`](#spaclone.nulls.placebo) | Compare a statistic on the observed data with its distribution under a null design. |
+| [`NullDesign`](#spaclone.nulls.NullDesign) | Base class: a callable `design(df, rng) -> randomised copy of df` with a `describe()` method. |
+| [`Permute`](#spaclone.nulls.Permute) | Random labelling: exchange the values of `columns` between rows, positions fixed. |
+| [`PlaceboResult`](#spaclone.nulls.PlaceboResult) | Result of `placebo`; `table` has one row per component of the statistic. |
+| [`Relocate`](#spaclone.nulls.Relocate) | Random placement: move whole units to random slots. |
+| [`CROWDING_BINS`](#spaclone.nulls.CROWDING_BINS) | Bin edges of crowding (receptor molecules of one chain on one spot) used for placement strata. |
+| [`IG_RNA_BINS`](#spaclone.nulls.IG_RNA_BINS) | Bin edges of local Ig RNA (molecules of Ig constant-region genes in a unit) used for depth strata. |
 
-   bin_labels
-   compare_designs
-   placebo
-   NullDesign
-   Permute
-   PlaceboResult
-   Relocate
-   CROWDING_BINS
-   IG_RNA_BINS
-```
-
-(ecosystem-bridges-ext)=
 ## Ecosystem bridges (`spaclone.ext`)
 
 Each bridge imports its package only when called, so `import spaclone` never needs them; install the extra named
-below. See {doc}`ecosystem` for worked examples.
+below. See [Working with established packages](ecosystem.md) for worked examples.
 
 ```{eval-rst}
 .. module:: spaclone.ext
@@ -1063,20 +804,16 @@ Bridge to the original sciCSR R package: definitions, export, runs and agreement
 .. module:: spaclone.ext.scicsr
 ```
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   compare
-   nmf_signatures
-   read_rdata
-   run_r
-   scicsr_definitions
-   scicsr_isotype_labels
-   to_scicsr
-   SCICSR_COMMIT
-```
+| Name | Summary |
+|---|---|
+| [`compare`](#spaclone.ext.scicsr.compare) | Agreement between spaclone's and sciCSR's results. |
+| [`nmf_signatures`](#spaclone.ext.scicsr.nmf_signatures) | Isotype NMF signatures of sciCSR (productive / sterile IGHC feature weights; column 1 = naive signature). |
+| [`read_rdata`](#spaclone.ext.scicsr.read_rdata) | Read an R `.rda` / `.RData` (`save()`) or `.rds` (`saveRDS()`) file without R. |
+| [`run_r`](#spaclone.ext.scicsr.run_r) | Run the original sciCSR functions on spaclone units through `Rscript` and return their results. |
+| [`scicsr_definitions`](#spaclone.ext.scicsr.scicsr_definitions) | Curated IGHC genomic definitions of sciCSR (`mouse_definitions` on mm10, `human_definitions` on GRCh38). |
+| [`scicsr_isotype_labels`](#spaclone.ext.scicsr.scicsr_isotype_labels) | Short isotype labels of sciCSR (`"M"`, `"G1"`, `"G2b"`, `"A"`) for spaclone isotype names. |
+| [`to_scicsr`](#spaclone.ext.scicsr.to_scicsr) | Write spaclone units in the form sciCSR's R and Python functions read. |
+| [`SCICSR_COMMIT`](#spaclone.ext.scicsr.SCICSR_COMMIT) | sciCSR commit (GitHub Fraternalilab/sciCSR, version 0.3.5) whose data files are fetched. |
 
 ### Threadfin (`spaclone.ext.threadfin`)
 
@@ -1086,23 +823,19 @@ Bridge to clone-state profiles on spatial units, mapped back to tissue (`spaclon
 .. module:: spaclone.ext.threadfin
 ```
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   compare
-   niche_by_axis
-   niche_features
-   region_axis
-   run
-   spanning_clones
-   spatial_coherence
-   spatial_context
-   NicheSpec
-   SpatialContext
-   ThreadfinSpatialResult
-```
+| Name | Summary |
+|---|---|
+| [`compare`](#spaclone.ext.threadfin.compare) | How much of one run's clone landscape another run explains (e.g. expression profiles from niche profiles). |
+| [`niche_by_axis`](#spaclone.ext.threadfin.niche_by_axis) | Compartment shares of clone members by clone-axis decile, against permuted clone labels. |
+| [`niche_features`](#spaclone.ext.threadfin.niche_features) | Describe each unit by its place: neighbourhood cell-type composition and signed distances to structures. |
+| [`region_axis`](#spaclone.ext.threadfin.region_axis) | Where regions sit on a clone axis: their units' positions and the values of the clones they hold. |
+| [`run`](#spaclone.ext.threadfin.run) | Run Threadfin on spatial units and map its clone landscape back to the tissue. |
+| [`spanning_clones`](#spaclone.ext.threadfin.spanning_clones) | Clones whose members sit at both ends of a clone axis: how spread they are and how far apart the two ends lie. |
+| [`spatial_coherence`](#spaclone.ext.threadfin.spatial_coherence) | Is a unit's state its clone's state, and are neighbouring clones alike, beyond chance groupings? |
+| [`spatial_context`](#spaclone.ext.threadfin.spatial_context) | Compartments, masks and regions of a section from cell-typed spots (the archive's StereoIR T-series rule). |
+| [`NicheSpec`](#spaclone.ext.threadfin.NicheSpec) | How `niche_features` describes a unit's place. |
+| [`SpatialContext`](#spaclone.ext.threadfin.SpatialContext) | Tissue structures used as places: compartments, masks to measure signed distances to, and regions. |
+| [`ThreadfinSpatialResult`](#spaclone.ext.threadfin.ThreadfinSpatialResult) | Threadfin's result on spatial units plus the spatial layer. |
 
 ### scirpy (`spaclone.ext.scirpy`)
 
@@ -1112,27 +845,23 @@ Bridge to clonotypes, expansion, diversity, overlap and V(D)J usage on spatial u
 .. module:: spaclone.ext.scirpy
 ```
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   clonal_expansion
-   clonotype_modularity
-   clonotypes
-   diversity_by_region
-   expansion_map
-   prepare
-   region_table
-   repertoire_overlap
-   to_records
-   to_units
-   vdj_usage
-   ExpansionMap
-   LargeClonotypeWarning
-   ModularityResult
-   ScirpyResult
-```
+| Name | Summary |
+|---|---|
+| [`clonal_expansion`](#spaclone.ext.scirpy.clonal_expansion) | Clonal-expansion classes of scirpy on spatial units (`tl.clonal_expansion`), with per-region shares. |
+| [`clonotype_modularity`](#spaclone.ext.scirpy.clonotype_modularity) | Are the units of a clonotype more connected on the spatial neighbour graph than random units? |
+| [`clonotypes`](#spaclone.ext.scirpy.clonotypes) | Clonotype clusters of scirpy on spatial units (`pp.ir_dist` + `tl.define_clonotype_clusters`). |
+| [`diversity_by_region`](#spaclone.ext.scirpy.diversity_by_region) | Alpha diversity of clones per region with scirpy (`tl.alpha_diversity`), the value on every unit. |
+| [`expansion_map`](#spaclone.ext.scirpy.expansion_map) | Where expanded clones sit: scirpy's expansion classes on units, smoothed into a share map. |
+| [`prepare`](#spaclone.ext.scirpy.prepare) | Spatial units as a scirpy AnnData, with scirpy's chain indices and chain QC. |
+| [`region_table`](#spaclone.ext.scirpy.region_table) | Per-region summary of a unit label. |
+| [`repertoire_overlap`](#spaclone.ext.scirpy.repertoire_overlap) | Clonotype overlap between regions with scirpy (`tl.repertoire_overlap`), as a tidy pair table. |
+| [`to_records`](#spaclone.ext.scirpy.to_records) | The receptor table with unit labels on every record. |
+| [`to_units`](#spaclone.ext.scirpy.to_units) | One row per unit: `unit_key` (the observation name), `obs` columns and the position in µm. |
+| [`vdj_usage`](#spaclone.ext.scirpy.vdj_usage) | Gene usage of one chain per region (scirpy `get.airr` + `tl.group_abundance`), with the gene on every unit. |
+| [`ExpansionMap`](#spaclone.ext.scirpy.ExpansionMap) | `ScirpyResult` of `expansion_map` plus the share map of expanded units (`share_map`). |
+| [`LargeClonotypeWarning`](#spaclone.ext.scirpy.LargeClonotypeWarning) | One clonotype or clone holds more than 5% of the units: light chains or a loose definition merge cells. |
+| [`ModularityResult`](#spaclone.ext.scirpy.ModularityResult) | `TestResult` of `clonotype_modularity`; `adata` holds the per-unit scores. |
+| [`ScirpyResult`](#spaclone.ext.scirpy.ScirpyResult) | Output of a scirpy function run on spatial units. |
 
 ### squidpy (`spaclone.ext.squidpy`)
 
@@ -1142,18 +871,14 @@ Bridge to neighbourhood enrichment, co-occurrence and autocorrelation of recepto
 .. module:: spaclone.ext.squidpy
 ```
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   co_occurrence
-   nhood_enrichment
-   receptor_labels
-   spatial_autocorr
-   DepthNullWarning
-   LABELS
-```
+| Name | Summary |
+|---|---|
+| [`co_occurrence`](#spaclone.ext.squidpy.co_occurrence) | Co-occurrence of receptor labels with distance, with squidpy (`squidpy.gr.co_occurrence`). |
+| [`nhood_enrichment`](#spaclone.ext.squidpy.nhood_enrichment) | Neighbourhood enrichment of a receptor label with squidpy (`squidpy.gr.nhood_enrichment`). |
+| [`receptor_labels`](#spaclone.ext.squidpy.receptor_labels) | Receptor-derived labels on every spot of the GEX AnnData (or of a spot table built from the records). |
+| [`spatial_autocorr`](#spaclone.ext.squidpy.spatial_autocorr) | Global Moran's I or Geary's C of receptor labels with squidpy (`squidpy.gr.spatial_autocorr`). |
+| [`DepthNullWarning`](#spaclone.ext.squidpy.DepthNullWarning) | A spatial statistic was compared with random relabelling of units, which controls neither depth nor density. |
+| [`LABELS`](#spaclone.ext.squidpy.LABELS) | Labels that `receptor_labels` can compute. |
 
 ### Dandelion (`spaclone.ext.dandelion`)
 
@@ -1163,17 +888,13 @@ Bridge to reproducible Dandelion clone calls mapped back to the records (`spaclo
 .. module:: spaclone.ext.dandelion
 ```
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
-
-   compare_clones
-   dandelion_version
-   find_clones
-   to_dandelion_table
-   DandelionVersionWarning
-```
+| Name | Summary |
+|---|---|
+| [`compare_clones`](#spaclone.ext.dandelion.compare_clones) | Agreement of two clone calls on the same records, per chain. |
+| [`dandelion_version`](#spaclone.ext.dandelion.dandelion_version) | Installed sc-dandelion version from the package metadata (`dandelion.__version__` is unreliable). |
+| [`find_clones`](#spaclone.ext.dandelion.find_clones) | Dandelion clone calls (`dandelion.tl.find_clones`) on a spatial receptor table, one clone per record. |
+| [`to_dandelion_table`](#spaclone.ext.dandelion.to_dandelion_table) | The receptor records as a Dandelion (AIRR) table with unique ids and a cell column. |
+| [`DandelionVersionWarning`](#spaclone.ext.dandelion.DandelionVersionWarning) | sc-dandelion < 1.0 was used: its clone calls are order-dependent and differ from 1.0 and from spaclone's. |
 
 ### Immcantation (`spaclone.ext.immcantation`)
 
@@ -1183,22 +904,444 @@ Bridge to IgBLAST, Change-O, SHazaM and dowser round trips (programs installed s
 .. module:: spaclone.ext.immcantation
 ```
 
-```{eval-rst}
-.. autosummary::
-   :toctree: generated
-   :nosignatures:
+| Name | Summary |
+|---|---|
+| [`create_germlines`](#spaclone.ext.immcantation.create_germlines) | Change-O `CreateGermlines.py`: the germline of every sequence (one per clone with `cloned=True`). |
+| [`define_clones`](#spaclone.ext.immcantation.define_clones) | Change-O `DefineClones.py`: clones by V gene, J gene, junction length and junction distance. |
+| [`dowser_trees`](#spaclone.ext.immcantation.dowser_trees) | Germline-rooted lineage trees with dowser, read back as `spaclone.bcr.LineageTrees`. |
+| [`export_airr`](#spaclone.ext.immcantation.export_airr) | Write the record sequences (FASTA) and the records' spatial columns for an Immcantation run. |
+| [`find_tools`](#spaclone.ext.immcantation.find_tools) | Locate IgBLAST, its databases, the IMGT-gapped references, Change-O and R. |
+| [`igblast`](#spaclone.ext.immcantation.igblast) | IgBLAST with Immcantation's options (`AssignGenes.py igblast`), output for `makedb`. |
+| [`makedb`](#spaclone.ext.immcantation.makedb) | Change-O `MakeDb.py igblast`: IMGT-gapped AIRR table from IgBLAST output. |
+| [`observed_mutations`](#spaclone.ext.immcantation.observed_mutations) | Observed mutations from the germline per sequence (`shazam::observedMutations`). |
+| [`run`](#spaclone.ext.immcantation.run) | IgBLAST -> MakeDb -> SHazaM threshold -> DefineClones -> CreateGermlines -> observedMutations, on records. |
+| [`shazam_threshold`](#spaclone.ext.immcantation.shazam_threshold) | Clonal distance threshold from the distance-to-nearest distribution (SHazaM). |
+| [`to_records`](#spaclone.ext.immcantation.to_records) | Copy columns of an Immcantation table back onto the records they came from. |
+| [`ImmcantationResult`](#spaclone.ext.immcantation.ImmcantationResult) | Output of `run`. |
+| [`Tools`](#spaclone.ext.immcantation.Tools) | Locations of the external programs and references (see `find_tools`). |
 
-   create_germlines
-   define_clones
-   dowser_trees
-   export_airr
-   find_tools
-   igblast
-   makedb
-   observed_mutations
-   run
-   shazam_threshold
-   to_records
-   ImmcantationResult
-   Tools
+<!-- Sphinx writes one page per name below (docs/generated/); the documentation site does not show this block. -->
+
+```{eval-rst}
+.. only:: never
+
+   .. currentmodule:: spaclone
+
+   .. autosummary::
+      :toctree: generated
+      :nosignatures:
+
+      read
+      run
+      TestResult
+      validate_air
+      check_install
+      show_versions
+      io.read
+      io.SpatialAIR
+      io.PAIRED_AIRR_FIELDS
+      io.STEREO_BINS
+      io.sniff
+      io.SniffResult
+      io.anchored_fraction
+      io.read_receptors
+      io.receptor_format
+      io.read_10x_vdj
+      io.read_bd_rhapsody
+      io.read_changeo
+      io.read_clone_table
+      io.read_mixcr
+      io.read_parse
+      io.read_trust4
+      io.read_airr
+      io.read_airr_frame
+      io.ANCHOR_THRESHOLDS
+      io.detect_unit
+      io.gex_format
+      io.read_10x_h5
+      io.read_gef
+      io.read_gem
+      io.read_gex
+      io.read_slideseq
+      io.read_spaceranger
+      io.read_xenium
+      io.source_coordinates
+      io.GEX_FORMATS
+      io.SAW_BIN_SIZES
+      io.read_airspace
+      io.tissue_beads
+      io.parse_mixcr_alignment
+      io.read_stereo_xcr
+      io.from_cell_calls
+      io.CURIO_UM
+      io.MIXCR_ALIGNMENT_FIELDS
+      io.STEREO_XCR_LUAD_CALLS
+      io.STEREO_XCR_LUAD_LOCI
+      io.p_det_from_saturation
+      io.read_gef_bin1
+      io.read_stereo_gef
+      io.read_tissue_mask
+      io.signed_distance_map
+      io.DistanceGrid
+      io.StereoGEX
+      io.UM_PER_DNB
+      io.detect_annotations
+      io.match_barcodes
+      io.Annotations
+      io.BarcodeMatch
+      io.detect_format
+      io.FormatMatch
+      io.ReceptorFormat
+      io.CANONICAL_FIELDS
+      io.COUNT_TYPES
+      io.RECEPTOR_FORMATS
+      io.from_scirpy
+      io.to_scirpy
+      io.to_spatialdata
+      io.write
+      pp.knee_point
+      pp.qc_metrics
+      pp.read_support_curve
+      pp.Knee
+      pp.QCMetrics
+      pp.ReadSupport
+      pp.filter_records
+      pp.resolve_min_reads
+      pp.filter_valid
+      pp.is_valid_junction
+      pp.FilterResult
+      pp.STANDARD_AA
+      pp.collapse_spot_clone
+      pp.collapse_umis
+      pp.find_error_variants
+      pp.merge_error_variants
+      pp.v_families
+      pp.VariantMerge
+      pp.barcode_sinks
+      pp.spot_multiplicity
+      pp.BarcodeSinks
+      pp.clonotype_key
+      pp.flag_carryover
+      pp.flag_public
+      pp.CarryoverResult
+      pp.PublicResult
+      pp.define_clones
+      pp.gene_name
+      pp.merge_loci
+      pp.Loci
+      pp.aggregate
+      pp.assign_to_cells
+      pp.CellAssignment
+      pp.CellAssignmentWarning
+      pp.concat_sections
+      pp.transform
+      pp.transform_matrix
+      gex.bin
+      gex.bin_ids
+      gex.call_tissue
+      gex.filter
+      gex.qc_metrics
+      gex.cluster
+      gex.embed
+      gex.gene_group_mask
+      gex.preprocess
+      gex.EXACT_KNN_MAX
+      gex.GENE_GROUPS
+      gex.celltype_composition
+      gex.import_deconvolution
+      gex.score_cell_types
+      gex.LINEAGES
+      gex.MARKERS
+      gex.ig_class_composition
+      gex.ig_genes
+      gex.ig_rna
+      gex.IG_CLASSES
+      gex.IG_GENES
+      gex.call_regions
+      gex.marker_share
+      gex.is_ig_gene
+      gex.module_scores
+      gex.profile_markers
+      gex.profile_regions
+      gex.unit_mask
+      gex.RegionProfiles
+      gex.REGION_LABELS
+      gex.REGION_MARKERS
+      gex.PROFILE_MARKERS
+      gex.PROFILE_READOUTS
+      gex.domains
+      gex.neighbour_mean
+      gex.pseudobulk
+      gex.rank_genes_regions
+      gex.nhood_enrichment
+      gex.spatial_graph
+      gex.spatially_variable_genes
+      qc.evaluate_trust
+      qc.TrustReport
+      qc.CRITERIA
+      qc.OVERALL_RULES
+      qc.located_fraction
+      qc.same_spot
+      qc.shift_test
+      qc.umi_collisions
+      qc.umi_decoys
+      qc.umi_match
+      qc.composition_on_off
+      qc.density_profile
+      qc.swap_rate
+      qc.tissue_zones
+      qc.GexLookup
+      qc.SameSpotResult
+      qc.UmiMatchResult
+      qc.SwapRateResult
+      qc.CONTEXT_BINS
+      qc.HUMAN_CONSTANT_GENES
+      qc.M_BINS
+      qc.MOUSE_CONSTANT_GENES
+      qc.MULTIPLICITY_BINS
+      qc.UNDETERMINED_GENES
+      qc.DEFAULT_SHELLS_UM
+      qc.TISSUE_ZONE_EDGES_UM
+      qc.TISSUE_ZONE_LABELS
+      qc.composition
+      qc.composition_power
+      qc.own_type_share
+      qc.colocalisation
+      qc.pairing
+      qc.CompositionResult
+      qc.ColocalisationResult
+      qc.PairingResult
+      qc.CLONES_PER_SPOT_BINS
+      qc.read_floor
+      qc.ReadFloorResult
+      bcr.hotspot_workflow
+      bcr.lineage_workflow
+      bcr.HotspotWorkflowResult
+      bcr.LineageWorkflowResult
+      bcr.LineageWorkflowWarning
+      bcr.call_isotype
+      bcr.isotype
+      bcr.isotype_order
+      bcr.CONSTANT_ORDER
+      bcr.ISOTYPE_CLASSES
+      bcr.SWITCHED_CLASSES
+      bcr.UNSWITCHED_CLASSES
+      bcr.csr_hotspots
+      bcr.csr_map
+      bcr.csr_transitions
+      bcr.region_test
+      bcr.csr_potential
+      bcr.ighc_definitions
+      bcr.ighc_transcripts
+      bcr.shm_score
+      bcr.CSR_ISOTYPES
+      bcr.IGH_LOCI
+      bcr.allele_baseline
+      bcr.call_shm
+      bcr.count_mismatches
+      bcr.run_igblast
+      bcr.shm
+      bcr.shm_hotspots
+      bcr.shm_map
+      bcr.tso_trim
+      bcr.SHMWarning
+      bcr.mutations
+      bcr.spectrum
+      bcr.classify_mutation
+      bcr.selection
+      bcr.SpectrumResult
+      bcr.IMGT_REGIONS
+      bcr.CODON_TABLE
+      bcr.build_trees
+      bcr.compare_trees
+      bcr.parsimony_score
+      bcr.read_trees
+      bcr.tip_table
+      bcr.LineageTree
+      bcr.LineageTrees
+      bcr.GERMLINE
+      tl.hotspots
+      tl.region_excess
+      tl.share_map
+      tl.HotspotResult
+      tl.ShareMap
+      tl.clonal_scan
+      tl.scan_llr
+      tl.compartments
+      tl.mask_from_types
+      tl.nearest_zone
+      tl.otsu_threshold
+      tl.signed_distance
+      tl.tissue_mask
+      tl.zones
+      tl.Grid
+      tl.Raster
+      tl.niche_profile
+      tl.region_sharing
+      tl.patristic_distances
+      tl.tip_contrast
+      tl.tip_region_test
+      tl.tree_tissue_distance
+      tl.coarse_grain
+      tl.flow_grid
+      tl.neighbor_graph
+      tl.stationary_distribution
+      tl.tpt_flux
+      tl.transition_displacement
+      tl.transition_model
+      tl.FluxResult
+      tl.TransitionModel
+      tl.cdr3_length
+      tl.clonal_expansion
+      tl.clone_sizes
+      tl.clone_units
+      tl.diversity
+      tl.gene_usage
+      tl.overlap
+      tl.CloneRelocation
+      tl.CloneUnits
+      tl.DIVERSITY_METRICS
+      tl.OVERLAP_METRICS
+      tl.UNITS
+      tl.clonotype_network
+      tl.pgen
+      tl.public_clonotypes
+      tl.public_top_clones
+      tl.ClonotypeNetwork
+      tl.OLGA_MODELS
+      tl.clone_dispersion
+      tl.DISPERSION_MEASURES
+      tl.invariant_tcr
+      tl.INKT_BETA_V
+      tl.INVARIANT_TCR
+      pl.hotspot_atlas
+      pl.hotspot_overview
+      pl.region_zoom
+      pl.csr_map
+      pl.isotype_composition
+      pl.ISOTYPE_COLORS
+      pl.lineage_gallery
+      pl.lineage_tree
+      pl.csr_flow
+      pl.flux_matrix
+      pl.stationary_distribution
+      pl.clone_axis_profile
+      pl.clone_state_map
+      pl.spanning_clones
+      pl.trust_report
+      pl.placebo
+      pl.placement
+      pl.spatial_records
+      pl.clones_per_spot
+      pl.qc_panel
+      pl.read_support
+      pl.spot_qc_map
+      pl.valid_shares
+      pl.density_profile
+      pl.same_spot_multiplicity
+      pl.LOCUS_COLORS
+      pl.niche_profile
+      pl.share_map
+      pl.clonal_scan
+      pl.clone_map
+      pl.mst_edges
+      pl.csr_share_map
+      pl.csr_transitions
+      pl.isotype_map
+      pl.shm_share_map
+      pl.tree_tissue
+      pl.gex_dotplot
+      pl.gex_map
+      pl.gex_regions
+      pl.gex_volcano
+      pl.HOUSE_COLORS
+      pl.clonal_expansion
+      pl.clone_dispersion
+      pl.diversity
+      pl.gene_usage
+      pl.overlap
+      pl.spectratype
+      sim.legacy_demo_chip
+      sim.synthetic_chip
+      sim.CDNA_BY_COMPARTMENT
+      sim.CDNA_BY_TYPE
+      sim.CONSTANT_PER_CELL
+      sim.MOUSE_CONSTANT_GENES
+      sim.score_lineages
+      sim.plant
+      sim.score
+      sim.Planted
+      sim.PATTERNS
+      datasets.airspace
+      datasets.data_dir
+      datasets.load_airspace
+      datasets.synthetic_example
+      datasets.AIRSPACE_FILES
+      nulls.bin_labels
+      nulls.compare_designs
+      nulls.placebo
+      nulls.NullDesign
+      nulls.Permute
+      nulls.PlaceboResult
+      nulls.Relocate
+      nulls.CROWDING_BINS
+      nulls.IG_RNA_BINS
+      ext.scicsr.compare
+      ext.scicsr.nmf_signatures
+      ext.scicsr.read_rdata
+      ext.scicsr.run_r
+      ext.scicsr.scicsr_definitions
+      ext.scicsr.scicsr_isotype_labels
+      ext.scicsr.to_scicsr
+      ext.scicsr.SCICSR_COMMIT
+      ext.threadfin.compare
+      ext.threadfin.niche_by_axis
+      ext.threadfin.niche_features
+      ext.threadfin.region_axis
+      ext.threadfin.run
+      ext.threadfin.spanning_clones
+      ext.threadfin.spatial_coherence
+      ext.threadfin.spatial_context
+      ext.threadfin.NicheSpec
+      ext.threadfin.SpatialContext
+      ext.threadfin.ThreadfinSpatialResult
+      ext.scirpy.clonal_expansion
+      ext.scirpy.clonotype_modularity
+      ext.scirpy.clonotypes
+      ext.scirpy.diversity_by_region
+      ext.scirpy.expansion_map
+      ext.scirpy.prepare
+      ext.scirpy.region_table
+      ext.scirpy.repertoire_overlap
+      ext.scirpy.to_records
+      ext.scirpy.to_units
+      ext.scirpy.vdj_usage
+      ext.scirpy.ExpansionMap
+      ext.scirpy.LargeClonotypeWarning
+      ext.scirpy.ModularityResult
+      ext.scirpy.ScirpyResult
+      ext.squidpy.co_occurrence
+      ext.squidpy.nhood_enrichment
+      ext.squidpy.receptor_labels
+      ext.squidpy.spatial_autocorr
+      ext.squidpy.DepthNullWarning
+      ext.squidpy.LABELS
+      ext.dandelion.compare_clones
+      ext.dandelion.dandelion_version
+      ext.dandelion.find_clones
+      ext.dandelion.to_dandelion_table
+      ext.dandelion.DandelionVersionWarning
+      ext.immcantation.create_germlines
+      ext.immcantation.define_clones
+      ext.immcantation.dowser_trees
+      ext.immcantation.export_airr
+      ext.immcantation.find_tools
+      ext.immcantation.igblast
+      ext.immcantation.makedb
+      ext.immcantation.observed_mutations
+      ext.immcantation.run
+      ext.immcantation.shazam_threshold
+      ext.immcantation.to_records
+      ext.immcantation.ImmcantationResult
+      ext.immcantation.Tools
 ```

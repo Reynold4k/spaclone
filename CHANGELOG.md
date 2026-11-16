@@ -3,6 +3,59 @@
 All notable changes are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versions follow [semantic versioning](https://semver.org/).
 
+## 1.0.3 (2026-11-16)
+
+- **Tutorials say what data you must fetch yourself.** Tutorials 02 and 05 stop at the top with one sentence that
+  names the Stereo-XCR-seq LUAD chip they need (`GSM9684211_D06047A2.h5ad`, 0.98 GB, GEO GSM9684211 of GSE328481),
+  its download link and `SPACLONE_LUAD_H5AD`, instead of an h5py error halfway; the README's tutorial table and the
+  install page say the same. Tutorial 06, the showcase on BGI's StereoIR spleen, stops at its first cell with the
+  sentence that these data are not public yet and that tutorials 07 and 08 run the same functions on public data.
+  Tutorial 01's next steps lead to 07 and 08 and mark 06 as the showcase, and the documentation examples that used
+  the StereoIR files (`docs/ecosystem.md`, `docs/reading_data.md`, the examples of `spaclone.read`,
+  `bcr.hotspot_workflow` and `bcr.lineage_workflow`) start from public or synthetic data or say that they need them.
+- **Dandelion `.h5ddl` files are detected.** `io.sniff`, `io.receptor_format` and `spaclone sniff` recognise the
+  layout that Dandelion writes (an HDF5 dataset `data` holding the AIRR table, or the older PyTables layout) as
+  `io.read_receptors` reads it, with that layout as evidence; any other HDF5 file named `.h5ddl` is reported, not
+  guessed at. Reading one no longer raises a pandas `FutureWarning`.
+- **SHM read floor by record level, and no silent zero.** `bcr.shm(min_reads="auto")` (and `bcr.allele_baseline`):
+  30 reads for assembled contigs (as before, and whenever the record level is unknown), 1 when every record is one
+  UMI molecule or read, the rule `bcr.lineage_workflow` and `bcr.hotspot_workflow` already used. When no record is
+  evaluable, `bcr.shm` warns (`bcr.SHMWarning`) with the number each floor removed, and `bcr.hotspot_workflow` says
+  that its SHM maps are empty: an empty evaluable set no longer looks like "no mutation". On the synthetic section
+  (`synthetic_example(sequences=True)`, UMI molecules with at most 14 reads) 3,663 of 7,954 records are now
+  evaluable instead of none. Contig data (StereoIR) and every call with an explicit floor are unchanged, tutorial
+  numbers included; a direct `bcr.shm` call on AIR-SPACE molecules without `min_reads` now uses 1 instead of 30.
+- **The same numbers under pandas 2 and 3.** Null designs with several strata (`nulls.Permute`, `nulls.Relocate`
+  with `within=[...]` or `window_um`, the placements of `qc.own_type_share`) draw their strata in the order in which
+  they first appear, whatever order pandas returns the groups in (pandas 2, which pip installs on Python 3.11, sorted
+  them otherwise): tutorial 05's 300-µm design gave 1.54 instead of 1.49 on Python 3.11 and now gives the published
+  numbers there too. `pl.clone_map` breaks ties between clones of the same size by first appearance (tutorial 07
+  showed another day-14 clone on Python 3.11), and the rankings that choose which clones, genes or arcs a figure
+  labels (`pl.spanning_clones`, `pl.csr_map`, `pl.gene_usage`, the compact `pl.trust_report`) and
+  the clone ranks of `qc.composition` break ties by table order instead of by the CPU's sorting routine.
+- **Clusters and dependency versions.** `gex.cluster` no longer claims that its labels do not depend on the last bits
+  of the PCs: another scipy (1.16 against 1.17) changes the PCs in their sixth digit, and one changed neighbour of one
+  bead gives tutorial 04 ten clusters of other sizes. The docstring, the transcriptome module and tutorial 04 say
+  plainly that cluster labels can differ between dependency versions.
+- **Trust report.** `report.md` of `spaclone run` heads each verdict once (no "**Power.** Power: ..."). The rows,
+  criteria, methods text and figure name the chains VDJ (IGH, TRB, TRD) and VJ (IGK, IGL, TRA, TRG), terms that are
+  right for B and T cells (TRA and TRG are not light chains). `print()` of every `qc` result (`ColocalisationResult`,
+  `PairingResult`, `SameSpotResult`, `UmiMatchResult`, `ReadFloorResult`, `CompositionResult`, `SwapRateResult`)
+  gives the one-line summary instead of every table and array.
+- **Documentation.** The examples in the docstrings run with the test suite (`--doctest-modules`; the
+  `tl.patristic_distances` example works under numpy 2). A GitHub Actions workflow builds the documentation site
+  strictly on every push and deploys it to GitHub Pages once Pages is switched on. The Markdown pages read better on
+  GitHub: every link has visible text, and the API page lists every name with the first line of its docstring as
+  plain Markdown. The install page describes the `scicsr` extra correctly (CellRank kernels in
+  `tl.transition_model`; deeptime's transition path theory in `tl.tpt_flux`, which gives the native backend's numbers
+  80 to 90 times more slowly) and lists the versions pip installs now.
+- **Tutorials re-executed** with spaclone 1.0.3 on Python 3.12 (one BLAS thread, Threadfin 4.6.2): every number is
+  unchanged; the trust-report tables, methods text and figures use the new chain names. Tutorial 07 now says that its
+  germinal-centre and plasma-cell calls are relative to each node (so even the uninfected node has some), what an
+  "erythroid" region label means on a lymph node, and that the Mock node's flux test leaves out 683 beads that its
+  bead graph does not connect to the rest; tutorials 05, 07 and 08 say which digits move with the random draws, the
+  BLAS threads or the numpy and scipy versions.
+
 ## 1.0.2 (2026-11-16)
 
 - **Every documented function runs on data anyone can get.** `datasets.synthetic_example(sequences=True)` (and

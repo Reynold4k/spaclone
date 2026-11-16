@@ -414,8 +414,11 @@ def test_shm_from_mixcr_alignments(planted):
     np.testing.assert_array_equal(res.records.shm_mutations, res.records.shm_mutations.astype(int))
     assert res.shm is not None and len(res.regions) == 1
     assert res.regions.mutated_share.iloc[0] > 0.4 and res.regions.gex_label.iloc[0] == "plasmablast/ASC"
-    strict = bcr.hotspot_workflow(sa, rng=0, shm_min_aligned_nt=250, **{**FAST, "clone_null": False, "gc_call": False})
+    with pytest.warns(WorkflowWarning, match=r"none of the 1,217 heavy-chain records is evaluable for SHM \(0 below"):
+        strict = bcr.hotspot_workflow(sa, rng=0, shm_min_aligned_nt=250,
+                                      **{**FAST, "clone_null": False, "gc_call": False})  # fmt: skip
     assert not strict.records.evaluable.any() and strict.shm is None
+    assert any("not evidence of absent mutation" in m for m in strict.messages)
 
 
 def test_species_mismatch_warns_and_names_species(planted):

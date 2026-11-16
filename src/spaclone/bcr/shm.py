@@ -35,6 +35,7 @@ import re
 import shutil
 import subprocess
 import tempfile
+import warnings
 from collections.abc import Sequence
 from pathlib import Path
 from typing import Any, Literal
@@ -43,11 +44,12 @@ import numpy as np
 import pandas as pd
 
 from spaclone import _schema as S
-from spaclone._utils import RngLike
+from spaclone._utils import RngLike, SpacloneWarning
 from spaclone.bcr.isotype import isotype as _isotype
 from spaclone.pp.clones import gene_name
 
 __all__ = [
+    "SHMWarning",
     "allele_baseline",
     "call_shm",
     "count_mismatches",
@@ -59,6 +61,11 @@ __all__ = [
 ]
 
 logger = logging.getLogger("spaclone")
+
+
+class SHMWarning(SpacloneWarning):
+    """No record passed the evaluability floors, so the mutated flags of :func:`shm` carry no information."""
+
 
 _CHUNK = 20_000
 _IS_GAP = np.zeros(256, dtype=bool)
@@ -226,7 +233,7 @@ def allele_baseline(
     aligned_nt: Any = None,
     baseline_isotypes: Sequence[str] = ("IgM", "IgD"),
     min_baseline_n: int = 10,
-    min_reads: float = 30,
+    min_reads: float | Literal["auto"] = "auto",
     min_aligned_nt: int = 250,
     fallback: BaselineFallback = "none",
     v_key: str = S.V_CALL,
@@ -250,6 +257,7 @@ def allele_baseline(
         An allele (or gene, or the pooled set) needs at least this many such records for its median to be used.
     min_reads, min_aligned_nt
         Floors of the records used (reads >= ``min_reads``, aligned V nucleotides >= ``min_aligned_nt``).
+        ``min_reads="auto"`` (default): the record-level rule of :func:`shm`.
     fallback
         What an allele with fewer than ``min_baseline_n`` baseline records gets. ``"none"`` (default, the archive's
         T1 rule): no baseline, so its records are not evaluable. ``"gene"``: the median over the baseline records of
@@ -280,6 +288,7 @@ def allele_baseline(
     )
     if v_key not in air.columns:
         raise KeyError(f"allele_baseline: column {v_key!r} not in the table")
+    min_reads, _ = _auto_min_reads(min_reads, air)
     reads = _reads(air, reads_key, min_reads)
     iso = _isotypes(air, isotype_key, c_key)
     use = (reads >= min_reads) & (al >= min_aligned_nt) & iso.isin(list(baseline_isotypes)).fillna(False).to_numpy()
@@ -315,6 +324,17 @@ def allele_baseline(
     return tab
 
 
+def _auto_min_reads(min_reads: float | str, air: pd.DataFrame) -> tuple[float, str]:
+    """The read floor and its rule: ``"auto"`` = 30 for contigs (or an unknown record level), 1 for molecules / reads.
+
+    The same rule as ``noise_min_reads`` of :func:`spaclone.bcr.lineage_workflow` and ``shm_min_reads`` of
+    :func:`spaclone.bcr.hotspot_workflow`; the level is the reader's (``air.attrs["spaclone"]["level"]``).
+    """
+    from spaclone.bcr.workflow import _auto_floor, _record_level  # imported here: the workflow imports this module
+
+    return _auto_floor(min_reads, _record_level(None, air), per_unit=1, contig=30, name="min_reads")
+
+
 def _reads(air: pd.DataFrame, reads_key: str, min_reads: float) -> np.ndarray:
     if reads_key in air.columns:
         return pd.to_numeric(air[reads_key], errors="coerce").to_numpy(dtype=float)
@@ -335,7 +355,7 @@ def shm(
     baseline_isotypes: Sequence[str] = ("IgM", "IgD"),
     min_baseline_n: int = 10,
     baseline_fallback: BaselineFallback = "none",
-    min_reads: float = 30,
+    min_reads: float | Literal["auto"] = "auto",
     min_aligned_nt: int = 250,
     min_excess: float = 3,
     trim_5prime_nt: Any = 0,
@@ -377,7 +397,11 @@ def shm(
         ``{key}_baseline_source``.
     min_reads, min_aligned_nt
         Evaluability floors (T1: >= 30 reads and >= 250 aligned V nucleotides); the same floors select the baseline
-        records.
+        records. ``min_reads="auto"`` (default): 30 for assembled contigs (the archive's rule; also when the record
+        level is unknown), 1 when every record is one UMI molecule or one read (the reader's level,
+        ``air.attrs["spaclone"]["level"]`` ``"molecule"`` / ``"read"``), whose reads are copies of that molecule, so
+        that a read floor says little about its sequence (the rule of ``noise_min_reads`` in
+        :func:`spaclone.bcr.lineage_workflow`). The floor used and its rule are in ``attrs["spaclone"]["shm"]``.
     min_excess
         Excess mismatches at which an evaluable record is mutated (T1: 3).
     trim_5prime_nt
@@ -407,8 +431,16 @@ def shm(
         aligned nucleotides), ``{key}_baseline``, ``{key}_baseline_source`` (``"allele"``, ``"gene"``, ``"pooled"``,
         ``"zero"``, ``"none"`` = no baseline, hence not evaluable, or ``"off"`` with ``baseline=None``),
         ``{key}_excess``, ``{key}_evaluable`` and ``{key}_mutated``; with ``return_baseline`` also the allele
-        baseline table. ``out.attrs["spaclone"]["shm"]`` holds the parameters and counts only (scalars), so the table
-        concatenates and merges under every pandas version; the baseline table is returned, not stored in ``attrs``.
+        baseline table. ``{key}_mutated`` is False for records that are not evaluable, so a mutated share is a share
+        of the evaluable records (as in :func:`call_shm`). ``out.attrs["spaclone"]["shm"]`` holds the parameters and
+        counts only (scalars), so the table concatenates and merges under every pandas version; the baseline table is
+        returned, not stored in ``attrs``.
+
+    Warns
+    -----
+    SHMWarning
+        When no record is evaluable: every ``{key}_mutated`` is then False although nothing was measured. The message
+        says how many records each floor removed and which argument to change.
 
     Notes
     -----
@@ -424,7 +456,7 @@ def shm(
     Examples
     --------
     >>> air = shm(isotype(air))  # doctest: +SKIP
-    >>> air.groupby("isotype").shm_mutated.mean()  # doctest: +SKIP
+    >>> air[air.shm_evaluable].groupby("isotype").shm_mutated.mean()  # share of the evaluable records  # doctest: +SKIP
     >>> air, baseline = shm(isotype(air), return_baseline=True)  # doctest: +SKIP
     >>> baseline.source.value_counts()  # doctest: +SKIP
     """
@@ -478,6 +510,7 @@ def shm(
                 air[j_sequence_alignment], air[j_germline_alignment], skip_ambiguous=skip_ambiguous
             )
             al, mm = al + al_j, mm + mm_j
+    min_reads, min_reads_rule = _auto_min_reads(min_reads, air)
     reads = _reads(air, reads_key, min_reads)
     passes = (reads >= min_reads) & (al >= min_aligned_nt)
     if baseline == "allele":
@@ -503,6 +536,11 @@ def shm(
         source = np.full(len(air), "off", dtype=object)
     excess = mm - base
     evaluable = passes & np.isfinite(base)
+    if len(air) and not evaluable.any():
+        warnings.warn(
+            _none_evaluable(reads, al, base, min_reads, min_reads_rule, min_aligned_nt, baseline, key_added),
+            stacklevel=2,
+        )
     out = air.copy()
     k = key_added
     out[f"{k}_aligned_nt"] = al
@@ -524,6 +562,7 @@ def shm(
         "baseline_fallback": baseline_fallback if baseline == "allele" else None,
         "mixcr_alignment": mixcr_alignment,
         "min_reads": min_reads,
+        "min_reads_rule": min_reads_rule,
         "min_aligned_nt": min_aligned_nt,
         "min_excess": min_excess,
         "skip_ambiguous": skip_ambiguous,
@@ -534,6 +573,34 @@ def shm(
     # attrs keep scalars only: pandas >= 3 compares attrs in concat / merge, and a DataFrame there cannot be compared
     out.attrs["spaclone"] = {**dict(air.attrs.get("spaclone", {})), "shm": params}
     return (out, tab) if return_baseline else out
+
+
+def _none_evaluable(
+    reads: np.ndarray,
+    al: np.ndarray,
+    base: np.ndarray,
+    min_reads: float,
+    rule: str,
+    min_aligned_nt: int,
+    baseline: str | None,
+    key: str,
+) -> SHMWarning:
+    """The warning when :func:`shm` finds no evaluable record: why, and what to change (``.reasons``: the counts)."""
+    n = len(reads)
+    few_reads, short = int((reads < min_reads).sum()), int((al < min_aligned_nt).sum())
+    top = np.nanmax(reads) if np.isfinite(reads).any() else np.nan
+    parts = [f"{few_reads:,} below min_reads={min_reads:g} ({rule}; at most {top:g} reads per record)"]
+    parts.append(f"{short:,} with fewer than min_aligned_nt={min_aligned_nt} aligned V nucleotides")
+    fixes = ["min_reads", "min_aligned_nt"]
+    if baseline == "allele":
+        parts.append(f"{int((~np.isfinite(base)).sum()):,} whose V allele has no baseline")
+        fixes.append("baseline_fallback")
+    w = SHMWarning(
+        f"shm: none of the {n:,} records is evaluable, so no mutation was measured (every {key}_mutated is False "
+        f"without meaning 'unmutated'): {'; '.join(parts)}. Lower the floor that removes them ({', '.join(fixes)})."
+    )
+    w.reasons = "; ".join(parts)
+    return w
 
 
 def call_shm(

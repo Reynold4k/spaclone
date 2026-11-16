@@ -896,9 +896,16 @@ def lineage_workflow(
 
     Examples
     --------
-    >>> sa = spaclone.io.read_airr("mm_spleen_bcr_airr.tsv", columns="all")  # doctest: +SKIP
-    >>> res = spaclone.bcr.lineage_workflow(sa, gex, hotspots=csr)  # doctest: +SKIP
+    A synthetic section with contigs and planted lineages (no download; tutorial 08):
+
+    >>> syn = spaclone.datasets.synthetic_example(sequences=True)  # doctest: +SKIP
+    >>> res = spaclone.bcr.lineage_workflow(syn)  # doctest: +SKIP
     >>> spaclone.pl.lineage_gallery(res, "figures/")  # doctest: +SKIP
+    >>> spaclone.sim.score_lineages(res, syn)  # every tree against the planted one  # doctest: +SKIP
+
+    The StereoIR spleen of tutorial 06 (BGI data that are not yet public), with the CSR hotspots of
+    :func:`~spaclone.bcr.hotspot_workflow`: ``spaclone.bcr.lineage_workflow(sa, gex, hotspots=csr)`` after
+    ``sa = spaclone.io.read_airr("mm_spleen_bcr_airr.tsv.tsv", columns="all")``.
     """
     t_start = time.time()
     gens = [_grouping(g) for g in groupings]

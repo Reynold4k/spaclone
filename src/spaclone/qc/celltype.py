@@ -143,7 +143,8 @@ def _tuple_groups(df: pd.DataFrame, cols: list[str]) -> dict[tuple, np.ndarray]:
     if not cols:
         return {(): np.arange(len(df))}
     g = df[cols].groupby(cols, sort=False, observed=True, dropna=False).indices
-    return {(k if isinstance(k, tuple) else (k,)): v for k, v in g.items()}
+    # first appearance, whatever order pandas returns the groups of several keys in (2.x and 3.x differ)
+    return {(k if isinstance(k, tuple) else (k,)): v for k, v in sorted(g.items(), key=lambda kv: int(kv[1].min()))}
 
 
 # ------------------------------------------------------------------------------------------------- own-type share
@@ -444,7 +445,7 @@ def _unit_key(lib: np.ndarray, spot: pd.Series) -> np.ndarray:
 # ---------------------------------------------------------------------------------------------- clone composition
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, repr=False)
 class CompositionResult(TestResult):
     """Result of :func:`composition`; ``clones`` holds the per-clone exact tests (BH ``q_value`` within locus)."""
 
@@ -563,7 +564,7 @@ def _clone_features(
     rare_max: int,
     clone_features: Mapping[str, Mapping | pd.Series] | None,
 ) -> dict[str, np.ndarray]:
-    rank = np.argsort(np.argsort(-size))
+    rank = np.argsort(np.argsort(-size, kind="stable"), kind="stable")
     feats: dict[str, np.ndarray] = {f"top{t}_share": (rank < t).astype(float) for t in top}
     feats[f"rare_le{rare_max}_share"] = (size <= rare_max).astype(float)
     feats["log10_clone_size"] = np.log10(np.maximum(size, 1))
@@ -812,7 +813,7 @@ def composition(
         a, b, na, nb = r["a"], r["b"], r["n_a"], r["n_b"]
         test = np.flatnonzero(a + b >= min_clone_units)
         if len(test):
-            rank = np.argsort(np.argsort(-size))
+            rank = np.argsort(np.argsort(-size, kind="stable"), kind="stable")
             res = [fisher_exact([[a[j], na - a[j]], [b[j], nb - b[j]]]) for j in test]
             ct = pd.DataFrame(
                 {
@@ -948,7 +949,7 @@ def composition_power(
         codes, uniq = pd.factorize(air[clone_key].to_numpy()[sel], sort=False)
         k0 = len(uniq)
         size = np.bincount(codes, minlength=k0)
-        order = np.argsort(-size)
+        order = np.argsort(-size, kind="stable")
         ia, ib = (in_a & single)[sel], (in_b & single)[sel]
         ca0, cb = codes[ia], codes[ib]
         sa, sb = st[sel][ia], st[sel][ib]

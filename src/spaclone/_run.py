@@ -155,8 +155,8 @@ def run(
     """Run QC, filtering and every location-trust test the data allow, and return a :class:`~spaclone.qc.TrustReport`.
 
     The report gives three verdicts. **Molecule-level placement** (same-spot test, own-cell-type share, UMI match):
-    do receptor molecules sit on their own transcript / cell type? **Clone-level placement** (co-localisation of heavy
-    chains, heavy/light pairing, partner-chain sharing): does clone identity follow position? Only the clone level
+    do receptor molecules sit on their own transcript / cell type? **Clone-level placement** (co-localisation of VDJ
+    chains, VDJ/VJ pairing, partner-chain sharing): does clone identity follow position? Only the clone level
     licenses clone maps and spatial clone statistics (``tl``, ``bcr`` maps). The **overall** verdict follows the
     pre-stated rules :data:`spaclone.qc.OVERALL_RULES`:
 
@@ -264,10 +264,10 @@ def run(
       and is untestable when the median chance exceeds 0.5 (test at ceiling).
     * The own-type share places whole spots with probability proportional to GEX total counts (captured cDNA).
     * Partner-chain sharing is tested at loci with >= 2, 5 and 20 reads (Bonferroni over the three floors).
-    * Light-chain co-localisation is reported as information; untestable rows (NaN p-values, too few units) are
-      excluded from the BH families and from the verdicts.
+    * VJ-chain co-localisation (IGK, IGL, TRA, TRG) is reported as information; untestable rows (NaN p-values, too
+      few units) are excluded from the BH families and from the verdicts.
 
-    Steps that do not apply (no GEX, no cell types, no heavy/light pairs, cell-level calls without molecules) are
+    Steps that do not apply (no GEX, no cell types, no VDJ/VJ pairs, cell-level calls without molecules) are
     listed as "not run" with the reason.
     """
     from spaclone import __version__, pp, qc
@@ -667,13 +667,13 @@ def run(
             if res is not None:
                 results[f"pairing_{receptor}"] = res
         if not any_pair:
-            skipped["pairing"] = "needs a heavy and a light chain of one receptor (IGH + IGK/IGL, TRB + TRA, TRD + TRG)"
+            skipped["pairing"] = "needs a VDJ and a VJ chain of one receptor (IGH + IGK/IGL, TRB + TRA, TRD + TRG)"
 
     if "read_floor" in todo:
         if not has_reads:
             skipped["read_floor"] = "no read counts"
         elif not partners:
-            skipped["read_floor"] = "needs a heavy chain and its partner chain (IGH + IGK/IGL, TRB + TRA, TRD + TRG)"
+            skipped["read_floor"] = "needs a VDJ chain and its partner chain (IGH + IGK/IGL, TRB + TRA, TRD + TRG)"
         else:
             for focal, partner in partners:
                 nm = f"read_floor:{focal}-{partner}"

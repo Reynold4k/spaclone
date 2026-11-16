@@ -4,13 +4,13 @@ title: spaclone
 type: software
 abstract: Is spatial immune-receptor data spatial? Calibrated location-trust tests and clonal concentration maps for spatial BCR/TCR data, with readers, receptor QC, the transcriptome, B-cell receptor biology and repertoire statistics, and bridges to established single-cell repertoire packages.
 authors:
-- family-names: Satoshi
+- family-names: Zhu
   given-names: Chen
   alias: Reynold4k
   email: 103236530+Reynold4k@users.noreply.github.com
 repository-code: "https://github.com/Reynold4k/spaclone"
 license: MIT
-version: "1.0.2"
+version: "1.0.3"
 doi: 10.5281/zenodo.23826886
 date-released: "2026-11-16"
 keywords:
@@ -1036,7 +1036,7 @@ references:
 - type: software
   title: "Threadfin: clone-level analysis of B-cell states from paired single-cell RNA-seq and BCR-seq"
   authors:
-  - family-names: Satoshi
+  - family-names: Zhu
     given-names: Chen
   url: "https://github.com/Reynold4k/Threadfin"
   version: "4.6.0"

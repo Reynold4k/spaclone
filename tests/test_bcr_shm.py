@@ -96,8 +96,39 @@ def test_shm_baseline_excess_evaluability():
     assert d.shm_per100.iloc[0] == pytest.approx(100 * 2 / 300)
     nb = bcr.shm(_records(), baseline=None, min_excess=5)
     assert nb[nb.v_call == "IGHV2-2*01"].shm_mutated.tolist() == [False, False, False, True]
-    short = bcr.shm(_records(), min_aligned_nt=301)
+    with pytest.warns(bcr.SHMWarning, match="none of the 19 records is evaluable"):
+        short = bcr.shm(_records(), min_aligned_nt=301)
     assert not short.shm_evaluable.any()
+
+
+def test_shm_read_floor_follows_the_record_level():
+    """min_reads="auto": 30 for contigs (or an unknown level), 1 for molecules; an empty evaluable set warns.
+
+    The synthetic section is molecule-level (one UMI molecule per record, at most 14 reads): with the contig floor no
+    record was evaluable and every isotype showed a mutated share of 0, which looked like "no mutation".
+    """
+    from spaclone import datasets
+
+    syn = bcr.isotype(datasets.synthetic_example(sequences=True).air)
+    assert syn.attrs["spaclone"]["level"] == "molecule" and syn.consensus_count.max() < 30
+    out = bcr.shm(syn)
+    p = out.attrs["spaclone"]["shm"]
+    assert p["min_reads"] == 1 and p["min_reads_rule"].startswith("auto: 1, one molecule per record")
+    ev = out[out.shm_evaluable]
+    assert len(ev) > 0.3 * len(out) and p["n_evaluable"] == len(ev)
+    share = ev.groupby("isotype").shm_mutated.mean()
+    assert share["IgG"] > share["IgM"] > 0 and share["IgA"] > share["IgM"]  # planted SHM: switched clones mutated more
+    with pytest.warns(bcr.SHMWarning, match=r"7,954 below min_reads=30 \(given; at most 14 reads"):
+        none = bcr.shm(syn, min_reads=30)
+    assert not none.shm_evaluable.any()
+    contigs = syn.copy()
+    contigs.attrs = {"spaclone": {"level": "contig"}}
+    with pytest.warns(bcr.SHMWarning, match=r"min_reads=30 \(auto: 30, contigs"):
+        bcr.shm(contigs)
+    plain = pd.DataFrame(_records())  # no reader level: the archive's 30 reads, as before
+    assert bcr.shm(plain).attrs["spaclone"]["shm"]["min_reads"] == 30
+    _, base = bcr.shm(syn, return_baseline=True)
+    pd.testing.assert_frame_equal(base, bcr.allele_baseline(syn, out.shm_mismatches, aligned_nt=out.shm_aligned_nt))
 
 
 def test_shm_regions_trim_and_errors():
@@ -239,7 +270,11 @@ def test_shm_baseline_fallback_is_explicit():
 def test_attrs_hold_scalars_so_tables_concatenate_and_merge():
     """pandas >= 3 compares ``attrs`` in concat / merge: a DataFrame there raised "truth value ... ambiguous"."""
     d = bcr.shm(_records())
-    for out in (d, bcr.call_isotype(d, by="v_call"), bcr.shm(_records(), region=(1, 150), baseline=None)):
+    for out in (
+        d,
+        bcr.call_isotype(d, by="v_call"),
+        bcr.shm(_records(), region=(1, 150), baseline=None, min_aligned_nt=100),
+    ):
         _plain(out.attrs)
         both = pd.concat([out, out])
         assert len(both) == 2 * len(out) and both.attrs == out.attrs

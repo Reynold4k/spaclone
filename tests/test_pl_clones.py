@@ -79,3 +79,19 @@ def test_clone_map_background_reads_and_own_figure_uses_its_width():
     assert ax.get_position().x0 < 0.06 and ax.get_position().x1 > 0.94  # no margin kept for hidden tick labels
     ax = pl.clone_map(air, ["a"], scalebar_um=None)
     assert ax.get_position().x0 > 0.1  # with axes, room for the tick labels
+
+
+def test_clone_map_breaks_size_ties_by_first_appearance():
+    """Of clones with the same number of spots, the one seen first is drawn: the same under pandas 2 and 3."""
+    from spaclone._utils import counts_desc
+
+    assert counts_desc(["b", "a", "a", "b", "c", None]).to_dict() == {"b": 2, "a": 2, "c": 1}
+    rows = [("97", 3), ("116", 5), ("97", 2), ("116", 0), ("5", 9), ("97", 1), ("116", 1)]  # 97 and 116: 3 spots each
+    air = pd.DataFrame({"clone_id": [c for c, _ in rows], "x_um": [10.0 * i for i, _ in enumerate(rows)],
+                        "y_um": [float(v) for _, v in rows], "locus": "IGH"})  # fmt: skip
+    air["spot_id"] = [f"s{i}" for i in range(len(air))]
+    for order in (air, air.iloc[[1, 0, 2, 3, 4, 5, 6]]):  # whichever of the tied clones comes first is shown
+        ax = pl.clone_map(order, n_top=1, background=False)
+        first = str(order.clone_id.iloc[0])
+        assert [t.get_text() for t in ax.get_legend().get_texts()] == [f"clone {first} · 3 spots"]
+        plt.close("all")

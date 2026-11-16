@@ -174,7 +174,7 @@ def umi_decoys(
     return out
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, repr=False)
 class UmiMatchResult(TestResult):
     """Result of :func:`umi_match`.
 

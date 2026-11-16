@@ -43,7 +43,7 @@ logger = logging.getLogger("spaclone")
 _SIDES = ("above", "below")
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, repr=False)
 class ReadFloorResult(TestResult):
     """Result of :func:`read_floor`.
 

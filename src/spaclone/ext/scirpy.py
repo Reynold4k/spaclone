@@ -66,7 +66,7 @@ import numpy as np
 import pandas as pd
 
 from spaclone import _schema as S
-from spaclone._utils import RngLike, SpacloneWarning, TestResult, as_rng, bh, rng_entropy
+from spaclone._utils import RngLike, SpacloneWarning, TestResult, as_rng, bh, counts_desc, rng_entropy
 
 __all__ = [
     "ExpansionMap",
@@ -675,7 +675,7 @@ def _warn_large(labels: pd.Series, ch: pd.DataFrame, *, what: str, arms: str, ot
     n = int(ok.sum())
     if n == 0:
         return
-    vc = lab[ok].value_counts()
+    vc = counts_desc(lab[ok])  # ties: the label seen first
     top, n_top = vc.index[0], int(vc.iloc[0])
     if n_top <= LARGE_CLONOTYPE_SHARE * n or n_top < LARGE_CLONOTYPE_MIN_SIZE:
         return

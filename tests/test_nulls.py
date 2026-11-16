@@ -116,6 +116,37 @@ def test_relocate_window_keeps_units_local():
     assert (np.floor(out.y_um / 50) == np.floor(df.y_um / 50)).all()
 
 
+def test_strata_of_several_keys_are_drawn_in_first_appearance_order():
+    """A seed gives the same draws under pandas 2 and 3: strata are visited in the order they first appear.
+
+    pandas 2 returns the groups of a groupby on several keys sorted by each key's codes, ("y", 2), ("y", 1),
+    ("x", 2), ...; pandas 3 in first appearance, ("y", 2), ("x", 1), ("y", 1), ... (tutorial 05's 300-µm design gave
+    other numbers on Python 3.11, where pip installs pandas 2).
+    """
+    a, b = ["y", "x", "y", "x", "z", "y"], [2, 1, 1, 2, 1, 2]
+    df = pd.DataFrame({"spot_id": [f"u{i}" for i in range(6)], "a": a, "b": b, "clone_id": list("pqrstu"),
+                       "x_um": 0.0, "y_um": 0.0})  # fmt: skip
+    order = [("y", 2), ("x", 1), ("y", 1), ("x", 2), ("z", 1)]
+    groups = nulls._group_positions(df, ["a", "b"])
+    assert [(a[g[0]], b[g[0]]) for g in groups] == order
+    slots = pd.DataFrame({"spot_id": [f"s{i}" for i in range(60)], "a": np.tile(["x", "y", "z"], 20),
+                          "b": np.repeat([1, 2], 30), "x_um": np.arange(60.0), "y_um": 0.0})  # fmt: skip
+    design = nulls.Relocate(slots, within=["a", "b"], replace=True)
+    assert list(design._index(df, "x_um", "y_um")) == order
+    got = design(df, np.random.default_rng(5))
+    gen, want = np.random.default_rng(5), {}
+    for ka, kb in order:  # Relocate's draws, written out: one choice per stratum, strata in first-appearance order
+        units = [i for i in range(6) if (a[i], b[i]) == (ka, kb)]
+        spos = np.flatnonzero((slots.a == ka).to_numpy() & (slots.b == kb).to_numpy())
+        want.update(zip(units, slots.spot_id.to_numpy()[spos[gen.choice(len(spos), size=len(units))]], strict=True))
+    assert got.spot_id.tolist() == [want[i] for i in range(6)]
+    shuffled = nulls.Permute("clone_id", within=["a", "b"])(df, np.random.default_rng(7))
+    gen, src = np.random.default_rng(7), np.arange(6)
+    for g in groups:
+        src[g] = g[gen.permutation(len(g))]
+    assert shuffled.clone_id.tolist() == df.clone_id.to_numpy()[src].tolist()
+
+
 def test_placebo_detects_planted_signal_and_is_reproducible():
     rng = np.random.default_rng(0)
     n = 400

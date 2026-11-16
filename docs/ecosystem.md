@@ -7,7 +7,7 @@ orphan: true
 spaclone does not re-implement the single-cell repertoire and transcriptome tools. It runs them, unchanged, on
 spatial units and brings their results back onto tissue coordinates, where spaclone's own maps, scans and calibrated
 tests take over. Each bridge lives in {mod}`spaclone.ext`, imports its package only when called, and names the extra
-that installs it when the package is missing ([](install.md)).
+that installs it when the package is missing ([Install](install.md)).
 
 | Package | What spaclone runs | Spatial counterpart | Module | Extra |
 |---|---|---|---|---|
@@ -38,11 +38,15 @@ junctions (IGK, IGL) are shared by unrelated B cells: on StereoIR, `receptor_arm
 then calls 79% of the loci "expanded". A clonotype or clone that holds more than 5% of the units (and at least 50 of
 them) raises {class}`~spaclone.ext.scirpy.LargeClonotypeWarning`, which names the argument to change.
 
+The numbers in this example come from the StereoIR spleen of tutorial 06 (Stereo-seq, BGI), whose files are not yet
+public. Tutorial 07 runs `sx.clonotypes` and `sx.expansion_map` on the public AIR-SPACE lymph nodes
+(`spaclone.read(*spaclone.datasets.airspace("D21"))`).
+
 ```python
 import spaclone
 from spaclone.ext import scirpy as sx
 
-sa = spaclone.read("mm_spleen_bin20_anno.h5ad", "mm_spleen_bcr_airr.tsv.tsv")  # the StereoIR spleen
+sa = spaclone.read("mm_spleen_bin20_anno.h5ad", "mm_spleen_bcr_airr.tsv.tsv")  # StereoIR (BGI, not yet public)
 res = sx.clonotypes(sa.air, metric="hamming", cutoff=1)  # heavy-chain loci -> clonotype clusters
 res.summary  # 37,291 heavy-chain loci in 13,586 clonotypes; the largest holds 1,252 (3.4%)
 res.air["scirpy_clone_id"]  # on every record, with x_um / y_um (light-chain records: none)
@@ -98,13 +102,14 @@ agreement of any two clone calls (adjusted Rand index, split and merged clones).
 ## Immcantation
 
 {mod}`spaclone.ext.immcantation` exports the record sequences with ids that point back to their rows, runs IgBLAST,
-Change-O and the R packages with the documented commands, and imports the results onto the records:
+Change-O and the R packages with the documented commands, and imports the results onto the records. On the StereoIR
+spleen (BGI, not yet public; any AIRR table with contig sequences runs the same way):
 
 ```python
 import spaclone
 from spaclone.ext import immcantation as im
 
-sa = spaclone.read("mm_spleen_bin20_anno.h5ad", "mm_spleen_bcr_airr.tsv.tsv")  # the StereoIR spleen
+sa = spaclone.read("mm_spleen_bin20_anno.h5ad", "mm_spleen_bcr_airr.tsv.tsv")  # StereoIR (BGI, not yet public)
 air = sa.air[sa.air.locus == "IGH"]  # heavy-chain contigs with their sequences and positions
 res = im.run(air, "immcantation_out", threads=8)  # IgBLAST, MakeDb, SHazaM, DefineClones, germlines, mutations
 res.air[["x_um", "y_um", "imm_v_call", "imm_clone_id", "imm_mu_freq"]]
@@ -130,10 +135,12 @@ reproduced contig by contig, and dowser gives trees for the same 71 clones with 
 ## sciCSR, CellRank and deeptime
 
 The sciCSR scores and transition models are computed natively by {mod}`spaclone.bcr.csr_dynamics` and
-{mod}`spaclone.tl.transitions`; `backend="cellrank"` and `backend="deeptime"` reproduce the kernels and fluxes with an
-installed CellRank (2.x) and deeptime (`spaclone[scicsr]`). The original sciCSR package needs Python 3.8 with
-CellRank 1.5, which cannot share spaclone's Python; {mod}`spaclone.ext.scicsr` reaches it through R in its own
-environment (`bash scripts/install_spaclone_env.sh --with-scicsr` in a clone of the repository, see [](install.md)).
+{mod}`spaclone.tl.transitions`; with `spaclone[scicsr]`, {func}`~spaclone.tl.transition_model` builds the kernels with
+an installed CellRank (2.x, `backend="cellrank"`) and {func}`~spaclone.tl.tpt_flux` computes the transition path
+theory with deeptime (`backend="deeptime"`). Both reproduce the native numbers; the native backends are the faster
+ones. The original sciCSR package needs Python 3.8 with CellRank 1.5, which cannot share spaclone's Python;
+{mod}`spaclone.ext.scicsr` reaches it through R in its own environment
+(`bash scripts/install_spaclone_env.sh --with-scicsr` in a clone of the repository, see [Install](install.md)).
 
 ## Threadfin
 

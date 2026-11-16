@@ -7,11 +7,12 @@ Two levels of evidence are kept apart, because they answer different questions:
   on a unit of its own cell type? Any molecule whose *barcode* is right passes, even when its CDR3 is not: PCR template
   switching inside the shared constant region keeps the acceptor's constant region and barcode (a spot that does hold
   that transcript) and the donor's V(D)J.
-* **clone-level placement** (:func:`~spaclone.qc.colocalisation` of heavy chains, heavy/light
+* **clone-level placement** (:func:`~spaclone.qc.colocalisation` of VDJ chains, VDJ/VJ
   :func:`~spaclone.qc.pairing`, partner-chain sharing from :func:`~spaclone.qc.read_floor`): does clone identity
-  follow position? Only this level licenses clone maps and spatial clone statistics. Light chains (IGK, IGL, TRA, TRG)
-  are not clone markers — their CDR3s are shared by unrelated cells (public, convergent junctions) and the light-chain
-  type can be local — so light-chain co-localisation is reported as information only.
+  follow position? Only this level licenses clone maps and spatial clone statistics. VJ chains (IGK, IGL, TRA, TRG:
+  the light chains of B cells, the alpha and gamma chains of T cells) are not clone markers — their CDR3s are shared by
+  unrelated cells (public, convergent junctions) and the light-chain type of B cells can be local — so VJ-chain
+  co-localisation is reported as information only. The VDJ chains are IGH, TRB and TRD.
 
 Every criterion is fixed here, before any data are seen, and printed with the verdicts (:data:`CRITERIA`,
 :data:`OVERALL_RULES`). A row is **signal** when it beats random placement in the direction a genuine positional
@@ -46,7 +47,7 @@ MIN_SPOTS, MIN_RECORDS, MIN_CLONES, MIN_TESTED, MIN_KEYS = 100, 20, 5, 5, 20
 CEILING_CHANCE = 0.5
 #: Share of the decisive rows that ran which must be testable before "not detected" / "no evidence" (else limited).
 MIN_TESTABLE_SHARE = 0.5
-#: Loci whose clone ids mark clones (heavy chains).
+#: Loci whose clone ids mark clones (the VDJ chains IGH, TRB and TRD).
 CLONE_MARKER_LOCI = S.HEAVY_LOCI
 
 MOLECULE_TESTS = ("same_spot", "own_type_share", "umi_match")
@@ -81,23 +82,25 @@ CRITERIA: dict[str, str] = {
         f"< {MIN_KEYS} keys."
     ),
     "colocalisation": (
-        "Clone level, heavy chains only (IGH, TRB, TRD). Same-clone pairs 20-100 um apart among cell-scale units "
+        "Clone level, VDJ chains only (IGH, TRB, TRD). Same-clone pairs 20-100 um apart among cell-scale units "
         "(sub-cellular spots: loci of same-clone spots within 15 um; barcode sinks removed) against clone labels "
         "permuted within strata of local Ig RNA: signal if BH q < 0.05 in the clone-level family; untestable with "
         f"< {MIN_CLONES} clones contributing pairs; inconclusive without depth strata (whole-sample null: depth not "
-        "controlled). Light chains (IGK, IGL, TRA, TRG) are information only: their CDR3s are shared by unrelated "
+        "controlled). VJ chains (IGK, IGL, TRA, TRG) are information only: their CDR3s are shared by unrelated "
         "cells."
     ),
     "pairing": (
-        "Clone level. Heavy/light co-occurrence in 10-um bins (IGH with IGK and IGL, TRB with TRA, TRD with TRG; "
-        "barcode sinks removed) against heavy labels permuted within clones-per-spot strata: signal if BH q < 0.05 in "
-        "the clone-level family; untestable when fewer than two heavy or two light clones have min_units units."
+        "Clone level. VDJ/VJ co-occurrence in 10-um bins (IGH with IGK and IGL, TRB with TRA, TRD with TRG; "
+        "barcode sinks removed) against VDJ-chain labels permuted within clones-per-spot strata: signal if BH q < 0.05 "
+        "in the clone-level family; untestable when fewer than two VDJ-chain or two VJ-chain clones have min_units "
+        "units."
     ),
     "partner_sharing": (
-        "Clone level. Loci of one heavy clonotype (IGH, TRB, TRD) sharing a partner-chain clonotype (IGK / IGL, TRA, "
-        "TRG) at loci with at least f = 2, 5, 20 reads, against clonotype labels permuted among the loci of the same "
-        "read support (spaclone.qc.read_floor, 'above' side); the p-value is Bonferroni over the floors tested: signal "
-        f"if BH q < 0.05 in the clone-level family; untestable when no floor has >= {MIN_TESTED} tested clonotypes."
+        "Clone level. Loci of one VDJ-chain clonotype (IGH, TRB, TRD) sharing a partner-chain clonotype (IGK / IGL, "
+        "TRA, TRG) at loci with at least f = 2, 5, 20 reads, against clonotype labels permuted among the loci of the "
+        "same read support (spaclone.qc.read_floor, 'above' side); the p-value is Bonferroni over the floors tested: "
+        f"signal if BH q < 0.05 in the clone-level family; untestable when no floor has >= {MIN_TESTED} tested "
+        "clonotypes."
     ),
     "families": (
         "Multiplicity: Benjamini-Hochberg within each level, over every testable row of that level's tests "
@@ -337,9 +340,7 @@ def _coloc_rows(res: TestResult, depth_controlled: bool, depth_note: str = "") -
             f", top clone {top:.0%} of pairs" if np.isfinite(top) else ""
         )
         if locus not in CLONE_MARKER_LOCI:
-            row.update(
-                verdict="info", note=f"light chain, not a clone marker (shared CDR3s): information only; {where}"
-            )
+            row.update(verdict="info", note=f"VJ chain, not a clone marker (shared CDR3s): information only; {where}")
         elif n_cl < MIN_CLONES or not np.isfinite(p):
             row.update(verdict="untestable", note=f"{n_cl} clones with pairs in the band (< {MIN_CLONES})")
         elif not stratified:
@@ -375,7 +376,7 @@ def _pairing_rows(res: TestResult) -> list[tuple[dict, dict]]:
             nh, nl = int(_f(getattr(r, "n_heavy", 0)) or 0), int(_f(getattr(r, "n_light", 0)) or 0)
             row.update(
                 verdict="untestable",
-                note=f"{nh} heavy / {nl} light clones with >= {min_units} units (two of each needed)",
+                note=f"{nh} VDJ-chain / {nl} VJ-chain clones with >= {min_units} units (two of each needed)",
             )
         else:
             row.update(family="clone", verdict="tested", note=f"{getattr(r, 'design', '')} null")
@@ -792,21 +793,21 @@ class TrustReport(TestResult):
             )
         if "colocalisation" in r:
             parts.append(
-                "Same-clone co-localisation of heavy chains (pairs 20-100 um apart; "
+                "Same-clone co-localisation of VDJ chains (pairs 20-100 um apart; "
                 + ("loci of same-clone spots within 15 um as units" if p.get("subcellular") else "spot units")
                 + ") was compared with permutations of clone labels"
                 + (" within strata of local Ig RNA" if p.get("depth_controlled") else " over the whole sample")
-                + "; light chains were reported but not used for the verdict (Baddeley et al. 2015)."
+                + "; VJ chains were reported but not used for the verdict (Baddeley et al. 2015)."
             )
         if any(k.startswith("pairing") for k in r):
             parts.append(
-                "Heavy/light co-occurrence in 10-um bins (BCR and TCR) was compared with heavy labels shuffled within "
-                "clones-per-spot strata, a chimera-aware null (Howie et al. 2015)."
+                "VDJ/VJ chain co-occurrence in 10-um bins (BCR and TCR) was compared with VDJ-chain labels shuffled "
+                "within clones-per-spot strata, a chimera-aware null (Howie et al. 2015)."
             )
         if any(k.startswith("read_floor") for k in r):
             parts.append(
-                "Partner-chain sharing of the loci of one heavy clonotype was compared with clonotype labels permuted "
-                "among loci of the same read support, Bonferroni over read floors (Kebschull & Zador 2015)."
+                "Partner-chain sharing of the loci of one VDJ-chain clonotype was compared with clonotype labels "
+                "permuted among loci of the same read support, Bonferroni over read floors (Kebschull & Zador 2015)."
             )
         parts.append(
             "Monte-Carlo p-values are (1 + b)/(B + 1) (Davison & Hinkley 1997) with B chosen so that 1/(B + 1) <= "
@@ -849,9 +850,9 @@ class TrustReport(TestResult):
         text = (
             "# spaclone location-trust report\n\n"
             f"**Verdict.** {self.verdict}\n\n"
-            f"**Molecule-level placement.** {self.verdict_molecule}\n\n"
-            f"**Clone-level placement.** {self.verdict_clone}\n\n"
-            f"**Power.** {self.power}\n\n"
+            f"**Molecule-level placement.** {_unprefixed(self.verdict_molecule, 'Molecule level:')}\n\n"
+            f"**Clone-level placement.** {_unprefixed(self.verdict_clone, 'Clone level:')}\n\n"
+            f"**Power.** {_unprefixed(self.power, 'Power:')}\n\n"
             + ("## Input checks\n\n" + "".join(f"- {n}\n" for n in notes) + "\n" if notes else "")
             + f"## Tests\n\n{header}{body}\n"
             "## Criteria (fixed before looking at the data)\n\n"
@@ -865,6 +866,14 @@ class TrustReport(TestResult):
         if path is not None:
             Path(path).write_text(text, encoding="utf-8")
         return text
+
+
+def _unprefixed(text: str, prefix: str) -> str:
+    """``text`` without its leading ``prefix`` (which the Markdown report prints as a bold heading instead)."""
+    if not text.startswith(prefix):
+        return text
+    rest = text[len(prefix) :].lstrip()
+    return rest[:1].upper() + rest[1:]
 
 
 def _has_tabulate() -> bool:

@@ -28,6 +28,41 @@ def test_sniff_receptor_tables():
     assert not u.ok and "format" in u.required
 
 
+def test_sniff_detects_dandelion_h5ddl_as_the_reader_reads_it(tmp_path, capsys):
+    """sniff, receptor_format and the CLI recognise Dandelion's documented .h5ddl layout, as read_receptors does."""
+    import warnings
+
+    import h5py
+
+    f = F / "dandelion/vdj_processed_tiny.h5ddl"
+    r = io.sniff(f)
+    assert r.ok and r.kind == "receptor" and r.format == "airr"
+    assert "Dandelion .h5ddl (sc-dandelion write_h5ddl): HDF5 compound dataset 'data'" in r.evidence[0]
+    assert r.columns["cell_id"] == "cell_id" and r.counts["umi_count"].endswith("umis (writer)")
+    fmt, ev = io.receptor_format(f)
+    assert fmt.name == "airr" and ev == r.evidence
+    with warnings.catch_warnings():  # pandas 2.x warned about downcasting when the count columns were parsed
+        warnings.simplefilter("error", FutureWarning)
+        t = io.read_receptors(f)
+    assert len(t) == 60 and t.attrs["spaclone"]["io"]["evidence"][0] == ev[0]
+    assert main(["sniff", str(f)]) == 0 and "nothing else required" in capsys.readouterr().out
+    # the older PyTables layout (data = a pandas HDFStore group) is recognised; reading it needs PyTables
+    with h5py.File(tmp_path / "old.h5ddl", "w") as h:
+        h.create_group("data").attrs["pandas_type"] = "frame"
+    assert "older PyTables layout" in io.receptor_format(tmp_path / "old.h5ddl")[1][0]
+    old = io.sniff(tmp_path / "old.h5ddl")
+    assert old.kind == "receptor" and not old.ok and "install" in old.required
+    # an HDF5 file named .h5ddl without Dandelion's table is not guessed at
+    with h5py.File(tmp_path / "other.h5ddl", "w") as h:
+        h.create_dataset("x", data=np.arange(3))
+    with pytest.raises(ValueError, match="without Dandelion's AIRR table"):
+        io.receptor_format(tmp_path / "other.h5ddl")
+    with pytest.raises(ValueError, match="without Dandelion's AIRR table"):
+        io.read_receptors(tmp_path / "other.h5ddl")
+    u = io.sniff(tmp_path / "other.h5ddl")
+    assert u.kind == "unknown" and "without Dandelion's AIRR table" in u.required["format"]
+
+
 def test_sniff_gex_sources():
     v = io.sniff(F / "visium_hd_square_008um")
     assert v.ok and v.kind == "gex" and "microns_per_pixel" in v.units["unit"]

@@ -127,7 +127,7 @@ Every statistic reproduces the numbers of the analyses it came from (AIR-SPACE a
 | [Dandelion](https://sc-dandelion.readthedocs.io) | Clone calls written back to records and loci, and compared with spaclone's (`ext.dandelion`) | `[dandelion]` |
 | [Immcantation](https://immcantation.readthedocs.io): IgBLAST · Change-O · SHazaM · dowser · IgPhyML | Germlines, mutation counts and lineage trees that keep their tissue positions (`ext.immcantation`) | `[immcantation]` + IgBLAST, R |
 | [sciCSR](https://github.com/Fraternalilab/sciCSR) | CSR potential, SHM score, transition models and transition-path fluxes on tissue (`bcr.csr_potential`, `tl.tpt_flux`, `pl.csr_flow`), and a bridge to the R package (`ext.scicsr`; 103 of 103 parity checks match sciCSR 0.3.5) | `[scicsr]` |
-| [CellRank](https://cellrank.readthedocs.io) · [deeptime](https://deeptime-ml.github.io) | Transition kernels on spatial neighbour graphs (`tl.transition_model`) | `[scicsr]` |
+| [CellRank](https://cellrank.readthedocs.io) · [deeptime](https://deeptime-ml.github.io) | CellRank's transition kernels on spatial neighbour graphs (`tl.transition_model`), deeptime's transition path theory (`tl.tpt_flux`) | `[scicsr]` |
 | [Threadfin](https://github.com/Reynold4k/Threadfin) | Clone-state landscapes on spots and loci, with calibrated spatial readouts (`ext.threadfin`) | `[threadfin]` |
 | [OLGA](https://github.com/statbiophys/OLGA) | Generation probabilities of public TCR clonotypes (`tl.public`) | `[tcr]` |
 
@@ -138,15 +138,18 @@ Every statistic reproduces the numbers of the analyses it came from (AIR-SPACE a
 | | |
 |---|---|
 | [Quick start](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/01_quickstart.ipynb) | One call on data with and without real positions |
-| [Is my data spatial?](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/02_is_my_data_spatial.ipynb) | AIR-SPACE against Stereo-XCR-seq LUAD; a published QC metric under placebo |
+| [Is my data spatial?](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/02_is_my_data_spatial.ipynb) | AIR-SPACE against Stereo-XCR-seq LUAD; a published QC metric under placebo. Needs the LUAD chip, downloaded by hand (below) |
 | [Class switching and mutation](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/03_bcr_class_switching_and_mutation.ipynb) | CSR maps and hotspots, SHM, lineages in germinal centres |
 | [Transcriptome and repertoire](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/04_transcriptome_and_repertoire.ipynb) | GEX workflow, regions, DE, diversity, networks, niches |
-| [Your own placebo](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/05_custom_placebo.ipynb) | Test any statistic against random placement |
+| [Your own placebo](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/05_custom_placebo.ipynb) | Test any statistic against random placement. Needs the LUAD chip, downloaded by hand (below) |
 | [Hotspots and lineages](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/06_hotspots_and_lineages.ipynb) | Showcase: the flagship on a Stereo-seq spleen (trust report, CSR/SHM hotspot atlas, lineage trees, sciCSR flow, Threadfin states). BGI data, not yet public: the notebook cannot be re-run until they are released; tutorial 08 runs the same functions on data anyone can get |
 | [AIR-SPACE time course](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/07_airspace_time_course.ipynb) | Every analysis on all six public AIR-SPACE lymph nodes, Mock to day 21, with the package defaults and one table of the key numbers |
 | [Lineages, zooms and clone states](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/08_lineages_and_clone_states.ipynb) | Lineage trees on a synthetic section with planted lineages, checked against the truth; a region zoom, the sciCSR stationary distribution and Threadfin clone-axis profiles and spanning clones on a public AIR-SPACE node |
 
 Running them needs Jupyter and the extras each notebook names in its first cell (`pip install "spaclone[full]" jupyter` covers all).
+Tutorials 02 and 05 also need one file that is not downloaded for you: the Stereo-XCR-seq LUAD chip `GSM9684211_D06047A2.h5ad`
+(0.98 GB; GEO sample GSM9684211, series GSE328481, [download](https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9684nnn/GSM9684211/suppl/GSM9684211_D06047A2.h5ad)):
+put it next to the notebook or set the environment variable `SPACLONE_LUAD_H5AD` to its path.
 Reading data, the command line, concepts and the full API: [docs](https://github.com/Reynold4k/spaclone/tree/main/docs).
 
 ## How to cite
@@ -156,7 +159,7 @@ spaclone is MIT-licensed; optional packages and programs keep their own licences
 
 ## Credits
 
-Chen Satoshi (@Reynold4k) and Claude Opus 5.5 (Anthropic)
+Chen Zhu (@Reynold4k) and Claude Opus 5.5 (Anthropic)
 
 ## Licence
 

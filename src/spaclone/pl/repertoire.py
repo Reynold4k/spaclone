@@ -235,7 +235,7 @@ def gene_usage(
     lab = _labels(table, gcols)
     wide = table.assign(_g=lab.to_numpy()).pivot_table(index="gene", columns="_g", values="share", aggfunc="sum")
     wide = wide.fillna(0.0)
-    order = wide.mean(axis=1).sort_values(ascending=False).index[:top]
+    order = wide.mean(axis=1).sort_values(ascending=False, kind="stable").index[:top]
     wide = wide.loc[order]
     if wide.shape[1] == 1:
         ax = _ax(ax, (4.8, 0.25 * len(wide) + 1.0))

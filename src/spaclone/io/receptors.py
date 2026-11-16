@@ -32,7 +32,7 @@ import numpy as np
 import pandas as pd
 
 from spaclone import _schema as S
-from spaclone.io._table import peek_table, read_text_table
+from spaclone.io._table import binary_kind, peek_table, read_text_table
 from spaclone.io.airr import clean_call, locus_from_call, map_unique
 from spaclone.io.formats import CANONICAL_FIELDS, COUNT_TYPES, RECEPTOR_FORMATS, ReceptorFormat, detect_format
 
@@ -319,8 +319,9 @@ def _standardise(
         else:
             out[canon] = _clean_text(v, extra_missing)
     for canon, src in cnt_assign.items():
-        out[canon] = pd.to_numeric(pd.Series(df[src].to_numpy(dtype=object)).replace(list(_MISSING), np.nan),
-                                   errors="coerce").to_numpy(dtype=float)  # fmt: skip
+        raw = df[src].to_numpy(dtype=object).copy()
+        raw[pd.Series(raw).isin(list(_MISSING)).to_numpy()] = np.nan  # Series.replace warns under pandas 2.x
+        out[canon] = pd.to_numeric(pd.Series(raw, dtype=object), errors="coerce").to_numpy(dtype=float)
         io["columns"][canon] = src
     io["counts"] = cnt_note
     # junction or CDR3 (anchors tested on the data)
@@ -600,8 +601,46 @@ def _dandelion_source(obj: Any) -> pd.DataFrame:
     return df
 
 
-def _read_h5ddl(path: Path) -> pd.DataFrame:
-    """The AIRR table of a Dandelion ``.h5ddl``.
+def _h5ddl_evidence(path: Path) -> list[str]:
+    """Evidence that ``path`` has the documented layout of a Dandelion ``.h5ddl``; ``ValueError`` otherwise.
+
+    sc-dandelion's ``Dandelion.write_h5ddl`` (as of 1.0.1) writes an HDF5 file whose dataset ``data`` is the AIRR
+    table as one compound array (one field per column, ``sequence_id`` among them), next to ``metadata`` and
+    ``metadata_names``; its ``read_h5ddl`` recognises the older PyTables layout of the 0.3 series
+    (``write_h5ddl_legacy``) by ``data`` being a group, a pandas HDFStore table. Both layouts are accepted, nothing
+    else.
+    """
+    import h5py
+
+    try:
+        with h5py.File(path, "r") as h:
+            keys = sorted(h.keys())
+            node = h.get("data")
+            names = tuple(node.dtype.names or ()) if isinstance(node, h5py.Dataset) else ()
+            if "sequence_id" in names:
+                shown = [
+                    f for f in ("sequence_id", "cell_id", "locus", "v_call", "j_call", "junction_aa") if f in names
+                ]
+                return [
+                    f"{path.name}: Dandelion .h5ddl (sc-dandelion write_h5ddl): HDF5 compound dataset 'data' with "
+                    f"{len(names)} AIRR columns ({', '.join(shown)}, ...)"
+                ]
+            if isinstance(node, h5py.Group) and "pandas_type" in node.attrs:
+                return [
+                    f"{path.name}: Dandelion .h5ddl in the older PyTables layout (write_h5ddl_legacy): 'data' is a "
+                    "pandas HDFStore table"
+                ]
+    except OSError as e:
+        raise ValueError(f"{path.name}: not a readable HDF5 file ({e})") from e
+    raise ValueError(
+        f"{path.name} is an HDF5 file named .h5ddl without Dandelion's AIRR table (no compound dataset 'data' with "
+        f"sequence_id, no pandas HDFStore group 'data'; top-level keys {keys}); write it with Dandelion's "
+        "write_h5ddl, or export the table: ddl.read_h5ddl(path).write_airr('contigs.tsv')"
+    )
+
+
+def _read_h5ddl(path: Path, n_rows: int | None = None) -> pd.DataFrame:
+    """The AIRR table of a Dandelion ``.h5ddl`` (the first ``n_rows`` records when given).
 
     The compound dataset ``data`` (read with h5py), else the pandas HDFStore key ``data`` of older files (needs
     PyTables).
@@ -611,14 +650,15 @@ def _read_h5ddl(path: Path) -> pd.DataFrame:
     with h5py.File(path, "r") as h:
         node = h.get("data")
         if isinstance(node, h5py.Dataset) and node.dtype.names:
-            arr = node[:]
+            arr = node[:] if n_rows is None else node[:n_rows]
             df = pd.DataFrame({n: arr[n] for n in node.dtype.names})
             for c in df.columns:
                 if df[c].dtype == object:
                     df[c] = [v.decode() if isinstance(v, bytes) else v for v in df[c]]
             return df.astype(object).where(df.notna(), None)
     try:
-        return pd.read_hdf(path, key="data")
+        table = pd.read_hdf(path, key="data")
+        return table if n_rows is None else table.head(n_rows)
     except (ImportError, KeyError, ValueError, TypeError) as e:
         raise ImportError(
             f"{path}: this .h5ddl stores its table as a pandas HDFStore; install PyTables or Dandelion "
@@ -654,6 +694,8 @@ def receptor_format(source: Any, *, format: str = "auto") -> tuple[ReceptorForma
         m = detect_format([str(c) for c in source.columns])
         return m.format, ["DataFrame columns: " + "; ".join(m.evidence)]
     p = Path(source)
+    if p.suffix.lower() == ".h5ddl" and binary_kind(p) == "HDF5":  # Dandelion's own format, read with h5py
+        return RECEPTOR_FORMATS["airr"], _h5ddl_evidence(p)
     if p.suffix.lower() == ".json":
         with open(p, encoding="utf-8") as fh:
             head = fh.read(4096)
@@ -762,8 +804,8 @@ def read_receptors(
         fmt = RECEPTOR_FORMATS["airr"] if name == "scirpy" else _scirpy_legacy_format()
         return _standardise(df, fmt, evidence=[f"{p.name}: " + e for e in ev], **kw)
     if p.suffix.lower() == ".h5ddl":
-        return _finish_table(_read_h5ddl(p), RECEPTOR_FORMATS["airr"], [f"Dandelion {p.name}: compound dataset 'data'"],
-                             **kw)  # fmt: skip
+        fmt, ev = receptor_format(p, format=format)  # the layout check that sniff makes
+        return _finish_table(_read_h5ddl(p), fmt, ev, **kw)
     if p.suffix.lower() == ".json" or suf == ".json.gz":
         fmt, ev = receptor_format(p, format=format)
         return _finish_table(_read_10x_json(p), fmt, ev, **kw)

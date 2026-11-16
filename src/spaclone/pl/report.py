@@ -34,7 +34,7 @@ _LABELS = {
     "own_type_share": "On its own cell type",
     "umi_match": "UMI found as its own transcript",
     "colocalisation": "Same-clone pairs 20–100 µm apart",
-    "pairing": "Heavy and light chain together",
+    "pairing": "VDJ and VJ chain together",
     "partner_sharing": "Clone loci share a partner chain",
 }
 _SHOWN = ("signal", "not detected", "inconclusive", "untestable", "info")
@@ -78,9 +78,9 @@ def trust_report(report: Any, *, style: str = "dark", width: float = 10.0, compa
     """Plot a :class:`~spaclone.qc.TrustReport`: observed ÷ chance for every test row, by level and test.
 
     The title is the overall verdict; below it, the molecule level (same spot, own cell type, UMI match) and the clone
-    level (heavy-chain co-localisation, heavy/light pairing, partner-chain sharing), each headed by its verdict. A dot
+    level (VDJ-chain co-localisation, VDJ/VJ pairing, partner-chain sharing), each headed by its verdict. A dot
     is the observed statistic divided by its chance (placebo) value, coloured by the row's verdict (hollow: information
-    only, e.g. light-chain co-localisation; no dot: untestable); the vertical line marks chance, and the text on the
+    only, e.g. VJ-chain co-localisation; no dot: untestable); the vertical line marks chance, and the text on the
     right gives the verdict and the BH q-value of the level's family.
 
     Parameters
@@ -92,7 +92,7 @@ def trust_report(report: Any, *, style: str = "dark", width: float = 10.0, compa
     width
         Figure width in inches; the height follows the number of rows.
     compact
-        A card-sized summary instead: the verdict of each level, then one row per test (its main row: the heavy
+        A card-sized summary instead: the verdict of each level, then one row per test (its main row: the VDJ
         chain where there is one) with observed ÷ chance and the BH q-value, in large type.
 
     Returns
@@ -161,7 +161,7 @@ def trust_report(report: Any, *, style: str = "dark", width: float = 10.0, compa
                 fig.text(0.06, fig_y(yc), where, color=th["ink2"], fontsize=9.5, va="center", ha="left")
                 q = getattr(row, "q_value", np.nan)
                 qtxt = "" if not np.isfinite(q) else f"q {q:.2g}"
-                label = "light chain (info)" if v == "info" else v
+                label = "VJ chain (info)" if v == "info" else v
                 fig.text(0.765, fig_y(yc), label, color=th["ink"] if v != "untestable" else th["ink2"], fontsize=9.5,
                          va="center", ha="left")  # fmt: skip
                 fig.text(0.92, fig_y(yc), qtxt, color=th["ink2"], fontsize=9.5, va="center", ha="left")
@@ -198,7 +198,7 @@ def _compact(t: Any, status: dict, th: dict, width: float):
             main = main if len(main) else g
             heavy = main[main.locus.astype(str).str.startswith(("IGH", "TRB"))]
             main = heavy if len(heavy) else main
-            picked.append((test, main.sort_values("q_value", na_position="last").iloc[0]))
+            picked.append((test, main.sort_values("q_value", na_position="last", kind="stable").iloc[0]))
         rows.append((level, title, picked))
     n_rows = sum(max(len(p), 1) for _, _, p in rows)
     height = 1.25 + 0.48 * len(rows) + 0.5 * n_rows + 0.15

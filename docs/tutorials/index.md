@@ -6,8 +6,10 @@ section; the others use public data, except notebook 06, a showcase on data that
 * the AIR-SPACE mouse lymph nodes (Jiang et al., *PNAS* 2026; GEO GSE286452): all six nodes, Mock and days 3–21, are
   built into {mod}`spaclone.datasets`, downloaded once and verified by sha256 (`pip install "spaclone[datasets]"`;
   notebook 07 shows every analysis on all six);
-* a Stereo-XCR-seq lung adenocarcinoma chip (Zhan et al., *Nat Commun* 2026; GEO GSE328481, sample GSM9684211), read
-  from the path in the environment variable `SPACLONE_LUAD_H5AD` (notebooks 02 and 05);
+* a Stereo-XCR-seq lung adenocarcinoma chip (Zhan et al., *Nat Commun* 2026; GEO GSE328481, sample GSM9684211), which
+  you download yourself: the file `GSM9684211_D06047A2.h5ad` (0.98 GB,
+  [GEO link](https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9684nnn/GSM9684211/suppl/GSM9684211_D06047A2.h5ad)), next to
+  the notebook or at the path in the environment variable `SPACLONE_LUAD_H5AD` (notebooks 02 and 05);
 * a synthetic section with receptor sequences and planted B-cell lineages,
   `spaclone.datasets.synthetic_example(sequences=True)` (simulated, no download; notebook 08);
 * the StereoIR mouse spleen (Stereo-seq 5′ immune-repertoire files from BGI: bin20 transcriptome and TRUST4 AIRR

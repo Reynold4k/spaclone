@@ -408,3 +408,20 @@ def test_placement_plot_returns_axes():
     ax = pl.placement(two, style="dark")
     assert [t.get_text() for t in ax.get_xticklabels()] == ["a", "b"]
     plt.close(ax.figure)
+
+
+@pytest.mark.parametrize(
+    "module, cls",
+    [("colocalisation", "ColocalisationResult"), ("pairing", "PairingResult"), ("same_spot", "SameSpotResult"),
+     ("offtissue", "SwapRateResult"), ("celltype", "CompositionResult"), ("umi_match", "UmiMatchResult"),
+     ("read_floor", "ReadFloorResult")],
+)  # fmt: skip
+def test_result_classes_print_one_line(module, cls):
+    """print() of a result gives the one-line TestResult summary, not every table and null array."""
+    import importlib
+
+    kind = getattr(importlib.import_module(f"spaclone.qc.{module}"), cls)
+    res = kind(name="x", table=pd.DataFrame({"p_value": np.linspace(0, 1, 500)}), summary={"n_units": 500},
+               null=np.zeros((200, 500)))  # fmt: skip
+    text = repr(res)
+    assert text == "TestResult(x: n_units=500; table 500×1)" and str(res) == text

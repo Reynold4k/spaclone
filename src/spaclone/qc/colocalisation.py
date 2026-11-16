@@ -62,7 +62,7 @@ Closed = Literal["both", "left", "right"]
 Units = Literal["loci", "records"]
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, repr=False)
 class ColocalisationResult(TestResult):
     """Result of :func:`colocalisation`.
 

@@ -37,6 +37,21 @@ def rng_entropy(rng: np.random.Generator) -> Any:
     return getattr(seed_seq, "entropy", None)
 
 
+def counts_desc(values: Any) -> pd.Series:
+    """Counts of the distinct values, most frequent first, ties in the order of first appearance.
+
+    ``Series.value_counts()`` orders ties by first appearance under pandas 3 but leaves them in hash-table order
+    under pandas 2, so a "largest N" choice made from it could differ between installations; this order does not.
+    Missing values are not counted.
+    """
+    s = pd.Series(values)
+    s = s[s.notna().to_numpy()]
+    codes, uniq = pd.factorize(s, sort=False)
+    n = np.bincount(codes, minlength=len(uniq))
+    order = np.argsort(-n, kind="stable")
+    return pd.Series(n[order], index=pd.Index(uniq).take(order), name="count")
+
+
 def mc_pvalue(null: np.ndarray, observed: np.ndarray | float, *, alternative: Alternative) -> np.ndarray:
     """Monte-Carlo p-value ``(1 + #{T* at least as extreme as T}) / (B + 1)``.
 

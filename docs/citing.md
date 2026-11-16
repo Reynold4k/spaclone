@@ -5,11 +5,11 @@
 
 spaclone has no paper. Please cite the version you used:
 
-> Satoshi, C. spaclone (version 1.0.0). https://github.com/Reynold4k/spaclone
+> Zhu, C. spaclone (version 1.0.0). https://github.com/Reynold4k/spaclone
 
 ```bibtex
 @software{spaclone,
-  author  = {Satoshi, Chen},
+  author  = {Zhu, Chen},
   title   = {spaclone},
   version = {1.0.0},
   year    = {2026},
@@ -44,7 +44,7 @@ of them, cite it as its authors ask.
 | `backend="deeptime"` of {func}`~spaclone.tl.tpt_flux` (`[scicsr]`) | deeptime | [Hoffmann et al. 2022](https://doi.org/10.1088/2632-2153/ac3de0) |
 | BAM input of {func}`~spaclone.bcr.ighc_transcripts` (`[scicsr]`) | pysam | the [pysam](https://github.com/pysam-developers/pysam) software |
 | {func}`~spaclone.tl.pgen`, `pgen=True` of {func}`~spaclone.tl.public_clonotypes` (`[tcr]`) | OLGA | [Sethna et al. 2019](https://doi.org/10.1093/bioinformatics/btz035) |
-| {mod}`spaclone.ext.threadfin` (`[threadfin]`) | Threadfin | Satoshi, C. Threadfin (version 4.6.0), https://github.com/Reynold4k/Threadfin |
+| {mod}`spaclone.ext.threadfin` (`[threadfin]`) | Threadfin | Zhu, C. Threadfin (version 4.6.0), https://github.com/Reynold4k/Threadfin |
 | {mod}`spaclone.datasets` (`[datasets]`) | Pooch; the AIR-SPACE data | [Uieda et al. 2020](https://doi.org/10.21105/joss.01943); data: [Jiang et al. 2026](https://doi.org/10.1073/pnas.2504742123) (GEO GSE286452) |
 | {func}`~spaclone.io.read_tissue_mask` (`[images]`) | tifffile | [Gohlke, tifffile](https://doi.org/10.5281/zenodo.6795860) |
 

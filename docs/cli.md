@@ -69,7 +69,7 @@ cell-type labels (own cell type: label the beads with {func}`spaclone.gex.score_
 ## Your own section
 
 `--input` is the receptor table and `--gex` the spatial transcriptome of the same section, in any format that
-{func}`spaclone.read` reads ([](reading_data.md)):
+{func}`spaclone.read` reads ([Reading your data](reading_data.md)):
 
 ```bash
 spaclone run --gex section.h5ad --input airr_rearrangement.tsv --out report

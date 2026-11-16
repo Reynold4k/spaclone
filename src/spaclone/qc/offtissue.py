@@ -413,7 +413,7 @@ def composition_on_off(
 # -------------------------------------------------------------------------------------------------- swap rate
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, repr=False)
 class SwapRateResult(TestResult):
     """Result of :func:`swap_rate`.
 

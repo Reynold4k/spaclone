@@ -737,14 +737,14 @@ def spanning_clones(
     pr = u[u[f"clone_{col}"].notna()]
     if clones is None:
         if test is not None and "spanning" in test.table.columns:
-            cand = test.table[test.table.spanning.astype(bool)].sort_values("n_units", ascending=False)
+            cand = test.table[test.table.spanning.astype(bool)].sort_values("n_units", ascending=False, kind="stable")
             clones = list(cand[ck].astype(str).head(n_top))
         else:
             q1, q2 = np.quantile(pr[col], [1 / 3, 2 / 3])
             g = pr.groupby(ck)
             stats = pd.DataFrame({"n": g.size(), "lo": g[col].min(), "hi": g[col].max()})
             stats = stats[(stats.n >= min_units) & (stats.lo <= q1) & (stats.hi >= q2)]
-            clones = list(stats.sort_values("n", ascending=False).index[:n_top].astype(str))
+            clones = list(stats.sort_values("n", ascending=False, kind="stable").index[:n_top].astype(str))
     clones = [str(c) for c in clones]
     if not clones:
         raise ValueError("no spanning clone to draw")

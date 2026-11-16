@@ -15,6 +15,11 @@ every scanpy / squidpy function works afterwards; the parameters of each step ar
   PCA iterations differ in the last bits with the thread count), and the neighbour graph is exact up to
   50,000 units (approximate nearest-neighbour descent turns last-bit differences into different neighbours: on
   AIR-SPACE D21, 23,040 tissue beads, Leiden gave 11 clusters with 4 threads and 9 with 2 before this was fixed).
+  This holds for one set of dependency versions. Another version of scipy, numpy or scikit-learn can change the PCs
+  in their last digits (scipy 1.16 against 1.17 moves PC1 of D21 at the sixth digit); the exact neighbour search then
+  still sees near-ties change order, and Leiden can turn the few changed edges into a different partition. Cluster
+  labels and sizes can therefore differ between dependency versions; compare clusters by their markers, not by their
+  numbers.
 """
 
 from __future__ import annotations
@@ -355,9 +360,13 @@ def cluster(
 
     Notes
     -----
-    Deterministic: the same ``rng`` gives the same labels on any number of CPUs. The graph and the community search
-    run with one thread, the exact graph does not depend on the last bits of the PCs, and Leiden (igraph) is seeded.
-    The kNN method is recorded in ``uns["spaclone"]["neighbors"]``.
+    Deterministic for one installation: the same ``rng`` gives the same labels on any number of CPUs. The graph and
+    the community search run with one thread, the exact graph does not depend on the thread count, and Leiden
+    (igraph) is seeded. The labels can differ between versions of the dependencies: a different scipy, numpy or
+    scikit-learn can change the PCs in their last digits (on tutorial 04's lymph node, scipy 1.16.3 against 1.17.1
+    moves PC1 at the sixth digit), near-tied neighbours then change order, and Leiden turns the few changed edges
+    into other clusters (there: 10 clusters either way, with other sizes). Interpret clusters by their markers, not by
+    their numbers or sizes. The kNN method is recorded in ``uns["spaclone"]["neighbors"]``.
 
     References
     ----------

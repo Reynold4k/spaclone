@@ -24,7 +24,7 @@ from scipy.sparse.csgraph import minimum_spanning_tree
 from scipy.spatial import Delaunay, QhullError
 
 from spaclone import _schema as S
-from spaclone._utils import TestResult
+from spaclone._utils import TestResult, counts_desc
 from spaclone.pl._colors import CHROME, NEUTRAL, SLOTS, fixed_colors
 from spaclone.pl._frame import SectionFrame, attach
 
@@ -189,7 +189,7 @@ def clone_map(
             sel = d[locus_key].astype(str).str.upper().isin({str(v).upper() for v in want}).to_numpy()
             pool = d[sel] if sel.any() else d
         key = [spot_key, clone_key] if spot_key in pool.columns else [x_key, y_key, clone_key]
-        top = pool.drop_duplicates(key)[clone_key].value_counts()
+        top = counts_desc(pool.drop_duplicates(key)[clone_key])  # ties: the clone seen first
         chosen = list(top.index[:n_top])
     else:
         chosen = [clones] if isinstance(clones, str) else list(clones)

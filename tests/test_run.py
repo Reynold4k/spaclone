@@ -403,8 +403,14 @@ def test_report_outputs(reports, tmp_path):
     md = rep.to_markdown(tmp_path / "r.md")
     for s in ("**Verdict.**", "**Molecule-level placement.**", "**Clone-level placement.**", "**Power.**"):
         assert s in md
+    # each heading once: the verdict sentences start with "Molecule level:", "Clone level:", "Power:"
+    for doubled in ("placement.** Molecule level", "placement.** Clone level", "**Power.** Power"):
+        assert doubled not in md
+    assert f"**Power.** {rep.power.removeprefix('Power: ')[:20]}" in md
     assert all(k in md for k in CRITERIA) and all(r in md for r in OVERALL_RULES)
-    assert "Monte-Carlo p-values" in rep.methods() and "light chains" in rep.methods()
+    assert "Monte-Carlo p-values" in rep.methods() and "VJ chains were reported" in rep.methods()
+    # TRA and TRG are not light chains: the rows and texts name VJ / VDJ chains, right for BCR and TCR
+    assert not rep.table.note.str.contains("light chain").any() and "light chain" not in rep.methods()
     fig = rep.plot()
     assert len(fig.axes) == 1
     texts = " ".join(t.get_text() for t in fig.texts)

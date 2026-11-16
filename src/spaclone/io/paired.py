@@ -489,10 +489,16 @@ def read(
 
     Examples
     --------
-    >>> sa = read("mm_spleen_bin20_anno.h5ad", "mm_spleen_bcr_airr.tsv")  # doctest: +SKIP
+    A public AIR-SPACE lymph node (GEO GSE286452; downloaded once, ``pip install "spaclone[datasets]"``):
+
+    >>> sa = spaclone.read(*spaclone.datasets.airspace("D21"))  # doctest: +SKIP
+    >>> sa = spaclone.read("outs/binned_outputs/square_008um", "trust4_barcode_airr.tsv")  # doctest: +SKIP
+
+    The StereoIR spleen of tutorial 06 (Stereo-seq, BGI data that are not yet public):
+
+    >>> sa = spaclone.read("mm_spleen_bin20_anno.h5ad", "mm_spleen_bcr_airr.tsv.tsv")  # doctest: +SKIP
     >>> sa.meta["unit_rule"], sa.meta["spot_overlap"]  # doctest: +SKIP
     ("obs names spell the integer coordinates as 'x-y' on a 20-unit lattice: ...", 0.991)
-    >>> sa = read("outs/binned_outputs/square_008um", "trust4_barcode_airr.tsv")  # doctest: +SKIP
     """
     rec_kind = None
     if airr is None:

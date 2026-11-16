@@ -207,6 +207,14 @@ def sniff(source: Any) -> SniffResult:
         from spaclone.io.receptors import _read_10x_json
 
         sample = _read_10x_json(Path(source)).head(500)
+    elif Path(source).suffix.lower() == ".h5ddl":
+        from spaclone.io.receptors import _read_h5ddl
+
+        try:
+            sample = _read_h5ddl(Path(source), n_rows=500)
+        except ImportError as e:  # the older PyTables layout without PyTables installed
+            res.required["install"] = str(e)
+            return res
     else:
         sample = peek_table(source, n=500).sample
     for attempt in range(3):

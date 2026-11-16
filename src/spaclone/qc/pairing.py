@@ -47,7 +47,7 @@ logger = logging.getLogger("spaclone")
 CLONES_PER_SPOT_BINS: tuple[float, ...] = (1, 2, 3, 6, np.inf)
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, repr=False)
 class PairingResult(TestResult):
     """Result of :func:`pairing`.
 

@@ -86,7 +86,6 @@ The package's own test suite adds unit tests with known answers, calibration tes
 at most α plus binomial tolerance), power tests on planted signal and determinism tests: 920 tests, 878 run by default
 and 42 slow calibration and power tests (`pytest -m slow`).
 
-(the-7-differences)=
 ## The 7 differences
 
 | File | Quantity | Archived | Package | Cause |

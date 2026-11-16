@@ -73,7 +73,7 @@ from spaclone import _schema as S
 from spaclone._utils import RngLike, SpacloneWarning, TestResult, as_rng, mc_pvalue
 from spaclone.bcr.csr import csr_hotspots, region_test
 from spaclone.bcr.isotype import call_isotype, isotype
-from spaclone.bcr.shm import call_shm, shm, shm_hotspots
+from spaclone.bcr.shm import SHMWarning, call_shm, shm, shm_hotspots
 from spaclone.pp.clones import define_clones
 from spaclone.pp.loci import merge_loci
 from spaclone.pp.validity import filter_valid
@@ -773,9 +773,14 @@ def hotspot_workflow(
 
     Examples
     --------
-    >>> data = spaclone.io.read("mm_spleen_bin20_anno.h5ad", "mm_spleen_bcr_airr.tsv")  # doctest: +SKIP
+    A public AIR-SPACE lymph node (GEO GSE286452; tutorials 07 and 08):
+
+    >>> data = spaclone.read(*spaclone.datasets.airspace("D21"))  # doctest: +SKIP
     >>> res = spaclone.bcr.hotspot_workflow(data, rng=0)  # doctest: +SKIP
     >>> res.regions[["region_id", "switched_share", "mutated_share", "gex_label", "csr_clone_p"]]  # doctest: +SKIP
+
+    The StereoIR spleen of tutorial 06 (BGI data that are not yet public) runs the same way, from
+    ``spaclone.read("mm_spleen_bin20_anno.h5ad", "mm_spleen_bcr_airr.tsv.tsv")``.
     """
     from spaclone import gex as gexmod
     from spaclone.tl.structures import Grid, Raster, tissue_mask
@@ -905,7 +910,21 @@ def hotspot_workflow(
         if has_mixcr:
             shm_kw.update(mixcr_alignment=_MIXCR_V, baseline_fallback="zero")
         shm_kw.update(dict(shm_options or {}))
-        H, baseline_table = shm(H, return_baseline=True, **shm_kw)
+        with warnings.catch_warnings(record=True) as caught:  # said below in the workflow's own arguments
+            warnings.simplefilter("always", SHMWarning)
+            H, baseline_table = shm(H, return_baseline=True, **shm_kw)
+        for w in caught:
+            if not issubclass(w.category, SHMWarning):
+                warnings.warn_explicit(w.message, w.category, w.filename, w.lineno)
+                continue
+            msg = (
+                f"hotspot_workflow: none of the {len(H):,} heavy-chain records is evaluable for SHM "
+                f"({getattr(w.message, 'reasons', w.message)}), so there are no SHM maps and no CSR ∩ SHM regions; "
+                "this is not evidence of absent mutation. Lower shm_min_reads or shm_min_aligned_nt, or pass "
+                "shm_options={'baseline_fallback': 'zero'}"
+            )
+            messages.append(msg)
+            warnings.warn(msg, WorkflowWarning, stacklevel=2)
     else:
         baseline_table = None
         note(

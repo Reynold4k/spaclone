@@ -181,7 +181,7 @@ def patristic_distances(
 
     Examples
     --------
-    >>> patristic_distances("((a:1,b:2):1,c:0.5);").loc["a", "c"]
+    >>> float(patristic_distances("((a:1,b:2):1,c:0.5);").loc["a", "c"])
     2.5
     """
     if isinstance(tree, str):

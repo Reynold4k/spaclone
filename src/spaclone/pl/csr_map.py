@@ -501,7 +501,7 @@ def _arc_panel(
                 )
             )
         scale = _arc_scale(ax)
-        for r in t.sort_values("n", ascending=False).head(3).itertuples():
+        for r in t.sort_values("n", ascending=False, kind="stable").head(3).itertuples():
             x0, x1 = pos[r._1], pos[r._2]
             h = 0.5 * abs(rad) * abs(x1 - x0) * scale
             texts.append(

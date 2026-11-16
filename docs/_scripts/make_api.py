@@ -2,8 +2,10 @@
 
 The public names of a module are its ``__all__``. A subpackage (``spaclone.io``, ``spaclone.bcr``, ...) re-exports
 its submodules with ``from .x import *``; its public names are the names of those submodules' ``__all__`` that the
-package really exports (the same object), grouped by submodule. Every public name appears exactly once; the one-line
-summaries come from the docstrings through ``sphinx.ext.autosummary``.
+package really exports (the same object), grouped by submodule. Every public name appears exactly once, in a plain
+Markdown table with the first line of its docstring (the ``#:`` comment of a constant), so the page reads the same on
+GitHub as on the documentation site; there each name links to its own page, which ``sphinx.ext.autosummary`` writes
+from one block at the end of the file that the site does not show.
 
 Usage (from the repository root)::
 
@@ -16,6 +18,7 @@ from __future__ import annotations
 import ast
 import importlib
 import inspect
+import re
 import sys
 import textwrap
 import types
@@ -229,9 +232,65 @@ CONTENTS = {
 }
 
 
+_ROLE = re.compile(r"\{(?:func|class|mod|data|meth|attr|exc)\}`(~?)([\w.]+)`")
+_DOC_ROLE = re.compile(r"\{doc\}`([\w/]+)`")
+_TITLES = {"ecosystem": "Working with established packages"}
+
+
+def md(text: str) -> str:
+    """MyST roles as plain Markdown links, which GitHub shows as text and MyST resolves to the objects' pages."""
+    text = _ROLE.sub(lambda m: f"[`{m[2].rsplit('.', 1)[-1] if m[1] else m[2]}`](#{m[2]})", text)
+    return _DOC_ROLE.sub(lambda m: f"[{_TITLES.get(m[1], m[1])}]({m[1]}.md)", text)
+
+
 def para(text: str) -> str:
     """Wrap a paragraph at the documentation's line length."""
-    return textwrap.fill(text, width=118, break_long_words=False, break_on_hyphens=False)
+    return textwrap.fill(md(text), width=118, break_long_words=False, break_on_hyphens=False)
+
+
+def slug(heading: str) -> str:
+    """The anchor that GitHub and MyST (``myst_heading_anchors``) both give a heading."""
+    return re.sub(r"[^\w\- ]", "", heading.replace("`", "").strip().lower()).replace(" ", "-")
+
+
+_RST_ROLE = re.compile(r":(?:py:)?(?:func|class|mod|data|meth|attr|exc|obj|ref|doc):`(~?)([^`<]+?)(?:\s*<[^>]+>)?`")
+
+
+def _attr_comment(modname: str, name: str, obj: object) -> list[str]:
+    """The ``#:`` comment of a constant: in the module that exports it, else in the package module that defines it."""
+    from sphinx.pycode import ModuleAnalyzer
+
+    candidates = [modname]
+    pkg = sys.modules.get(modname.rpartition(".")[0])
+    if pkg is not None and hasattr(pkg, "__path__"):
+        import pkgutil
+
+        candidates += [f"{pkg.__name__}.{m.name}" for m in pkgutil.iter_modules(pkg.__path__)]
+    for cand in candidates:
+        mod = importlib.import_module(cand)
+        if getattr(mod, name, None) is obj:
+            comment = ModuleAnalyzer.for_module(cand).find_attr_docs().get(("", name))
+            if comment:
+                return list(comment)
+    return []
+
+
+def summary(full: str, mod: types.ModuleType, name: str, defined_in: str) -> str:
+    """The first line of a public name's docstring (a constant: its ``#:`` comment), as Markdown for a table cell."""
+    obj = getattr(mod, name)
+    if inspect.isclass(obj) or callable(obj):
+        doc = inspect.getdoc(obj) or ""
+    else:
+        doc = "\n".join(_attr_comment(defined_in, name, obj))
+    first = []  # the first paragraph, then its first sentence (a numpydoc summary is one line already)
+    for ln in doc.strip().splitlines():
+        if not ln.strip():
+            break
+        first.append(ln.strip())
+    m = re.match(r"(.+?(?<!e\.g)(?<!i\.e)\.)(\s|$)", " ".join(first))
+    line = m[1] if m else " ".join(first)
+    line = _RST_ROLE.sub(lambda m: f"`{m[2].rsplit('.', 1)[-1] if m[1] else m[2]}`", line).replace("``", "`")
+    return line.replace("|", "\\|")
 
 
 INTRO = """\
@@ -284,15 +343,31 @@ def kind_order(mod: types.ModuleType, name: str) -> int:
     return 2
 
 
-def autosummary(names: list[str]) -> list[str]:
-    """An ``autosummary`` block (one stub page per name in ``generated/``)."""
+def table(full: str, names: list[str], defined_in: dict[str, str]) -> list[str]:
+    """One row per name: the name, linked to its page, and the first line of its docstring."""
+    mod = importlib.import_module(full)
+    rows = [f"| [`{n}`](#{full}.{n}) | {summary(full, mod, n, defined_in.get(n, full))} |" for n in names]
+    return ["| Name | Summary |", "|---|---|", *rows, ""]
+
+
+def pages(names: list[str]) -> list[str]:
+    """The ``autosummary`` block that writes one page per name into ``generated/``.
+
+    It sits inside ``only:: never``, so that the site shows the Markdown tables instead of a second listing.
+    """
     return [
-        "```{eval-rst}",
-        ".. autosummary::",
-        "   :toctree: generated",
-        "   :nosignatures:",
+        "<!-- Sphinx writes one page per name below (docs/generated/); the documentation site does not show this block. -->",
         "",
-        *(f"   {n}" for n in names),
+        "```{eval-rst}",
+        ".. only:: never",
+        "",
+        "   .. currentmodule:: spaclone",
+        "",
+        "   .. autosummary::",
+        "      :toctree: generated",
+        "      :nosignatures:",
+        "",
+        *(f"      {n.removeprefix('spaclone.')}" for n in names),
         "```",
         "",
     ]
@@ -311,7 +386,6 @@ def section(
     unknown = [s for s in by_sub if s not in listed]
     groups = list(groups) + [(s.replace("_", " ").strip().capitalize(), [s]) for s in unknown]
     lines = [
-        f"({anchor})=",
         f"## {heading} (`{full}`)",
         "",
         para(text),
@@ -321,6 +395,7 @@ def section(
         "```",
         "",
     ]
+    defined_in = {n: f"{full}.{sub}" if sub != full else full for n, sub in names}
     done: list[str] = []
     for title, subs in groups:
         group = [n for s in subs for n in by_sub.get(s, [])]
@@ -329,7 +404,7 @@ def section(
         group.sort(key=lambda n: kind_order(mod, n))  # stable: __all__ order within a kind
         if title:
             lines += [f"### {title}", ""]
-        lines += autosummary(group)
+        lines += table(full, group, defined_in)
         done += group
     return lines, [f"{full}.{n}" for n in done]
 
@@ -340,18 +415,18 @@ def build() -> tuple[str, list[str], dict[str, int]]:
 
     counts: dict[str, int] = {}
     documented: list[str] = []
-    table = [
+    top_heading = "Top level (`spaclone`)"
+    contents = [
         "| Namespace | Contents |",
         "|---|---|",
-        "| [`spaclone`](#api-top-level) | read, run, the result class, table validation, install checks |",
+        f"| [`spaclone`](#{slug(top_heading)}) | read, run, the result class, table validation, install checks |",
     ]
     body: list[str] = []
 
     top = [n for n in spaclone.__all__ if not isinstance(getattr(spaclone, n), (types.ModuleType, str))]
     top = [n for n in TOP if n in top] + [n for n in top if n not in TOP]
     body += [
-        "(api-top-level)=",
-        "## Top level (`spaclone`)",
+        f"## {top_heading}",
         "",
         para(
             "`spaclone.read` reads any supported pair of files into a {class}`~spaclone.io.SpatialAIR`; `spaclone.run` "
@@ -362,7 +437,7 @@ def build() -> tuple[str, list[str], dict[str, int]]:
         ".. module:: spaclone",
         "```",
         "",
-        *autosummary(top),
+        *table("spaclone", top, {}),
     ]
     documented += [f"spaclone.{n}" for n in top]
     counts["spaclone"] = len(top)
@@ -372,22 +447,22 @@ def build() -> tuple[str, list[str], dict[str, int]]:
         body += lines
         documented += names
         counts[f"spaclone.{ns}"] = len(names)
-        table.append(f"| [`spaclone.{ns}`](#{anchor}) | {CONTENTS[ns]} |")
+        contents.append(f"| [`spaclone.{ns}`](#{slug(f'{heading} (`spaclone.{ns}`)')}) | {md(CONTENTS[ns])} |")
 
     ns, anchor, heading, text = NULLS
     lines, names = section(f"spaclone.{ns}", anchor, heading, text, [("", [f"spaclone.{ns}"])])
     body += lines
     documented += names
     counts[f"spaclone.{ns}"] = len(names)
-    table.append(f"| [`spaclone.{ns}`](#{anchor}) | {CONTENTS[ns]} |")
+    contents.append(f"| [`spaclone.{ns}`](#{slug(f'{heading} (`spaclone.{ns}`)')}) | {md(CONTENTS[ns])} |")
 
     ext = importlib.import_module("spaclone.ext")
     missing = sorted(set(ext.__all__) - {m for m, _, _ in EXT})
     if missing:
         raise SystemExit(f"spaclone.ext modules without an entry in EXT: {missing}")
+    ext_heading = "Ecosystem bridges (`spaclone.ext`)"
     body += [
-        "(ecosystem-bridges-ext)=",
-        "## Ecosystem bridges (`spaclone.ext`)",
+        f"## {ext_heading}",
         "",
         para(
             "Each bridge imports its package only when called, so `import spaclone` never needs them; install the "
@@ -399,8 +474,9 @@ def build() -> tuple[str, list[str], dict[str, int]]:
         "```",
         "",
     ]
-    table.append(
-        "| [`spaclone.ext`](#ecosystem-bridges-ext) | bridges to sciCSR, Threadfin, scirpy, squidpy, Dandelion and Immcantation |"
+    contents.append(
+        f"| [`spaclone.ext`](#{slug(ext_heading)}) | bridges to sciCSR, Threadfin, scirpy, squidpy, Dandelion and "
+        "Immcantation |"
     )
     for m, title, what in EXT:
         full = f"spaclone.ext.{m}"
@@ -409,18 +485,19 @@ def build() -> tuple[str, list[str], dict[str, int]]:
         body += [
             f"### {title} (`{full}`)",
             "",
-            f"Bridge to {what}",
+            f"Bridge to {md(what)}",
             "",
             "```{eval-rst}",
             f".. module:: {full}",
             "```",
             "",
         ]
-        body += autosummary(names)
+        body += table(full, names, {})
         documented += [f"{full}.{n}" for n in names]
         counts[full] = len(names)
 
-    text = INTRO + "\n" + "\n".join(table) + "\n\n" + "\n".join(body).rstrip("\n") + "\n"
+    body += pages(documented)
+    text = md(INTRO) + "\n" + "\n".join(contents) + "\n\n" + "\n".join(body).rstrip("\n") + "\n"
     return text, documented, counts
 
 

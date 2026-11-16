@@ -7,6 +7,8 @@ from typing import Any, NamedTuple
 import anndata as ad
 import pandas as pd
 
+from spaclone._utils import counts_desc
+
 __all__ = ["SpatialAIR"]
 
 
@@ -35,7 +37,7 @@ class SpatialAIR(NamedTuple):
         n = len(air) if isinstance(air, pd.DataFrame) else 0
         parts = [f"{n:,} records"]
         if n and "locus" in air.columns:
-            loci = air["locus"].astype(str).value_counts()
+            loci = counts_desc(air["locus"].astype(str))  # ties: the locus seen first
             more = f", +{len(loci) - 7} loci" if len(loci) > 7 else ""
             parts[0] += " (" + ", ".join(f"{k} {v:,}" for k, v in loci.head(7).items()) + more + ")"
         libs = pd.unique(air["library_id"].astype(str)) if n and "library_id" in air.columns else []

@@ -11,8 +11,8 @@ from importlib.metadata import version as _version
 from sphinx.pycode import ModuleAnalyzer
 
 project = "spaclone"
-author = "Chen Satoshi"
-copyright = "2026, Chen Satoshi"
+author = "Chen Zhu"
+copyright = "2026, Chen Zhu"
 release = _version("spaclone")
 
 extensions = [

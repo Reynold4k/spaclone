@@ -94,11 +94,21 @@ def _as_list(cols: str | Sequence[str] | None) -> list[str]:
     return list(cols)
 
 
+def _first_appearance(groups: Mapping[Any, np.ndarray]) -> list[tuple[Any, np.ndarray]]:
+    """``(key, row positions)`` of every group, in the order in which the groups first appear in the table.
+
+    The random draws of a design are taken group after group, so this order fixes the result of a seed. pandas
+    returns the groups of a ``groupby`` on several keys in a different order in 2.x (sorted by each key's codes) than
+    in 3.x (first appearance); taking the order from the rows keeps the result the same under every pandas version.
+    """
+    return sorted(groups.items(), key=lambda kv: int(np.min(kv[1])))
+
+
 def _group_positions(df: pd.DataFrame, keys: list[str]) -> list[np.ndarray]:
-    """Row positions of each group defined by ``keys`` (all rows when ``keys`` is empty)."""
+    """Row positions of each group defined by ``keys`` (all rows when ``keys`` is empty), in first-appearance order."""
     if not keys:
         return [np.arange(len(df))]
-    return list(df.groupby(keys, sort=False, observed=True, dropna=False).indices.values())
+    return [pos for _, pos in _first_appearance(df.groupby(keys, sort=False, observed=True, dropna=False).indices)]
 
 
 def _take(series: pd.Series, positions: np.ndarray, index: pd.Index) -> pd.Series:
@@ -273,10 +283,8 @@ class Relocate(NullDesign):
         k = self._keys(df, x_key, y_key)
         if k.shape[1] == 0:
             return {(): np.arange(len(df))}
-        return {
-            (key if isinstance(key, tuple) else (key,)): pos
-            for key, pos in k.groupby(list(k.columns), sort=False, observed=True, dropna=False).indices.items()
-        }
+        groups = k.groupby(list(k.columns), sort=False, observed=True, dropna=False).indices
+        return {(key if isinstance(key, tuple) else (key,)): pos for key, pos in _first_appearance(groups)}
 
     def describe(self) -> dict[str, Any]:
         """Return the parameters that define this design."""

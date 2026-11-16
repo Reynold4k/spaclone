@@ -1810,7 +1810,7 @@ def _spot_records(
     return out, designs
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, repr=False)
 class SameSpotResult(TestResult):
     """Result of :func:`same_spot`.
 

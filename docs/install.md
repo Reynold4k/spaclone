@@ -17,7 +17,7 @@ pip install spaclone
 
 The core runs all of spaclone's own analyses (readers, QC and filtering, the transcriptome, every location-trust test,
 class switching, hypermutation, lineage trees, repertoire and concentration statistics, plots). The extras add the
-bridges to other packages ([](ecosystem.md)).
+bridges to other packages ([Working with established packages](ecosystem.md)).
 
 Then ask spaclone what works:
 
@@ -36,7 +36,11 @@ that names what is missing and the `pip install "spaclone[...]"` command that ad
 ## Run the tutorials
 
 The tutorials are Jupyter notebooks. Each one names the extras it needs in its first cell;
-`pip install "spaclone[full]" jupyter` covers all of them.
+`pip install "spaclone[full]" jupyter` covers all of them. Tutorials 02 and 05 also need the Stereo-XCR-seq LUAD chip,
+one 0.98 GB file that you download from GEO yourself
+([GSM9684211_D06047A2.h5ad](https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9684nnn/GSM9684211/suppl/GSM9684211_D06047A2.h5ad),
+sample GSM9684211 of series GSE328481) and put next to the notebook or point `SPACLONE_LUAD_H5AD` to. Tutorial 06 is
+a showcase on BGI data that are not yet public.
 
 ## Pick extras
 
@@ -50,7 +54,7 @@ Install one or several extras in the same way, for example `pip install "spaclon
 | `scverse` | the three above | BSD-3-Clause | |
 | `dandelion` | sc-dandelion (with scanpy < 1.13) | AGPL-3.0-or-later | {mod}`spaclone.ext.dandelion` |
 | `immcantation` | Change-O (with pRESTO and airr) | AGPL-3.0 (Change-O, pRESTO); CC BY 4.0 (airr) | `MakeDb.py`, `DefineClones.py`, `CreateGermlines.py` for {mod}`spaclone.ext.immcantation`; IgBLAST and R are separate programs (below) |
-| `scicsr` | CellRank (2.3 or newer on Python 3.12+, 2.0 on 3.11), deeptime, pysam | BSD-3-Clause (CellRank); LGPL-3.0 (deeptime); MIT (pysam) | `backend="cellrank"` / `"deeptime"` of the transition models; BAM input of the germline-transcript counts |
+| `scicsr` | CellRank (2.3 or newer on Python 3.12+, 2.0 on 3.11), deeptime, pysam | BSD-3-Clause (CellRank); LGPL-3.0 (deeptime); MIT (pysam) | CellRank's kernels in {func}`~spaclone.tl.transition_model` (`backend="cellrank"`); deeptime's transition path theory in {func}`~spaclone.tl.tpt_flux` (`backend="deeptime"`: the same numbers as the default native backend, which is 80 to 90 times faster: on the AIR-SPACE day-21 node with one CPU thread, about 20 s against 27 min); BAM input of the germline-transcript counts |
 | `threadfin` | Threadfin | MIT | {mod}`spaclone.ext.threadfin` |
 | `tcr` | OLGA | GPL-3.0 | {func}`~spaclone.tl.pgen`; `pgen=True` in {func}`~spaclone.tl.public_clonotypes` |
 | `leiden` | leidenalg | GPL-3.0-or-later | scanpy's leidenalg backend (spaclone's own clustering uses igraph) |
@@ -65,7 +69,7 @@ spaclone's own code is MIT-licensed. It does not bundle the packages it works wi
 installed by you, and you use it under its own licence. The optional packages and programs include copyleft ones
 (GPL, LGPL, AGPL), as the tables show; the MIT licence of spaclone does not change their terms. The small format
 fixtures of the test suite carry their own attributions (`tests/_data/formats/README.md`). How to cite each package:
-[](citing.md).
+[Citing](citing.md).
 
 | Core dependency | Licence |
 |---|---|
@@ -128,24 +132,28 @@ Python (programs that pip put into this environment), then `PATH`:
 
 `check_install()` reports each of them, with its version and path.
 
-(tested-installations)=
 ## Tested installations
 
-Fresh environments built with plain `pip` from the built wheel on Linux (2026-11-16, spaclone 1.0.2), each followed by
-`pip check`, `check_install()` and the test suite:
+Fresh environments built with plain `pip` from the built wheel on Linux (2026-11-16, spaclone 1.0.3), each followed by
+`pip check` and the test suite with the docstring examples:
 
 | Python | Install | Resolved versions | Result |
 |---|---|---|---|
 | 3.11 | core, lowest supported versions | numpy 2.0.2, pandas 2.2.3, scipy 1.13.1, anndata 0.10.9, matplotlib 3.8.4, pyarrow 16.1.0, scanpy 1.11.5 | all tests pass |
-| 3.12 | core + `[datasets]` | numpy 2.5.5, pandas 3.1.1, scipy 1.18.1, scanpy 1.12.6, anndata 0.13.4 | all tests pass; the README examples run as written |
-| 3.13 | core + `[datasets]` | numpy 2.5.5, pandas 3.1.1, scipy 1.18.1, scanpy 1.13.0, anndata 0.13.4 | all tests pass; the README examples run as written |
-| 3.12 | `[full]` | scirpy 0.26.1, squidpy 1.8.4, SpatialData 0.9.0, sc-dandelion 1.0.1, CellRank 2.4.0, deeptime 0.5.0, Threadfin 4.6.1, Change-O 1.3.5 | every optional Python feature available; all tests pass |
+| 3.12 | `[full]` | numpy 2.5.5, pandas 3.1.1, scipy 1.18.1, anndata 0.13.4, scanpy 1.12.6, scirpy 0.26.1, squidpy 1.8.4, SpatialData 0.9.0, sc-dandelion 1.0.2, CellRank 2.4.0, deeptime 0.5.0, Threadfin 4.6.2, Change-O 1.3.5 | every optional Python feature available; all tests and the slow tests pass; the README examples run as written; the tutorials were executed in this environment (with Jupyter, one BLAS thread) |
 | 3.13 | `[full]` | as 3.12 (scanpy 1.12.6: the `dandelion` extra's pin, see below) | every optional Python feature available; all tests pass |
+| 3.11 | `[full]` + Jupyter | numpy 2.4.6, pandas 2.3.3, scipy 1.16.3 (CellRank 2.0.7 needs pygam, which pins scipy < 1.17), anndata 0.12.19, scanpy 1.11.5, scirpy 0.22.5, Threadfin 4.6.2 | tutorials 04, 05, 07 and 08 give the published numbers, except the Leiden cluster sizes of tutorial 04 (scipy 1.16, see {func}`~spaclone.gex.cluster`) and the last digits of Threadfin's numbers |
 
-Earlier checks (2026-10-31, spaclone 1.0.0): Python 3.11 `[full]` (scirpy 0.22, CellRank 2.0.7, every optional Python
-feature available), and `scripts/install_spaclone_env.sh` (conda) on Python 3.12: the `[full]` stack + IgBLAST 1.22,
-Change-O 1.3.5, IgPhyML, R 4.4 with alakazam 1.5.0, shazam 1.4.0, tigger 1.2.0, dowser 2.5.2, scoper 1.6.0; all tests
-passed, including the IgBLAST / Change-O / SHazaM / dowser round trips, and `--references` built the IMGT databases.
+spaclone's own results do not depend on the number of CPUs. Two things can still differ between installations: the
+last digits of Threadfin's numbers, with the number of BLAS threads and with the numpy and scipy versions (the
+tutorials ran with one thread), and Leiden clusters, with the versions of scipy, numpy and scikit-learn.
+
+Earlier checks (2026-11-16, spaclone 1.0.2): Python 3.12 and 3.13 with the core and `[datasets]` (scanpy 1.13.0 on
+3.13): all tests pass and the README examples run as written. (2026-10-31, spaclone 1.0.0): Python 3.11 `[full]`
+(scirpy 0.22, CellRank 2.0.7, every optional Python feature available), and `scripts/install_spaclone_env.sh` (conda)
+on Python 3.12: the `[full]` stack + IgBLAST 1.22, Change-O 1.3.5, IgPhyML, R 4.4 with alakazam 1.5.0, shazam 1.4.0,
+tigger 1.2.0, dowser 2.5.2, scoper 1.6.0; all tests passed, including the IgBLAST / Change-O / SHazaM / dowser round
+trips, and `--references` built the IMGT databases.
 
 The external programs used in these tests were IgBLAST 1.22, Change-O 1.3.5 and R 4.5 with alakazam 1.5.0, shazam
 1.4.0, tigger 1.2.0, dowser 2.5.2 and scoper 1.6.0; the original sciCSR 0.3.5 ran in its own environment (R 4.3,
@@ -156,9 +164,10 @@ Seurat 4.4; Python 3.8, CellRank 1.5.1).
 - **Packages missing although pip said they were installed.** A `PYTHONPATH` set in the shell makes pip treat the
   packages on that path as installed. Run `unset PYTHONPATH` before creating the environment and before using it.
 - **`broken` in `check_install()`.** The package is there but its import fails; the error is shown. sc-dandelion 0.5
-  needs `matplotlib<3.9`; sc-dandelion 1.0 or newer has no such pin (its clone calls differ from 0.5, see
-  [](ecosystem.md)). The `dandelion` extra, and with it `full`, pins `scanpy<1.13` because sc-dandelion 1.0.1 does
-  not import with scanpy 1.13.0 (`No module named 'scanpy.plotting._tools'`); the pin goes when Dandelion supports it.
+  needs `matplotlib<3.9`; sc-dandelion 1.0 or newer has no such pin (its clone calls differ from 0.5, see [Working
+  with established packages](ecosystem.md)). The `dandelion` extra, and with it `full`, pins `scanpy<1.13` because
+  sc-dandelion 1.0.1 does not import with scanpy 1.13.0 (`No module named 'scanpy.plotting._tools'`); the pin goes
+  when Dandelion supports it.
 - **A program found but `broken`.** It is on `PATH` but does not run, typically a script whose Python cannot see its
   packages (for example Change-O installed with `pip install --user` while `PYTHONNOUSERSITE` is set). Point the
   variable of the table above at a working installation.
