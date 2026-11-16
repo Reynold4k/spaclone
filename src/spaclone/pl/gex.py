@@ -453,17 +453,6 @@ def gex_volcano(
     ax.scatter(x[~sig], y[~sig], s=8, c=_NEUTRAL[mode], lw=0, zorder=1)
     ax.scatter(x[sig & (x > 0)], y[sig & (x > 0)], s=10, c=up, lw=0, zorder=2, label=f"higher in {group}")
     ax.scatter(x[sig & (x < 0)], y[sig & (x < 0)], s=10, c=down, lw=0, zorder=2, label="lower")
-    if label_top and sig.any():
-        idx = np.flatnonzero(sig)[np.argsort(-y[sig])][:label_top]
-        for i in idx:
-            ax.annotate(
-                str(t["gene"].iloc[i]),
-                (x[i], y[i]),
-                xytext=(3, 3),
-                textcoords="offset points",
-                fontsize=7,
-                color=_INK[mode],
-            )
     for v in (-lfc, lfc):
         ax.axvline(v, color=_MUTED[mode], lw=0.6, ls=(0, (2, 2)), zorder=0)
     ref = str(t["reference"].iloc[0]) if len(t) else "reference"
@@ -472,10 +461,123 @@ def gex_volcano(
     ax.grid(False)
     for sp in ("top", "right"):
         ax.spines[sp].set_visible(False)
-    leg = ax.legend(frameon=False, fontsize=8, labelcolor=_INK[mode], loc="upper left")
+    # the legend sits above the plot area, so it never covers a gene
+    leg = ax.legend(frameon=False, fontsize=8, labelcolor=_INK[mode], loc="lower left", bbox_to_anchor=(0.0, 1.0),
+                    ncol=2, borderaxespad=0.2, handletextpad=0.3, columnspacing=1.2)  # fmt: skip
     if leg is not None:
         leg.set_zorder(5)
+    if label_top and sig.any():
+        idx = np.flatnonzero(sig)[np.argsort(-y[sig], kind="stable")][:label_top]
+        _place_labels(ax, x[idx], y[idx], [str(g) for g in t["gene"].iloc[idx]], color=_INK[mode],
+                      line_color=_MUTED[mode], avoid=np.c_[x[sig], y[sig]])  # fmt: skip
     return ax
+
+
+def _place_labels(
+    ax: Axes,
+    x: np.ndarray,
+    y: np.ndarray,
+    texts: Sequence[str],
+    *,
+    color: str,
+    line_color: str,
+    avoid: np.ndarray | None = None,
+    fontsize: float = 7.0,
+) -> list[Any]:
+    """Label points so that no label covers another label, a marked point or the edge of the plot area.
+
+    Labels are placed in the given order (most important first). For each, offsets of growing length in eight
+    directions are tried, and the first box that overlaps nothing placed before, no point of ``avoid`` (data
+    coordinates) and stays inside the axes is taken; failing that, the box with the least overlap. A label set away
+    from its point gets a thin leader line. The data limits are fixed first (with headroom for the labels above the
+    highest points), so the placement is computed on the final scale.
+    """
+    fig = ax.figure
+    ax.autoscale_view()
+    x0, x1 = ax.get_xlim()
+    y0, y1 = ax.get_ylim()
+    ax.set_xlim(x0, x1)
+    ax.set_ylim(y0, y1 + 0.06 * (y1 - y0))
+    renderer = fig.canvas.get_renderer() if hasattr(fig.canvas, "get_renderer") else None
+    pt = fig.dpi / 72.0
+    bbox_ax = ax.get_window_extent(renderer)
+    pts = ax.transData.transform(np.c_[x, y])
+    av = (
+        ax.transData.transform(np.asarray(avoid, dtype=float)) if avoid is not None and len(avoid) else np.empty((0, 2))
+    )
+    r_dot = 2.5 * pt  # half-size of a marked point's box (pixels)
+    directions = [(1, 1), (-1, 1), (1, -1), (-1, -1), (1, 0), (-1, 0), (0, 1), (0, -1)]
+    radii = (3.0, 8.0, 14.0, 22.0, 32.0, 44.0)
+    placed: list[tuple[float, float, float, float]] = []
+    lines: list[np.ndarray] = []  # leader lines drawn so far, as points along each line
+    out = []
+
+    def overlap(a: tuple[float, float, float, float], b: tuple[float, float, float, float]) -> float:
+        w = min(a[2], b[2]) - max(a[0], b[0])
+        h = min(a[3], b[3]) - max(a[1], b[1])
+        return w * h if w > 0 and h > 0 else 0.0
+
+    def hits(seg: np.ndarray, box: tuple[float, float, float, float]) -> bool:
+        return bool(((seg[:, 0] > box[0]) & (seg[:, 0] < box[2]) & (seg[:, 1] > box[1]) & (seg[:, 1] < box[3])).any())
+
+    def leader(px: float, py: float, box: tuple[float, float, float, float]) -> np.ndarray:
+        # matplotlib draws the line from the point towards the centre of the text, cut at the text's box
+        end = np.array([(box[0] + box[2]) / 2, (box[1] + box[3]) / 2])
+        return np.array([px, py]) + np.linspace(0.04, 1.0, 25)[:, None] * (end - np.array([px, py]))[None, :]
+
+    for k, (px, py) in enumerate(pts):
+        probe = ax.text(0, 0, texts[k], fontsize=fontsize)
+        ext = probe.get_window_extent(renderer)
+        probe.remove()
+        w, h = ext.width + 2 * pt, ext.height + pt
+        best = None
+        for r in radii:
+            for dx, dy in directions:
+                ox, oy = dx * r * pt, dy * r * pt
+                bx0 = px + ox if dx > 0 else (px + ox - w if dx < 0 else px - w / 2)
+                by0 = py + oy if dy > 0 else (py + oy - h if dy < 0 else py - h / 2)
+                box = (bx0, by0, bx0 + w, by0 + h)
+                cost = sum(overlap(box, b) for b in placed)
+                cost += sum(w * h for seg in lines if hits(seg, box))  # a label on an earlier leader line
+                if r >= 8:  # this label's own leader line must not cross a label placed before
+                    seg = leader(px, py, box)
+                    cost += sum(w * h for b in placed if hits(seg, b))
+                near = av[(np.abs(av[:, 0] - px) > 0.5) | (np.abs(av[:, 1] - py) > 0.5)] if len(av) else av
+                if len(near):
+                    inside = (near[:, 0] + r_dot > box[0]) & (near[:, 0] - r_dot < box[2])
+                    inside &= (near[:, 1] + r_dot > box[1]) & (near[:, 1] - r_dot < box[3])
+                    cost += float(inside.sum()) * (2 * r_dot) ** 2
+                out_w = max(0.0, bbox_ax.x0 - box[0]) + max(0.0, box[2] - bbox_ax.x1)
+                out_h = max(0.0, bbox_ax.y0 - box[1]) + max(0.0, box[3] - bbox_ax.y1)
+                cost += (out_w * h + out_h * w) * 10.0
+                if best is None or cost < best[0] - 1e-9:
+                    best = (cost, box, dx, dy, ox, oy, r)
+                if cost == 0:
+                    break
+            if best is not None and best[0] == 0:
+                break
+        _, box, dx, dy, ox, oy, r = best
+        placed.append(box)
+        if r >= 8:
+            lines.append(leader(px, py, box))
+        ha = "left" if dx > 0 else ("right" if dx < 0 else "center")
+        va = "bottom" if dy > 0 else ("top" if dy < 0 else "center")
+        arrow = {"arrowstyle": "-", "color": line_color, "lw": 0.5, "shrinkA": 0, "shrinkB": 2} if r >= 8 else None
+        out.append(
+            ax.annotate(
+                texts[k],
+                (x[k], y[k]),
+                xytext=(ox / pt, oy / pt),
+                textcoords="offset points",
+                ha=ha,
+                va=va,
+                fontsize=fontsize,
+                color=color,
+                arrowprops=arrow,
+                zorder=4,
+            )  # fmt: skip
+        )
+    return out
 
 
 def gex_dotplot(

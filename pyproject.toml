@@ -4,7 +4,7 @@ requires = [ "hatchling" ]
 
 [project]
 name = "spaclone"
-version = "1.0.1"
+version = "1.0.2"
 description = "Is spatial immune-receptor data spatial? Calibrated location-trust tests and clonal concentration maps for spatial BCR/TCR data."
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -35,9 +35,12 @@ dependencies = [
   "scipy>=1.13",
 ]
 optional-dependencies.bam = [ "pysam>=0.22" ]
-optional-dependencies.dandelion = [ "sc-dandelion>=0.5.7" ]
+# scanpy<1.13: sc-dandelion 1.0.1 does not import with scanpy 1.13.0 (it imports scanpy.plotting._tools, which 1.13.0
+# removed); lift the pin when Dandelion supports scanpy 1.13.
+optional-dependencies.dandelion = [ "sc-dandelion>=0.5.7", "scanpy<1.13" ]
 optional-dependencies.datasets = [ "pooch>=1.7" ]
 optional-dependencies.fast = [ "numba>=0.59" ]
+# full includes spaclone[dandelion], so it carries the scanpy<1.13 pin above.
 optional-dependencies.full = [ "spaclone[bam,dandelion,datasets,fast,images,immcantation,leiden,scicsr,scverse,tcr,threadfin]" ]
 optional-dependencies.images = [ "tifffile>=2023.1" ]
 optional-dependencies.immcantation = [ "changeo>=1.3.5" ]

@@ -18,7 +18,10 @@ were, and maps where clonal features concentrate, with every statistic compared 
 Around these tests it covers the whole analysis: readers for the mainstream spatial and receptor formats, receptor QC
 and filtering, the transcriptome, B-cell receptor biology (class-switch and mutation hotspots with the regions where
 they overlap, lineage trees on the tissue, sciCSR transitions, Threadfin clone states) and repertoire statistics.
-{doc}`tutorials/06_hotspots_and_lineages` shows the whole workflow on a mouse spleen.
+{doc}`tutorials/07_airspace_time_course` runs every analysis on six public lymph nodes, and
+{doc}`tutorials/08_lineages_and_clone_states` builds lineage trees on a synthetic section and checks them against the
+lineages planted in it. {doc}`tutorials/06_hotspots_and_lineages` is a showcase of the whole workflow on a mouse spleen
+whose data (BGI) are not yet public: it cannot be re-run until they are released.
 
 ```{toctree}
 :maxdepth: 2
@@ -26,6 +29,7 @@ they overlap, lineage trees on the tissue, sciCSR transitions, Threadfin clone s
 why
 install
 reading_data
+cli
 concepts
 tutorials/index
 ecosystem

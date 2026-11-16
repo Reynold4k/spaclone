@@ -188,6 +188,44 @@ def test_t_zone_and_compartments_from_typed_units():
     assert (reg[r > 260] == "red pulp").mean() > 0.9
 
 
+@pytest.mark.skipif(not hasattr(tl, "mask_from_types"), reason="needs spaclone.tl.structures")
+def test_red_pulp_is_named_by_the_tissue():
+    """The same pixels are the red pulp on a spleen (erythroid outside the B and T zones) and the non-B/T area on a
+    section without erythroid cells there (a lymph node)."""
+    rng = np.random.default_rng(7)
+    g = np.stack(np.meshgrid(np.arange(60), np.arange(60), indexing="ij"), -1).reshape(-1, 2) * 10.0
+    r = np.hypot(g[:, 0] - 300, g[:, 1] - 300)
+    out = {}
+    for outer in ("erythroid", "myeloid"):
+        a = ad.AnnData(
+            X=sparse.csr_matrix(np.ones((len(g), 1), dtype=np.float32)),
+            obs=pd.DataFrame(index=[f"b{i}" for i in range(len(g))]),
+            var=pd.DataFrame(index=["Actb"]),
+        )
+        a.obsm["spatial"] = g
+        a.obs["in_tissue"] = True
+        lab = np.where(r < 100, "T", np.where(r < 220, "B", outer))
+        noise = rng.random(len(g)) < 0.1
+        lab[noise] = rng.choice(["T", "B"], noise.sum())
+        a.obs["cell_type"] = lab
+        gex.call_regions(a, kind="red_pulp")
+        out[outer] = a.obs.region.astype(str).to_numpy()
+        step = a.uns["spaclone"][f"call_regions_{'red pulp' if outer == 'erythroid' else 'non-B/T area'}"]
+        assert step["naming"] == ("spleen" if outer == "erythroid" else "neutral") and step["names"] == "auto"
+        assert (step["outside_erythroid_share"] > 0.5) == (outer == "erythroid")
+    assert (out["erythroid"][r > 260] == "red pulp").mean() > 0.9
+    assert (out["myeloid"][r > 260] == "non-B/T area").mean() > 0.9
+    assert "red pulp" not in set(out["myeloid"])
+    a.obs.drop(columns=["region", "region_id"], inplace=True)
+    gex.call_regions(a, kind="red_pulp", names="spleen")  # forced name, same pixels
+    forced = a.obs.region.astype(str).to_numpy()
+    assert ((forced == "red pulp") == (out["myeloid"] == "non-B/T area")).all()
+    gex.call_regions(a, kind="red_pulp", label="outside", overwrite=True)  # a given label wins
+    assert "outside" in set(a.obs.region.astype(str))
+    with pytest.raises(ValueError, match="names must be"):
+        gex.call_regions(a, kind="red_pulp", names="lymph node")
+
+
 def test_gex_regions_plot_labels_instances():
     import matplotlib.pyplot as plt
 

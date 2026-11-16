@@ -631,3 +631,33 @@ def compartments(
         code[new] = names.index(name)
         claimed |= m
     return Raster(code, g, categories=tuple(names), name="compartments")
+
+
+#: Names of the three compartments of the rule T zone > outside the B-rich area > follicle, under each naming: the
+#: spleen's, and tissue-neutral ones for a section without a red pulp (e.g. a lymph node, whose area outside its B and
+#: T zones is mostly medulla and sinus). Only the middle name differs; names never change a pixel.
+_COMPARTMENT_NAMES: dict[str, tuple[str, str, str]] = {
+    "spleen": ("T zone", "red pulp", "follicle"),
+    "neutral": ("T zone", "non-B/T area", "follicle"),
+}
+#: Share of the typed units of the middle compartment that must lie in the erythroid-rich mask for the automatic
+#: naming to call that compartment red pulp.
+_RED_PULP_MIN_ERYTHROID = 0.5
+
+
+def _compartment_naming(in_t: np.ndarray, in_b: np.ndarray, in_e: np.ndarray, names: str = "auto") -> tuple[str, float]:
+    """Naming of the compartments from the typed units: ``("spleen" | "neutral", erythroid share of the middle one)``.
+
+    ``in_t``, ``in_b``, ``in_e``: whether each typed unit lies in the T-rich, B-rich and erythroid-rich masks. The
+    middle compartment (outside the T zones, and erythroid-rich or outside the B-rich area) is red pulp when at least
+    :data:`_RED_PULP_MIN_ERYTHROID` of its typed units lie in the erythroid-rich mask (``names="auto"``), else the
+    non-B/T area; ``"spleen"`` or ``"neutral"`` force either.
+    """
+    if names not in ("auto", *_COMPARTMENT_NAMES):
+        raise ValueError(f"compartment names must be 'auto', 'spleen' or 'neutral', got {names!r}")
+    in_t, in_b, in_e = (np.asarray(a, dtype=bool) for a in (in_t, in_b, in_e))
+    outside = ~in_t & (in_e | ~in_b)
+    share = float(in_e[outside].mean()) if outside.any() else float("nan")
+    if names != "auto":
+        return names, share
+    return ("spleen" if share >= _RED_PULP_MIN_ERYTHROID else "neutral"), share

@@ -45,6 +45,35 @@ def _fmt_tick(v: float, _pos: int) -> str:
     return f"{v:g}"
 
 
+def _wrap_title(text: str, n_chars: int, room_in: float, *, fontsize: float = 12.0, max_lines: int = 6) -> list[str]:
+    """Lines of the verdict title that fit ``room_in`` inches in bold type of ``fontsize`` points.
+
+    The text is wrapped at ``n_chars`` characters (10 per inch of figure width, the rule of earlier releases) and, when
+    a line is wider than the room the figure gives, re-wrapped at fewer characters until every line fits, so the title
+    never runs past the edge of a saved figure.
+    """
+    from matplotlib.backends.backend_agg import RendererAgg
+    from matplotlib.font_manager import FontProperties
+
+    prop = FontProperties(weight="bold", size=fontsize)
+    # hinted glyph widths differ by a few per cent between resolutions: a line fits when it fits at every common one
+    renderers = [(RendererAgg(1, 1, dpi), dpi) for dpi in (72.0, 100.0, 150.0, 200.0, 300.0)]
+    room_pt = room_in * 72.0
+
+    def width_pt(line: str) -> float:
+        return max(r.get_text_width_height_descent(line, prop, ismath=False)[0] * 72.0 / dpi for r, dpi in renderers)
+
+    def fits(lines: list[str]) -> bool:
+        return all(width_pt(ln) <= room_pt for ln in lines)
+
+    n = int(n_chars)
+    lines = textwrap.wrap(text, n)
+    while n > 20 and not fits(lines):
+        n -= 2
+        lines = textwrap.wrap(text, n)
+    return lines[:max_lines]
+
+
 def trust_report(report: Any, *, style: str = "dark", width: float = 10.0, compact: bool = False):
     """Plot a :class:`~spaclone.qc.TrustReport`: observed ÷ chance for every test row, by level and test.
 
@@ -82,7 +111,8 @@ def trust_report(report: Any, *, style: str = "dark", width: float = 10.0, compa
         sections.append((level, title, groups))
     n_rows = sum(max(sum(len(g) for _, g in groups), 1) for _, _, groups in sections)
     n_groups = sum(len(groups) for _, _, groups in sections)
-    wrapped = textwrap.wrap(str(report.verdict).split(". ")[0].rstrip(".") + ".", int(width * 10.0))[:4]
+    title_text = str(report.verdict).split(". ")[0].rstrip(".") + "."
+    wrapped = _wrap_title(title_text, int(width * 10.0), (1.0 - 0.03) * width)  # from x = 0.03 to the right edge
     header_in = 0.30 + _LINE_IN * len(wrapped) + 0.30
     height = header_in + _LEVEL_IN * len(sections) + _GROUP_IN * n_groups + _ROW_IN * n_rows + _AXIS_IN
     fig = plt.figure(figsize=(width, height), facecolor=th["bg"])

@@ -28,11 +28,13 @@ figures) in one call, computed from the AIRR fields alone:
    and N regions masked (``N``), the V- and J-templated junction ends taken from one representative record.
 7. **Noise**: a base that differs from the reference (the germline where templated, the clone's majority base where
    masked) is kept only when the same base at the same position occurs in at least ``noise_min_spots`` different
-   spots and at least one record carrying it has ``noise_min_reads`` reads; otherwise it is an assembly or PCR error
-   and is reverted. Missing positions take the reference base. A record whose own V allele fits >= 3 V positions better
+   spots and at least one record carrying it has ``noise_min_reads`` reads (30 for assembled contigs, the archive's
+   rule; 1 for records that are single molecules or reads); otherwise it is an assembly or PCR error and is
+   reverted. Missing positions take the reference base. A record whose own V allele fits >= 3 V positions better
    than the clone germline is left out of the clone (a misfit).
 8. **Tips**: one tip = one locus x one cleaned full-length sequence; its isotype is the most frequent of IgM / IgD / IgG / IgA among its records (ties in that
-   order); its location is that of its locus (CSR hotspot > T zone > red pulp > follicle).
+   order); its location is that of its locus (CSR hotspot > T zone > red pulp > follicle; the red pulp is called the
+   non-B/T area where the section has no erythroid-rich area, e.g. a lymph node).
 9. **Trees**: a clone gets a tree when it has at least ``min_distinct`` distinct cleaned sequences and at least
    ``min_sites`` mutation sites (V positions up to the conserved cysteine); :func:`spaclone.bcr.build_trees` builds
    germline-rooted parsimony (or neighbour-joining) trees, identical sequences with identical isotype and location
@@ -71,7 +73,8 @@ __all__ = ["LineageWorkflowResult", "LineageWorkflowWarning", "lineage_workflow"
 logger = logging.getLogger("spaclone")
 
 #: Location classes of tips, in the archive's priority order (first match wins): a CSR hotspot pixel at the locus
-#: centre, else the compartment there.
+#: centre, else the compartment there. On a section without an erythroid-rich area the red pulp is called the non-B/T
+#: area (``compartment_names``); the other names stay.
 LOCATIONS = ("CSR hotspot", "T zone", "red pulp", "follicle")
 #: Isotype classes that name a tip (ties resolved in this order); anything else is ``"unknown"``.
 TIP_ISOTYPES = ("IgM", "IgD", "IgG", "IgA")
@@ -626,14 +629,23 @@ def _gex_units(gex: Any, cell_type_key: str | None, types: Mapping[str, Sequence
 
 
 def _structures(gex: Any, *, cell_type_key: str | None, types: Mapping[str, Sequence[str]], pixel_um: float,
-                structure_kw: Mapping[str, Any], receptor_xy: np.ndarray | None = None) -> dict[str, Any]:  # fmt: skip
+                structure_kw: Mapping[str, Any], receptor_xy: np.ndarray | None = None,
+                names: str = "auto") -> dict[str, Any]:  # fmt: skip
     """B-rich, T-rich and erythrocyte-rich masks, compartments (T zone > red pulp > follicle) and the tissue mask.
 
     The tissue (for display) is made of the typed spots and the receptor spots, closed and filled, as the archive's
     T_common.Tissue: spots of other types can lie beyond the section (StereoIR: a straight-edged band of
-    macrophage- and neutrophil-labelled bins below it).
+    macrophage- and neutrophil-labelled bins below it). The middle compartment is named red pulp only where its typed
+    spots are mostly erythroid-rich (``names="auto"``), else the non-B/T area (a lymph node has no red pulp).
     """
-    from spaclone.tl.structures import Grid, compartments, mask_from_types, tissue_mask
+    from spaclone.tl.structures import (
+        _COMPARTMENT_NAMES,
+        Grid,
+        _compartment_naming,
+        compartments,
+        mask_from_types,
+        tissue_mask,
+    )
 
     units, key = _gex_units(gex, cell_type_key, types)
     typed = units[units["class"].notna()]
@@ -647,14 +659,21 @@ def _structures(gex: Any, *, cell_type_key: str | None, types: Mapping[str, Sequ
             masks[c] = mask_from_types(typed, types=c, type_key="class", grid=grid, **kw)
         else:
             masks[c] = None
+    tx, ty = typed[S.X].to_numpy(dtype=float), typed[S.Y].to_numpy(dtype=float)
+    inside = {c: (np.asarray(m.sample(tx, ty, fill=0), dtype=bool) if m is not None else np.zeros(len(typed), bool))
+              for c, m in masks.items()}  # fmt: skip
+    if masks["B"] is None:  # no B-rich mask: only the erythroid-rich area is outside it
+        inside["B"] = np.ones(len(typed), dtype=bool)
+    naming, ery_share = _compartment_naming(inside["T"], inside["B"], inside["erythroid"], names)
+    t_name, middle, b_name = _COMPARTMENT_NAMES[naming]
     rules = []
     if masks["T"] is not None:
-        rules.append(("T zone", masks["T"]))
+        rules.append((t_name, masks["T"]))
     if masks["erythroid"] is not None:
-        rules.append(("red pulp", masks["erythroid"]))
+        rules.append((middle, masks["erythroid"]))
     if masks["B"] is not None:
-        rules.append(("red pulp", ~masks["B"]))
-    comp = compartments(rules, default="follicle") if rules else None
+        rules.append((middle, ~masks["B"]))
+    comp = compartments(rules, default=b_name) if rules else None
     pad = {k: v for k, v in kw.items() if k == "pad_edges"}
     pts = typed[[S.X, S.Y]]
     if receptor_xy is not None and len(receptor_xy):
@@ -668,6 +687,9 @@ def _structures(gex: Any, *, cell_type_key: str | None, types: Mapping[str, Sequ
         "compartments": comp,
         "tissue": tissue,
         "cell_type_key": key,
+        "naming": naming,
+        "middle": middle,
+        "outside_erythroid_share": ery_share,
         **_orientation(typed[[S.X, S.Y]].to_numpy(dtype=float)),
     }
 
@@ -707,13 +729,14 @@ def lineage_workflow(
     loci_radius_um: float = 15.0,
     max_lead_missing: int = 3,
     noise_min_spots: int = 2,
-    noise_min_reads: float = 30,
+    noise_min_reads: float | Literal["auto"] = "auto",
     misfit_mismatches: int | None = 3,
     min_distinct: int = 5,
     min_sites: int = 1,
     traits: Sequence[str] = ("isotype", "location"),
     cell_type_key: str | None = None,
     compartment_types: Mapping[str, Sequence[str]] | None = None,
+    compartment_names: Literal["auto", "spleen", "neutral"] = "auto",
     structure_kw: Mapping[str, Any] | None = None,
     pixel_um: float = 10.0,
     check_frame: bool = True,
@@ -771,8 +794,8 @@ def lineage_workflow(
         Compartment :class:`~spaclone.tl.Raster` with categories (``"T zone"``, ``"red pulp"``, ``"follicle"``), or
         ``None`` to derive it from ``gex`` with :func:`spaclone.tl.mask_from_types` (B-rich, T-rich and
         erythrocyte-rich masks of the typed spots; T zone > red pulp (erythrocyte-rich or outside the B-rich area) >
-        follicle, the archive's T_common rule), or ``False`` (no compartments: locations are ``"unknown"`` outside
-        hotspots).
+        follicle, the archive's T_common rule; the red pulp is named by ``compartment_names``), or ``False`` (no
+        compartments: locations are ``"unknown"`` outside hotspots).
     min_reads
         Read floor of the records (S1 / T1: 2). ``"auto"`` (default): 1 when every record is one UMI molecule or one
         read (the reader's ``meta["level"]`` ``"molecule"`` / ``"read"``), else 2, as in
@@ -786,7 +809,11 @@ def lineage_workflow(
         A record is full-length when at most this many V germline nucleotides are missing at its 5' end (L4: 3).
     noise_min_spots, noise_min_reads
         A base that differs from the reference is kept when it occurs in at least ``noise_min_spots`` spots of the
-        clone and one record carrying it has at least ``noise_min_reads`` reads (L4: 2 and 30).
+        clone and one record carrying it has at least ``noise_min_reads`` reads (L4: 2 and 30). ``"auto"``
+        (default): 30 for assembled contigs (the archive's rule for TRUST4 contigs, whose reads are the reads that
+        built them), 1 when every record is one UMI molecule or one read (the reader's ``meta["level"]``
+        ``"molecule"`` / ``"read"``): the reads of a molecule are copies of it, so a floor on them says little, and
+        the ``noise_min_spots`` independent molecules carry the evidence.
     misfit_mismatches
         A record whose own V allele fits at least this many V positions better than the clone germline is left out of
         the clone (L4: 3); ``None`` keeps every record.
@@ -802,6 +829,13 @@ def lineage_workflow(
     compartment_types
         Cell-type labels of the B, T and erythroid classes (default :data:`COMPARTMENT_TYPES`); spots with other
         labels are left out of the masks, as in the archive.
+    compartment_names
+        Name of the compartment outside the T zones and the B-rich area (only the name, never a pixel):
+        ``"auto"`` (default) calls it ``"red pulp"`` when most of its typed spots are erythroid-rich (at least half;
+        a spleen) and ``"non-B/T area"`` otherwise (a lymph node has no red pulp: its area outside the B and T zones
+        is mostly medulla and sinus), as :func:`spaclone.ext.threadfin.spatial_context` does; ``"spleen"`` or
+        ``"neutral"`` force either name. ``params["compartment_names"]`` and ``params["outside_erythroid_share"]``
+        record the decision.
     structure_kw
         Passed to :func:`spaclone.tl.mask_from_types` (e.g. ``{"pad_edges": False}`` reproduces the 2026-10 archive's
         edge handling exactly).
@@ -891,6 +925,8 @@ def lineage_workflow(
     level = _record_level(meta if isinstance(meta, Mapping) else None, air)
     min_reads, min_reads_rule = _auto_floor(min_reads, level, per_unit=1, contig=2, name="min_reads")
     min_reads = 0 if min_reads is None else min_reads
+    noise_min_reads, noise_rule = _auto_floor(noise_min_reads, level, per_unit=1, contig=30, name="noise_min_reads")
+    noise_min_reads = 0 if noise_min_reads is None else noise_min_reads
     if hotspots is None and workflow is not None:
         hotspots = getattr(workflow, "csr", None)
     rec, counts = _select_records(air, locus=locus.upper(), min_reads=min_reads, reads_key=reads_key,
@@ -936,6 +972,9 @@ def lineage_workflow(
     types = dict(COMPARTMENT_TYPES if compartment_types is None else compartment_types)
     comp = None
     comp_from = None
+    naming: str | None = None
+    ery_share = float("nan")
+    middle = "red pulp"
     if compartments is None and gex is None:
         warnings.warn(
             "lineage_workflow: no transcriptome, so no compartments: tip locations are only 'CSR hotspot' or "
@@ -946,15 +985,19 @@ def lineage_workflow(
         )
     if compartments is None and gex is not None:
         st = _structures(gex, cell_type_key=cell_type_key, types=types, pixel_um=pixel_um,
-                         structure_kw=structure_kw or {}, receptor_xy=rec[[S.X, S.Y]].to_numpy(dtype=float))  # fmt: skip
+                         structure_kw=structure_kw or {}, receptor_xy=rec[[S.X, S.Y]].to_numpy(dtype=float),
+                         names=compartment_names)  # fmt: skip
         maps.update({k: st[k] for k in ("grid", "tissue", "b_rich", "t_rich", "compartments", "rotation", "frame")})
         comp = st["compartments"]
         comp_from = "gex"
+        naming, ery_share, middle = st["naming"], st["outside_erythroid_share"], st["middle"]
     elif compartments is not None and compartments is not False:
         comp = compartments
         maps["compartments"] = comp
         maps["grid"] = comp.grid
         comp_from = "given"
+        if "non-B/T area" in [str(c) for c in (getattr(comp, "categories", None) or ())]:
+            middle = "non-B/T area"
     hot = _raster_from(hotspots)
     maps["hotspots"] = hot
     maps["share"], maps["share_eligible"] = _share_layers(hotspots)
@@ -964,15 +1007,16 @@ def lineage_workflow(
     hot_lab = hot.sample(lx, ly, fill=0) if hot is not None else np.zeros(len(loci))
     loci["hotspot"] = np.nan_to_num(np.asarray(hot_lab, dtype=float), nan=0.0).astype(np.int64)
     if comp is not None:
-        loci["compartment"] = comp.sample_categories(lx, ly, fill="red pulp")  # off the grid: outside the B-rich area
+        loci["compartment"] = comp.sample_categories(lx, ly, fill=middle)  # off the grid: outside the B-rich area
     else:
         loci["compartment"] = "unknown"
     loci["location"] = np.where(loci["hotspot"] > 0, "CSR hotspot", loci["compartment"].astype(object))
     rec["location"] = loci["location"].to_numpy()[rec[S.LOCUS_ID].to_numpy()]
     loc_classes = ["CSR hotspot"] if hot is not None else []
+    loc_order = (LOCATIONS[1], middle, LOCATIONS[3])  # T zone, red pulp (or the non-B/T area), follicle
     if comp is not None:
         cats = [str(c) for c in (getattr(comp, "categories", None) or ())]
-        loc_classes += [c for c in LOCATIONS[1:] if c in cats or c == "red pulp"]  # off the grid = red pulp
+        loc_classes += [c for c in loc_order if c in cats or c == middle]  # off the grid = the middle compartment
         loc_classes += [c for c in cats if c not in loc_classes]
     else:
         loc_classes.append("unknown")
@@ -1022,6 +1066,7 @@ def lineage_workflow(
             reads_key=reads_key,
             tag=gk,
             legacy=legacy,
+            locations=(LOCATIONS[0], *loc_order),
         )
         clones_out[gk] = cl
         if len(tp):
@@ -1079,6 +1124,7 @@ def lineage_workflow(
         "max_lead_missing": max_lead_missing,
         "noise_min_spots": noise_min_spots,
         "noise_min_reads": noise_min_reads,
+        "noise_min_reads_rule": noise_rule,
         "misfit_mismatches": misfit_mismatches,
         "min_distinct": min_distinct,
         "min_sites": min_sites,
@@ -1096,6 +1142,8 @@ def lineage_workflow(
         "min_reads_rule": min_reads_rule,
         "record_level": level,
         "compartments_from": comp_from,
+        "compartment_names": naming,
+        "outside_erythroid_share": ery_share,
         "location_classes": tuple(loc_classes),
         "hotspots": type(hotspots).__name__ if hotspots is not None else None,
         "runtime_s": round(time.time() - t_start, 2),
@@ -1240,6 +1288,7 @@ def _grouping_tips(
     reads_key: str,
     tag: str,
     legacy: bool = False,
+    locations: Sequence[str] = LOCATIONS,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Clone table and tips of the selected clones of one grouping (archive L4 ``run_grouping``)."""
     parsed = arr.parsed
@@ -1319,7 +1368,7 @@ def _grouping_tips(
                 "max_mutations": int(mut.max()),
                 "median_mutations": float(np.median(mut)),
                 **{f"n_{i}": int(iso_n[k]) for k, i in enumerate((*TIP_ISOTYPES, "unknown"))},
-                **{f"loci_{k}": int(loc_n.get(k, 0)) for k in LOCATIONS},
+                **{f"loci_{k}": int(loc_n.get(k, 0)) for k in locations},
                 "selected": bool(selected),
             }
         )
@@ -1355,7 +1404,7 @@ def _grouping_tips(
     cols = ["clone_id", "v_gene", "j_gene", "germline_v", "germline_j", "junction_aa_main", "junction_aa_n",
             "exact_clones", "records_usable", "records_full", "misfits_removed", "spots", "loci", "distinct_seqs",
             "mutation_sites", "max_mutations", "median_mutations", *[f"n_{i}" for i in (*TIP_ISOTYPES, "unknown")],
-            *[f"loci_{k}" for k in LOCATIONS], "selected"]  # fmt: skip
+            *[f"loci_{k}" for k in locations], "selected"]  # fmt: skip
     cl = pd.DataFrame(rows, columns=cols)
     if len(cl):
         cl = cl.sort_values(["selected", "distinct_seqs", "clone_id"], ascending=[False, False, True])

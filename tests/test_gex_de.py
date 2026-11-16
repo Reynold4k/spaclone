@@ -139,6 +139,50 @@ def test_volcano_plot():
     plt.close("all")
 
 
+def test_volcano_labels_never_overlap_and_the_legend_covers_no_gene():
+    """Tutorial 04 had "Ighd" under the legend and labels on top of each other (a tight cluster of top genes)."""
+    import matplotlib.pyplot as plt
+    from matplotlib.text import Text
+
+    from spaclone import pl
+
+    rng = np.random.default_rng(0)
+    top = {"Ighd": (-1.76, 10.6), "Malat1": (-1.60, 9.7), "Gcsam": (2.25, 9.5), "Aicda": (2.31, 9.2),
+           "Pou2af1": (1.76, 8.2), "Tuba1b": (1.01, 7.0), "Hmces": (1.83, 7.0), "Dhfr": (1.71, 6.9),
+           "Nuggc": (1.78, 6.8), "Sub1": (-1.36, 6.6), "Mki67": (1.82, 6.6), "Stmn1": (1.62, 6.5)}  # fmt: skip
+    x = np.r_[[v[0] for v in top.values()], rng.uniform(1.0, 1.8, 60), rng.normal(0, 0.5, 600)]
+    y = np.r_[[v[1] for v in top.values()], rng.uniform(2.5, 6.0, 60), rng.uniform(0, 2.5, 600)]
+    tab = pd.DataFrame({"gene": [*top, *[f"g{i}" for i in range(660)]], "log2fc": x, "p_value": 10.0**-y,
+                        "q_value": np.where(np.abs(x) >= 1, 1e-4, 0.5), "group": "GC", "reference": "rest"})  # fmt: skip
+    for style in ("dark", "light"):
+        ax = pl.gex_volcano(tab, group="GC", label_top=12, style=style)
+        fig = ax.figure
+        fig.canvas.draw()
+        renderer = fig.canvas.get_renderer()
+        boxes = [Text.get_window_extent(t, renderer) for t in ax.texts]  # the text alone, without its leader line
+        assert sorted(t.get_text() for t in ax.texts) == sorted(top)
+        assert not [(i, j) for i in range(12) for j in range(i + 1, 12) if boxes[i].overlaps(boxes[j])]
+        for i, t in enumerate(ax.texts):  # a leader line crosses no other label
+            if t.arrow_patch is not None:
+                path = t.arrow_patch.get_path().transformed(t.arrow_patch.get_transform())
+                pts = path.interpolated(20).vertices
+                for j, b in enumerate(boxes):
+                    if j != i:
+                        inside = (
+                            (pts[:, 0] > b.x0 + 1)
+                            & (pts[:, 0] < b.x1 - 1)
+                            & (pts[:, 1] > b.y0 + 1)
+                            & (pts[:, 1] < b.y1 - 1)
+                        )
+                        assert not inside.any(), (t.get_text(), ax.texts[j].get_text())
+        frame = ax.get_window_extent(renderer)
+        assert all(frame.x0 <= b.x0 and b.x1 <= frame.x1 and frame.y0 <= b.y0 and b.y1 <= frame.y1 for b in boxes)
+        assert ax.get_legend().get_window_extent(renderer).y0 >= frame.y1 - 1  # above the plot area
+        for t in ax.texts:  # every label points at its own gene
+            assert np.allclose(t.xy, top[t.get_text()])
+        plt.close(fig)
+
+
 @pytest.mark.slow
 def test_units_as_replicates_are_anticonservative():
     """The archive lesson: per-unit tests call many null genes significant; pseudobulk does not."""

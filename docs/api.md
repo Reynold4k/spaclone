@@ -950,7 +950,8 @@ Every plot takes `ax=None` (when it draws one panel) and returns the Axes or the
 (simulation-sim)=
 ## Simulation (`spaclone.sim`)
 
-Simulated sections with known truth for every record, and the planted-truth benchmark.
+Simulated sections with known truth for every record (with receptor sequences and planted lineage trees on request),
+lineage trees scored against the planted ones, and the planted-truth benchmark.
 
 ```{eval-rst}
 .. module:: spaclone.sim
@@ -969,6 +970,16 @@ Simulated sections with known truth for every record, and the planted-truth benc
    CDNA_BY_TYPE
    CONSTANT_PER_CELL
    MOUSE_CONSTANT_GENES
+```
+
+### Planted lineages
+
+```{eval-rst}
+.. autosummary::
+   :toctree: generated
+   :nosignatures:
+
+   score_lineages
 ```
 
 ### Planted-truth benchmark

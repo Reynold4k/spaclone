@@ -81,6 +81,7 @@ from spaclone._utils import (
     rng_entropy,
 )
 from spaclone.nulls import IG_RNA_BINS, Permute, bin_labels, placebo
+from spaclone.tl.structures import _COMPARTMENT_NAMES, _RED_PULP_MIN_ERYTHROID, _compartment_naming
 
 __all__ = [
     "NicheSpec",
@@ -112,13 +113,10 @@ MASK_TYPES: dict[str, tuple[str, ...]] = {
 #: Compartment names of :func:`spatial_context` (T-rich, outside the B-rich area and the T zones, B-rich) under each
 #: naming: the spleen's, and tissue-neutral ones for a section without a red pulp (e.g. a lymph node, whose area outside
 #: its B and T zones is mostly medulla and sinus). Only the middle name differs.
-COMPARTMENT_NAMES: dict[str, tuple[str, str, str]] = {
-    "spleen": ("T zone", "red pulp", "follicle"),
-    "neutral": ("T zone", "non-B/T area", "follicle"),
-}
+COMPARTMENT_NAMES: dict[str, tuple[str, str, str]] = _COMPARTMENT_NAMES
 #: Share of the typed spots outside the B-rich area and the T zones that must lie in the erythroid-rich mask for
 #: ``spatial_context(names="auto")`` to name that compartment red pulp.
-RED_PULP_MIN_ERYTHROID = 0.5
+RED_PULP_MIN_ERYTHROID = _RED_PULP_MIN_ERYTHROID
 #: Compartments counted as white pulp (B-rich follicles and T zones) by :func:`spanning_clones`, under either naming.
 WHITE_PULP = ("T zone", "follicle")
 #: Compartments counted as red pulp (outside the B-rich area and the T zones) by :func:`spanning_clones`: its name under
@@ -377,9 +375,7 @@ def spatial_context(
     # label-derived names: the area outside the B-rich area and the T zones is the red pulp when it is erythroid-rich
     ux, uy = units[S.X].to_numpy(dtype=float), units[S.Y].to_numpy(dtype=float)
     in_t, in_b, in_e = (np.asarray(m.sample(ux, uy, fill=0), dtype=bool) for m in (m_t, m_b, m_e))
-    outside = ~in_t & (in_e | ~in_b)  # the typed spots of the middle compartment (same rule as the raster below)
-    ery_share = float(in_e[outside].mean()) if outside.any() else float("nan")
-    naming = names if names != "auto" else ("spleen" if ery_share >= RED_PULP_MIN_ERYTHROID else "neutral")
+    naming, ery_share = _compartment_naming(in_t, in_b, in_e, names)  # same rule as the raster below
     t_name, out_name, b_name = COMPARTMENT_NAMES[naming]
     comp = compartments([(t_name, m_t), (out_name, m_e), (out_name, ~m_b)], default=b_name)
     red = Raster(comp.values == comp.categories.index(out_name), grid, name=out_name)

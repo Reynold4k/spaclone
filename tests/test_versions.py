@@ -105,3 +105,32 @@ def test_show_versions(capsys):
     assert V.show_versions(external=False) is None
     out = capsys.readouterr().out
     assert "spaclone" in out and "numpy" in out and "optional" in out
+
+
+def test_require_checks_only_the_named_extras_and_says_what_to_install(tmp_path, monkeypatch):
+    present = V.Feature("present", "python", ("json",), "nothing", extra="images")
+    absent = V.Feature("absent", "python", ("spaclone_fake_absent_module",), "nothing", extra="tcr")
+    (tmp_path / "spaclone_fake_broken2.py").write_text("raise RuntimeError('built against another numpy')\n")
+    monkeypatch.syspath_prepend(str(tmp_path))
+    broken = V.Feature("broken", "python", ("spaclone_fake_broken2",), "nothing", extra="leiden")
+    monkeypatch.setattr(V, "FEATURES", (present, absent, broken))
+    rep = V.check_install(require="images")
+    assert list(rep.table.feature) == ["present"] and rep.ok
+    with pytest.raises(ImportError, match=r'absent .extra .tcr.. is missing .not installed: spaclone_fake_absent_module'
+                                          r'.*pip install "spaclone\[images,tcr\]"'):  # fmt: skip
+        V.check_install(require=("images", "tcr"))
+    with pytest.raises(ImportError, match=r"broken .extra .leiden.. is installed but fails to import .*RuntimeError"):
+        V.check_install(require=["leiden"])
+    sys.modules.pop("spaclone_fake_broken2", None)
+    with pytest.raises(ValueError, match=r"\['scirpyy'\] are not spaclone extras; extras: .*datasets"):
+        V.check_install(require=["scirpyy"])
+    with pytest.raises(ImportError, match=r"spaclone\[full\]"):  # umbrella extras stand for their members
+        V.check_install(require="full")
+
+
+def test_install_hints_work_without_the_repository():
+    """Commands printed by check_install must run for a pip user: the env script is only in the repository."""
+    hints = [f.install for f in V.FEATURES if "install_spaclone_env.sh" in f.install]
+    assert len(hints) == 2
+    for h in hints:
+        assert h.startswith("git clone https://github.com/Reynold4k/spaclone.git && bash spaclone/scripts/")

@@ -106,6 +106,30 @@ def _productive_from_cdr3(aa: np.ndarray) -> np.ndarray:
     return (s.notna() & ~s.fillna("").str.contains(r"[*_]", regex=True)).to_numpy(dtype=bool)
 
 
+def _locus_column(M: pd.DataFrame) -> tuple[pd.Series, int, int]:
+    """Locus of every read: ``receptor_type`` when it names a locus, else the first locus named by its calls.
+
+    The GEO tables write ``receptor_type`` "NA" for some chains (TRG reads, whose V and J calls are TRGV / TRGJ
+    genes); for those the locus comes from the V call, then the J call, then the constant-region call (``clono_type``),
+    as for AIRR tables without a locus field. Returns the column (missing where nothing names a locus), the number of
+    reads whose locus came from a call and the number left without a locus.
+    """
+    from spaclone.io.airr import locus_from_call
+
+    loc = M["receptor_type"].astype("string").str.strip().str.upper()
+    loc = loc.where(loc.isin(S.ALL_LOCI)).to_numpy(dtype=object, na_value=None)
+    miss = pd.isna(loc)
+    n_miss = int(miss.sum())
+    for c in ("allVHitsWithScore", "allJHitsWithScore", "clono_type"):
+        if c in M.columns and miss.any():
+            fill = locus_from_call(M[c].to_numpy(dtype=object, na_value=np.nan)[miss])
+            idx = np.flatnonzero(miss)
+            loc[idx] = np.where(pd.isna(fill), loc[idx], fill)
+            miss = pd.isna(loc)
+    n_left = int(miss.sum())
+    return pd.Series(loc, index=M.index, dtype=object), n_miss - n_left, n_left
+
+
 def _sample_name(path: Path) -> str:
     stem = path.name.split("_ovp_clone_table")[0]
     return stem.split("_", 1)[1] if stem.startswith("GSM") and "_" in stem else stem
@@ -176,8 +200,10 @@ def read_airspace(
     -------
     SpatialAIR
         ``air``: one row per molecule with ``spot_id`` (bead barcode), ``x_um``, ``y_um``, ``locus``
-        (``receptor_type``), ``clone_id`` (MiXCR ``cloneId``), ``junction_aa`` / ``junction`` (CDR3 of the
-        representative read), ``v_call``, ``d_call``, ``j_call`` (its top MiXCR hits), ``c_call`` (``clono_type``,
+        (``receptor_type``; where it names no locus, as the "NA" of the TRG reads in the GEO tables, the locus
+        named by the V, then the J, then the constant-region call; reads that name none are left out and counted
+        in ``meta["n_reads_without_locus"]``), ``clone_id`` (MiXCR ``cloneId``), ``junction_aa`` / ``junction``
+        (CDR3 of the representative read), ``v_call``, ``d_call``, ``j_call`` (its top MiXCR hits), ``c_call`` (``clono_type``,
         the constant gene), ``productive`` (CDR3 in frame and without a stop codon; the rest of V(D)J is not
         checked), ``consensus_count`` (reads of the molecule), ``umi``, ``library_id``, ``x_src`` / ``y_src``,
         ``in_tissue`` and ``n_clones_in_molecule`` (distinct ``cloneId`` among its reads), plus the MiXCR
@@ -263,7 +289,13 @@ def read_airspace(
             raise ValueError(f"the clone table lacks column {need!r}")
     M = pd.read_csv(cpath, sep="\t", usecols=use, dtype=str, keep_default_na=False, na_values=[""])
     n_reads = len(M)
-    M["receptor_type"] = M["receptor_type"].str.strip().str.upper()
+    M["receptor_type"], n_from_calls, n_no_locus = _locus_column(M)
+    if n_no_locus:
+        logger.warning(
+            "read_airspace: %d reads name no locus in receptor_type or in their V, J or C call and were left out",
+            n_no_locus,
+        )
+        M = M[M["receptor_type"].notna().to_numpy()]
     if loci is not None:
         M = M[M["receptor_type"].isin([str(lc).upper() for lc in loci]).to_numpy(dtype=bool)]
     M = M.reset_index(drop=True)
@@ -373,6 +405,8 @@ def read_airspace(
         },
         "n_reads": int(n_reads),
         "n_reads_kept": int(n_kept),
+        "n_reads_locus_from_calls": int(n_from_calls),
+        "n_reads_without_locus": int(n_no_locus),
         "collapse": collapse,
         "n_records_unmatched_barcode": n_unmatched,
         "loci": None if loci is None else [str(lc).upper() for lc in loci],
@@ -391,7 +425,9 @@ def read_airspace(
             "value": float(scale_um),
             "rule": f"scale_um = {scale_um:g} (Curio bead unit used for AIR-SPACE)",
         },
-        "molecule": f"(barcode, umi, receptor_type); representative read: {representative}",
+        "locus": "receptor_type; where it names no locus (the GEO tables write NA for TRG reads), the V, then J, then "
+        f"C call ({n_from_calls} reads)",
+        "molecule": f"(barcode, umi, locus); representative read: {representative}",
         "productive": "derived: CDR3 in frame and stop-free (MiXCR '*' / '_')",
         "tissue": "authors' rule (>= min_counts and >= min_neighbours within radius)",
     }

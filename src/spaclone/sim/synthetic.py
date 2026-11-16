@@ -250,6 +250,10 @@ def synthetic_chip(
     swap_weight: SwapWeight = "gex",
     homologous_switch: float = 0.0,
     swap_family_mean: float = 0.0,
+    sequences: bool = False,
+    shm_mutations: float = 6.0,
+    seq_error_rate: float = 0.0005,
+    truncated_fraction: float = 0.0,
     legacy: bool = False,
     rng: RngLike = None,
 ) -> SpatialAIR:
@@ -350,6 +354,26 @@ def synthetic_chip(
     swap_family_mean
         Realistic chip: swapped molecules of one clone come in chimera families of ``1 + Poisson(swap_family_mean)``
         molecules that share one landing spot (0: every swap lands independently).
+    sequences
+        Realistic chip: give every record its contig (``sequence``) and V and J alignments (``v_sequence_alignment``,
+        ``v_germline_alignment``, ``v_germline_start`` / ``_end``, ``v_sequence_start`` / ``_end``,
+        ``j_sequence_start`` / ``_end``, 1-based as IgBLAST's AIRR output), and the B cells of germinal-centre and
+        plasma-cell-focus lineages (and lone plasma cells) somatic hypermutation along planted lineage trees, so that
+        :func:`spaclone.bcr.lineage_workflow` can build trees whose truth is known (see :mod:`spaclone.sim.lineages`:
+        synthetic germline genes, a Kingman coalescent per lineage, no change to any other draw of the chip: the same
+        seed gives the same chip with or without sequences). Adds the truth columns ``true_genotype``,
+        ``true_mutations``, ``seq_errors`` and ``seq_error_sites``, and ``meta["genotypes"]`` and
+        ``meta["lineage_trees"]`` (the planted heavy-chain trees in Newick); :func:`spaclone.sim.score_lineages`
+        compares a lineage-workflow result with them. Default ``False`` (no sequences, as in earlier releases).
+    shm_mutations
+        With ``sequences``: mean V mutations of a heavy chain of a mutated lineage (a quarter on the trunk shared by
+        its cells, the rest along the tree); light chains mutate at half this rate.
+    seq_error_rate
+        With ``sequences``: substitution errors per V base of every record (independent between records, so each one
+        is seen in one spot).
+    truncated_fraction
+        With ``sequences``: share of the contigs that start 30-149 nt inside the V gene (5' truncated assemblies;
+        they support variants but are no tree tips).
     legacy
         Reproduce the spaclone 1.0.0.dev0 chip draw for draw (uniform cDNA, constant-region genes in the background
         composition of every spot, swaps on background molecules only); the realistic-chip arguments are ignored.
@@ -389,7 +413,12 @@ def synthetic_chip(
     >>> sorted(sa.air.truth.unique())
     ['genuine', 'sink', 'swapped']
     >>> old = synthetic_chip(rng=0, legacy=True)  # the 1.0.0.dev0 chip
+    >>> seq = synthetic_chip(rng=0, sequences=True)  # the same chip, with contigs and planted lineages
+    >>> seq.air[["spot_id", "clone_id"]].equals(sa.air[["spot_id", "clone_id"]])
+    True
     """
+    if legacy and sequences:
+        raise ValueError("sequences=True needs the realistic chip (legacy=False)")
     if legacy:
         out = _chip_v1(
             size_um=size_um, tissue_radius_um=tissue_radius_um, spot_um=spot_um, cell_density=cell_density,
@@ -852,6 +881,10 @@ def _chip_v2(
     swap_weight: SwapWeight,
     homologous_switch: float,
     swap_family_mean: float,
+    sequences: bool,
+    shm_mutations: float,
+    seq_error_rate: float,
+    truncated_fraction: float,
     rng: RngLike,
 ) -> SpatialAIR:
     """The realistic chip of :func:`synthetic_chip` (``legacy=False``)."""
@@ -873,6 +906,8 @@ def _chip_v2(
         raise ValueError("homologous_switch must be in [0, 1]")
     if not (cdna_shape > 0 and constant_burst >= 1 and constant_cell_shape > 0 and swap_family_mean >= 0):
         raise ValueError("cdna_shape and constant_cell_shape must be > 0, constant_burst >= 1, swap_family_mean >= 0")
+    if not (shm_mutations >= 0 and 0 <= seq_error_rate <= 1 and 0 <= truncated_fraction <= 1):
+        raise ValueError("shm_mutations must be >= 0, seq_error_rate and truncated_fraction in [0, 1]")
     mpc = dict(_MOLECULES)
     mpc.update(molecules_per_cell or {})
     cmult = dict(CDNA_BY_TYPE)
@@ -1295,6 +1330,18 @@ def _chip_v2(
             "n_records": [len(s) for _, _, s in sink_rows],
         }
     )
+    seq_meta: dict[str, Any] = {}
+    if sequences:  # drawn after everything else: the chip is the same with or without sequences
+        from spaclone.sim.lineages import _plant_sequences
+
+        cols, seq_meta = _plant_sequences(
+            gen, rec_cell=src_cell, rec_clone=src_clone, rec_ccall=rec_ccall, clones=clones, lineages=L,
+            cell_lin=cell_lin, cell_type=ctype, shm_mutations=shm_mutations, seq_error_rate=seq_error_rate,
+            truncated_fraction=truncated_fraction,
+        )  # fmt: skip
+        at = air.columns.get_loc("x_src")
+        truth_cols = ["true_genotype", "true_mutations", "seq_errors", "seq_error_sites"]
+        air = pd.concat([air.iloc[:, :at], cols.drop(columns=truth_cols), air.iloc[:, at:], cols[truth_cols]], axis=1)
     gen_rec = air[air.truth == "genuine"]
     occ_spot = gen_rec[S.SPOT].isin(gex.obs_names).to_numpy()
     own = np.zeros(len(gen_rec), bool)
@@ -1323,6 +1370,7 @@ def _chip_v2(
         "swap_counts": {str(k): int(v) for k, v in air.loc[air.truth == "swapped", "swap_kind"].value_counts().items()},
         "p_det": float(p_det),
         "p_det_given_occupied": float(own[occ_spot].mean()) if occ_spot.any() else float("nan"),
+        **seq_meta,
     }
     logger.info("synthetic_chip: %d cells, %d lineages, %d records, %d GEX spots", n_cells, n_lin, len(air), gex.n_obs)
     return finish(air, gex, meta)

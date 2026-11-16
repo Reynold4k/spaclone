@@ -1,4 +1,4 @@
-"""Example data: the six public AIR-SPACE lymph nodes from GEO (downloaded once, verified by sha256) and a synthetic chip.
+"""Example data: the six public AIR-SPACE lymph nodes of GEO (downloaded once, checked by sha256) and a synthetic section.
 
 The AIR-SPACE files (Jiang et al., PNAS 2026; GEO GSE286452; mouse popliteal lymph node after Vaccinia infection) are
 the bead AnnData of every bead and the per-read MiXCR clone table of a sample. ``"Mock"`` is the uninfected node,
@@ -216,11 +216,19 @@ def load_airspace(
     return read_airspace(h5, ct, **kwargs)
 
 
-def synthetic_example(*, rng: RngLike = 0, **kwargs: Any) -> SpatialAIR:
+def synthetic_example(*, sequences: bool = False, rng: RngLike = 0, **kwargs: Any) -> SpatialAIR:
     """A small synthetic section with known truth, no download (:func:`spaclone.sim.synthetic_chip`, seed 0).
+
+    The section is simulated, not tissue: a disc of cells in a T zone, follicles with germinal centres and plasma-cell
+    foci, with 30% of the receptor molecules on their own cell (the rest swapped or in barcode sinks) unless
+    ``genuine_fraction`` says otherwise.
 
     Parameters
     ----------
+    sequences
+        Add every record's contig and V / J alignments, with somatic hypermutation along planted lineage trees, for
+        :func:`spaclone.bcr.lineage_workflow` (``sequences=True`` of :func:`spaclone.sim.synthetic_chip`;
+        :func:`spaclone.sim.score_lineages` checks the trees against the truth). The rest of the section is the same.
     rng
         Seed or generator (default 0: the same example every time).
     **kwargs
@@ -236,7 +244,10 @@ def synthetic_example(*, rng: RngLike = 0, **kwargs: Any) -> SpatialAIR:
     >>> sa = synthetic_example()
     >>> sa.air.truth.value_counts().index.tolist()
     ['swapped', 'genuine', 'sink']
+    >>> lin = synthetic_example(sequences=True)  # contigs with planted lineages, no download
+    >>> lin.air[["sequence", "v_sequence_alignment", "true_genotype"]].notna().all().all()
+    np.True_
     """
     from spaclone.sim.synthetic import synthetic_chip
 
-    return synthetic_chip(rng=rng, **kwargs)
+    return synthetic_chip(sequences=sequences, rng=rng, **kwargs)

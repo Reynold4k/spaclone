@@ -53,18 +53,23 @@ spaclone adds the following, and the public record shows none of it elsewhere:
 ## Get started
 
 ```bash
-pip install spaclone            # core: reading, QC, trust tests, BCR and TCR analysis, plots
-pip install "spaclone[full]"    # + every package in "Integrates" below
+pip install spaclone              # core: reading, QC, trust tests, BCR and TCR analysis, plots
+pip install "spaclone[datasets]"  # + the downloader of the public example data used below
+pip install "spaclone[full]"      # + every package in "Integrates" below (the downloader included)
 ```
 
 ```python
 import spaclone as spc
 
-report = spc.run(spc.read("section.h5ad", "airr_rearrangement.tsv"))
+# a public AIR-SPACE lymph node, day 21 (GEO GSE286452): 78 MB, downloaded once and checked by sha256
+data = spc.read(*spc.datasets.airspace("D21"))   # your own section: spc.read("section.h5ad", "airr.tsv")
+report = spc.run(data)
+print(report.verdict)
 ```
 
 Cell-type columns and own types are detected when unambiguous (`cell_type_key="auto"`, `own_types="auto"`) and
-otherwise named in the report.
+otherwise named in the report. From the shell, `spaclone run` writes the same report
+([command line](https://github.com/Reynold4k/spaclone/blob/main/docs/cli.md)).
 
 `spc.read` recognises both files from their contents: the transcriptome (h5ad from scanpy, squidpy or Stereopy, Space
 Ranger Visium SD / HD, Stereo-seq GEF / GEM, Xenium, Slide-seq, SpatialData) and the receptor table (AIRR from Cell
@@ -80,18 +85,26 @@ data allow:
 | `report.plot()` | The one-page trust report |
 | `report.methods()` | A methods paragraph with every parameter and reference |
 
-Then the biology, on the same data:
+Then the biology. Class switching and hypermutation, on the same AIR-SPACE node:
 
 ```python
-data = spc.read("section.h5ad", "airr_rearrangement.tsv")
-hot = spc.bcr.hotspot_workflow(data)                # CSR and SHM hotspots, their overlap regions, GEX identity
+hot = spc.bcr.hotspot_workflow(data)                # CSR and SHM hotspots, their regions, GEX identity
 spc.pl.hotspot_atlas(hot)                           # the flagship figure
 spc.pl.csr_map(hot)                                 # isotypes and class switches along the IgH locus
-trees = spc.bcr.lineage_workflow(hot)               # lineage trees with every tip on the tissue
-spc.pl.lineage_gallery(trees, "lineages")           # one figure per tree and an index table
 ```
 
-Lineage trees need each record's contig and its V alignment (the AIRR fields `sequence`, `v_sequence_alignment`, `v_germline_alignment` and `v_germline_start`, as IgBLAST (`-outfmt 19`) and TRUST4 write them); clone tables without sequences cannot give trees, and `bcr.lineage_workflow` says so.
+Lineage trees need each record's contig and its V alignment (the AIRR fields `sequence`, `v_sequence_alignment`,
+`v_germline_alignment` and `v_germline_start`, as IgBLAST (`-outfmt 19`) and TRUST4 write them). Clone tables without
+sequences, such as AIR-SPACE's, cannot give trees, and `bcr.lineage_workflow` says so. A synthetic section has them,
+with lineages planted to check the trees against:
+
+```python
+# synthetic section (simulated, no download): contigs with V alignments and planted B-cell lineages
+syn = spc.datasets.synthetic_example(sequences=True)
+trees = spc.bcr.lineage_workflow(syn)               # lineage trees with every tip on the section
+spc.pl.lineage_gallery(trees, "lineages")           # one figure per tree and an index table
+spc.sim.score_lineages(trees, syn)                  # each tree against the planted one
+```
 
 ## What it does
 
@@ -129,10 +142,12 @@ Every statistic reproduces the numbers of the analyses it came from (AIR-SPACE a
 | [Class switching and mutation](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/03_bcr_class_switching_and_mutation.ipynb) | CSR maps and hotspots, SHM, lineages in germinal centres |
 | [Transcriptome and repertoire](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/04_transcriptome_and_repertoire.ipynb) | GEX workflow, regions, DE, diversity, networks, niches |
 | [Your own placebo](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/05_custom_placebo.ipynb) | Test any statistic against random placement |
-| [Hotspots and lineages](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/06_hotspots_and_lineages.ipynb) | The flagship on a Stereo-seq spleen: trust report, CSR/SHM hotspot atlas, lineage trees, sciCSR flow, Threadfin states |
+| [Hotspots and lineages](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/06_hotspots_and_lineages.ipynb) | Showcase: the flagship on a Stereo-seq spleen (trust report, CSR/SHM hotspot atlas, lineage trees, sciCSR flow, Threadfin states). BGI data, not yet public: the notebook cannot be re-run until they are released; tutorial 08 runs the same functions on data anyone can get |
 | [AIR-SPACE time course](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/07_airspace_time_course.ipynb) | Every analysis on all six public AIR-SPACE lymph nodes, Mock to day 21, with the package defaults and one table of the key numbers |
+| [Lineages, zooms and clone states](https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/08_lineages_and_clone_states.ipynb) | Lineage trees on a synthetic section with planted lineages, checked against the truth; a region zoom, the sciCSR stationary distribution and Threadfin clone-axis profiles and spanning clones on a public AIR-SPACE node |
 
-Reading data, concepts and the full API: [docs](https://github.com/Reynold4k/spaclone/tree/main/docs).
+Running them needs Jupyter and the extras each notebook names in its first cell (`pip install "spaclone[full]" jupyter` covers all).
+Reading data, the command line, concepts and the full API: [docs](https://github.com/Reynold4k/spaclone/tree/main/docs).
 
 ## How to cite
 

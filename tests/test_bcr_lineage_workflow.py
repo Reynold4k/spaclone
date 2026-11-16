@@ -321,3 +321,48 @@ def test_errors(table):
         bcr.lineage_workflow(table.assign(locus="IGK"), compartments=False)
     with pytest.raises(ValueError, match=r"reads >= 1000 0; min_reads=1000, given"):
         bcr.lineage_workflow(table, compartments=False, min_reads=1000)
+
+
+def test_noise_read_floor_follows_the_record_level(table):
+    """Molecule-level records (one UMI molecule each) have a few reads: the 30-read floor of contigs would revert
+    every mutation; "auto" keeps a variant seen in two independent molecules."""
+    few = table.assign(consensus_count=3.0)
+    contig = bcr.lineage_workflow(few, compartments=False, min_tips=5, rng=1, groupings=("exact",))
+    assert contig.params["noise_min_reads"] == 30 and "contigs" in contig.params["noise_min_reads_rule"]
+    rec = contig.records.set_index("sequence_id")
+    assert rec.loc["A_a3_0", "mutations_exact"] == 0  # 3 reads < 30: the planted mutations are taken as noise
+    few.attrs = {"spaclone": {"level": "molecule"}}
+    mol = bcr.lineage_workflow(few, compartments=False, min_tips=5, rng=1, groupings=("exact",))
+    assert mol.params["noise_min_reads"] == 1 and "molecule" in mol.params["noise_min_reads_rule"]
+    rec = mol.records.set_index("sequence_id")
+    assert rec.loc["A_a3_0", "mutations_exact"] == 3 and rec.loc["A_noise", "mutations_exact"] == 1  # one spot only
+    given = bcr.lineage_workflow(few, compartments=False, min_tips=5, rng=1, groupings=("exact",), noise_min_reads=30)
+    assert given.params["noise_min_reads"] == 30 and given.params["noise_min_reads_rule"] == "given"
+
+
+def test_compartments_are_named_by_the_tissue():
+    """Without an erythroid-rich area (a lymph node) the compartment outside B and T zones is not called red pulp."""
+    ad = pytest.importorskip("anndata")
+    rng = np.random.default_rng(3)
+    n = 4000
+    xy = rng.uniform(0, 1000, size=(n, 2))
+    lab = np.where(xy[:, 0] < 400, "T_cells", np.where(xy[:, 0] < 800, "B_cells", "Monocytes_Macrophages"))
+    gex = ad.AnnData(obs=pd.DataFrame({"cell2loc_anno": lab}, index=[f"s{i}" for i in range(n)]),
+                     obsm={"spatial": xy})  # fmt: skip
+    df = _lineage_table()
+    df["x_um"] = np.clip(df.x_um / 4.0, 0, 999)
+    res = bcr.lineage_workflow(df, gex, min_tips=5, rng=1, groupings=("exact",))
+    assert res.params["compartment_names"] == "neutral" and res.params["outside_erythroid_share"] == 0.0
+    assert res.location_classes == ("T zone", "non-B/T area", "follicle")
+    loc = res.loci.set_index("locus_id").location
+    x = res.loci.set_index("locus_id").x_um
+    assert (loc[x > 850] == "non-B/T area").all() and not (loc == "red pulp").any()
+    assert {"loci_non-B/T area", "loci_follicle"} <= set(res.clones["exact"].columns)
+    assert "loci_red pulp" not in res.clones["exact"].columns
+    forced = bcr.lineage_workflow(df, gex, min_tips=5, rng=1, groupings=("exact",), compartment_names="spleen")
+    assert forced.location_classes == ("T zone", "red pulp", "follicle")
+    pd.testing.assert_series_equal(  # names only: every locus keeps its compartment
+        forced.loci.location.replace({"red pulp": "non-B/T area"}), res.loci.location
+    )
+    with pytest.raises(ValueError, match="compartment names"):
+        bcr.lineage_workflow(df, gex, min_tips=5, rng=1, groupings=("exact",), compartment_names="lymph node")

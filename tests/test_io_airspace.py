@@ -181,3 +181,32 @@ def test_clone_table_of_another_sample_raises(tmp_path):
         io.read(_beads(), other)
     assert "np.str_" not in str(e.value) and "'D21BEAD000'" in str(e.value)
     assert len(io.read_airspace(_beads(), other, min_overlap=0.0).air) == 1  # the check can be lowered explicitly
+
+
+def test_na_receptor_type_takes_the_locus_of_the_calls(tmp_path, caplog):
+    """GEO tables write receptor_type "NA" for TRG reads: the locus comes from the V, J or C call, never "NA"."""
+    M = pd.read_csv(CT, sep="\t", dtype=str, keep_default_na=False)
+    trg = M.iloc[[6, 6, 6, 6]].copy()  # four reads in the shape of the GEO TRG rows (literal "NA" receptor type)
+    trg["readId"] = ["20", "21", "22", "23"]
+    trg["umi"] = ["TGTGTGT", "TGTGTGT", "CACACAC", "GAGAGAG"]
+    trg["allVHitsWithScore"] = ["TRGV2*00(1030)", "TRGV2*00(1030)", "", ""]
+    trg["allJHitsWithScore"] = ["TRGJ2*00(540)", "TRGJ2*00(540)", "TRGJ1*00(570)", ""]
+    trg["clono_type"] = ["TCRG-C2", "TCRG-C2", "NA", "NA"]
+    trg["aaSeqCDR3"] = "CAVWMKSSGFHKVF"
+    trg["cloneId"] = "40"
+    trg["receptor_type"] = "NA"
+    path = tmp_path / CT.name  # same sample name
+    pd.concat([M, trg], ignore_index=True).to_csv(path, sep="\t", index=False)
+    with caplog.at_level("WARNING", logger="spaclone"):
+        sa = io.read_airspace(_beads(), path)
+    air = sa.air
+    assert "NA" not in set(air.locus) and not air.locus.isna().any()
+    g = air[air.clone_id == "40"]
+    assert g.locus.tolist() == ["TRG", "TRG"]  # V call, then the J call alone; the read without any call is left out
+    assert g.consensus_count.tolist() == [2.0, 1.0]
+    assert sa.meta["n_reads_locus_from_calls"] == 3 and sa.meta["n_reads_without_locus"] == 1
+    assert sa.meta["records_by_locus"]["TRG"] == 2 and "NA" not in sa.meta["records_by_locus"]
+    assert any("name no locus" in r.getMessage() for r in caplog.records)
+    pd.testing.assert_frame_equal(air[air.clone_id != "40"].reset_index(drop=True), io.read_airspace(_beads(), CT).air)
+    only = io.read_airspace(_beads(), path, loci=["TRG"]).air  # the chain filter sees the corrected locus
+    assert only.locus.tolist() == ["TRG", "TRG"]

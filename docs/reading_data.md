@@ -78,7 +78,7 @@ When the evidence is not certain, it stops and tells you which argument to pass.
 | MiGEC / CdrBlast, MiTCR | clonotype tables | `Good events` = UMIs, `Good reads` = reads | no barcodes |
 | SPTCR-seq (GEO GSE238071) | per-section CSV | Visium barcodes, `expression` = UMIs, CDR3 without anchors | — |
 | Stereo-XCR-seq | MiXCR meta table / public `out.meta.gz` | recognised | read with `spaclone.io.read_stereo_xcr` (own DNB coordinates) |
-| AIR-SPACE (GSE286452) | `*_ovp_clone_table.txt.gz` + bead h5ad | `spaclone.read(h5ad, table)` runs `read_airspace` | — |
+| AIR-SPACE (GSE286452) | `*_ovp_clone_table.txt.gz` + bead h5ad | `spaclone.read(h5ad, table)` runs `read_airspace`; where `receptor_type` is "NA" (the TRG reads of the GEO tables), the locus comes from the V, J or C call | — |
 | Stereo-XCR-seq LUAD (GSE328481) | cell h5ad with `IGHcdr3aa`, ... | `spaclone.read(h5ad)` runs `from_cell_calls` | — |
 | Anything else | any delimited table | — | `format="custom", columns={"cell_id": ..., "junction_aa": ..., "v_call": ...}` |
 

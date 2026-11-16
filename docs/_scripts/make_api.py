@@ -157,8 +157,13 @@ PACKAGES = [
         "sim",
         "simulation-sim",
         "Simulation",
-        "Simulated sections with known truth for every record, and the planted-truth benchmark.",
-        [("Simulated sections", ["synthetic"]), ("Planted-truth benchmark", ["plant"])],
+        "Simulated sections with known truth for every record (with receptor sequences and planted lineage trees on "
+        "request), lineage trees scored against the planted ones, and the planted-truth benchmark.",
+        [
+            ("Simulated sections", ["synthetic"]),
+            ("Planted lineages", ["lineages"]),
+            ("Planted-truth benchmark", ["plant"]),
+        ],
     ),
     (
         "datasets",

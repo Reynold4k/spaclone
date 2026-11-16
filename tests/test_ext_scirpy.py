@@ -435,3 +435,32 @@ def test_maps_rotate_the_long_axis_horizontal_and_draw_y_down():
     assert ax.get_xlabel() == "µm along the long axis"
     assert em.plot(rotate=False).get_xlabel() == "x (µm)"
     plt.close("all")
+
+
+def test_modularity_plot_colours_nothing_when_no_clonotype_is_significant():
+    """With every q >= 0.05 the default map must not colour the most frequent clonotypes as if they were results."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.colors as mcolors
+    import matplotlib.pyplot as plt
+
+    from spaclone.pl.records import STYLES
+
+    with pytest.warns(DepthNullWarning):
+        res = sx.clonotype_modularity(_modularity_table(0, False), rng=0, level="spot", carry="clone_id",
+                                      graph_radius_um=60.0)  # fmt: skip
+    assert (res.table.q_value >= 0.05).all()  # random placement: nothing significant
+    for style in ("dark", "light"):
+        ax = res.plot(style=style)
+        assert ax.get_legend() is None
+        assert [t.get_text() for t in ax.texts if "q < 0.05" in t.get_text()] == ["no clonotype at q < 0.05"]
+        grey = mcolors.to_rgba(STYLES[style]["other"])
+        for coll in ax.collections:  # every unit is drawn in the neutral grey
+            fc = coll.get_facecolors()
+            assert len(fc) == 0 or np.allclose(fc[:, :3], grey[:3])
+        plt.close("all")
+    ax = res.plot(highlight=["c0"])  # an explicit choice is drawn as asked, without the note
+    assert ax.get_legend() is None or "c0" in ax.get_legend().get_texts()[0].get_text()
+    assert not [t for t in ax.texts if "q < 0.05" in t.get_text()]
+    plt.close("all")

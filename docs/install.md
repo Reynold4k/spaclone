@@ -29,7 +29,14 @@ spaclone.show_versions()   # versions of Python, spaclone, dependencies and exte
 ```
 
 A package that is installed but fails to import (for example sc-dandelion 0.5 with matplotlib 3.9 or newer) is
-reported as `broken`, with its error.
+reported as `broken`, with its error. A script or notebook can start with
+`spaclone.check_install(require=("datasets", "scirpy"))`: it checks only those extras and stops with an `ImportError`
+that names what is missing and the `pip install "spaclone[...]"` command that adds it.
+
+## Run the tutorials
+
+The tutorials are Jupyter notebooks. Each one names the extras it needs in its first cell;
+`pip install "spaclone[full]" jupyter` covers all of them.
 
 ## Pick extras
 
@@ -41,7 +48,7 @@ Install one or several extras in the same way, for example `pip install "spaclon
 | `squidpy` | squidpy | BSD-3-Clause | {mod}`spaclone.ext.squidpy`; {func}`~spaclone.gex.spatially_variable_genes` |
 | `spatialdata` | spatialdata, shapely | BSD-3-Clause | {func}`~spaclone.io.to_spatialdata`; fast polygon lookup in {func}`~spaclone.pp.assign_to_cells` |
 | `scverse` | the three above | BSD-3-Clause | |
-| `dandelion` | sc-dandelion | AGPL-3.0-or-later | {mod}`spaclone.ext.dandelion` |
+| `dandelion` | sc-dandelion (with scanpy < 1.13) | AGPL-3.0-or-later | {mod}`spaclone.ext.dandelion` |
 | `immcantation` | Change-O (with pRESTO and airr) | AGPL-3.0 (Change-O, pRESTO); CC BY 4.0 (airr) | `MakeDb.py`, `DefineClones.py`, `CreateGermlines.py` for {mod}`spaclone.ext.immcantation`; IgBLAST and R are separate programs (below) |
 | `scicsr` | CellRank (2.3 or newer on Python 3.12+, 2.0 on 3.11), deeptime, pysam | BSD-3-Clause (CellRank); LGPL-3.0 (deeptime); MIT (pysam) | `backend="cellrank"` / `"deeptime"` of the transition models; BAM input of the germline-transcript counts |
 | `threadfin` | Threadfin | MIT | {mod}`spaclone.ext.threadfin` |
@@ -124,18 +131,21 @@ Python (programs that pip put into this environment), then `PATH`:
 (tested-installations)=
 ## Tested installations
 
-Fresh environments built with plain `pip` from the repository on Linux (2026-10-31), each followed by `pip check`,
-`check_install()` and the test suite:
+Fresh environments built with plain `pip` from the built wheel on Linux (2026-11-16, spaclone 1.0.2), each followed by
+`pip check`, `check_install()` and the test suite:
 
 | Python | Install | Resolved versions | Result |
 |---|---|---|---|
-| 3.11 | core | numpy 2.4, pandas 2.3, scanpy 1.11, anndata 0.12 | all tests pass |
-| 3.12 | core | numpy 2.5, pandas 3.1, scanpy 1.12, anndata 0.13 | all tests pass |
-| 3.13 | core | numpy 2.5, pandas 3.1, scanpy 1.12, anndata 0.13 | all tests pass |
-| 3.11 | `[full]` | scirpy 0.22, squidpy 1.8.2, SpatialData 0.7, sc-dandelion 1.0.1, CellRank 2.0.7, Threadfin 4.6, Change-O 1.3.5 | every optional Python feature available; bridges tested |
-| 3.12 | `[full]` | scirpy 0.25, squidpy 1.8.4, SpatialData 0.8, sc-dandelion 1.0.1, CellRank 2.3.3 (scipy 1.16), Threadfin 4.6, Change-O 1.3.5 | every optional Python feature available; bridges tested |
-| 3.13 | `[full]` | as 3.12 | every optional Python feature available; bridges tested |
-| 3.12 | `scripts/install_spaclone_env.sh` (conda) | the 3.12 `[full]` stack + IgBLAST 1.22, Change-O 1.3.5, IgPhyML, R 4.4 with alakazam 1.5.0, shazam 1.4.0, tigger 1.2.0, dowser 2.5.2, scoper 1.6.0 | all tests pass, including the IgBLAST / Change-O / SHazaM / dowser round trips; `--references` builds the IMGT databases |
+| 3.11 | core, lowest supported versions | numpy 2.0.2, pandas 2.2.3, scipy 1.13.1, anndata 0.10.9, matplotlib 3.8.4, pyarrow 16.1.0, scanpy 1.11.5 | all tests pass |
+| 3.12 | core + `[datasets]` | numpy 2.5.5, pandas 3.1.1, scipy 1.18.1, scanpy 1.12.6, anndata 0.13.4 | all tests pass; the README examples run as written |
+| 3.13 | core + `[datasets]` | numpy 2.5.5, pandas 3.1.1, scipy 1.18.1, scanpy 1.13.0, anndata 0.13.4 | all tests pass; the README examples run as written |
+| 3.12 | `[full]` | scirpy 0.26.1, squidpy 1.8.4, SpatialData 0.9.0, sc-dandelion 1.0.1, CellRank 2.4.0, deeptime 0.5.0, Threadfin 4.6.1, Change-O 1.3.5 | every optional Python feature available; all tests pass |
+| 3.13 | `[full]` | as 3.12 (scanpy 1.12.6: the `dandelion` extra's pin, see below) | every optional Python feature available; all tests pass |
+
+Earlier checks (2026-10-31, spaclone 1.0.0): Python 3.11 `[full]` (scirpy 0.22, CellRank 2.0.7, every optional Python
+feature available), and `scripts/install_spaclone_env.sh` (conda) on Python 3.12: the `[full]` stack + IgBLAST 1.22,
+Change-O 1.3.5, IgPhyML, R 4.4 with alakazam 1.5.0, shazam 1.4.0, tigger 1.2.0, dowser 2.5.2, scoper 1.6.0; all tests
+passed, including the IgBLAST / Change-O / SHazaM / dowser round trips, and `--references` built the IMGT databases.
 
 The external programs used in these tests were IgBLAST 1.22, Change-O 1.3.5 and R 4.5 with alakazam 1.5.0, shazam
 1.4.0, tigger 1.2.0, dowser 2.5.2 and scoper 1.6.0; the original sciCSR 0.3.5 ran in its own environment (R 4.3,
@@ -147,9 +157,8 @@ Seurat 4.4; Python 3.8, CellRank 1.5.1).
   packages on that path as installed. Run `unset PYTHONPATH` before creating the environment and before using it.
 - **`broken` in `check_install()`.** The package is there but its import fails; the error is shown. sc-dandelion 0.5
   needs `matplotlib<3.9`; sc-dandelion 1.0 or newer has no such pin (its clone calls differ from 0.5, see
-  [](ecosystem.md)).
+  [](ecosystem.md)). The `dandelion` extra, and with it `full`, pins `scanpy<1.13` because sc-dandelion 1.0.1 does
+  not import with scanpy 1.13.0 (`No module named 'scanpy.plotting._tools'`); the pin goes when Dandelion supports it.
 - **A program found but `broken`.** It is on `PATH` but does not run, typically a script whose Python cannot see its
   packages (for example Change-O installed with `pip install --user` while `PYTHONNOUSERSITE` is set). Point the
   variable of the table above at a working installation.
-- **scipy older than expected with `[scicsr]`.** CellRank 2.3 needs pygam 0.10 or newer, which caps scipy below 1.17;
-  pip then installs scipy 1.16.

@@ -106,7 +106,8 @@ REGION_COLORS: dict[str, dict[str, str]] = {
     "dark": {"follicle": "#3987e5", "GC": "#d95926", "T zone": "#ed49ab", "ASC": "#8645b2", "red pulp": "#179467"},
     "light": {"follicle": "#2a78d6", "GC": "#eb6834", "T zone": "#b7489b", "ASC": "#682dac", "red pulp": "#04a97a"},
 }
-#: Other spellings of the region labels (``"PC"`` is the plasma-cell / ASC area).
+#: Other spellings of the region labels (``"PC"`` is the plasma-cell / ASC area; the non-B/T area, the red pulp's name on
+#: sections without one, keeps its colour).
 REGION_ALIASES = {
     "PC": "ASC",
     "germinal centre": "GC",
@@ -114,6 +115,7 @@ REGION_ALIASES = {
     "T_zone": "T zone",
     "t_zone": "T zone",
     "red_pulp": "red pulp",
+    "non-B/T area": "red pulp",
 }
 #: Fixed colours of the built-in cell classes (dark, light): B blue, T pink, ASC amber, GC B aqua, myeloid orange,
 #: stromal green, Tfh violet, erythroid red. Nine classes cannot keep every pair apart (see the module notes).
@@ -194,12 +196,12 @@ MARKS: dict[str, dict[str, str]] = {
     },
 }
 #: Location classes of lineage tips (the 2026-10 lineage figures): CSR hotspot yellow, follicle blue, T zone pink,
-#: red pulp brown.
+#: red pulp brown (also the non-B/T area, its name on sections without a red pulp).
 LOCATION_COLORS: dict[str, dict[str, str]] = {
     "dark": {"CSR hotspot": "#ffd23f", "follicle": "#2864dd", "T zone": "#ff4fd8", "red pulp": "#c2691f",
-             "unknown": "#8a8a8a"},
+             "non-B/T area": "#c2691f", "unknown": "#8a8a8a"},
     "light": {"CSR hotspot": "#c98500", "follicle": "#2f6fe4", "T zone": "#d6409f", "red pulp": "#8a4b12",
-              "unknown": "#8a8a8a"},
+              "non-B/T area": "#8a4b12", "unknown": "#8a8a8a"},
 }  # fmt: skip
 #: Colours of extra outlines on a map, by their position among the outlines drawn without an explicit colour
 #: (T zone magenta first, then ink, green, orange, violet).

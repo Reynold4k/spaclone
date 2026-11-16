@@ -441,3 +441,45 @@ def test_trust_report_compact_card_lists_one_row_per_test():
         assert {"limited", "signal"} <= set(texts) and "21×" in texts and "12×" not in texts  # heavy chain row only
         assert sum(t.startswith("q ") for t in texts) == 3
         plt.close(fig)
+
+
+def test_trust_report_title_stays_inside_the_figure_when_saved():
+    """A long verdict is re-wrapped to the figure width (the CLI saves without a tight bounding box)."""
+    import textwrap
+
+    from spaclone.qc.report import _TEXT
+
+    class _Report:
+        status = {"overall": "cell_type_only", "molecule": "signal", "clone": "not detected"}
+
+        def __init__(self, verdict):
+            self.verdict = verdict
+
+        @staticmethod
+        def tests():
+            return pd.DataFrame(
+                {
+                    "test": ["own_type_share", "colocalisation", "colocalisation", "pairing"],
+                    "locus": ["BCR", "IGH", "IGK", "IGH/IGK"],
+                    "library_id": "D06047A2",
+                    "ratio": [14.0, 0.95, 3.7, 1.05],
+                    "q_value": [0.005, 0.76, np.nan, 0.075],
+                    "verdict": ["signal", "not detected", "info", "not detected"],
+                }
+            )
+
+    for width in (10.0, 7.2):
+        fig = pl.trust_report(_Report(_TEXT["cell_type"] + " Clone level: not detected."), width=width)
+        for dpi in (100, 200):
+            fig.set_dpi(dpi)
+            renderer = fig.canvas.get_renderer()
+            right = max(t.get_window_extent(renderer).x1 for t in fig.texts)
+            assert right <= fig.bbox.width, (width, dpi, right, fig.bbox.width)
+        title = max(fig.texts, key=lambda t: len(t.get_text()))
+        assert title.get_text().replace("\n", " ") == _TEXT["cell_type"]  # every word kept
+        plt.close(fig)
+    # a verdict that fits keeps the wrapping of earlier releases (10 characters per inch)
+    fig = pl.trust_report(_Report(_TEXT["clone"] + " Molecule level: not tested."))
+    title = max(fig.texts, key=lambda t: len(t.get_text()))
+    assert title.get_text() == "\n".join(textwrap.wrap(_TEXT["clone"], 100))
+    plt.close(fig)

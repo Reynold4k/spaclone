@@ -14,7 +14,9 @@ Two families of rules:
 * **cell-type-mask regions** (``"t_zone"``, ``"follicle"``, ``"red_pulp"``): masks of the pixels where T,
   B-lineage or erythroid units dominate (``spaclone.tl.mask_from_types``: 10-µm grid, 30-µm Gaussian, Otsu), T zones
   = connected components of the T-rich mask, compartments T zone > red pulp (erythroid-rich or outside the B-rich
-  area) > follicle (archive ``T_common.py``). These need the mask utilities of ``spaclone.tl.structures``.
+  area) > follicle (archive ``T_common.py``). The ``"red_pulp"`` kind is labelled red pulp only where its typed units
+  are mostly erythroid-rich (a spleen); elsewhere (a lymph node) it is the ``"non-B/T area"``. These need the mask
+  utilities of ``spaclone.tl.structures``.
 
 Labels are written to one region column, so the order of calls sets the priority: a unit keeps an earlier label
 unless ``overwrite=True`` (call germinal centres before the ASC area, as the archive does).
@@ -180,6 +182,7 @@ def call_regions(
     instance_key: str = "region_id",
     share_key: str | None = None,
     label: str | None = None,
+    names: str = "auto",
     background: str = "other",
     overwrite: bool = False,
     relabel: bool = True,
@@ -229,7 +232,13 @@ def call_regions(
     share_key
         Share kinds: ``obs`` column of the share (default ``"gc_share"`` / ``"asc_share"``).
     label
-        Region label (default :data:`REGION_LABELS`).
+        Region label (default :data:`REGION_LABELS`; for ``"red_pulp"`` the name ``names`` gives).
+    names
+        ``"red_pulp"`` only: name of the area outside the T zones and the B-rich area. ``"auto"`` (default): red
+        pulp when at least half of its typed units lie in the erythroid-rich mask (a spleen), else ``"non-B/T area"``
+        (a lymph node has no red pulp), as :func:`spaclone.ext.threadfin.spatial_context` decides; ``"spleen"`` or
+        ``"neutral"`` force either name. The pixels never change; the decision and the erythroid share are
+        recorded in ``adata.uns["spaclone"]``.
     background
         Label of tissue units in no region.
     overwrite
@@ -267,6 +276,8 @@ def call_regions(
     (mask threshold).
     """
     k = _kind(kind)
+    if names not in ("auto", "spleen", "neutral"):
+        raise ValueError(f"names must be 'auto', 'spleen' or 'neutral', got {names!r}")
     lab_name = label or REGION_LABELS[k]
     if k in _SHARE_DEFAULTS:
         p = dict(_SHARE_DEFAULTS[k])
@@ -290,10 +301,11 @@ def call_regions(
         params: dict[str, Any] = {"kind": k, "markers": genes, **p}
     else:
         p = {"smooth_um": 30.0 if smooth_um is None else smooth_um, "pixel_um": pixel_um, "min_area_um2": min_area_um2}
-        new_lab, new_id, table = _mask_regions(
-            adata, k, lab_name, cell_type_key, types, p, tissue_key, library_key, relabel, spatial_key
+        new_lab, new_id, table, naming = _mask_regions(
+            adata, k, label, cell_type_key, types, p, tissue_key, library_key, relabel, spatial_key, names
         )
-        params = {"kind": k, "cell_type_key": cell_type_key, **p}
+        lab_name = naming.pop("label", lab_name)
+        params = {"kind": k, "cell_type_key": cell_type_key, **p, **naming}
     _merge_labels(
         adata, new_lab, new_id, lab_name, region_key, instance_key, background, overwrite, _bool_obs(adata, tissue_key)
     )
@@ -380,8 +392,9 @@ def _share_regions(adata, k, genes, p, lab_name, tissue_key, library_key, layer,
     )
 
 
-def _mask_regions(adata, k, lab_name, cell_type_key, types, p, tissue_key, library_key, relabel, spatial_key):
+def _mask_regions(adata, k, label, cell_type_key, types, p, tissue_key, library_key, relabel, spatial_key, names):
     from spaclone import tl
+    from spaclone.tl.structures import _COMPARTMENT_NAMES, _compartment_naming
 
     need = ("Grid", "mask_from_types", "zones", "compartments")
     if not all(hasattr(tl, n) for n in need):
@@ -403,6 +416,8 @@ def _mask_regions(adata, k, lab_name, cell_type_key, types, p, tissue_key, libra
     is_lab = np.zeros(adata.n_obs, dtype=bool)
     inst = np.full(adata.n_obs, None, dtype=object)
     rows = []
+    sections = []  # first pass: the masks of every section; the red pulp is named from all sections together
+    flags: list[np.ndarray] = []
     for lib, idx in _groups(adata, library_key).items():
         t = idx[tissue[idx]]
         typed = t[grp[t] != ""]
@@ -428,6 +443,19 @@ def _mask_regions(adata, k, lab_name, cell_type_key, types, p, tissue_key, libra
             )
             code = list(comp.categories).index("follicle" if k == "follicle" else "red pulp")
             region = np.asarray(comp.values) == code
+            if k == "red_pulp":
+                i, j, ok = grid.index(units.x_um.to_numpy(float), units.y_um.to_numpy(float))
+                flags.append(np.stack([np.where(ok, m[i, j], False) for m in (m_t, m_b, m_e)]))
+        sections.append((lib, t, grid, region))
+    naming: dict[str, Any] = {}
+    lab_name = label or REGION_LABELS[k]
+    if k == "red_pulp":
+        fl = np.concatenate(flags, axis=1) if flags else np.zeros((3, 0), dtype=bool)
+        decided, share = _compartment_naming(fl[0], fl[1], fl[2], names)
+        if label is None:
+            lab_name = _COMPARTMENT_NAMES[decided][1]
+        naming = {"names": names, "naming": decided, "outside_erythroid_share": share, "label": lab_name}
+    for lib, t, grid, region in sections:  # second pass: instances and labels
         zl = tl.zones(tl.Raster(region, grid)).values
         i, j, inside = grid.index(xy[t, 0], xy[t, 1])
         z = np.where(inside, zl[i, j], 0)
@@ -454,6 +482,7 @@ def _mask_regions(adata, k, lab_name, cell_type_key, types, p, tissue_key, libra
         is_lab,
         inst,
         pd.DataFrame(rows, columns=["region_id", "region", "kind", "library", "n_core", "x_um", "y_um", "mean_share"]),
+        naming,
     )
 
 

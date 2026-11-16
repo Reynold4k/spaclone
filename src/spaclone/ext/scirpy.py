@@ -564,7 +564,9 @@ class ModularityResult(TestResult):
         highlight
             Values to highlight (default: the clonotypes with q < 0.05, highest modularity first, at most
             ``max_categories``, 8 unless given); each is drawn in its own colour over the other units in grey,
-            however rare it is (see :func:`spaclone.pl.spatial_records`).
+            however rare it is (see :func:`spaclone.pl.spatial_records`). When no clonotype reaches q < 0.05, the
+            default draws every unit grey with the line "no clonotype at q < 0.05" under the map, so that colours
+            never suggest a result the test did not give.
         ax
             Axes to draw on.
         rotate, invert_y
@@ -577,11 +579,20 @@ class ModularityResult(TestResult):
         matplotlib.axes.Axes
         """
         col = color or self.params["target_col"]
+        none_significant = False
         if highlight is None and color is None:
             sig = self.table[self.table["q_value"] < 0.05].sort_values("statistic", ascending=False)
             n_max = max(1, min(int(kwargs.get("max_categories", 8)), 8))  # one colour each
-            highlight = sig["clonotype"].astype(str).head(n_max).tolist() or None
-        return _plot_units(self.units, col, highlight=highlight, ax=ax, rotate=rotate, invert_y=invert_y, **kwargs)
+            highlight = sig["clonotype"].astype(str).head(n_max).tolist()
+            none_significant = not highlight
+        ax = _plot_units(self.units, col, highlight=highlight, ax=ax, rotate=rotate, invert_y=invert_y, **kwargs)
+        if none_significant:  # every unit grey: say why, where the legend would be
+            from spaclone.pl.records import STYLES
+
+            ink = STYLES[kwargs.get("style", "dark")]["ink"]
+            ax.text(0.0, -0.01, "no clonotype at q < 0.05", transform=ax.transAxes, ha="left", va="top", color=ink,
+                    fontsize=9.5)  # fmt: skip
+        return ax
 
 
 def _params(ir: Any, **kw: Any) -> dict[str, Any]:

@@ -133,7 +133,7 @@ The sciCSR scores and transition models are computed natively by {mod}`spaclone.
 {mod}`spaclone.tl.transitions`; `backend="cellrank"` and `backend="deeptime"` reproduce the kernels and fluxes with an
 installed CellRank (2.x) and deeptime (`spaclone[scicsr]`). The original sciCSR package needs Python 3.8 with
 CellRank 1.5, which cannot share spaclone's Python; {mod}`spaclone.ext.scicsr` reaches it through R in its own
-environment (`bash scripts/install_spaclone_env.sh --with-scicsr`).
+environment (`bash scripts/install_spaclone_env.sh --with-scicsr` in a clone of the repository, see [](install.md)).
 
 ## Threadfin
 

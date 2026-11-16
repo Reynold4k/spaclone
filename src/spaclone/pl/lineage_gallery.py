@@ -31,7 +31,7 @@ _ISO = {
     mode: {k: ISOTYPE_COLORS[mode][k] for k in ("IgM", "IgD", "IgG", "IgA", "unknown")} for mode in ("dark", "light")
 }
 _ISO_LABEL = {"IgM": "IgM", "IgD": "IgD", "IgG": "IgG", "IgA": "IgA", "unknown": "unknown"}
-_LOC_ORDER = ("CSR hotspot", "follicle", "T zone", "red pulp")
+_LOC_ORDER = ("CSR hotspot", "follicle", "T zone", "red pulp", "non-B/T area")
 _THEME = LINEAGE_STYLES
 SLIDE = (13.333, 7.5)
 
@@ -458,9 +458,11 @@ def lineage_tree(
     h_iso = [Line2D([], [], color=iso_col[i], lw=0, marker="o", ms=7, label=f"{_ISO_LABEL[i]} ({int(iso_n.get(i, 0))})")
              for i in ("IgM", "IgD", "IgG", "IgA", "unknown")]  # fmt: skip
     # location classes the workflow computed (no "follicle 0" rows when it had no compartments or hotspots)
-    computed = ({"CSR hotspot"} if maps.get("hotspots") is not None else set()) | (
-        {"follicle", "T zone", "red pulp"} if maps.get("compartments") is not None else set()
-    )
+    computed = {  # classes this run assigned whose layer the result holds (named as the run named them)
+        c
+        for c in result.location_classes
+        if c != "unknown" and maps.get("hotspots" if c == "CSR hotspot" else "compartments") is not None
+    }
     locs = [k for k in _LOC_ORDER if k in computed or loc_n.get(k, 0) > 0]
     locs += [k for k in loc_n.index if k not in _LOC_ORDER]
     h_loc = [Line2D([], [], color=loc_col.get(k, loc_col["unknown"]), lw=0, marker="s", ms=7,

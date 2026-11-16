@@ -32,6 +32,7 @@ import shutil
 import subprocess
 import sys
 import warnings
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Literal
@@ -52,7 +53,7 @@ EXTRAS_FALLBACK: dict[str, tuple[str, ...]] = {
     "scirpy": ("scirpy>=0.20", "awkward>=2", "mudata>=0.3"),
     "squidpy": ("squidpy>=1.6",),
     "spatialdata": ("spatialdata>=0.2", "shapely>=2"),
-    "dandelion": ("sc-dandelion>=0.5.7",),
+    "dandelion": ("sc-dandelion>=0.5.7", "scanpy<1.13"),  # sc-dandelion 1.0.1 does not import with scanpy 1.13.0
     "scicsr": (
         "cellrank>=2,<2.3; python_version < '3.12'",
         "cellrank>=2.3; python_version >= '3.12'",
@@ -91,6 +92,8 @@ TOOL_ENV = {
     "igphyml": "SPACLONE_IGPHYML",
     "Rscript": "SPACLONE_RSCRIPT",
 }
+#: The environment script is in the repository, not in the pip package: clone it, then run the script from the clone.
+_CLONE_AND_RUN = "git clone https://github.com/Reynold4k/spaclone.git && bash spaclone/scripts/install_spaclone_env.sh"
 #: R packages of the Immcantation suite used by :mod:`spaclone.ext.immcantation`.
 IMMCANTATION_R = ("alakazam", "shazam", "tigger", "dowser", "scoper", "airr")
 
@@ -197,7 +200,7 @@ FEATURES: tuple[Feature, ...] = (
         IMMCANTATION_R,
         "ext.immcantation: SHazaM thresholds and mutations, TIgGER genotypes, dowser trees",
         install=(
-            "bash scripts/install_spaclone_env.sh   (or in R: BiocManager::install('pwalign'); "
+            f"{_CLONE_AND_RUN}   (or in R: BiocManager::install('pwalign'); "
             "install.packages(c('alakazam', 'shazam', 'tigger', 'dowser', 'scoper')))"
         ),
     ),
@@ -206,7 +209,7 @@ FEATURES: tuple[Feature, ...] = (
         "R",
         ("sciCSR",),
         "the R bridge of spaclone.ext.scicsr (the original sciCSR package)",
-        install="bash scripts/install_spaclone_env.sh --with-scicsr   (R package from github.com/Fraternalilab/sciCSR)",
+        install=f"{_CLONE_AND_RUN} --with-scicsr   (R package from github.com/Fraternalilab/sciCSR)",
     ),
 )
 
@@ -442,6 +445,7 @@ def check_install(
     external: bool = True,
     r_packages: bool = True,
     tools: dict[str, str | os.PathLike] | None = None,
+    require: str | Sequence[str] | None = None,
 ) -> InstallReport:
     """Which optional features work here, and the exact command that enables each missing one.
 
@@ -459,19 +463,34 @@ def check_install(
         Explicit locations of external tools, ``{name: path}`` with names as in :data:`TOOL_ENV` (``"igblastn"``,
         ``"MakeDb.py"``, ``"igphyml"``, ``"Rscript"``, ...; ``"Rscript (sciCSR)"`` for the R holding sciCSR); a
         directory also works.
+    require
+        spaclone extras that must work, e.g. ``("datasets", "scirpy")`` (names as in ``pip install
+        "spaclone[datasets,scirpy]"``). Only their features are checked (``external`` and ``r_packages`` do not
+        apply), and when one is missing or broken an :class:`ImportError` names it, with the one ``pip install``
+        command that installs every required extra; a notebook or script can start with this line.
 
     Returns
     -------
     InstallReport
         Printable report (one line per feature, then the commands for the missing ones) with ``.table``,
-        ``.missing`` and ``.ok``.
+        ``.missing`` and ``.ok``; with ``require``, the rows of the required features only.
+
+    Raises
+    ------
+    ImportError
+        With ``require``: a required extra is not installed, or installed but broken.
+    ValueError
+        With ``require``: a name that is not a spaclone extra.
 
     Examples
     --------
     >>> import spaclone
     >>> spaclone.check_install()  # doctest: +SKIP
     >>> spaclone.check_install().missing[["feature", "enable"]]  # doctest: +SKIP
+    >>> spaclone.check_install(require=("datasets", "scirpy"))  # doctest: +SKIP
     """
+    if require is not None:
+        return _require(require, deep=deep)
     _, extras = _requirements()
     tools = dict(tools or {})
     rows = []
@@ -493,24 +512,9 @@ def check_install(
     for f in FEATURES:
         row: dict[str, Any] = {"feature": f.name, "kind": f.kind, "extra": f.extra or "", "used_by": f.used_by}
         if f.kind == "python":
-            specs = extras.get(f.extra or "", [])
-            row["enable"] = "pip install " + " ".join(_quote(s) for s in specs) if specs else ""
-            present = [importlib.util.find_spec(m) is not None for m in f.requires]
-            dists = f.dists or f.requires
-            ver = _version(dists[0])
-            row["version"] = ver or ""
-            detail = ""
-            if all(present):
-                status = "yes"
-                if deep:
-                    for m in f.requires:
-                        good, msg = _import_ok(m)
-                        if not good:
-                            status, detail = "broken", f"{m}: {msg}"
-                            break
-            else:
-                status = "partial" if any(present) else "no"
-            row.update(available=status, detail=detail)
+            row = _python_row(f, extras.get(f.extra or "", []), deep)
+            if row["available"] != "broken":
+                row["detail"] = ""  # the full report keeps the detail column for errors and tool paths
         elif f.kind == "tool":
             row["enable"] = f.install
             if not external:
@@ -553,6 +557,64 @@ def check_install(
     return InstallReport(pd.DataFrame(rows, columns=cols), _spaclone_version())
 
 
+def _python_row(f: Feature, specs: list[str], deep: bool) -> dict[str, Any]:
+    """Report row of a Python feature: presence, version and (``deep``) whether every module imports."""
+    row: dict[str, Any] = {"feature": f.name, "kind": f.kind, "extra": f.extra or "", "used_by": f.used_by}
+    row["enable"] = "pip install " + " ".join(_quote(s) for s in specs) if specs else ""
+    present = [importlib.util.find_spec(m) is not None for m in f.requires]
+    dists = f.dists or f.requires
+    row["version"] = _version(dists[0]) or ""
+    detail = ""
+    if all(present):
+        status = "yes"
+        if deep:
+            for m in f.requires:
+                good, msg = _import_ok(m)
+                if not good:
+                    status, detail = "broken", f"{m}: {msg}"
+                    break
+    else:
+        status = "partial" if any(present) else "no"
+        missing = [m for m, ok in zip(f.requires, present, strict=True) if not ok]
+        detail = "not installed: " + ", ".join(missing)
+    row.update(available=status, detail=detail)
+    return row
+
+
+def _require(require: str | Sequence[str], *, deep: bool) -> InstallReport:
+    """:func:`check_install` with ``require``: the required extras' rows, or an ImportError naming what is missing."""
+    names = [require] if isinstance(require, str) else list(require)
+    known = sorted(set(EXTRAS_FALLBACK) | set(UMBRELLA_EXTRAS))
+    bad = [n for n in names if n not in known]
+    if bad:
+        raise ValueError(f"check_install(require=...): {bad} are not spaclone extras; extras: {', '.join(known)}")
+    wanted: list[str] = []
+    for n in names:  # umbrella extras stand for their members
+        for e in UMBRELLA_EXTRAS.get(n, (n,)):
+            for inner in UMBRELLA_EXTRAS.get(e, (e,)):
+                if inner not in wanted:
+                    wanted.append(inner)
+    _, extras = _requirements()
+    rows = [_python_row(f, extras.get(f.extra or "", []), deep) for f in FEATURES
+            if f.kind == "python" and f.extra in wanted]  # fmt: skip
+    cols = ["feature", "kind", "available", "version", "extra", "enable", "used_by", "detail"]
+    report = InstallReport(pd.DataFrame(rows, columns=cols), _spaclone_version())
+    bad_rows = report.missing
+    if len(bad_rows):
+        what = "; ".join(
+            f"{r.feature} (extra {r.extra!r}) is missing ({r.detail})"
+            if r.available != "broken"
+            else f"{r.feature} (extra {r.extra!r}) is installed but fails to import ({r.detail})"
+            for r in bad_rows.itertuples(index=False)
+        )
+        listed = ",".join(dict.fromkeys(names))
+        raise ImportError(
+            f"spaclone: {what}. This needs the spaclone extras {listed}; install them with: "
+            f'pip install "spaclone[{listed}]"   (spaclone.check_install() lists every optional feature)'
+        )
+    return report
+
+
 def show_versions(*, external: bool = True, as_dict: bool = False) -> dict[str, Any] | None:
     """Print the versions of Python, spaclone, its dependencies, the optional packages and the external tools.
 
@@ -576,7 +638,7 @@ def show_versions(*, external: bool = True, as_dict: bool = False) -> dict[str, 
     """
     core, extras = _requirements()
     deps = {_dist_name(r): _version(_dist_name(r)) for r in core}
-    opt_names = sorted({_dist_name(r) for specs in extras.values() for r in specs}, key=str.lower)
+    opt_names = sorted({_dist_name(r) for specs in extras.values() for r in specs} - set(deps), key=str.lower)
     optional = {d: _version(d) for d in opt_names}
     ext: dict[str, Any] = {}
     if external:
