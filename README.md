@@ -1,12 +1,10 @@
-# Claude (Anthropic) develops, tests and pushes all code in this repository, and keeps it up to date as its dependencies change.
-
 <h1 align="center">spaclone</h1>
 
 <p align="center"><b>Spatial BCR and TCR analysis, from raw tables to biology, with every position checked against random placement</b></p>
 
 <p align="center">
   <a href="https://pypi.org/project/spaclone/"><img src="https://img.shields.io/pypi/v/spaclone?style=flat-square&color=2a78d6&label=PyPI" alt="PyPI version"></a>
-  <a href="https://bioconda.github.io/recipes/spaclone/README.html"><img src="https://img.shields.io/conda/vn/bioconda/spaclone?style=flat-square&color=2a78d6&label=bioconda" alt="Bioconda version"></a>
+  <a href="https://bioconda.github.io/recipes/spaclone/README.html"><img src="https://img.shields.io/badge/install%20with-bioconda-2a78d6?style=flat-square" alt="install with bioconda"></a>
   <a href="https://pypi.org/project/spaclone/"><img src="https://img.shields.io/pypi/pyversions/spaclone?style=flat-square&color=2a78d6" alt="Python versions"></a>
   <a href="https://github.com/Reynold4k/spaclone/blob/main/LICENSE"><img src="https://img.shields.io/badge/licence-MIT-2a78d6?style=flat-square" alt="MIT licence"></a>
   <a href="https://github.com/Reynold4k/spaclone/actions/workflows/test.yaml"><img src="https://img.shields.io/github/actions/workflow/status/Reynold4k/spaclone/test.yaml?branch=main&style=flat-square&label=tests" alt="tests"></a>
