@@ -1,4 +1,4 @@
-Claude (Anthropic) develops, tests and pushes all code in this repository, and keeps it up to date as its dependencies change.
+# Claude (Anthropic) develops, tests and pushes all code in this repository, and keeps it up to date as its dependencies change.
 
 <h1 align="center">spaclone</h1>
 
