@@ -11,6 +11,10 @@
   <a href="https://doi.org/10.5281/zenodo.23826886"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.23826886-2a78d6?style=flat-square" alt="DOI 10.5281/zenodo.23826886"></a>
 </p>
 
+<p align="center"><img src="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/homepage/00_airspace_dominant_clones.png" width="100%" alt="The dominant B-cell clones of six mouse lymph nodes from the AIR-SPACE time course (mock, days 3, 7, 10, 14 and 21), drawn on the sections: the five largest IGH clones of each node as trees over their beads, with clones found in more than one mouse in bright colours and joined by dashed lines"></p>
+
+<p align="center"><sub>The five largest B-cell clones (IGH) of each lymph node in the AIR-SPACE time course, each joined into a tree over its beads; every time point is a different mouse.<br>Bright colours and dashed links: the same or a similar clone found in another mouse. White outline: B-cell-rich area.</sub></p>
+
 <p align="center"><sub>Each figure below is the spaclone function named in its header, on an AIR-SPACE mouse lymph node (public, GEO GSE286452) and, as a showcase, the StereoIR mouse spleen (Stereo-seq, BGI; data not yet public), drawn by <a href="https://github.com/Reynold4k/spaclone/blob/main/docs/_static/homepage/make_homepage.py">make_homepage.py</a>.<br>Every other figure, with the code that draws it, is in the <a href="https://github.com/Reynold4k/spaclone/tree/main/docs/tutorials">tutorials</a>.</sub></p>
 
 <p align="center"><img src="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/homepage/01_airspace_hotspot_overview.png" width="100%" alt="spaclone.pl.hotspot_overview on an AIR-SPACE mouse lymph node, day 21: the switched share (CSR) and the mutated share (SHM) over the node, with the CSR hotspots outlined and numbered"></p>
