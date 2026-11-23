@@ -11,9 +11,9 @@
   <a href="https://doi.org/10.5281/zenodo.23826886"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.23826886-2a78d6?style=flat-square" alt="DOI 10.5281/zenodo.23826886"></a>
 </p>
 
-<p align="center"><img src="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/homepage/00_airspace_dominant_clones.png" width="100%" alt="The dominant B-cell clones of six mouse lymph nodes from the AIR-SPACE time course (mock, days 3, 7, 10, 14 and 21), drawn on the sections: the five largest IGH clones of each node as trees over their beads, with clones found in more than one mouse in bright colours and joined by dashed lines"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Reynold4k/spaclone/main/docs/_static/homepage/00_airspace_clone_map.png" width="100%" alt="spaclone.pl.clone_map on the six lymph nodes of the AIR-SPACE time course (mock, days 3, 7, 10, 14 and 21): the five largest IGH clones of each node as trees over their beads, with clones found in more than one mouse in bright colours and joined by dashed lines"></p>
 
-<p align="center"><sub>The five largest B-cell clones (IGH) of each lymph node in the AIR-SPACE time course, each joined into a tree over its beads; every time point is a different mouse.<br>Bright colours and dashed links: the same or a similar clone found in another mouse. White outline: B-cell-rich area.</sub></p>
+<p align="center"><sub>The five largest B-cell clones (IGH) of each lymph node in the AIR-SPACE time course; every time point is a different mouse.<br>Bright colours and dashed links, added for this figure: the same or a similar clone found in another mouse. White outline: B-cell-rich area.<br><a href="https://github.com/Reynold4k/spaclone/blob/main/docs/tutorials/07_airspace_time_course.ipynb">Tutorial 07</a> draws the clone map of every day.</sub></p>
 
 <p align="center"><sub>Each figure below is the spaclone function named in its header, on an AIR-SPACE mouse lymph node (public, GEO GSE286452) and, as a showcase, the StereoIR mouse spleen (Stereo-seq, BGI; data not yet public), drawn by <a href="https://github.com/Reynold4k/spaclone/blob/main/docs/_static/homepage/make_homepage.py">make_homepage.py</a>.<br>Every other figure, with the code that draws it, is in the <a href="https://github.com/Reynold4k/spaclone/tree/main/docs/tutorials">tutorials</a>.</sub></p>
 
@@ -129,7 +129,7 @@ Every statistic reproduces the numbers of the analyses it came from (AIR-SPACE a
 
 | Package | What spaclone does with it, spatially | Install |
 |---|---|---|
-| [scanpy](https://scanpy.readthedocs.io) · [anndata](https://anndata.readthedocs.io) | Transcriptome workflow on spots: QC, clusters, regions (germinal centres, areas of antibody-secreting cells (ASC: plasmablasts and plasma cells), T zones), DE with regions as replicates; one container for spots and receptor records | core |
+| [scanpy](https://scanpy.readthedocs.io) · [anndata](https://anndata.scverse.org) | Transcriptome workflow on spots: QC, clusters, regions (germinal centres, areas of antibody-secreting cells (ASC: plasmablasts and plasma cells), T zones), DE with regions as replicates; one container for spots and receptor records | core |
 | [squidpy](https://squidpy.readthedocs.io) | Neighbourhood enrichment, co-occurrence and spatial autocorrelation of receptor-derived labels (`ext.squidpy`) | `[squidpy]` |
 | [scirpy](https://scirpy.scverse.org) | Clonotypes, expansion, diversity, overlap and V(D)J usage per spatial unit, mapped back to tissue (`ext.scirpy`) | `[scirpy]` |
 | [SpatialData](https://spatialdata.scverse.org) | SpatialData in and out: records as points, spots as shapes (`io.to_spatialdata`) | `[spatialdata]` |

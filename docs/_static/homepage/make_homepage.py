@@ -21,6 +21,11 @@ What is drawn (package defaults; seeds fixed, so a second run draws the same pix
   tips in CSR hotspots first, then the most switched tips, tips in hotspots and tips. AIR-SPACE gives no tree: its
   nanopore reads rarely reach the 5' end of V, and the clones whose reads do are almost unmutated.
 
+``00_airspace_clone_map.png`` is not drawn here. It is the six-node figure of the AIR-SPACE time-course analysis: the
+five largest IGH clones of each node as minimum spanning trees over their beads (what ``pl.clone_map`` draws with
+``max_link_um=None``), with the clones found in more than one mouse in colour and joined between nodes. It is placed
+under the same header line with :func:`with_header`.
+
 usage (from the repository root)::
 
     python -I docs/_static/homepage/make_homepage.py --out docs/_static/homepage --stereoir DIR [--airspace DIR]
